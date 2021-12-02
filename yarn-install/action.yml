@@ -1,0 +1,25 @@
+name: Install yarn dependencies
+description: Install yarn dependencies from scratch or from cache
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/setup-node@v1
+
+    - name: 'Get yarn cache directory path'
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+      shell: bash
+
+    - name: 'Prepare yarn cache'
+      uses: actions/cache@v2
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: 'Install yarn dependencies'
+      run: yarn install --frozen-lockfile
+      shell: bash
