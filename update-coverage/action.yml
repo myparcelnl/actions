@@ -1,0 +1,13 @@
+name: 'Update code coverage'
+description: 'Update code coverage using codecov'
+
+inputs:
+  token:
+    description: 'The codecov token for this repository'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Update code coverage
+      uses: codecov/codecov-action@v1
