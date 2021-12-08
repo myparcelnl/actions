@@ -14,7 +14,6 @@ inputs:
 
   flags:
     description: 'Flags to use when installing composer dependencies.'
-    default: '--no-interaction --no-progress'
     required: false
 
 runs:
@@ -43,4 +42,4 @@ runs:
     - name: 'Install composer dependencies'
       shell: bash
       run: |
-        composer install ${{ inputs.flags }}
+        composer install --no-interaction --no-progress ${{ inputs.flags }}
