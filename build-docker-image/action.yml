@@ -1,0 +1,84 @@
+name: Build Docker image
+description: Build Docker image from cache
+
+inputs:
+  image:
+    description: 'Image name'
+    required: true
+
+  key:
+    description: 'Cache key'
+    required: false
+    default: ${{ github.workflow }}
+
+  dockerfile:
+    description: 'Path to dockerfile'
+    required: false
+    default: Dockerfile
+
+  context:
+    description: 'Directory to build from'
+    required: false
+    default: .
+
+  build_args:
+    description: 'Arguments to pass to docker build'
+    required: false
+    default: ''
+
+  prune_after:
+    description: 'Amount of time after which images get pruned'
+    required: false
+    default: '260h'
+
+outputs:
+  tagged_image:
+    description: 'Created image name with tag'
+    value: ${{ steps.prep.outputs.tagged_image }}
+  tag:
+    description: 'Tag of the created image'
+    value: ${{ steps.prep.outputs.tag }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Prepare'
+      id: prep
+      run: |
+        IMAGE="myparcel/php-sdk"
+        TAG=$(echo $GITHUB_SHA | head -c7)
+        echo ::set-output name=tag::${TAG}
+        echo ::set-output name=tagged_image::${IMAGE}:${TAG}
+      shell: bash
+
+    - uses: satackey/action-docker-layer-caching@v0.0.11
+      with:
+        key: ${{ inputs.key }}-{hash}
+        restore-keys: |
+          ${{ inputs.key }}-
+
+    - name: 'Build image'
+      shell: bash
+      run: >
+        docker build ${{ inputs.build_args }} \
+          --label ref=${{ github.ref }} \
+          --label tag=${{ steps.prep.outputs.tag }} \
+          --tag ${{ steps.prep.outputs.tagged_image }} \
+          --file ${{ inputs.dockerfile }} \
+          ${{ inputs.context }}
+
+    - name: 'Prune previous images'
+      shell: bash
+      run: >
+        docker image prune \
+          --all \
+          --force \
+          --filter "label=ref=${{ github.ref }}" \
+          --filter "label!=tag=${{ steps.prep.outputs.tag }}"
+
+    - name: 'Prune stale images'
+      shell: bash
+      run: >
+        docker image prune \
+          --force \
+          --filter "until=${{ inputs.prune_after }}"
