@@ -121,7 +121,7 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
 | Yes      | `key`         | Cache key                                    | `my-image-${{ hashFiles('Dockerfile') }}` | `${{ github.workflow }}` |
 | No       | `dockerfile`  | Path to dockerfile                           | `./docker/prod.Dockerfile`                | `Dockerfile`             |
 | No       | `context`     | Directory to build from                      | `./docker`                                | `.`                      |
-| No       | `build_args`  | Arguments to pass to docker build            | `--target prod`                           |                          |
+| No       | `docker_args` | Arguments to pass to docker build            | `--target prod`                           |                          |
 | No       | `prune_after` | Amount of time until which images get pruned | `24h`                                     | `260h` (2 weeks)         |
 
 #### Outputs
@@ -140,7 +140,7 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
     image: myparcel/php-sdk
     dockerfile: Dockerfile
     context: .
-    build_args: --target test
+    docker_args: --target test
 
 - run: docker run ${{ steps.docker.outputs.tagged_image }}
 ```

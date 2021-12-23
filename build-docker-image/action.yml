@@ -21,7 +21,7 @@ inputs:
     required: false
     default: .
 
-  build_args:
+  docker_args:
     description: 'Arguments to pass to docker build'
     required: false
     default: ''
@@ -46,7 +46,9 @@ runs:
       id: prep
       run: |
         IMAGE="myparcel/php-sdk"
+        ARGS=$(echo ${{ inputs.docker_args }} | shasum | head -c 40)
         TAG=$(echo $GITHUB_SHA | head -c7)
+        echo ::set-output name=args::${ARGS}
         echo ::set-output name=tag::${TAG}
         echo ::set-output name=tagged_image::${IMAGE}:${TAG}
       shell: bash
@@ -60,7 +62,8 @@ runs:
     - name: 'Build image'
       shell: bash
       run: >
-        docker build ${{ inputs.build_args }} \
+        docker build ${{ inputs.docker_args }} \
+          --label args=${{ steps.prep.outputs.args }} \
           --label ref=${{ github.ref }} \
           --label tag=${{ steps.prep.outputs.tag }} \
           --tag ${{ steps.prep.outputs.tagged_image }} \
@@ -74,6 +77,7 @@ runs:
           --all \
           --force \
           --filter "label=ref=${{ github.ref }}" \
+          --filter "label=args=${{ steps.prep.outputs.args }}" \
           --filter "label!=tag=${{ steps.prep.outputs.tag }}"
 
     - name: 'Prune stale images'
