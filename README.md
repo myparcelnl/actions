@@ -123,6 +123,7 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
 | No       | `context`     | Directory to build from                      | `./docker`                                | `.`                      |
 | No       | `docker_args` | Arguments to pass to docker build            | `--target prod`                           |                          |
 | No       | `prune_after` | Amount of time until which images get pruned | `24h`                                     | `260h` (2 weeks)         |
+| No       | `buildkit`    | Whether to use Docker BuildKit               | `true`                                    | `false`                  |
 
 #### Outputs
 
@@ -141,6 +142,7 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
     dockerfile: Dockerfile
     context: .
     docker_args: --target test
+    buildkit: true
 
 - run: docker run ${{ steps.docker.outputs.tagged_image }}
 ```

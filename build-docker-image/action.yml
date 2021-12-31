@@ -31,6 +31,11 @@ inputs:
     required: false
     default: '260h'
 
+  buildkit:
+    description: 'Whether to use Docker BuildKit'
+    required: false
+    default: 'false'
+
 outputs:
   tagged_image:
     description: 'Created image name with tag'
@@ -69,6 +74,8 @@ runs:
           --tag ${{ steps.prep.outputs.tagged_image }} \
           --file ${{ inputs.dockerfile }} \
           ${{ inputs.context }}
+      env:
+        DOCKER_BUILDKIT: ${{ inputs.buildkit == 'false' && '0' || '1' }}
 
     - name: 'Prune previous images'
       shell: bash
