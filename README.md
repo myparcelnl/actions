@@ -12,6 +12,8 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [update-coverage](#update-coverage)
 - [Docker](#docker)
     - [build-docker-image](#build-docker-image)
+- [Releasing](#releasing)
+    - [semantic-release](#semantic-release)
 
 ## Node
 
@@ -147,6 +149,29 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
 - run: docker run ${{ steps.docker.outputs.tagged_image }}
 ```
 
+## Releasing
+
+### semantic-release
+
+[Source](semantic-release/action.yml)
+
+Run semantic release using the MyParcel bot. Requires npm dependencies to be installed.
+
+#### Inputs
+
+| required | name    | description | Example                       | Default |
+|----------|---------|-------------|-------------------------------|---------|
+| Yes      | `token` | GitHub PAT  | `${{ secrets.GITHUB_TOKEN }}` | –       |
+
+#### Example
+
+```yaml
+- uses: myparcelnl/actions/yarn-install@v1
+- uses: myparcelnl/actions/semantic-release@v1
+  with:
+    token: ${{ secrets.GH_REPO_TOKEN }}
+```
+
 [Codecov]: https://codecov.io
 [build-docker-image]: #build-docker-image
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
@@ -154,3 +179,4 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
 [npm-install]: #npm-install
 [setup-node]: #setup-node
 [yarn-install]: #yarn-install
+[semantic-release]: #semantic-release
