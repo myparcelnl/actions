@@ -157,19 +157,14 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
 
 Run semantic release using the MyParcel bot. Requires npm dependencies to be installed.
 
-#### Inputs
-
-| required | name    | description | Example                       | Default |
-|----------|---------|-------------|-------------------------------|---------|
-| Yes      | `token` | GitHub PAT  | `${{ secrets.GITHUB_TOKEN }}` | –       |
-
 #### Example
 
 ```yaml
 - uses: myparcelnl/actions/yarn-install@v1
 - uses: myparcelnl/actions/semantic-release@v1
-  with:
-    token: ${{ secrets.GH_REPO_TOKEN }}
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 ```
 
 [Codecov]: https://codecov.io
