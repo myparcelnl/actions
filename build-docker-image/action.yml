@@ -50,7 +50,7 @@ runs:
     - name: 'Prepare'
       id: prep
       run: |
-        IMAGE="myparcel/php-sdk"
+        IMAGE=$(echo ${{ inputs.image }})
         ARGS=$(echo ${{ inputs.docker_args }} | shasum | head -c 40)
         TAG=$(echo $GITHUB_SHA | head -c7)
         echo ::set-output name=args::${ARGS}
