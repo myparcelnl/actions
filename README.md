@@ -73,9 +73,10 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
 
 1. Sets up php@7.2 with composer v2
     - You can change the php version by passing `php-version`.
-    - You can change the composer version or install any other tools by passing `tools`.
-        - See [shivammathur/setup-php](https://github.com/shivammathur/setup-php#wrench-tools-support) for supported
-          values.
+    - You can change the composer version or install any other tools by
+      passing `tools`.
+      See [shivammathur/setup-php](https://github.com/shivammathur/setup-php#wrench-tools-support)
+      for supported values.
 2. Handles cache
 3. Runs `composer install --no-interaction --no-progress`
     - You can add additional flags by passing the `flags` option.
@@ -113,7 +114,8 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
 
 [Source](build-docker-image/action.yml)
 
-Builds a docker image from a Dockerfile. Layers are cached and pruned between jobs based on git ref and tag.
+Builds a docker image from a Dockerfile. Layers are cached and pruned between
+jobs based on git ref and tag.
 
 #### Inputs
 
@@ -123,15 +125,15 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
 | Yes      | `key`         | Cache key                                    | `my-image-${{ hashFiles('Dockerfile') }}` | `${{ github.workflow }}` |
 | No       | `dockerfile`  | Path to dockerfile                           | `./docker/prod.Dockerfile`                | `Dockerfile`             |
 | No       | `context`     | Directory to build from                      | `./docker`                                | `.`                      |
-| No       | `docker_args` | Arguments to pass to docker build            | `--target prod`                           |                          |
-| No       | `prune_after` | Amount of time until which images get pruned | `24h`                                     | `260h` (2 weeks)         |
+| No       | `docker-args` | Arguments to pass to docker build            | `--target prod`                           |                          |
+| No       | `prune-after` | Amount of time until which images get pruned | `24h`                                     | `260h` (2 weeks)         |
 | No       | `buildkit`    | Whether to use Docker BuildKit               | `true`                                    | `false`                  |
 
 #### Outputs
 
 | name           | description                 | Example                       |
 |----------------|-----------------------------|-------------------------------|
-| `tagged_image` | Created image name with tag | `my-name/my-image:1639002200` |
+| `tagged-image` | Created image name with tag | `my-name/my-image:1639002200` |
 | `tag`          | Tag of the created image    | `1639002200`                  |
 
 #### Example
@@ -143,10 +145,10 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
     image: myparcel/php-sdk
     dockerfile: Dockerfile
     context: .
-    docker_args: --target test
+    docker-args: --target test
     buildkit: true
 
-- run: docker run ${{ steps.docker.outputs.tagged_image }}
+- run: docker run ${{ steps.docker.outputs.tagged-image }}
 ```
 
 ## Releasing
@@ -155,7 +157,8 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
 
 [Source](semantic-release/action.yml)
 
-Run semantic release using the MyParcel bot. Requires npm dependencies to be installed.
+Run semantic release using the MyParcel bot. Requires npm dependencies to be
+installed.
 
 #### Example
 
