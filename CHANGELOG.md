@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/myparcelnl/actions/compare/v2.0.0...v2.1.0) (2022-05-18)
+
+
+### :sparkles: New Features
+
+* **composer-install:** improve speed ([9a8f314](https://github.com/myparcelnl/actions/commit/9a8f31452435410425bcfaa6801122a6971671c8))
+* **npm-install:** improve speed ([fb19db3](https://github.com/myparcelnl/actions/commit/fb19db364e53faba606b0db2b98b1544cf9705dc))
+* **yarn-install:** improve speed ([0572ddf](https://github.com/myparcelnl/actions/commit/0572ddfff9f6263caf57835a759d81dabf03a6bc))
+
 ## [2.0.0](https://github.com/myparcelnl/actions/compare/v1.0.0...v2.0.0) (2022-05-18)
 
 
