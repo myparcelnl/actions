@@ -1,5 +1,7 @@
 # GitHub Actions
 
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/myparcelnl/actions)
+
 This is a collection of reusable composite actions for GitHub Actions workflows.
 
 ## General usage
@@ -8,13 +10,16 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
 
 We use semantic versioning. We will only push breaking changes to major updates.
 Minor versions are features, additions and improvements, and patch versions are
-bug fixes.
+bug fixes. **We recommend using a major version.**
 
 | Version | Constraint              |
-|---------|-------------------------|
-| v1      | `>= v1.0.0 && > v2.0.0` |
-| v1.0    | `>= v1.0.0 && > v1.1.0` |
-| v1.0.0  | `v1.0.0`                |
+|---------|:------------------------|
+| v2      | `>= v2.0.0 && > v3.0.0` |
+| v2.0    | `>= v2.0.0 && > v2.1.0` |
+| v2.0.0  | `v2.0.0`                |
+
+You can also use `main` to always use the latest actions, but this is not
+recommended as this will also include breaking changes.
 
 #### Major example
 
@@ -53,8 +58,8 @@ Will use every patch update within `v2.1.x`.
 
 [Source](npm-install/action.yml)
 
-1. Runs [setup-node]
-2. Handles cache
+1. Runs [actions/setup-node]
+2. Handles `node_modules` cache
 3. Runs `npm ci`
 
 #### Example
@@ -67,6 +72,8 @@ Will use every patch update within `v2.1.x`.
 
 ### setup-node
 
+> ⚠️ Deprecated: use actions/setup-node@v3 instead.
+
 [Source](setup-node/action.yml)
 
 1. Sets up node@14
@@ -76,7 +83,7 @@ Will use every patch update within `v2.1.x`.
 
 ```yaml
 - name:
-  uses: myparcelnl/actions/setup-node@v1
+  uses: myparcelnl/actions/setup-node@v2
   with:
     node-version: 16
 ```
@@ -85,14 +92,14 @@ Will use every patch update within `v2.1.x`.
 
 [Source](yarn-install/action.yml)
 
-1. Runs [setup-node]
-2. Handles cache
+1. Runs [actions/setup-node]
+2. Handles `node_modules` cache
 3. Runs `yarn install --frozen-lockfile`
 
 #### Example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v1
+- uses: myparcelnl/actions/yarn-install@v2
   with:
     node-version: 16
 ```
@@ -116,7 +123,7 @@ Will use every patch update within `v2.1.x`.
 #### Example
 
 ```yaml
-- uses: myparcelnl/actions/composer-install@v1
+- uses: myparcelnl/actions/composer-install@v2
   with:
     php-version: '8.0'
     tools: php-cs-fixer, phpunit
@@ -135,7 +142,7 @@ Will use every patch update within `v2.1.x`.
 #### Example
 
 ```yaml
-- uses: myparcelnl/actions/update-coverage@v1
+- uses: myparcelnl/actions/update-coverage@v2
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
 ```
@@ -171,7 +178,7 @@ jobs based on git ref and tag.
 #### Example
 
 ```yaml
-- uses: myparcelnl/actions/build-docker-image@v1
+- uses: myparcelnl/actions/build-docker-image@v2
   id: docker
   with:
     image: myparcel/php-sdk
@@ -195,18 +202,18 @@ installed.
 #### Example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v1
-- uses: myparcelnl/actions/semantic-release@v1
+- uses: myparcelnl/actions/yarn-install@v2
+- uses: myparcelnl/actions/semantic-release@v2
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 ```
 
 [Codecov]: https://codecov.io
+[actions/setup-node]: https://github.com/actions/setup-node
 [build-docker-image]: #build-docker-image
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
 [composer-install]: #composer-install
 [npm-install]: #npm-install
-[setup-node]: #setup-node
-[yarn-install]: #yarn-install
 [semantic-release]: #semantic-release
+[yarn-install]: #yarn-install
