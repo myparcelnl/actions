@@ -32,7 +32,7 @@ Will use every minor and patch update within `v2.x.x`.
 #### Minor example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v2.1
+- uses: myparcelnl/actions/yarn-install@v2
 ```
 
 Will use every patch update within `v2.1.x`.
@@ -67,7 +67,7 @@ Will use every patch update within `v2.1.x`.
 #### Example
 
 ```yaml
-- uses: myparcelnl/actions/npm-install@v1
+- uses: myparcelnl/actions/npm-install@v2
   with:
     node-version: 16
 ```
