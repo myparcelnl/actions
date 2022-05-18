@@ -2,6 +2,38 @@
 
 This is a collection of reusable composite actions for GitHub Actions workflows.
 
+## General usage
+
+### Versioning
+
+We use semantic versioning. We will only push breaking changes to major updates.
+Minor versions are features, additions and improvements, and patch versions are
+bug fixes.
+
+| Version | Constraint              |
+|---------|-------------------------|
+| v1      | `>= v1.0.0 && > v2.0.0` |
+| v1.0    | `>= v1.0.0 && > v1.1.0` |
+| v1.0.0  | `v1.0.0`                |
+
+#### Major example
+
+```yaml
+- uses: myparcelnl/actions/yarn-install@v2
+```
+
+Will use every minor and patch update within `v2.x.x`.
+
+#### Minor example
+
+```yaml
+- uses: myparcelnl/actions/yarn-install@v2.1
+```
+
+Will use every patch update within `v2.1.x`.
+
+## Actions
+
 - [Node](#node)
     - [npm-install](#npm-install)
     - [setup-node](#setup-node)
