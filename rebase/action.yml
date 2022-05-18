@@ -10,6 +10,10 @@ inputs:
     description: 'Base branch to use to rebase target.'
     required: true
 
+  token:
+    description: 'GitHub token to use.'
+    required: true
+
 runs:
   using: composite
   steps:
@@ -20,6 +24,8 @@ runs:
         fetch-depth: 0
 
     - uses: myparcelnl/actions/setup-git-credentials@main
+      with:
+        token: ${{ inputs.token }}
 
     - name: 'Rebase and push'
       if: inputs.target && inputs.base
