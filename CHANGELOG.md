@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/myparcelnl/actions/compare/v1.0.0...v2.0.0) (2022-05-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* use kebab-case in all inputs and outputs
+
+### :bug: Bug Fixes
+
+* use kebab-case in all inputs and outputs ([16f71ba](https://github.com/myparcelnl/actions/commit/16f71ba1ce6e1338889b5780fab295fea8f2763c))
+
 ## 1.0.0 (2022-05-18)
 
 
