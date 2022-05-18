@@ -1,0 +1,24 @@
+{
+  "name": "@myparcel/actions",
+  "version": "1.0.0",
+  "private": true,
+  "description": "This is a collection of reusable composite actions for GitHub Actions workflows.",
+  "keywords": [
+    "github",
+    "actions"
+  ],
+  "homepage": "https://github.com/myparcelnl/actions#readme",
+  "bugs": {
+    "url": "https://github.com/myparcelnl/actions/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/myparcelnl/actions.git"
+  },
+  "license": "MIT",
+  "author": "Edie Lemoine <edie@myparcel.nl>",
+  "devDependencies": {
+    "@myparcel/semantic-release-config": "^2.0.0",
+    "semver": "^7.3.7"
+  }
+}

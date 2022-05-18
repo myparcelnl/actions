@@ -21,12 +21,12 @@ inputs:
     required: false
     default: .
 
-  docker_args:
+  docker-args:
     description: 'Arguments to pass to docker build'
     required: false
     default: ''
 
-  prune_after:
+  prune-after:
     description: 'Amount of time after which images get pruned'
     required: false
     default: '260h'
@@ -51,7 +51,7 @@ runs:
       id: prep
       run: |
         IMAGE=$(echo ${{ inputs.image }})
-        ARGS=$(echo ${{ inputs.docker_args }} | shasum | head -c 40)
+        ARGS=$(echo ${{ inputs.docker-args }} | shasum | head -c 40)
         TAG=$(echo $GITHUB_SHA | head -c7)
         echo ::set-output name=args::${ARGS}
         echo ::set-output name=tag::${TAG}
@@ -67,7 +67,7 @@ runs:
     - name: 'Build image'
       shell: bash
       run: >
-        docker build ${{ inputs.docker_args }} \
+        docker build ${{ inputs.docker-args }} \
           --label args=${{ steps.prep.outputs.args }} \
           --label ref=${{ github.ref }} \
           --label tag=${{ steps.prep.outputs.tag }} \
@@ -92,4 +92,4 @@ runs:
       run: >
         docker image prune \
           --force \
-          --filter "until=${{ inputs.prune_after }}"
+          --filter "until=${{ inputs.prune-after }}"

@@ -1,0 +1,21 @@
+name: 'Release'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: 'Release'
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - uses: myparcelnl/actions/yarn-install@main
+
+      - uses: myparcelnl/actions/semantic-release@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
