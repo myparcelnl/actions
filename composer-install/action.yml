@@ -25,21 +25,17 @@ runs:
         php-version: ${{ inputs.php-version }}
         tools: ${{ inputs.tools }}
 
-    - name: 'Get Composer cache directory'
-      shell: bash
-      id: composer-cache
-      run: |
-        echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-    - name: 'Handle Composer cache'
-      uses: actions/cache@v2
+    - name: 'Prepare Composer cache'
+      uses: actions/cache@v3
+      id: cache
       with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        path: vendor
+        key: ${{ runner.os }}-composer-vendor-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-composer-
+          ${{ runner.os }}-composer-vendor-
 
     - name: 'Install composer dependencies'
+      if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         composer install --no-interaction --no-progress ${{ inputs.flags }}
