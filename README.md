@@ -230,6 +230,24 @@ Set up git credentials and authenticate as MyParcelBot.
     token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+### rebase
+
+[Source](rebase/action.yml)
+
+Rebase two branches and push.
+
+- Needs a [GitHub] token in `token`.
+
+#### Example
+
+```yaml
+- uses: myparcelnl/actions/rebase@v2
+  with:
+    token: ${{ secrets.GITHUB_TOKEN }}
+    base: main
+    target: develop
+```
+
 [Codecov]: https://codecov.io
 [actions/setup-node]: https://github.com/actions/setup-node
 [build-docker-image]: #build-docker-image

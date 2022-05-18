@@ -1,0 +1,30 @@
+name: 'Rebase'
+description: 'Rebase and update one branch with another.'
+
+inputs:
+  target:
+    description: 'Target branch you wish to update.'
+    required: true
+
+  base:
+    description: 'Base branch to use to rebase target.'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GH_REPO_TOKEN }}
+        ref: ${{ inputs.target }}
+        fetch-depth: 0
+
+    - uses: myparcelnl/actions/setup-git-credentials@main
+
+    - name: 'Rebase and push'
+      if: inputs.target && inputs.base
+      shell: bash
+      run: |
+        git config --list
+        git rebase "origin/${{ inputs.base }}"
+        git push
