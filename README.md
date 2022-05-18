@@ -51,6 +51,8 @@ Will use every patch update within `v2.1.x`.
     - [build-docker-image](#build-docker-image)
 - [Releasing](#releasing)
     - [semantic-release](#semantic-release)
+- [Git](#git)
+    - [setup-git-credentials](#setup-git-credentials)
 
 ## Node
 
@@ -207,6 +209,25 @@ installed.
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+```
+
+## Git
+
+### setup-git-credentials
+
+[Source](setup-git-credentials/action.yml)
+
+Set up git credentials and authenticate as MyParcelBot.
+
+1. Runs [oleksiyrudenko/gha-git-credentials@v2.1]
+    - Needs a [GitHub] token in `token`.
+
+#### Example
+
+```yaml
+- uses: myparcelnl/actions/setup-git-credentials@v2
+  with:
+    token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 [Codecov]: https://codecov.io

@@ -1,0 +1,17 @@
+name: 'Setup Git credentials'
+description: 'Authenticates Git as MyParcelBot.'
+
+inputs:
+  token:
+    required: true
+    description: 'GitHub Personal access token'
+
+runs:
+  using: composite
+  steps:
+    - uses: oleksiyrudenko/gha-git-credentials@v2.1
+      with:
+        token: ${{ inputs.token }}
+        name: 'MyParcelBot'
+        email: 'edie+bot@myparcel.nl'
+        actor: 'MyParcelBot'
