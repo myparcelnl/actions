@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.0](https://github.com/myparcelnl/actions/compare/v2.2.0...v2.3.0) (2022-05-18)
+
+
+### :sparkles: New Features
+
+* add rebase action ([a653be5](https://github.com/myparcelnl/actions/commit/a653be51c4b423764b8b72a44a40463842f4ee72))
+
+
+### :bug: Bug Fixes
+
+* **rebase:** add github token input ([2802ff9](https://github.com/myparcelnl/actions/commit/2802ff92674837c2dc740d9f214fde05c7f3d32a))
+
 ## [2.2.0](https://github.com/myparcelnl/actions/compare/v2.1.0...v2.2.0) (2022-05-18)
 
 
