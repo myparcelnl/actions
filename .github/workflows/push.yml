@@ -10,12 +10,19 @@ jobs:
     name: 'Release'
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
 
       - uses: myparcelnl/actions/yarn-install@main
 
       - uses: myparcelnl/actions/semantic-release@main
+        with:
+          token: ${{ secrets.GH_REPO_TOKEN }}
+
+      - run: |
+          version=$(git describe --abbrev=0 --tags)
+          node publish.js "$version"
+          git push --tags
         env:
           GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN }}

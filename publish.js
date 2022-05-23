@@ -1,22 +1,28 @@
 const { major, minor, prerelease } = require('semver');
 const { spawnSync } = require('child_process');
 
-const [, , version] = process.argv;
+const [, , ...tags] = process.argv;
 
-(() => {
-  if (prerelease(version)) {
-    console.info('Prerelease version detected; will not add a major version tag.');
-    return;
-  }
+tags
+  .filter((tag) => tag.match(/v?\d+\.\d+\.\d+/))
+  .forEach(version => {
+    console.log(version);
 
-  const versionTags = [major(version), `${major(version)}.${minor(version)}`];
+    if (prerelease(version)) {
+      console.info('Prerelease version detected; will not add a major version tag.');
+      return;
+    }
 
-  for (const v of versionTags) {
-    console.info(`Deleting tag v${v} from origin.`);
-    spawnSync('git', ['push', 'origin', `:refs/tags/v${v}`], { stdio: 'inherit' });
+    const ref = spawnSync('git', ['show-ref', '-s', version]).stdout.toString();
+    const versionTags = [major(version), `${major(version)}.${minor(version)}`];
 
-    console.info(`Pushing new tag v${v} to git.`);
-    spawnSync('git', ['tag', '--force', `v${v}`], { stdio: 'inherit' });
-    spawnSync('git', ['push', 'origin', `v${v}`], { stdio: 'inherit' });
-  }
-})();
+    versionTags.forEach(tag => {
+      const tagName = `v${tag}`;
+
+      console.info(`Deleting tag "${tagName}"`);
+      spawnSync('git', ['push', 'origin', `:refs/tags/v${tagName}`], { stdio: 'inherit' });
+
+      console.info(`Creating new tag "${tagName}" on ${ref}`);
+      spawnSync('git', ['tag', '--force', `v${tagName}`, ref], { stdio: 'inherit' });
+    });
+  });
