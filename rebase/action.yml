@@ -19,7 +19,7 @@ runs:
   steps:
     - uses: actions/checkout@v3
       with:
-        token: ${{ secrets.GH_REPO_TOKEN }}
+        token: ${{ inputs.token }}
         ref: ${{ inputs.target }}
         fetch-depth: 0
 
@@ -28,9 +28,7 @@ runs:
         token: ${{ inputs.token }}
 
     - name: 'Rebase and push'
-      if: inputs.target && inputs.base
       shell: bash
       run: |
-        git config --list
         git rebase "origin/${{ inputs.base }}"
         git push
