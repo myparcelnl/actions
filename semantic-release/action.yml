@@ -16,3 +16,5 @@ runs:
     - name: 'Run semantic release'
       run: npx semantic-release
       shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
