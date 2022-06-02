@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.0](https://github.com/myparcelnl/actions/compare/v2.3.1...v2.4.0) (2022-06-02)
+
+
+### :sparkles: New Features
+
+* add update-tags action ([1acc215](https://github.com/myparcelnl/actions/commit/1acc215f2807ee8de4f7ba377938aef259dd69da))
+
 ### [2.3.1](https://github.com/myparcelnl/actions/compare/v2.3.0...v2.3.1) (2022-06-02)
 
 
