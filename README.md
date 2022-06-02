@@ -53,6 +53,8 @@ Will use every patch update within `v2.1.x`.
     - [semantic-release](#semantic-release)
 - [Git](#git)
     - [setup-git-credentials](#setup-git-credentials)
+    - [rebase](#rebase)
+    - [update-tags](#update-tags)
 
 ## Node
 
@@ -247,6 +249,43 @@ Rebase two branches and push.
     base: main
     target: develop
 ```
+
+### update-tags
+
+[Source](update-tags/action.yml)
+
+Update git tags to keep major and minor version in sync. Good for releasing
+GitHub actions.
+
+#### Inputs
+
+| required | name    | description               | Example | Default |
+|----------|---------|---------------------------|---------|---------|
+| No       | `minor` | Update the major version. | `true`  | `true`  |
+| No       | `major` | Update the minor version. | `true`  | `false` |
+
+#### Example
+
+```yaml
+- uses: myparcelnl/actions/update-tags@v2
+  with:
+    minor: true
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+This takes the tag on the current commit, for example `v2.3.1` after
+running [semantic-release], and parses it to determine which tags should be
+updated.
+
+If run with `minor: true`:
+
+- Will add `v2` to the current commit
+- Will add `v2.3` to the current commit
+
+If run without `minor: true`, or with `minor: false`: 
+
+- Will add `v2` to the current commit.
 
 [Codecov]: https://codecov.io
 [actions/setup-node]: https://github.com/actions/setup-node

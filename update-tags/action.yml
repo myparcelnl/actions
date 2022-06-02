@@ -1,0 +1,17 @@
+name: 'Update tags'
+description: 'Update major and (optionally) minor tags.'
+
+inputs:
+  major:
+    required: false
+    description: 'Update the major version.'
+    default: 'true'
+
+  minor:
+    required: false
+    default: 'false'
+    description: 'Update the minor version.'
+
+runs:
+  using: 'node16'
+  main: 'index.js'

@@ -6,9 +6,6 @@ module.exports = {
   ...baseConfig,
   plugins: [
     ...baseConfig.plugins,
-    addExecPlugin({
-      'publishCmd': 'node ./publish.js ${nextRelease.version}',
-    }),
     addGitPlugin(),
     addGitHubPlugin(),
   ],

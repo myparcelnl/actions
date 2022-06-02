@@ -20,9 +20,8 @@ jobs:
         with:
           token: ${{ secrets.GH_REPO_TOKEN }}
 
-      - run: |
-          version=$(git describe --abbrev=0 --tags)
-          node publish.js "$version"
-          git push --tags
+      - uses: myparcelnl/actions/update-tags@main
+        with:
+          minor: true
         env:
           GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
