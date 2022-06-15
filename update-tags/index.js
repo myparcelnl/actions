@@ -1,19 +1,58 @@
 const core = require('@actions/core');
 
-const { major, minor, prerelease } = require('semver');
-const { spawnSync } = require('child_process');
+const { major, minor, prerelease, valid } = require('semver');
+const { spawn } = require('child_process');
+const os = require('os');
 
 const remoteRepo = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 
-const updateTags = () => {
-  const lastTagRef = spawnSync('git', ['rev-list', '--tags', '--max-count=1']).stdout.toString().trim();
-  const version = spawnSync('git', ['describe', '--tags', lastTagRef]).stdout.toString().trim();
+const run = (command, args) => {
+  return new Promise((resolve, reject) => {
+    if (core.isDebug()) {
+      core.info(`Running "${command}" with args: ${JSON.stringify(args)}`);
+    }
+
+    const child = spawn(command, args);
+    let content = '';
+    const errors = [];
+
+    child.on('error', (error) => {
+      reject(error);
+    });
+
+    child.stderr.on('data', (chunk) => errors.push(chunk));
+    child.stdout.on('data', (chunk) => {
+      content += chunk.toString();
+    });
+
+    child.on('exit', (code) => {
+      if (code === 0) {
+        if (core.isDebug()) {
+          core.info('Result: ' + content.trim());
+        }
+
+        resolve(content.trim());
+      } else {
+        reject(new Error(`${errors.join('')}${os.EOL}${command} exited with code ${code}`));
+      }
+    });
+  });
+};
+
+const updateTags = async() => {
+  const lastTagRef = await run('git', ['rev-list', '--tags', '--max-count=1']);
+  const version = await run('git', ['describe', '--tags', lastTagRef]);
 
   const updateMajor = core.getBooleanInput('major');
   const updateMinor = core.getBooleanInput('minor');
 
+  if (!valid(version)) {
+    core.error('Passed version "' + version + '" is not valid.');
+    return;
+  }
+
   if (prerelease(version)) {
-    core.info('Prerelease version detected; will not add a major version update-tags.');
+    core.info('Prerelease version detected; will not add a major version tag.');
     return;
   }
 
@@ -27,20 +66,31 @@ const updateTags = () => {
     versionTags.push(`${major(version)}.${minor(version)}`);
   }
 
-  const ref = spawnSync('git', ['show-ref', '-s', version]).stdout.toString();
+  const ref = await run('git', ['show-ref', '-s', version]);
 
-  versionTags.forEach(tag => {
+  await Promise.all(versionTags.map(async tag => {
     const tagName = `v${tag}`.trim();
 
-    core.info(`Deleting tag "${tagName}"`);
-    spawnSync('git', ['push', remoteRepo, `:refs/tags/v${tagName}`], { stdio: 'inherit' });
+    const exists = await run('git', ['tag', '-l', tag]);
 
-    core.info(`Creating new tag "${tagName}" on ${ref}`);
-    spawnSync('git', ['tag', '--force', `v${tagName}`, ref], { stdio: 'inherit' });
-  });
+    console.log(exists);
+
+    if (exists) {
+      core.info(`Deleting tag "${tagName}"`);
+      await run('git', ['push', remoteRepo, `:refs/tags/v${tagName}`]);
+    }
+
+    if (exists) {
+      core.info(`Moving tag "${tagName}" to ${ref}`);
+    } else {
+      core.info(`Creating new tag "${tagName}" on ${ref}`);
+    }
+
+    await run('git', ['tag', '--force', `v${tagName}`, ref]);
+  }));
 
   core.info('Pushing tags');
-  spawnSync('git', ['push', remoteRepo, '--tags'])
+  await run('git', ['push', remoteRepo, '--tags']);
 };
 
 try {
