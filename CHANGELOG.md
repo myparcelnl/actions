@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.6.5](https://github.com/myparcelnl/actions/compare/v2.6.4...v2.6.5) (2022-06-15)
+
+
+### :bug: Bug Fixes
+
+* **build-docker-image-reg:** load image and output correct name ([cbe0f97](https://github.com/myparcelnl/actions/commit/cbe0f97548b6b28dd55126cec93bb6c855523fce))
+
 ### [2.6.4](https://github.com/myparcelnl/actions/compare/v2.6.3...v2.6.4) (2022-06-15)
 
 
