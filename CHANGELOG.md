@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.0](https://github.com/myparcelnl/actions/compare/v2.5.0...v2.6.0) (2022-06-15)
+
+
+### :sparkles: New Features
+
+* **npm:** add pnpm install action ([fd9c1a2](https://github.com/myparcelnl/actions/commit/fd9c1a269173540d1e0ffb4fa2d068e26ab6cda2))
+
 ## [2.5.0](https://github.com/myparcelnl/actions/compare/v2.4.0...v2.5.0) (2022-06-15)
 
 
