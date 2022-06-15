@@ -3,6 +3,8 @@ const core = require('@actions/core');
 const { major, minor, prerelease } = require('semver');
 const { spawnSync } = require('child_process');
 
+const remoteRepo = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
+
 const updateTags = () => {
   const lastTagRef = spawnSync('git', ['rev-list', '--tags', '--max-count=1']).stdout.toString().trim();
   const version = spawnSync('git', ['describe', '--tags', lastTagRef]).stdout.toString().trim();
@@ -31,14 +33,14 @@ const updateTags = () => {
     const tagName = `v${tag}`.trim();
 
     core.info(`Deleting tag "${tagName}"`);
-    spawnSync('git', ['push', 'origin', `:refs/tags/v${tagName}`], { stdio: 'inherit' });
+    spawnSync('git', ['push', remoteRepo, `:refs/tags/v${tagName}`], { stdio: 'inherit' });
 
     core.info(`Creating new tag "${tagName}" on ${ref}`);
     spawnSync('git', ['tag', '--force', `v${tagName}`, ref], { stdio: 'inherit' });
   });
 
   core.info('Pushing tags');
-  spawnSync('git', ['push', '--tags'])
+  spawnSync('git', ['push', remoteRepo, '--tags'])
 };
 
 try {
