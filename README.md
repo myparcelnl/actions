@@ -75,7 +75,40 @@ Will use every patch update within `v2.1.x`.
     node-version: 16
 ```
 
-### setup-node
+### yarn-install
+
+[Source](yarn-install/action.yml)
+
+1. Runs [actions/setup-node]
+2. Handles `node_modules` cache
+3. Runs `yarn install --frozen-lockfile`
+
+#### Example
+
+```yaml
+- uses: myparcelnl/actions/yarn-install@v2
+  with:
+    node-version: 16
+```
+
+### pnpm-install
+
+[Source](pnpm-install/action.yml)
+
+1. Runs [actions/setup-node]
+2. Installs pnpm
+4. Handles pnpm cache
+5. Runs `pnpm install --frozen-lockfile`
+
+#### Example
+
+```yaml
+- uses: myparcelnl/actions/pnpm-install@v2
+  with:
+    node-version: 16
+```
+
+### ~~setup-node~~
 
 > ⚠️ Deprecated: use actions/setup-node@v3 instead.
 
@@ -89,22 +122,6 @@ Will use every patch update within `v2.1.x`.
 ```yaml
 - name:
   uses: myparcelnl/actions/setup-node@v2
-  with:
-    node-version: 16
-```
-
-### yarn-install
-
-[Source](yarn-install/action.yml)
-
-1. Runs [actions/setup-node]
-2. Handles `node_modules` cache
-3. Runs `yarn install --frozen-lockfile`
-
-#### Example
-
-```yaml
-- uses: myparcelnl/actions/yarn-install@v2
   with:
     node-version: 16
 ```
@@ -329,10 +346,11 @@ If run without `minor: true`, or with `minor: false`:
 
 [Codecov]: https://codecov.io
 [actions/setup-node]: https://github.com/actions/setup-node
-[build-docker-image]: #build-docker-image
 [build-docker-image-reg]: #build-docker-image-reg
+[build-docker-image]: #build-docker-image
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
 [composer-install]: #composer-install
 [npm-install]: #npm-install
+[pnpm-install]: #pnpm-install
 [semantic-release]: #semantic-release
 [yarn-install]: #yarn-install
