@@ -36,30 +36,11 @@ inputs:
 outputs:
   tagged-image:
     description: 'Created image name with tag'
-    value: ${{ steps.prepare.outputs.tagged-image }}
-
-  tags:
-    description: 'Tags of the created image'
     value: ${{ steps.meta.outputs.tags }}
-
-  labels:
-    description: 'Labels of the created image'
-    value: ${{ steps.meta.outputs.labels }}
 
 runs:
   using: composite
   steps:
-    - name: 'Prepare'
-      id: prepare
-      run: |
-        IMAGE=$(echo ${{ inputs.image }})
-        ARGS=$(echo ${{ inputs.docker-args }} | shasum | head -c 40)
-        TAG=$(echo $GITHUB_SHA | head -c7)
-        echo ::set-output name=args::${ARGS}
-        echo ::set-output name=tag::${TAG}
-        echo ::set-output name=tagged-image::${IMAGE}:${TAG}
-      shell: bash
-
     - uses: actions/checkout@v3
 
     - uses: docker/login-action@v2
@@ -83,9 +64,17 @@ runs:
     - uses: docker/build-push-action@v3
       with:
         context: ${{ inputs.context }}
-        push: true
+        load: true
         target: ${{ inputs.target }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: ${{ steps.cache.outputs.cache-from }}
+
+    - uses: docker/build-push-action@v3
+      with:
+        context: ${{ inputs.context }}
+        push: true
+        target: ${{ inputs.target }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
         cache-to: ${{ steps.cache.outputs.cache-to }}
