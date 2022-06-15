@@ -6,6 +6,9 @@ module.exports = {
   ...baseConfig,
   plugins: [
     ...baseConfig.plugins,
+    addExecPlugin({
+      prepare: 'node build.js'
+    }),
     addGitPlugin(),
     addGitHubPlugin(),
   ],
