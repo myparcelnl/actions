@@ -1,0 +1,91 @@
+name: 'Build Docker image'
+description: 'Build Docker image from cache using a registry'
+
+inputs:
+  image:
+    description: 'Image name'
+    required: true
+
+  dockerfile:
+    description: 'Path to dockerfile'
+    required: false
+    default: 'Dockerfile'
+
+  context:
+    description: 'Directory to build from'
+    required: false
+    default: '.'
+
+  target:
+    description: 'Target stage to build'
+    required: false
+
+  registry:
+    description: 'Packages registry to use'
+    required: false
+    default: 'ghcr.io'
+
+  registry-user:
+    description: 'Username to log into registry with'
+    required: true
+
+  registry-password:
+    description: 'Password to log into registry with'
+    required: true
+
+outputs:
+  tagged-image:
+    description: 'Created image name with tag'
+    value: ${{ steps.prepare.outputs.tagged-image }}
+
+  tags:
+    description: 'Tags of the created image'
+    value: ${{ steps.meta.outputs.tags }}
+
+  labels:
+    description: 'Labels of the created image'
+    value: ${{ steps.meta.outputs.labels }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Prepare'
+      id: prepare
+      run: |
+        IMAGE=$(echo ${{ inputs.image }})
+        ARGS=$(echo ${{ inputs.docker-args }} | shasum | head -c 40)
+        TAG=$(echo $GITHUB_SHA | head -c7)
+        echo ::set-output name=args::${ARGS}
+        echo ::set-output name=tag::${TAG}
+        echo ::set-output name=tagged-image::${IMAGE}:${TAG}
+      shell: bash
+
+    - uses: actions/checkout@v3
+
+    - uses: docker/login-action@v2
+      with:
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.registry-user }}
+        password: ${{ inputs.registry-password }}
+
+    - uses: docker/metadata-action@v4
+      id: meta
+      with:
+        images: ${{ inputs.registry }}/${{ inputs.image }}
+
+    - uses: int128/docker-build-cache-config-action@v1
+      id: cache
+      with:
+        image: ${{ inputs.registry }}/${{ inputs.image }}/cache
+
+    - uses: docker/setup-buildx-action@v2
+
+    - uses: docker/build-push-action@v3
+      with:
+        context: ${{ inputs.context }}
+        push: true
+        target: ${{ inputs.target }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: ${{ steps.cache.outputs.cache-from }}
+        cache-to: ${{ steps.cache.outputs.cache-to }}

@@ -49,6 +49,7 @@ Will use every patch update within `v2.1.x`.
     - [update-coverage](#update-coverage)
 - [Docker](#docker)
     - [build-docker-image](#build-docker-image)
+    - [build-docker-image-reg](#build-docker-image-reg)
 - [Releasing](#releasing)
     - [semantic-release](#semantic-release)
 - [Git](#git)
@@ -194,6 +195,45 @@ jobs based on git ref and tag.
 - run: docker run ${{ steps.docker.outputs.tagged-image }}
 ```
 
+### build-docker-image-reg
+
+[Source](build-docker-image-reg/action.yml)
+
+Builds a docker image from a Dockerfile. Layers are cached and pruned between
+jobs using a registry.
+
+#### Inputs
+
+| required | name                | description                        | Example                               | Default      |
+|----------|---------------------|------------------------------------|---------------------------------------|--------------|
+| Yes      | `image`             | Image name                         | `my-name/my-image`                    | –            |
+| No       | `dockerfile`        | Path to dockerfile                 | `./docker/prod.Dockerfile`            | `Dockerfile` |
+| No       | `context`           | Directory to build from            | `./docker`                            | `.`          |
+| No       | `target`            | Target stage to build              | `--target prod`                       | –            |
+| No       | `registry`          | Packages registry to use           | `docker.io`                           | `ghcr.io`    |
+| Yes      | `registry-username` | Username to log into registry with | `${{ secrets.DOCKER_REGISTRY_USER }}` | –            |
+| Yes      | `registry-password` | Password to log into registry with | `${{ secrets.DOCKER_REGISTRY_PASS }}` | –            |
+
+#### Outputs
+
+| name           | description                 | Example                       |
+|----------------|-----------------------------|-------------------------------|
+| `tagged-image` | Created image name with tag | `my-name/my-image:1639002200` |
+| `tag`          | Tag of the created image    | `1639002200`                  |
+
+#### Example
+
+```yaml
+- uses: myparcelnl/actions/build-docker-image@v2
+  id: docker
+  with:
+    image: myparcel/php-sdk
+    registry-username: ${{ github.actor }}
+    registry-password: ${{ secrets.GITHUB_TOKEN }}
+
+- run: docker run ${{ steps.docker.outputs.tagged-image }}
+```
+
 ## Releasing
 
 ### semantic-release
@@ -283,13 +323,14 @@ If run with `minor: true`:
 - Will add `v2` to the current commit
 - Will add `v2.3` to the current commit
 
-If run without `minor: true`, or with `minor: false`: 
+If run without `minor: true`, or with `minor: false`:
 
 - Will add `v2` to the current commit.
 
 [Codecov]: https://codecov.io
 [actions/setup-node]: https://github.com/actions/setup-node
 [build-docker-image]: #build-docker-image
+[build-docker-image-reg]: #build-docker-image-reg
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
 [composer-install]: #composer-install
 [npm-install]: #npm-install
