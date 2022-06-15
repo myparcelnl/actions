@@ -28,7 +28,7 @@ const updateTags = () => {
   const ref = spawnSync('git', ['show-ref', '-s', version]).stdout.toString();
 
   versionTags.forEach(tag => {
-    const tagName = `v${tag}`;
+    const tagName = `v${tag}`.trim();
 
     core.info(`Deleting tag "${tagName}"`);
     spawnSync('git', ['push', 'origin', `:refs/tags/v${tagName}`], { stdio: 'inherit' });
