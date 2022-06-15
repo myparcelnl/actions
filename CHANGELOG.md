@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.6.4](https://github.com/myparcelnl/actions/compare/v2.6.3...v2.6.4) (2022-06-15)
+
+
+### :bug: Bug Fixes
+
+* **update-tags:** update script ([ff09501](https://github.com/myparcelnl/actions/commit/ff09501a196faac562309e750351080e6bc8b579))
+
 ### [2.6.3](https://github.com/myparcelnl/actions/compare/v2.6.2...v2.6.3) (2022-06-15)
 
 
