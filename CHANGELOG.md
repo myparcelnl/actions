@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0](https://github.com/myparcelnl/actions/compare/v2.4.0...v2.5.0) (2022-06-15)
+
+
+### :sparkles: New Features
+
+* **docker:** add action to build using registry ([0ff99ff](https://github.com/myparcelnl/actions/commit/0ff99ff616fa0a6bef9bdfa53748f8f5ddfefcd2))
+
 ## [2.4.0](https://github.com/myparcelnl/actions/compare/v2.3.1...v2.4.0) (2022-06-02)
 
 
