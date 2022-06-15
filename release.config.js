@@ -1,5 +1,6 @@
 const baseConfig = require('@myparcel/semantic-release-config');
 const { addGitPlugin, addExecPlugin, addGitHubPlugin } = require('@myparcel/semantic-release-config/src/plugins');
+const { gitPluginDefaults } = require('@myparcel/semantic-release-config/src/plugins/addGitPlugin');
 
 module.exports = {
   extends: '@myparcel/semantic-release-config',
@@ -7,9 +8,11 @@ module.exports = {
   plugins: [
     ...baseConfig.plugins,
     addExecPlugin({
-      prepare: 'node build.js'
+      prepare: 'node build.js',
     }),
-    addGitPlugin(),
+    addGitPlugin({
+      assets: [...gitPluginDefaults.assets, './**/dist/*.js'],
+    }),
     addGitHubPlugin(),
   ],
 };
