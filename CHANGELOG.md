@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.6.3](https://github.com/myparcelnl/actions/compare/v2.6.2...v2.6.3) (2022-06-15)
+
+
+### :bug: Bug Fixes
+
+* **update-tags:** fix token access ([0670bdb](https://github.com/myparcelnl/actions/commit/0670bdb54e461d7fffd4ca246e9b50923089bcb0))
+
 ### [2.6.2](https://github.com/myparcelnl/actions/compare/v2.6.1...v2.6.2) (2022-06-15)
 
 
