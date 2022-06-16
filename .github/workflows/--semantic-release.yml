@@ -1,0 +1,21 @@
+name: 'Run Semantic Release'
+
+on: workflow_call
+
+jobs:
+  release:
+    name: 'Release'
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - uses: myparcelnl/actions/yarn-install@v2
+
+      - uses: myparcelnl/actions/semantic-release@v2
+        with:
+          token: ${{ secrets.GH_REPO_TOKEN || secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN || secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

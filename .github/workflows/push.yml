@@ -7,19 +7,14 @@ on:
 
 jobs:
   release:
-    name: 'Release'
+    uses: myparcelnl/actions/.github/workflows/--semantic-release.yml@main
+    secrets: inherit
+
+  update-tags:
+    name: 'Update tags'
+    needs: release
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
-        with:
-          persist-credentials: false
-
-      - uses: myparcelnl/actions/yarn-install@main
-
-      - uses: myparcelnl/actions/semantic-release@main
-        with:
-          token: ${{ secrets.GH_REPO_TOKEN }}
-
       - uses: myparcelnl/actions/update-tags@main
         with:
           minor: true
