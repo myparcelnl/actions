@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0](https://github.com/myparcelnl/actions/compare/v2.6.5...v2.7.0) (2022-06-16)
+
+
+### :sparkles: New Features
+
+* add workflow for semantic release ([7af8d78](https://github.com/myparcelnl/actions/commit/7af8d787888dbedf55f75236c65020ea2db3d9e7))
+
 ### [2.6.5](https://github.com/myparcelnl/actions/compare/v2.6.4...v2.6.5) (2022-06-15)
 
 
