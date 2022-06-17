@@ -54,11 +54,6 @@ runs:
       with:
         images: ${{ inputs.registry }}/${{ inputs.image }}
 
-    - uses: int128/docker-build-cache-config-action@v1
-      id: cache
-      with:
-        image: ${{ inputs.registry }}/${{ inputs.image }}/cache
-
     - uses: docker/setup-buildx-action@v2
 
     - uses: docker/build-push-action@v3
@@ -68,7 +63,7 @@ runs:
         target: ${{ inputs.target }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        cache-from: ${{ steps.cache.outputs.cache-from }}
+        cache-from: type=gha,mode=max
 
     - uses: docker/build-push-action@v3
       with:
@@ -77,4 +72,5 @@ runs:
         target: ${{ inputs.target }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        cache-to: ${{ steps.cache.outputs.cache-to }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
