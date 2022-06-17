@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0](https://github.com/myparcelnl/actions/compare/v2.7.0...v2.8.0) (2022-06-17)
+
+
+### :sparkles: New Features
+
+* **docker:** use gha cache ([88d924c](https://github.com/myparcelnl/actions/commit/88d924c59e27333cd2230cc7f9799d94b5b0bc2a))
+
 ## [2.7.0](https://github.com/myparcelnl/actions/compare/v2.6.5...v2.7.0) (2022-06-16)
 
 
