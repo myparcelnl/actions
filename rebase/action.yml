@@ -33,11 +33,13 @@ runs:
         token: ${{ inputs.token }}
 
     - name: 'Rebase'
+      id: rebase
       shell: bash
       run: |
-        git rebase "origin/${{ inputs.base }}"
+        git rebase "origin/${{ inputs.base }}" || echo '::set-output name=fail::true' && git rebase --abort
 
     - name: 'Push'
       shell: bash
+      if: steps.rebase.outputs.fail != 'true'
       run: |
         git push ${{ inputs.force == 'true' && "--force" }} 
