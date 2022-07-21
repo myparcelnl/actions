@@ -15,7 +15,7 @@ jobs:
     needs: release
     runs-on: ubuntu-20.04
     steps:
-      - uses: myparcelnl/actions/update-tags@v2
+      - uses: myparcelnl/actions/update-tags@main
         with:
           minor: true
         env:
