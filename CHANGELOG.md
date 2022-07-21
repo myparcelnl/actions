@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.9.1](https://github.com/myparcelnl/actions/compare/v2.9.0...v2.9.1) (2022-07-21)
+
+
+### :bug: Bug Fixes
+
+* **rebase:** don't push if rebase failed ([621e80e](https://github.com/myparcelnl/actions/commit/621e80e7f030ed8b546d3d3fcdfd91a6167c4522))
+
 ## [2.9.0](https://github.com/myparcelnl/actions/compare/v2.8.0...v2.9.0) (2022-07-21)
 
 
