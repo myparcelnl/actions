@@ -301,7 +301,14 @@ Set up git credentials and authenticate as MyParcelBot.
 
 Rebase two branches and push.
 
-- Needs a [GitHub] token in `token`.
+##### Inputs
+
+| required | name     | description                          | Example                        | Default |
+|----------|----------|--------------------------------------|--------------------------------|---------|
+| Yes      | `target` | Target branch you wish to update.    | `develop`                      | –       |
+| Yes      | `base`   | Base branch to use to rebase target. | `main`                         | –       |
+| Yes      | `token`  | GitHub token to use.                 | `${{ secrets.GH_REPO_TOKEN }}` | –       |
+| No       | `force`  | Force push.                          | `true`                         | `false` |
 
 ##### Example
 
@@ -311,6 +318,7 @@ Rebase two branches and push.
     token: ${{ secrets.GITHUB_TOKEN }}
     base: main
     target: develop
+    force: true
 ```
 
 #### update-tags

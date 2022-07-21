@@ -14,6 +14,11 @@ inputs:
     description: 'GitHub token to use.'
     required: true
 
+  force:
+    description: 'Force push.'
+    required: false
+    default: 'false'
+
 runs:
   using: composite
   steps:
@@ -27,8 +32,12 @@ runs:
       with:
         token: ${{ inputs.token }}
 
-    - name: 'Rebase and push'
+    - name: 'Rebase'
       shell: bash
       run: |
         git rebase "origin/${{ inputs.base }}"
-        git push
+
+    - name: 'Push'
+      shell: bash
+      run: |
+        git push ${{ inputs.force == 'true' && "--force" }} 
