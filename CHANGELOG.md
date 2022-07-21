@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0](https://github.com/myparcelnl/actions/compare/v2.8.0...v2.9.0) (2022-07-21)
+
+
+### :sparkles: New Features
+
+* **rebase:** add force option ([a0fc4e4](https://github.com/myparcelnl/actions/commit/a0fc4e4c0051ae13f1ccbaccbd1faae9c36b740c))
+
 ## [2.8.0](https://github.com/myparcelnl/actions/compare/v2.7.0...v2.8.0) (2022-06-17)
 
 
