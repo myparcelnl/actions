@@ -42,4 +42,4 @@ runs:
       shell: bash
       if: steps.rebase.outputs.fail != 'true'
       run: |
-        git push ${{ inputs.force == 'true' && "--force" }} 
+        git push ${{ inputs.force == 'true' && '--force' }} 
