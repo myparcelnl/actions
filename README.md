@@ -103,8 +103,8 @@ Will use every patch update within `v2.1.x`.
 
 1. Runs [actions/setup-node]
 2. Installs pnpm
-4. Handles pnpm cache
-5. Runs `pnpm install --frozen-lockfile`
+3. Handles pnpm cache
+4. Runs `pnpm install --frozen-lockfile`
 
 ##### Example
 
@@ -112,7 +112,17 @@ Will use every patch update within `v2.1.x`.
 - uses: myparcelnl/actions/pnpm-install@v2
   with:
     node-version: 16
+    pnpm-version: 7.4.0
+    pnpm-args: --ignore-scripts --frozen-lockfile
 ```
+
+##### Inputs
+
+| required | name           | description                        | Example                              | Default             |
+|----------|----------------|------------------------------------|--------------------------------------|---------------------|
+| No       | `node-version` | The Node.js version to use         | `16`                                 | `16`                |
+| No       | `pnpm-version` | The pnpm version to use            | `7.4.0`                              | `7.6.0`             |
+| No       | `pnpm-args`    | Arguments to use with pnpm install | `--ignore-scripts --frozen-lockfile` | `--frozen-lockfile` |
 
 #### ~~setup-node~~
 

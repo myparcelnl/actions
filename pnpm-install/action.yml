@@ -7,6 +7,16 @@ inputs:
     default: '16'
     required: false
 
+  pnpm-version:
+    description: 'The pnpm version to use'
+    default: '7.6.0'
+    required: false
+
+  pnpm-args:
+    description: 'Arguments to use with pnpm install'
+    default: '--frozen-lockfile'
+    required: false
+
 runs:
   using: composite
   steps:
@@ -18,7 +28,7 @@ runs:
 
     - uses: pnpm/action-setup@v2.2.2
       with:
-        version: 7
+        version: ${{ inputs.pnpm-version }}
         run_install: false
 
     - name: 'Get pnpm store directory'
@@ -37,4 +47,4 @@ runs:
 
     - name: 'Install pnpm dependencies'
       shell: bash
-      run: pnpm install --frozen-lockfile
+      run: pnpm install ${{ inputs.pnpm-args }}
