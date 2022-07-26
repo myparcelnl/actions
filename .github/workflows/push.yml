@@ -13,7 +13,7 @@ jobs:
   update-tags:
     name: 'Update tags'
     needs: release
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: myparcelnl/actions/update-tags@main
         with:
