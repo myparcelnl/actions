@@ -40,6 +40,12 @@ runs:
 
     - name: 'Push'
       shell: bash
-      if: steps.rebase.outputs.fail != 'true'
+      if: inputs.force != 'true' && steps.rebase.outputs.fail != 'true'
       run: |
-        git push ${{ inputs.force == 'true' && '--force' }} 
+        git push
+
+    - name: 'Force push'
+      shell: bash
+      if: inputs.force == 'true' && steps.rebase.outputs.fail != 'true'
+      run: |
+        git push --force 
