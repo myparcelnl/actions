@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.10.2](https://github.com/myparcelnl/actions/compare/v2.10.1...v2.10.2) (2022-07-28)
+
+
+### :bug: Bug Fixes
+
+* **rebase:** separate force push into different step ([2f56c7f](https://github.com/myparcelnl/actions/commit/2f56c7f47c434d49f4e007d962760db2d1b07fed))
+
 ### [2.10.1](https://github.com/myparcelnl/actions/compare/v2.10.0...v2.10.1) (2022-07-28)
 
 
