@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.10.1](https://github.com/myparcelnl/actions/compare/v2.10.0...v2.10.1) (2022-07-28)
+
+
+### :bug: Bug Fixes
+
+* **rebase:** fix "no rebase in progress" error ([5553492](https://github.com/myparcelnl/actions/commit/55534927a8c68106af85c33ec9f302243ab43f25))
+
 ## [2.10.0](https://github.com/myparcelnl/actions/compare/v2.9.2...v2.10.0) (2022-07-26)
 
 
