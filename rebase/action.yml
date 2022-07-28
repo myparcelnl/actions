@@ -36,7 +36,7 @@ runs:
       id: rebase
       shell: bash
       run: |
-        git rebase "origin/${{ inputs.base }}" || echo '::set-output name=fail::true' && git rebase --abort
+        git rebase "origin/${{ inputs.base }}" || (echo '::set-output name=fail::true' && git rebase --abort)
 
     - name: 'Push'
       shell: bash
