@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.10.3](https://github.com/myparcelnl/actions/compare/v2.10.2...v2.10.3) (2022-07-29)
+
+
+### :bug: Bug Fixes
+
+* make reusable semantic release workflow use correct git token ([6a5c50d](https://github.com/myparcelnl/actions/commit/6a5c50d58b03ad7edcb487aab1f8c0bb29ea7411))
+
 ### [2.10.2](https://github.com/myparcelnl/actions/compare/v2.10.1...v2.10.2) (2022-07-28)
 
 
