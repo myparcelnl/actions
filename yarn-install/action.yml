@@ -13,17 +13,8 @@ runs:
     - uses: actions/setup-node@v3
       with:
         node-version: ${{ inputs.node-version }}
-
-    - name: 'Prepare node_modules cache'
-      uses: actions/cache@v3
-      id: cache
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-yarn-node_modules-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-node_modules-
+        cache: 'yarn'
 
     - name: 'Install yarn dependencies'
-      if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile
       shell: bash
