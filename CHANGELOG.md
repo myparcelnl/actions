@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0](https://github.com/myparcelnl/actions/compare/v2.10.3...v2.11.0) (2022-08-11)
+
+
+### :sparkles: New Features
+
+* **yarn2:** add yarn 2 install action ([d938245](https://github.com/myparcelnl/actions/commit/d938245cd4c1bf196a48f2834abf3c0d31244fa7))
+
 ### [2.10.3](https://github.com/myparcelnl/actions/compare/v2.10.2...v2.10.3) (2022-07-29)
 
 
