@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.11.2](https://github.com/myparcelnl/actions/compare/v2.11.1...v2.11.2) (2022-08-11)
+
+
+### :bug: Bug Fixes
+
+* **npm:** use cache from setup-node ([a9e9349](https://github.com/myparcelnl/actions/commit/a9e93492c4a5aa03d93e25bf844421b3ba66f213))
+* **pnpm:** use cache from setup-node ([8b08513](https://github.com/myparcelnl/actions/commit/8b08513f48365d260ddb09f6fc29cf77332dec5c))
+
 ### [2.11.1](https://github.com/myparcelnl/actions/compare/v2.11.0...v2.11.1) (2022-08-11)
 
 
