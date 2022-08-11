@@ -13,17 +13,9 @@ runs:
     - uses: actions/setup-node@v3
       with:
         node-version: ${{ inputs.node-version }}
-
-    - name: 'Prepare node_modules cache'
-      uses: actions/cache@v3
-      id: cache
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-npm-node_modules-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-npm-node_modules-
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
 
     - name: 'Install npm dependencies'
-      if: steps.cache.outputs.cache-hit != 'true'
       run: npm ci
       shell: bash
