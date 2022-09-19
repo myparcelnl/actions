@@ -28,7 +28,7 @@ runs:
 
     - run: |
         tag=$(git describe --tags --abbrev=0)
-        echo "::set-output name=previous::version=${tag}"
+        echo "::set-output name=previous-version::${tag}"
       id: previous-version
       shell: bash
 
