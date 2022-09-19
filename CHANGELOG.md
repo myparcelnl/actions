@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.12.2](https://github.com/myparcelnl/actions/compare/v2.12.1...v2.12.2) (2022-09-19)
+
+
+### :bug: Bug Fixes
+
+* **semantic-release:** run git fetch before getting tags ([68c5bd7](https://github.com/myparcelnl/actions/commit/68c5bd78441fc5320d44882032e24808cd69f1c5))
+
 ### [2.12.1](https://github.com/myparcelnl/actions/compare/v2.12.0...v2.12.1) (2022-09-19)
 
 
