@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.12.5](https://github.com/myparcelnl/actions/compare/v2.12.4...v2.12.5) (2022-09-19)
+
+
+### :bug: Bug Fixes
+
+* **semantic-release:** correctly set version output ([d9d2c1c](https://github.com/myparcelnl/actions/commit/d9d2c1cb9e7512df9bdda4ac8494231c59b1adfc))
+
 ### [2.12.4](https://github.com/myparcelnl/actions/compare/v2.12.3...v2.12.4) (2022-09-19)
 
 
