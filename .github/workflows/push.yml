@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    uses: myparcelnl/actions/.github/workflows/--semantic-release.yml@main
+    uses: ./.github/workflows/--semantic-release.yml
     secrets: inherit
 
 #  update-tags:
