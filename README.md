@@ -298,14 +298,24 @@ jobs using a registry.
 Run semantic release using the MyParcel bot. Requires npm dependencies to be
 installed.
 
+##### Outputs
+
+| name               | description                        | example |
+|--------------------|------------------------------------|---------|
+| `version`          | The new version                    | `1.2.3` |
+| `previous-version` | The previous version               | `1.2.2` |
+| `released`         | Whether a new version was released | `true`  |
+
 ##### Example
 
 ```yaml
 - uses: myparcelnl/actions/yarn-install@v2
 - uses: myparcelnl/actions/semantic-release@v2
+  id: release
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+- run: echo ${{ steps.release.outputs.version }}
 ```
 
 ### Git
