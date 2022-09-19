@@ -26,7 +26,13 @@ runs:
       with:
         token: ${{ inputs.token }}
 
-    - run: |
+    - name: 'Fetch tags'
+      run: |
+        git fetch --tags
+      shell: bash
+
+    - name: 'Get previous version'
+      run: |
         tag=$(git describe --tags --abbrev=0)
         echo "::set-output name=previous-version::${tag}"
       id: previous-version
@@ -38,13 +44,15 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
 
-    - run: |
+    - name: 'Get new version'
+      run: |
         tag=$(git describe --tags --abbrev=0)
         echo "::set-output name=version::${tag}"
       id: version
       shell: bash
 
-    - run: |
+    - name: 'Update outputs'
+      run: |
         if [ "${{ steps.previous-version.outputs.previous-version }}" == "${{ steps.version.outputs.version }}" ]; then
           echo "::set-output name=released::false"
           echo "::set-output name=version::"
