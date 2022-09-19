@@ -54,7 +54,7 @@ runs:
           echo "::set-output name=previous-version::${{ steps.previous-version.outputs.tag }}"
           echo "::set-output name=released::false"
         else
-          echo "::set-output name=version::${{ steps.version.outputs.tag }}"
+          echo "::set-output name=version::${{ steps.new-version.outputs.tag }}"
           echo "::set-output name=previous-version::${{ steps.previous-version.outputs.tag }}"
           echo "::set-output name=released::true"
         fi
