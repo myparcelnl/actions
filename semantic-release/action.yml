@@ -9,15 +9,15 @@ inputs:
 outputs:
   version:
     description: 'The new version'
-    value: ${{ steps.release.outputs.version }}
+    value: ${{ steps.post-release.outputs.version }}
 
   previous-version:
     description: 'The previous version'
-    value: ${{ steps.release.outputs.previous-version }}
+    value: ${{ steps.post-release.outputs.previous-version }}
 
   released:
     description: 'Whether a new version was released'
-    value: ${{ steps.release.outputs.released }}
+    value: ${{ steps.post-release.outputs.released }}
 
 runs:
   using: composite
@@ -29,7 +29,7 @@ runs:
     - name: 'Get previous version'
       run: |
         tag=$(git ls-remote --tags --sort="v:refname" | tail -n1 | sed 's/.*\///; s/\^{}//')
-        echo "::set-output name=previous-version::${tag}"
+        echo "::set-output name=tag::${tag}"
       id: previous-version
       shell: bash
 
@@ -42,16 +42,20 @@ runs:
     - name: 'Get new version'
       run: |
         tag=$(git describe --tags --abbrev=0)
-        echo "::set-output name=version::${tag}"
-      id: version
+        echo "::set-output name=tag::${tag}"
+      id: new-version
       shell: bash
 
-    - name: 'Update outputs'
+    - name: 'Prepare outputs'
+      id: post-release
       run: |
-        if [ "${{ steps.previous-version.outputs.previous-version }}" == "${{ steps.version.outputs.version }}" ]; then
-          echo "::set-output name=released::false"
+        if [ "${{ steps.previous-version.outputs.tag }}" == "${{ steps.new-version.outputs.tag }}" ]; then
           echo "::set-output name=version::"
+          echo "::set-output name=previous-version::${{ steps.previous-version.outputs.tag }}"
+          echo "::set-output name=released::false"
         else
+          echo "::set-output name=version::${{ steps.version.outputs.tag }}"
+          echo "::set-output name=previous-version::${{ steps.previous-version.outputs.tag }}"
           echo "::set-output name=released::true"
         fi
       shell: bash
