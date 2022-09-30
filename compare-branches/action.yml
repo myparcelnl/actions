@@ -1,0 +1,51 @@
+name: 'Compare branches'
+description: 'Check if there are new commits in head that are not in base'
+
+inputs:
+  base:
+    description: 'The base branch to compare against'
+    required: false
+    default: 'main'
+
+  head:
+    description: 'The branch to check for new commits'
+    required: false
+    default: 'develop'
+
+  remote:
+    description: 'The remote to use'
+    required: false
+    default: 'origin'
+
+outputs:
+  diff:
+    description: 'Whether the branches are different'
+    value: ${{ steps.compare.outputs.diff }}
+
+  commits:
+    description: 'List of commits in head that are not in base'
+    value: ${{ steps.compare.outputs.commits }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Compare branches'
+      id: compare
+      shell: bash
+      run: |
+        RANGE="${{ inputs.remote }}/${{ inputs.base }}..${{ inputs.remote }}/${{ inputs.head }}"
+        COMMITS="$(git rev-list --count $RANGE)"
+        
+        if [ $COMMITS -gt 0 ]; then
+          echo "::set-output name=diff::true"
+          echo "The following commits are in ${{ inputs.head }}, but not in ${{ inputs.base }}:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Summary | Commit |" >> $GITHUB_STEP_SUMMARY
+          echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+          git log --pretty=format:"| %s | [%h]($REPO_URL/commit/%H) |" $RANGE >> $GITHUB_STEP_SUMMARY
+        
+          echo "::set-output name=commits::$(git log --pretty=format:"• %s" $RANGE | jq -sR)"
+        else
+          echo "::set-output name=diff::false"
+          echo "There are no commits in ${{ inputs.head }} that are not in ${{ inputs.base }}" >> $GITHUB_STEP_SUMMARY
+        fi

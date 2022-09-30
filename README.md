@@ -26,6 +26,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
         - [setup-git-credentials](#setup-git-credentials)
         - [rebase](#rebase)
         - [update-tags](#update-tags)
+        - [compare-branches](#compare-branches)
 - [Workflows](#workflows)
     - [Semantic Release](#semantic-release-workflow)
 
@@ -399,6 +400,27 @@ If run with `minor: true`:
 If run without `minor: true`, or with `minor: false`:
 
 - Will add `v2` to the current commit.
+
+#### compare-branches
+
+[Source](compare-branches/action.yml)
+
+Check if there are new commits in head that are not in base.
+
+##### Inputs
+
+| Required | Name     | Description                         | Example           | Default   |
+|----------|----------|-------------------------------------|-------------------|-----------|
+| No       | `base`   | The base branch to compare against  | `main`            | `main`    |
+| No       | `head`   | The branch to check for new commits | `feat/my-feature` | `develop` |
+| No       | `remote` | The remote to use                   | `upstream`        | `origin`  |
+
+##### Outputs
+
+| Name      | Description                                  | Example            |
+|-----------|----------------------------------------------|--------------------|
+| `diff`    | Whether the branches are different           | `true`             |
+| `commits` | List of commits in head that are not in base | `• fix: fix a bug` |
 
 ## Workflows
 
