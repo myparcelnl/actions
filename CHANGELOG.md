@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.0](https://github.com/myparcelnl/actions/compare/v2.13.0...v2.14.0) (2022-09-30)
+
+
+### :sparkles: New Features
+
+* **semantic-release:** add write-summary option ([3b53fd0](https://github.com/myparcelnl/actions/commit/3b53fd0b54d015810ab0126f7e477f6425edb831))
+
 ## [2.13.0](https://github.com/myparcelnl/actions/compare/v2.12.5...v2.13.0) (2022-09-30)
 
 
