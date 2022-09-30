@@ -1,0 +1,35 @@
+name: 'Check if any release can be done'
+
+on:
+  schedule:
+    # Every Monday at 09:30
+    - cron: '30 9 * * 1'
+
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: 'Check if a release can be done'
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        repository: [ 'myparcelnl/woocommerce', 'myparcelnl/prestashop', 'myparcelnl/magento' ]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ matrix.repository }}
+          fetch-depth: 0
+
+      - uses: myparcelnl/actions/compare-branches@v2
+        id: compare
+
+      - uses: slackapi/slack-github-action@v1.22.0
+        if: steps.compare.outputs.diff == 'true'
+        with:
+          payload: |
+            {
+              "repository": "${{ matrix.repository }}",
+              "text": ${{ steps.compare.outputs.commits }}
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_RELEASE }}
