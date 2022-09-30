@@ -6,6 +6,15 @@ inputs:
     description: 'GitHub Personal access token'
     required: true
 
+  semantic-release-args:
+    description: 'Semantic release arguments'
+    required: false
+
+  write-summary:
+    description: 'Write a summary to the GitHub action output'
+    required: false
+    default: 'false'
+
 outputs:
   version:
     description: 'The new version'
@@ -34,7 +43,7 @@ runs:
       shell: bash
 
     - name: 'Run semantic release'
-      run: npx semantic-release
+      run: npx semantic-release ${{ inputs.semantic-release-args }}
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
@@ -59,3 +68,24 @@ runs:
           echo "::set-output name=released::true"
         fi
       shell: bash
+
+    - name: 'Write job summary'
+      if: ${{ inputs.write-summary == 'true' }}
+      shell: bash
+      run: |
+        REPO_URL="https://github.com/${{ github.repository }}"
+        NEW_VER=${{ steps.post-release.outputs.version }}
+
+        echo "# Release summary" >> $GITHUB_STEP_SUMMARY
+
+        if [ "${{ steps.post-release.outputs.released }}" == "true" ]; then
+          echo "A new version was released: [$NEW_VER]($REPO_URL/releases/tag/$NEW_VER)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Commits in this release" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Summary | Commit |" >> $GITHUB_STEP_SUMMARY
+          echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+          git log --pretty=format:"| %s | [%h]($REPO_URL/commit/%H) |" ${{ steps.post-release.outputs.previous-version }}..${{ steps.post-release.outputs.version }} >> $GITHUB_STEP_SUMMARY
+        else
+          echo "No new version was released." >> $GITHUB_STEP_SUMMARY
+        fi
