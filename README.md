@@ -428,10 +428,11 @@ Check if there are new commits in head that are not in base.
 
 ##### Outputs
 
-| Name      | Description                                  | Example            |
-|-----------|----------------------------------------------|--------------------|
-| `diff`    | Whether the branches are different           | `true`             |
-| `commits` | List of commits in head that are not in base | `• fix: fix a bug` |
+| Name          | Description                                  | Example                                                           |
+|---------------|----------------------------------------------|-------------------------------------------------------------------|
+| `diff`        | Whether the branches are different           | `true`                                                            |
+| `commits`     | List of commits in head that are not in base | `• fix: fix a bug (3 days ago)`                                   |
+| `compare-url` | Link to the compare view of both commits     | `https://github.com/myparcelnl/woocommerce/compare/main..develop` |
 
 ## Workflows
 

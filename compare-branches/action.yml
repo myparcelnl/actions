@@ -26,6 +26,10 @@ outputs:
     description: 'List of commits in head that are not in base'
     value: ${{ steps.compare.outputs.commits }}
 
+  compare-url:
+    description: 'Link to the compare view of both commits'
+    value: ${{ steps.compare.outputs.compare-url }}
+
 runs:
   using: 'composite'
   steps:
@@ -35,17 +39,24 @@ runs:
       run: |
         RANGE="${{ inputs.remote }}/${{ inputs.base }}..${{ inputs.remote }}/${{ inputs.head }}"
         COMMITS="$(git rev-list --count $RANGE)"
-        
+        BASE_URL="https://github.com/${{ github.repository }}"
+        COMPARE_URL="${BASE_URL}/compare/${{ inputs.base }}...${{ inputs.head }}"
+        HEAD_URL="${BASE_URL}/tree/${{ inputs.head }}"
+        BASE_URL="${BASE_URL}/tree/${{ inputs.base }}"
+
         if [ $COMMITS -gt 0 ]; then
           echo "::set-output name=diff::true"
-          echo "The following commits are in ${{ inputs.head }}, but not in ${{ inputs.base }}:" >> $GITHUB_STEP_SUMMARY
+          echo "The following commits are in [${{ inputs.head }}]($HEAD_URL), but not in [${{ inputs.base }}]($BASE_URL):" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Summary | Commit |" >> $GITHUB_STEP_SUMMARY
-          echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
-          git log --pretty=format:"| %s | [%h]($REPO_URL/commit/%H) |" $RANGE >> $GITHUB_STEP_SUMMARY
-        
-          echo "::set-output name=commits::$(git log --pretty=format:"• %s" $RANGE | jq -sR)"
+          echo "| Summary | Commit | Date |" >> $GITHUB_STEP_SUMMARY
+          echo "| --- | --- | --- |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[Compare]($COMPARE_URL)" >> $GITHUB_STEP_SUMMARY
+          git log --pretty=format:"| %s | [%h]($REPO_URL/commit/%H) | %ar |" $RANGE >> $GITHUB_STEP_SUMMARY
+
+          echo "::set-output name=commits::$(git log --pretty=format:"• %s (%ar)" $RANGE | jq -sR)"
+          echo "::set-output name=compare-url::$COMPARE_URL"
         else
           echo "::set-output name=diff::false"
-          echo "There are no commits in ${{ inputs.head }} that are not in ${{ inputs.base }}" >> $GITHUB_STEP_SUMMARY
+          echo "There are no commits in [${{ inputs.head }}]($HEAD_URL) that are not in [${{ inputs.base }}]($BASE_URL)" >> $GITHUB_STEP_SUMMARY
         fi
