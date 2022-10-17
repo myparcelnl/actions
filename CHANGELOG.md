@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.15.1](https://github.com/myparcelnl/actions/compare/v2.15.0...v2.15.1) (2022-10-17)
+
+
+### :bug: Bug Fixes
+
+* resolve set-output deprecation notices ([eb05847](https://github.com/myparcelnl/actions/commit/eb058478c5ce877830ae2b3e6f01e560ca803183))
+
 ## [2.15.0](https://github.com/myparcelnl/actions/compare/v2.14.0...v2.15.0) (2022-10-17)
 
 
