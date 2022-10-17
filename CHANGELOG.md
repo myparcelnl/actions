@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.0](https://github.com/myparcelnl/actions/compare/v2.14.0...v2.15.0) (2022-10-17)
+
+
+### :sparkles: New Features
+
+* **compare-branches:** add date to commits and add compare-url output ([e63e1e9](https://github.com/myparcelnl/actions/commit/e63e1e9105d4f85705a789b317d806261e009be9))
+
 ## [2.14.0](https://github.com/myparcelnl/actions/compare/v2.13.0...v2.14.0) (2022-09-30)
 
 
