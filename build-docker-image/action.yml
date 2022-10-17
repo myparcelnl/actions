@@ -53,9 +53,9 @@ runs:
         IMAGE=$(echo ${{ inputs.image }})
         ARGS=$(echo ${{ inputs.docker-args }} | shasum | head -c 40)
         TAG=$(echo $GITHUB_SHA | head -c7)
-        echo ::set-output name=args::${ARGS}
-        echo ::set-output name=tag::${TAG}
-        echo ::set-output name=tagged-image::${IMAGE}:${TAG}
+        echo "args=${ARGS}" >> $GITHUB_OUTPUT
+        echo "tag=${TAG}" >> $GITHUB_OUTPUT
+        echo "tagged-image=${IMAGE}:${TAG}" >> $GITHUB_OUTPUT
       shell: bash
 
     - uses: satackey/action-docker-layer-caching@v0.0.11

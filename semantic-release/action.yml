@@ -38,7 +38,7 @@ runs:
     - name: 'Get previous version'
       run: |
         tag=$(git ls-remote --tags --sort="v:refname" | tail -n1 | sed 's/.*\///; s/\^{}//')
-        echo "::set-output name=tag::${tag}"
+        echo "tag=${tag}" >> $GITHUB_OUTPUT
       id: previous-version
       shell: bash
 
@@ -51,7 +51,7 @@ runs:
     - name: 'Get new version'
       run: |
         tag=$(git describe --tags --abbrev=0)
-        echo "::set-output name=tag::${tag}"
+        echo "tag=${tag}" >> $GITHUB_OUTPUT
       id: new-version
       shell: bash
 
@@ -59,13 +59,13 @@ runs:
       id: post-release
       run: |
         if [ "${{ steps.previous-version.outputs.tag }}" == "${{ steps.new-version.outputs.tag }}" ]; then
-          echo "::set-output name=version::"
-          echo "::set-output name=previous-version::${{ steps.previous-version.outputs.tag }}"
-          echo "::set-output name=released::false"
+          echo "version=" >> $GITHUB_OUTPUT
+          echo "previous-version=${{ steps.previous-version.outputs.tag }}" >> $GITHUB_OUTPUT
+          echo "released=false" >> $GITHUB_OUTPUT
         else
-          echo "::set-output name=version::${{ steps.new-version.outputs.tag }}"
-          echo "::set-output name=previous-version::${{ steps.previous-version.outputs.tag }}"
-          echo "::set-output name=released::true"
+          echo "version=${{ steps.new-version.outputs.tag }}" >> $GITHUB_OUTPUT
+          echo "previous-version=${{ steps.previous-version.outputs.tag }}" >> $GITHUB_OUTPUT
+          echo "released=true" >> $GITHUB_OUTPUT
         fi
       shell: bash
 
