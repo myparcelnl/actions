@@ -125,7 +125,15 @@ For use with Yarn 2 (berry).
 - uses: myparcelnl/actions/yarn2-install@v2
   with:
     node-version: 16
+    yarn-args: --immutable --immutable-cache
 ```
+
+##### Inputs
+
+| required | name           | description                        | Example                         | Default |
+|----------|----------------|------------------------------------|---------------------------------|---------|
+| No       | `node-version` | The Node.js version to use         | `16`                            | `16`    |
+| No       | `yarn-args`    | Arguments to use with yarn install | `--immutable --immutable-cache` | ` `     |
 
 #### pnpm-install
 
