@@ -8,7 +8,7 @@ module.exports = {
   plugins: [
     ...baseConfig.plugins,
     addExecPlugin({
-      prepare: 'node build.js',
+      prepare: 'yarn compile && yarn build',
     }),
     addGitPlugin({
       assets: [...gitPluginDefaults.assets, './**/dist/*.js'],
