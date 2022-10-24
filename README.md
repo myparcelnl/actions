@@ -99,7 +99,14 @@ For use with Yarn 1.
 - uses: myparcelnl/actions/yarn-install@v2
   with:
     node-version: 16
+    yarn-args: --frozen-lockfile --ignore-scripts
 ```
+##### Inputs
+
+| required | name           | description                        | Example                              | Default |
+|----------|----------------|------------------------------------|--------------------------------------|---------|
+| No       | `node-version` | The Node.js version to use         | `16`                                 | `16`    |
+| No       | `yarn-args`    | Arguments to use with yarn install | `--frozen-lockfile --ignore-scripts` | ` `     |
 
 #### yarn2-install
 

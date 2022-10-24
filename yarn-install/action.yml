@@ -1,10 +1,15 @@
-name: Install yarn dependencies
-description: Install yarn dependencies from scratch or from cache
+name: 'Install yarn dependencies'
+description: 'Install yarn dependencies from scratch or from cache'
 
 inputs:
   node-version:
     description: 'The Node.js version to use'
     default: '16'
+    required: false
+
+  yarn-args:
+    description: 'Arguments to use with yarn install'
+    default: '--frozen-lockfile'
     required: false
 
 runs:
@@ -16,5 +21,5 @@ runs:
         cache: 'yarn'
 
     - name: 'Install yarn dependencies'
-      run: yarn install --frozen-lockfile
+      run: yarn install ${{ inputs.yarn-args }}
       shell: bash
