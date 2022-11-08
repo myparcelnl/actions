@@ -23,7 +23,7 @@ jobs:
       - uses: myparcelnl/actions/compare-branches@v2
         id: compare
 
-      - uses: slackapi/slack-github-action@v1.22.0
+      - uses: slackapi/slack-github-action@v1.23.0
         if: steps.compare.outputs.diff == 'true'
         with:
           payload: |
