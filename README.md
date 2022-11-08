@@ -27,6 +27,8 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
         - [rebase](#rebase)
         - [update-tags](#update-tags)
         - [compare-branches](#compare-branches)
+    - [Miscellaneous](#miscellaneous)
+        - [cache-nx](#cache-nx)
 - [Workflows](#workflows)
     - [Semantic Release](#semantic-release-workflow)
 
@@ -101,6 +103,7 @@ For use with Yarn 1.
     node-version: 16
     yarn-args: --frozen-lockfile --ignore-scripts
 ```
+
 ##### Inputs
 
 | required | name           | description                        | Example                              | Default |
@@ -448,6 +451,30 @@ Check if there are new commits in head that are not in base.
 | `diff`        | Whether the branches are different           | `true`                                                            |
 | `commits`     | List of commits in head that are not in base | `• fix: fix a bug (3 days ago)`                                   |
 | `compare-url` | Link to the compare view of both commits     | `https://github.com/myparcelnl/woocommerce/compare/main..develop` |
+
+### Miscellaneous
+
+#### cache-nx
+
+[Source](cache-nx/action.yml)
+
+Save and restore the [Nx](https://nx.dev/) cache. Defaults to using `yarn.lock` for cache busting, use the `lockfile` input to override this.
+
+1. Runs [actions/cache] and caches `./node_modules/.cache/nx`
+
+##### Inputs
+
+| Required | Name       | Description          | Example             | Default     |
+|----------|------------|----------------------|---------------------|-------------|
+| No       | `lockfile` | Path to the lockfile | `package-lock.json` | `yarn.lock` |
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/cache-nx@v2
+  with:
+    lockfile: package-lock.json
+```
 
 ## Workflows
 
