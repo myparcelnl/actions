@@ -19,6 +19,11 @@ inputs:
     required: false
     default: 'false'
 
+  remote:
+    description: 'The remote to use'
+    required: false
+    default: 'origin'
+
 runs:
   using: composite
   steps:
@@ -36,7 +41,7 @@ runs:
       id: rebase
       shell: bash
       run: |
-        git rebase "origin/${{ inputs.base }}" || (echo "fail=true" >> $GITHUB_OUTPUT && git rebase --abort)
+        git rebase "${{ inputs.remote }}/${{ inputs.base }}" || (echo "fail=true" >> $GITHUB_OUTPUT && git rebase --abort)
 
     - name: 'Push'
       shell: bash

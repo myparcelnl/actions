@@ -375,12 +375,13 @@ Rebase two branches and push.
 
 ##### Inputs
 
-| required | name     | description                          | Example                        | Default |
-|----------|----------|--------------------------------------|--------------------------------|---------|
-| Yes      | `target` | Target branch you wish to update.    | `develop`                      | –       |
-| Yes      | `base`   | Base branch to use to rebase target. | `main`                         | –       |
-| Yes      | `token`  | GitHub token to use.                 | `${{ secrets.GH_REPO_TOKEN }}` | –       |
-| No       | `force`  | Force push.                          | `true`                         | `false` |
+| required | name     | description                          | Example                        | Default  |
+|----------|----------|--------------------------------------|--------------------------------|----------|
+| Yes      | `target` | Target branch you wish to update.    | `develop`                      | –        |
+| Yes      | `base`   | Base branch to use to rebase target. | `main`                         | –        |
+| Yes      | `token`  | GitHub token to use.                 | `${{ secrets.GH_REPO_TOKEN }}` | –        |
+| No       | `force`  | Force push.                          | `true`                         | `false`  |
+| No       | `remote` | The remote to use                    | `upstream`                     | `origin` |
 
 ##### Example
 
@@ -391,6 +392,7 @@ Rebase two branches and push.
     base: main
     target: develop
     force: true
+    remote: upstream
 ```
 
 #### update-tags
