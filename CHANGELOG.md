@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.0](https://github.com/myparcelnl/actions/compare/v2.17.0...v2.18.0) (2022-11-10)
+
+
+### :sparkles: New Features
+
+* **rebase:** add remote input ([fbfa896](https://github.com/myparcelnl/actions/commit/fbfa896f90a09956c20f020eb3fb31acd4929bf8))
+
 ## [2.17.0](https://github.com/myparcelnl/actions/compare/v2.16.0...v2.17.0) (2022-11-08)
 
 
