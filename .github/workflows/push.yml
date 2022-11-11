@@ -15,9 +15,11 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: ./semantic-release
-        with:
-          token: ${{ secrets.GH_REPO_TOKEN || secrets.GITHUB_TOKEN }}
+      - uses: ./yarn2-install
+
+      - run: yarn semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN || secrets.GITHUB_TOKEN }}
 
       - uses: ./update-tags
         with:

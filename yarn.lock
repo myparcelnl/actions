@@ -229,6 +229,7 @@ __metadata:
     eslint: ^8.27.0
     eslint-plugin-prettier: ^4.2.1
     prettier: ^2.7.1
+    semantic-release: ^19.0.5
     semver: ^7.3.8
     tsup: ^6.3.0
     typescript: ^4.8.4
@@ -4883,7 +4884,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semantic-release@npm:^19.0.3":
+"semantic-release@npm:^19.0.3, semantic-release@npm:^19.0.5":
   version: 19.0.5
   resolution: "semantic-release@npm:19.0.5"
   dependencies:

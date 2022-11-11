@@ -2183,6 +2183,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.27.0"],\
             ["eslint-plugin-prettier", "virtual:68d8e4f01bec7e75582dd25083566ef67a7f776caec990fbb57fcabd1f40a7dd15ac376aa96d109f4973f0b5805ccd01bed44fde27c5b2f77ed168d9c994f363#npm:4.2.1"],\
             ["prettier", "npm:2.7.1"],\
+            ["semantic-release", "npm:19.0.5"],\
             ["semver", "npm:7.3.8"],\
             ["tsup", "virtual:68d8e4f01bec7e75582dd25083566ef67a7f776caec990fbb57fcabd1f40a7dd15ac376aa96d109f4973f0b5805ccd01bed44fde27c5b2f77ed168d9c994f363#npm:6.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=701156"]\
@@ -2445,6 +2446,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.27.0"],\
             ["eslint-plugin-prettier", "virtual:68d8e4f01bec7e75582dd25083566ef67a7f776caec990fbb57fcabd1f40a7dd15ac376aa96d109f4973f0b5805ccd01bed44fde27c5b2f77ed168d9c994f363#npm:4.2.1"],\
             ["prettier", "npm:2.7.1"],\
+            ["semantic-release", "npm:19.0.5"],\
             ["semver", "npm:7.3.8"],\
             ["tsup", "virtual:68d8e4f01bec7e75582dd25083566ef67a7f776caec990fbb57fcabd1f40a7dd15ac376aa96d109f4973f0b5805ccd01bed44fde27c5b2f77ed168d9c994f363#npm:6.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=701156"]\
