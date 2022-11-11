@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.1](https://github.com/myparcelnl/actions/compare/v2.18.0...v2.18.1) (2022-11-11)
+
+
+### :bug: Bug Fixes
+
+* **update-tags:** update correct commit ([bb20c9d](https://github.com/myparcelnl/actions/commit/bb20c9d3a67ead6c9cdf127e067c9dccc27c099f))
+
 ## [2.18.0](https://github.com/myparcelnl/actions/compare/v2.17.0...v2.18.0) (2022-11-10)
 
 
