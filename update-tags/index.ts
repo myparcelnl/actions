@@ -1,16 +1,14 @@
-const core = require('@actions/core');
-
-const { major, minor, prerelease, valid } = require('semver');
-const { spawn } = require('child_process');
-const os = require('os');
+/* eslint-disable no-continue */
+import * as core from '@actions/core';
+import {major, minor, prerelease, valid} from 'semver';
+import os from 'node:os';
+import {spawn} from 'node:child_process';
 
 const remoteRepo = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 
 const run = (command, args): Promise<string> => {
   return new Promise((resolve, reject) => {
-    if (core.isDebug()) {
-      core.info(`Running "${command}" with args: ${JSON.stringify(args)}`);
-    }
+    core.debug(`> ${command} ${args.join(' ')}`);
 
     const child = spawn(command, args);
     let content = '';
@@ -20,17 +18,18 @@ const run = (command, args): Promise<string> => {
       reject(error);
     });
 
-    child.stderr.on('data', (chunk) => errors.push(chunk));
+    child.stderr.on('data', (chunk) => {
+      core.error(chunk.toString());
+      errors.push(chunk);
+    });
+
     child.stdout.on('data', (chunk) => {
+      core.debug(chunk.toString());
       content += chunk.toString();
     });
 
     child.on('exit', (code) => {
       if (code === 0) {
-        if (core.isDebug()) {
-          core.info('Result: ' + content.trim());
-        }
-
         resolve(content.trim());
       } else {
         reject(new Error(`${errors.join('')}${os.EOL}${command} exited with code ${code}`));
@@ -58,11 +57,13 @@ const findPreviousTag = async (): Promise<string | null> => {
   return null;
 };
 
-const updateTags = async() => {
+const updateTags = async (): Promise<void> => {
   const version = await findPreviousTag();
 
-  const updateMajor = core.getBooleanInput('major');
-  const updateMinor = core.getBooleanInput('minor');
+  if (!version) {
+    core.info('No previous tag found, skipping tag update');
+    return;
+  }
 
   if (prerelease(version)) {
     core.info('Prerelease version detected; will not add a major version tag.');
@@ -70,6 +71,8 @@ const updateTags = async() => {
   }
 
   const versionTags = [];
+  const updateMajor = core.getBooleanInput('major');
+  const updateMinor = core.getBooleanInput('minor');
 
   if (updateMajor) {
     versionTags.push(major(version));
@@ -81,33 +84,32 @@ const updateTags = async() => {
 
   const ref = await run('git', ['show-ref', '-s', version]);
 
-  await Promise.all(versionTags.map(async tag => {
-    const tagName = `v${tag}`.trim();
+  await Promise.all(
+    versionTags.map(async (tag) => {
+      const tagName = `v${tag}`.trim();
+      const exists = Boolean(await run('git', ['ls-remote', remoteRepo, tagName]));
 
-    const exists = await run('git', ['tag', '-l', tag]);
+      if (exists) {
+        core.info(`Deleting tag "${tagName}"`);
+        await run('git', ['push', remoteRepo, `:refs/tags/${tagName}`]);
+      }
 
-    console.log(exists);
+      if (exists) {
+        core.info(`Moving tag "${tagName}" to ${ref}`);
+      } else {
+        core.info(`Creating new tag "${tagName}" on ${ref}`);
+      }
 
-    if (exists) {
-      core.info(`Deleting tag "${tagName}"`);
-      // await run('git', ['push', remoteRepo, `:refs/tags/v${tagName}`]);
-    }
-
-    if (exists) {
-      core.info(`Moving tag "${tagName}" to ${ref}`);
-    } else {
-      core.info(`Creating new tag "${tagName}" on ${ref}`);
-    }
-
-    // await run('git', ['tag', '--force', `v${tagName}`, ref]);
-  }));
+      await run('git', ['tag', '--force', `${tagName}`, ref]);
+    }),
+  );
 
   core.info('Pushing tags');
-  // await run('git', ['push', remoteRepo, '--tags']);
+  await run('git', ['push', remoteRepo, '--tags']);
 };
 
 try {
-  updateTags();
+  void updateTags();
 } catch (e) {
   core.setFailed(e.message);
 }
