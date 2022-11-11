@@ -6,7 +6,7 @@ const os = require('os');
 
 const remoteRepo = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 
-const run = (command, args) => {
+const run = (command, args): Promise<string> => {
   return new Promise((resolve, reject) => {
     if (core.isDebug()) {
       core.info(`Running "${command}" with args: ${JSON.stringify(args)}`);
@@ -39,17 +39,30 @@ const run = (command, args) => {
   });
 };
 
+const findPreviousTag = async (): Promise<string | null> => {
+  const tagsString = await run('git', ['rev-list', 'HEAD']);
+  const revisions = tagsString.split('\n');
+
+  for (const revision of revisions) {
+    const tags = await run('git', ['tag', '--points-at', revision]);
+
+    for (const tag of tags.split('\n')) {
+      if (!valid(tag)) {
+        continue;
+      }
+
+      return tag;
+    }
+  }
+
+  return null;
+};
+
 const updateTags = async() => {
-  const lastTagRef = await run('git', ['rev-list', '--tags', '--max-count=1']);
-  const version = await run('git', ['describe', '--tags', lastTagRef]);
+  const version = await findPreviousTag();
 
   const updateMajor = core.getBooleanInput('major');
   const updateMinor = core.getBooleanInput('minor');
-
-  if (!valid(version)) {
-    core.error('Passed version "' + version + '" is not valid.');
-    return;
-  }
 
   if (prerelease(version)) {
     core.info('Prerelease version detected; will not add a major version tag.');
@@ -77,7 +90,7 @@ const updateTags = async() => {
 
     if (exists) {
       core.info(`Deleting tag "${tagName}"`);
-      await run('git', ['push', remoteRepo, `:refs/tags/v${tagName}`]);
+      // await run('git', ['push', remoteRepo, `:refs/tags/v${tagName}`]);
     }
 
     if (exists) {
@@ -86,11 +99,11 @@ const updateTags = async() => {
       core.info(`Creating new tag "${tagName}" on ${ref}`);
     }
 
-    await run('git', ['tag', '--force', `v${tagName}`, ref]);
+    // await run('git', ['tag', '--force', `v${tagName}`, ref]);
   }));
 
   core.info('Pushing tags');
-  await run('git', ['push', remoteRepo, '--tags']);
+  // await run('git', ['push', remoteRepo, '--tags']);
 };
 
 try {
