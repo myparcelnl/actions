@@ -7,20 +7,22 @@ on:
 
 jobs:
   release:
-    uses: ./.github/workflows/--semantic-release.yml
-    secrets: inherit
+    name: 'Release'
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
-#  update-tags:
-#    name: 'Update tags'
-#    needs: release
-#    runs-on: ubuntu-22.04
-#    steps:
-#      - uses: actions/checkout@v3
-#        with:
-#          fetch-depth: 10
-#
-#      - uses: myparcelnl/actions/update-tags@main
-#        with:
-#          minor: true
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
+      - uses: ./yarn-install
+
+      - uses: ./semantic-release
+        with:
+          token: ${{ secrets.GH_REPO_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - uses: ./update-tags
+        with:
+          minor: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN || secrets.GITHUB_TOKEN }}
