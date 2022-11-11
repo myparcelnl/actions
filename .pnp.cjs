@@ -288,7 +288,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],\
       [\
         "@types/node",\
-        "npm:16.18.3"\
+        "npm:18.11.9"\
       ],\
       [\
         "@types/normalize-package-data",\
@@ -2178,7 +2178,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@myparcel-eslint/eslint-config-prettier-typescript", "npm:1.0.0-alpha.8"],\
             ["@myparcel/prettier-config", "npm:1.1.0"],\
             ["@myparcel/semantic-release-config", "npm:4.0.0"],\
-            ["@types/node", "npm:16.18.3"],\
+            ["@types/node", "npm:18.11.9"],\
             ["@typescript-eslint/eslint-plugin", "virtual:68d8e4f01bec7e75582dd25083566ef67a7f776caec990fbb57fcabd1f40a7dd15ac376aa96d109f4973f0b5805ccd01bed44fde27c5b2f77ed168d9c994f363#npm:5.42.1"],\
             ["eslint", "npm:8.27.0"],\
             ["eslint-plugin-prettier", "virtual:68d8e4f01bec7e75582dd25083566ef67a7f776caec990fbb57fcabd1f40a7dd15ac376aa96d109f4973f0b5805ccd01bed44fde27c5b2f77ed168d9c994f363#npm:4.2.1"],\
@@ -2440,7 +2440,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@myparcel-eslint/eslint-config-prettier-typescript", "npm:1.0.0-alpha.8"],\
             ["@myparcel/prettier-config", "npm:1.1.0"],\
             ["@myparcel/semantic-release-config", "npm:4.0.0"],\
-            ["@types/node", "npm:16.18.3"],\
+            ["@types/node", "npm:18.11.9"],\
             ["@typescript-eslint/eslint-plugin", "virtual:68d8e4f01bec7e75582dd25083566ef67a7f776caec990fbb57fcabd1f40a7dd15ac376aa96d109f4973f0b5805ccd01bed44fde27c5b2f77ed168d9c994f363#npm:5.42.1"],\
             ["eslint", "npm:8.27.0"],\
             ["eslint-plugin-prettier", "virtual:68d8e4f01bec7e75582dd25083566ef67a7f776caec990fbb57fcabd1f40a7dd15ac376aa96d109f4973f0b5805ccd01bed44fde27c5b2f77ed168d9c994f363#npm:4.2.1"],\
@@ -3174,10 +3174,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/node", [\
-        ["npm:16.18.3", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-16.18.3-a539bbae75-6b8ba2ea5d.zip/node_modules/@types/node/",\
+        ["npm:18.11.9", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-18.11.9-d21dd6ec05-cc0aae109e.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:16.18.3"]\
+            ["@types/node", "npm:18.11.9"]\
           ],\
           "linkType": "HARD"\
         }]\
