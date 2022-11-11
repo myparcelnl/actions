@@ -15,8 +15,6 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: ./yarn-install
-
       - uses: ./semantic-release
         with:
           token: ${{ secrets.GH_REPO_TOKEN || secrets.GITHUB_TOKEN }}

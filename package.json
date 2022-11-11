@@ -11,22 +11,50 @@
   "bugs": {
     "url": "https://github.com/myparcelnl/actions/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/myparcelnl/actions.git"
-  },
+  "repository": "github:myparcelnl/actions",
   "license": "MIT",
   "author": "Edie Lemoine <edie@myparcel.nl>",
   "scripts": {
     "build": "node dist/build.js",
-    "compile": "tsup private/build.ts --external tsup"
+    "compile": "tsup private/build.ts --external tsup --target node16",
+    "test:update-tags": "INPUT_MAJOR=true INPUT_MINOR=true node update-tags/dist/index.js"
+  },
+  "prettier": "@myparcel/prettier-config",
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": "latest"
+    },
+    "extends": [
+      "@myparcel-eslint/eslint-config-node",
+      "@myparcel-eslint/eslint-config-esnext"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "./**/*.ts"
+        ],
+        "extends": "@myparcel-eslint/eslint-config-prettier-typescript"
+      }
+    ],
+    "root": true
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "semver": "^7.3.8"
   },
   "devDependencies": {
-    "@actions/core": "^1.10.0",
+    "@myparcel-eslint/eslint-config-esnext": "^1.0.0-alpha.2",
+    "@myparcel-eslint/eslint-config-node": "^1.0.0-alpha.2",
+    "@myparcel-eslint/eslint-config-prettier-typescript": "^1.0.0-alpha.7",
+    "@myparcel/prettier-config": "^1.1.0",
     "@myparcel/semantic-release-config": "^4.0.0",
     "@types/node": "^16.18.0",
-    "semver": "^7.3.8",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "eslint": "^8.27.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
     "tsup": "^6.3.0",
     "typescript": "^4.8.4"
-  }
+  },
+  "packageManager": "yarn@3.2.4"
 }
