@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.3](https://github.com/myparcelnl/actions/compare/v2.18.2...v2.18.3) (2022-11-16)
+
+
+### :bug: Bug Fixes
+
+* **cache-nx:** fix syntax error ([3aed8f3](https://github.com/myparcelnl/actions/commit/3aed8f3d52e276828a18ac6cc8d1532b5e72f6b3))
+
 ## [2.18.2](https://github.com/myparcelnl/actions/compare/v2.18.1...v2.18.2) (2022-11-11)
 
 
