@@ -92,7 +92,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],\
       [\
         "@myparcel-eslint/eslint-config-esnext",\
-        "npm:1.0.0-alpha.7"\
+        "npm:1.2.0"\
       ],\
       [\
         "@myparcel-eslint/eslint-config-node",\
@@ -2173,7 +2173,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["@actions/core", "npm:1.10.0"],\
-            ["@myparcel-eslint/eslint-config-esnext", "npm:1.0.0-alpha.7"],\
+            ["@myparcel-eslint/eslint-config-esnext", "npm:1.2.0"],\
             ["@myparcel-eslint/eslint-config-node", "npm:1.0.0-alpha.6"],\
             ["@myparcel-eslint/eslint-config-prettier-typescript", "npm:1.0.0-alpha.8"],\
             ["@myparcel/prettier-config", "npm:1.1.0"],\
@@ -2354,6 +2354,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.27.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/cache/@myparcel-eslint-eslint-config-npm-1.2.0-e3bae21fa8-b60fbce24a.zip/node_modules/@myparcel-eslint/eslint-config/",\
+          "packageDependencies": [\
+            ["@myparcel-eslint/eslint-config", "npm:1.2.0"],\
+            ["eslint", "npm:8.27.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@myparcel-eslint/eslint-config-es6", [\
@@ -2365,6 +2373,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.27.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/cache/@myparcel-eslint-eslint-config-es6-npm-1.2.0-e4c81629e5-ab4c5bafab.zip/node_modules/@myparcel-eslint/eslint-config-es6/",\
+          "packageDependencies": [\
+            ["@myparcel-eslint/eslint-config-es6", "npm:1.2.0"],\
+            ["@myparcel-eslint/eslint-config", "npm:1.2.0"],\
+            ["eslint", "npm:8.27.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@myparcel-eslint/eslint-config-esnext", [\
@@ -2373,6 +2390,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@myparcel-eslint/eslint-config-esnext", "npm:1.0.0-alpha.7"],\
             ["@myparcel-eslint/eslint-config-es6", "npm:1.0.0-alpha.7"],\
+            ["eslint", "npm:8.27.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/cache/@myparcel-eslint-eslint-config-esnext-npm-1.2.0-b91a7de6b5-e34388a349.zip/node_modules/@myparcel-eslint/eslint-config-esnext/",\
+          "packageDependencies": [\
+            ["@myparcel-eslint/eslint-config-esnext", "npm:1.2.0"],\
+            ["@myparcel-eslint/eslint-config-es6", "npm:1.2.0"],\
             ["eslint", "npm:8.27.0"]\
           ],\
           "linkType": "HARD"\
@@ -2436,7 +2462,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@myparcel/actions", "workspace:."],\
             ["@actions/core", "npm:1.10.0"],\
-            ["@myparcel-eslint/eslint-config-esnext", "npm:1.0.0-alpha.7"],\
+            ["@myparcel-eslint/eslint-config-esnext", "npm:1.2.0"],\
             ["@myparcel-eslint/eslint-config-node", "npm:1.0.0-alpha.6"],\
             ["@myparcel-eslint/eslint-config-prettier-typescript", "npm:1.0.0-alpha.8"],\
             ["@myparcel/prettier-config", "npm:1.1.0"],\

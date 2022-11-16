@@ -147,13 +147,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@myparcel-eslint/eslint-config-esnext@npm:^1.0.0-alpha.2, @myparcel-eslint/eslint-config-esnext@npm:^1.0.0-alpha.7":
+"@myparcel-eslint/eslint-config-es6@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@myparcel-eslint/eslint-config-es6@npm:1.2.0"
+  dependencies:
+    "@myparcel-eslint/eslint-config": ^1.2.0
+    eslint: "*"
+  checksum: ab4c5bafab31ccbba89971e71f2d006a1707a0181bffc3bbb9509893ca6c23426cf967fb110b80856e85a84545a3eb759ee7f5c2055c9737db5fcfa6e0d52e30
+  languageName: node
+  linkType: hard
+
+"@myparcel-eslint/eslint-config-esnext@npm:^1.0.0-alpha.7":
   version: 1.0.0-alpha.7
   resolution: "@myparcel-eslint/eslint-config-esnext@npm:1.0.0-alpha.7"
   dependencies:
     "@myparcel-eslint/eslint-config-es6": ^1.0.0-alpha.7
     eslint: "*"
   checksum: 57c67916150ff39fbee44530eae7f7798c254189a29823ccae3b1d7775eba4d6c771561535017a2dafed7b2a65019093a29092c276ee868cd8e72fd1c8a1b842
+  languageName: node
+  linkType: hard
+
+"@myparcel-eslint/eslint-config-esnext@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@myparcel-eslint/eslint-config-esnext@npm:1.2.0"
+  dependencies:
+    "@myparcel-eslint/eslint-config-es6": ^1.2.0
+    eslint: "*"
+  checksum: e34388a3492833da902b1040ceb9f9febf89c18e93884641f5060bb1793a3a0b194fb28a6f78b4f87d751fb2e329435e2b62ea2d69a3948425b860145fa7c29b
   languageName: node
   linkType: hard
 
@@ -214,12 +234,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@myparcel-eslint/eslint-config@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@myparcel-eslint/eslint-config@npm:1.2.0"
+  dependencies:
+    eslint: "*"
+  checksum: b60fbce24a013c453527f5a71d3f7a03227c108f15d6adc0c6484f9bdab44eeac5cda31686359751d1da1f822401888143fea042213646df18d3e48e6eca32eb
+  languageName: node
+  linkType: hard
+
 "@myparcel/actions@workspace:.":
   version: 0.0.0-use.local
   resolution: "@myparcel/actions@workspace:."
   dependencies:
     "@actions/core": ^1.10.0
-    "@myparcel-eslint/eslint-config-esnext": ^1.0.0-alpha.2
+    "@myparcel-eslint/eslint-config-esnext": ^1.2.0
     "@myparcel-eslint/eslint-config-node": ^1.0.0-alpha.2
     "@myparcel-eslint/eslint-config-prettier-typescript": ^1.0.0-alpha.7
     "@myparcel/prettier-config": ^1.1.0
