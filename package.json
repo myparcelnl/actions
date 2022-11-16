@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@myparcel-eslint/eslint-config-esnext": "^1.0.0-alpha.2",
-    "@myparcel-eslint/eslint-config-node": "^1.0.0-alpha.2",
+    "@myparcel-eslint/eslint-config-node": "^1.2.0",
     "@myparcel-eslint/eslint-config-prettier-typescript": "^1.0.0-alpha.7",
     "@myparcel/prettier-config": "^1.1.0",
     "@myparcel/semantic-release-config": "^4.0.0",

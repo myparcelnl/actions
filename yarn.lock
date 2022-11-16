@@ -157,13 +157,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@myparcel-eslint/eslint-config-node@npm:^1.0.0-alpha.2":
-  version: 1.0.0-alpha.6
-  resolution: "@myparcel-eslint/eslint-config-node@npm:1.0.0-alpha.6"
+"@myparcel-eslint/eslint-config-node@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@myparcel-eslint/eslint-config-node@npm:1.2.0"
   dependencies:
-    "@myparcel-eslint/eslint-config": ^1.0.0-alpha.5
+    "@myparcel-eslint/eslint-config": ^1.2.0
     eslint: "*"
-  checksum: d2da6ddd9c067d2f4e42c8e95a4c7bfc4ba437ee2f1e20fdfec7fef9a0a6ad93c521d2910bd63d174ccba39cffe015242ae118e92d7a3eb5f3511c7813dfa657
+  checksum: acaf097dd89cbac607e78b10a0735bb06659e832b9875d6bd2d79b4c88b4e85a158497540d2904d533a0326161085d60c22b742b8a89769d0fa83142f93fb117
   languageName: node
   linkType: hard
 
@@ -214,13 +214,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@myparcel-eslint/eslint-config@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@myparcel-eslint/eslint-config@npm:1.2.0"
+  dependencies:
+    eslint: "*"
+  checksum: b60fbce24a013c453527f5a71d3f7a03227c108f15d6adc0c6484f9bdab44eeac5cda31686359751d1da1f822401888143fea042213646df18d3e48e6eca32eb
+  languageName: node
+  linkType: hard
+
 "@myparcel/actions@workspace:.":
   version: 0.0.0-use.local
   resolution: "@myparcel/actions@workspace:."
   dependencies:
     "@actions/core": ^1.10.0
     "@myparcel-eslint/eslint-config-esnext": ^1.0.0-alpha.2
-    "@myparcel-eslint/eslint-config-node": ^1.0.0-alpha.2
+    "@myparcel-eslint/eslint-config-node": ^1.2.0
     "@myparcel-eslint/eslint-config-prettier-typescript": ^1.0.0-alpha.7
     "@myparcel/prettier-config": ^1.1.0
     "@myparcel/semantic-release-config": ^4.0.0
