@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.4](https://github.com/myparcelnl/actions/compare/v2.18.3...v2.18.4) (2022-11-24)
+
+
+### :bug: Bug Fixes
+
+* **cache-nx:** use correct lockfile hash ([2e0fae0](https://github.com/myparcelnl/actions/commit/2e0fae05bd56182756e649a6712308f432be1ab5))
+
 ## [2.18.3](https://github.com/myparcelnl/actions/compare/v2.18.2...v2.18.3) (2022-11-16)
 
 
