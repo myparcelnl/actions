@@ -20,6 +20,20 @@ runs:
         node-version: ${{ inputs.node-version }}
         cache: 'yarn'
 
+    - name: 'Get yarn cache directory path'
+      id: find-cache-dir
+      run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+      shell: bash
+      working-directory: tooling
+
+    - name: 'Restore yarn cache'
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.find-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-yarn2-${{ hashFiles('**/yarn.lock', '.yarnrc.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn2-
+
     - name: 'Install yarn dependencies'
       run: yarn install ${{ inputs.yarn-args }}
       shell: bash
