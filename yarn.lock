@@ -224,7 +224,7 @@ __metadata:
     "@myparcel-eslint/eslint-config-prettier-typescript": ^1.0.0-alpha.7
     "@myparcel/prettier-config": ^1.1.0
     "@myparcel/semantic-release-config": ^4.0.0
-    "@types/node": ^16.18.0
+    "@types/node": ^18.11.11
     "@typescript-eslint/eslint-plugin": ^5.42.1
     eslint: ^8.27.0
     eslint-plugin-prettier: ^4.2.1
@@ -796,10 +796,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.18.0":
-  version: 16.18.3
-  resolution: "@types/node@npm:16.18.3"
-  checksum: 6b8ba2ea5d842f7986e366cb9184c54d273d492784dc62e08fd5afeae938d9b61aec6e4222d2541cd18f9b1412ba361bbcb3f4204fb003608af80a2a6af959f9
+"@types/node@npm:^18.11.11":
+  version: 18.11.11
+  resolution: "@types/node@npm:18.11.11"
+  checksum: c4b1176a8f1714a3ee3fc2a5e1d568b0cd50209000282db5c68154b3c975952928dbb834ef3a0ce55bd7b345ae29f2cbf4a34635a070294d135a24254231386a
   languageName: node
   linkType: hard
 
