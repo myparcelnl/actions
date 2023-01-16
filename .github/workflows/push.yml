@@ -21,18 +21,18 @@ jobs:
         with:
           node-version: '18'
 
-      - uses: ./setup-app-credentials
-        id: app-credentials
+      - uses: ./setup-git-credentials
+        id: credentials
         with:
           app-id: ${{ secrets.MYPARCEL_APP_ID }}
           private-key: ${{ secrets.MYPARCEL_APP_PRIVATE_KEY }}
 
       - run: yarn semantic-release
         env:
-          GITHUB_TOKEN: ${{ steps.app-credentials.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
 
       - uses: ./update-tags
         with:
           minor: true
         env:
-          GITHUB_TOKEN: ${{ steps.app-credentials.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
