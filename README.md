@@ -1,6 +1,6 @@
 # GitHub Actions
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/myparcelnl/actions)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/myparcelnl/actions?style=for-the-badge)
 
 This is a collection of reusable composite actions for GitHub Actions workflows.
 
@@ -8,6 +8,8 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
 
 - [General usage](#general-usage)
 - [Actions](#actions)
+    - [Authentication](#authentication)
+        - [setup-app-credentials](#setup-app-credentials)
     - [Node](#node)
         - [npm-install](#npm-install)
         - [setup-node](#setup-node)
@@ -50,7 +52,7 @@ recommended as this will also include breaking changes.
 #### Major example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v2
+- uses: myparcelnl/actions/yarn-install@v3
 ```
 
 Will use every minor and patch update within `v2.x.x`.
@@ -58,12 +60,35 @@ Will use every minor and patch update within `v2.x.x`.
 #### Minor example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v2
+- uses: myparcelnl/actions/yarn-install@v3
 ```
 
 Will use every patch update within `v2.1.x`.
 
 ## Actions
+
+### Authentication
+
+#### setup-app-credentials
+
+[Source](setup-app-credentials/action.yml)
+
+This action creates a GitHub token for a [GitHub app].
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/setup-app-credentials@v3
+  with:
+    app-id: ${{ secrets.APP_ID }}
+    private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+- uses: namespace/any-other-action
+  with:
+    token: ${{ steps.setup-app-credentials.outputs.token }}
+```
+
+See also [setup-git-credentials] for setting up git using a [GitHub app].
 
 ### Node
 
@@ -78,7 +103,7 @@ Will use every patch update within `v2.1.x`.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/npm-install@v2
+- uses: myparcelnl/actions/npm-install@v3
   with:
     node-version: 18
 ```
@@ -96,7 +121,7 @@ For use with Yarn 1.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v2
+- uses: myparcelnl/actions/yarn-install@v3
   with:
     node-version: 18
     yarn-args: --frozen-lockfile --ignore-scripts
@@ -123,7 +148,7 @@ For use with Yarn 2 (berry).
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/yarn2-install@v2
+- uses: myparcelnl/actions/yarn2-install@v3
   with:
     node-version: 18
     yarn-args: --immutable --immutable-cache
@@ -148,7 +173,7 @@ For use with Yarn 2 (berry).
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/pnpm-install@v2
+- uses: myparcelnl/actions/pnpm-install@v3
   with:
     node-version: 18
     pnpm-version: 7.4.0
@@ -176,7 +201,7 @@ For use with Yarn 2 (berry).
 
 ```yaml
 - name:
-  uses: myparcelnl/actions/setup-node@v2
+  uses: myparcelnl/actions/setup-node@v3
   with:
     node-version: 18
 ```
@@ -200,7 +225,7 @@ For use with Yarn 2 (berry).
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/composer-install@v2
+- uses: myparcelnl/actions/composer-install@v3
   with:
     php-version: '8.0'
     tools: php-cs-fixer, phpunit
@@ -219,7 +244,7 @@ For use with Yarn 2 (berry).
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/update-coverage@v2
+- uses: myparcelnl/actions/update-coverage@v3
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
 ```
@@ -255,7 +280,7 @@ jobs based on git ref and tag.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/build-docker-image@v2
+- uses: myparcelnl/actions/build-docker-image@v3
   id: docker
   with:
     image: myparcel/php-sdk
@@ -296,7 +321,7 @@ jobs using a registry.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/build-docker-image@v2
+- uses: myparcelnl/actions/build-docker-image@v3
   id: docker
   with:
     image: myparcel/php-sdk
@@ -334,9 +359,9 @@ installed if using any non-built-in [semantic-release] plugins.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v2
+- uses: myparcelnl/actions/yarn-install@v3
 
-- uses: myparcelnl/actions/semantic-release@v2
+- uses: myparcelnl/actions/semantic-release@v3
   id: release
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
@@ -352,17 +377,18 @@ installed if using any non-built-in [semantic-release] plugins.
 
 [Source](setup-git-credentials/action.yml)
 
-Set up git credentials and authenticate as MyParcelBot.
+Set up git credentials and authenticate as a [GitHub app].
 
 1. Runs [oleksiyrudenko/gha-git-credentials@v2.1]
-    - Needs a [GitHub] token in `token`.
+    - Needs a [GitHub] app id in `app-id` and a private key in `private-key`.
 
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/setup-git-credentials@v2
+- uses: myparcelnl/actions/setup-git-credentials@v3
   with:
-    token: ${{ secrets.GITHUB_TOKEN }}
+    app-id: ${{ secrets.GITHUB_APP_ID }}
+    private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
 ```
 
 #### rebase
@@ -384,7 +410,7 @@ Rebase two branches and push.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/rebase@v2
+- uses: myparcelnl/actions/rebase@v3
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
     base: main
@@ -410,7 +436,7 @@ GitHub actions.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/update-tags@v2
+- uses: myparcelnl/actions/update-tags@v3
   with:
     minor: true
   env:
@@ -471,12 +497,14 @@ Save and restore the [Nx](https://nx.dev/) cache. Defaults to using `yarn.lock` 
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/cache-nx@v2
+- uses: myparcelnl/actions/cache-nx@v3
   with:
     lockfile: package-lock.json
 ```
 
 [Codecov]: https://codecov.io
+
+[Github app]: https://docs.github.com/en/developers/apps
 
 [actions/checkout]: https://github.com/actions/checkout
 
@@ -495,5 +523,7 @@ Save and restore the [Nx](https://nx.dev/) cache. Defaults to using `yarn.lock` 
 [pnpm-install]: #pnpm-install
 
 [semantic-release]: #semantic-release
+
+[setup-git-credentials]: #setup-git-credentials
 
 [yarn-install]: #yarn-install

@@ -1,0 +1,60 @@
+name: 'Generate app credentials'
+description: 'Generate credentials and git committer details for a GitHub app.'
+
+inputs:
+  app-id:
+    description: 'The app ID of the app.'
+    required: true
+
+  private-key:
+    description: 'The private key of the app.'
+    required: true
+
+outputs:
+  name:
+    description: 'The name of the app.'
+    value: ${{ steps.create-outputs.outputs.name }}
+
+  token:
+    description: 'The token of the app.'
+    value: ${{ steps.create-outputs.outputs.token }}
+
+  git-author-name:
+    description: 'The name to use as GIT_AUTHOR_NAME.'
+    value: ${{ steps.create-outputs.outputs.git-author-name }}
+
+  git-author-email:
+    description: 'The email to use as GIT_AUTHOR_EMAIL.'
+    value: ${{ steps.create-outputs.outputs.git-author-email }}
+
+  git-committer-name:
+    description: 'The name to use as GIT_COMMITTER_NAME.'
+    value: ${{ steps.create-outputs.outputs.git-committer-name }}
+
+  git-committer-email:
+    description: 'The email to use as GIT_COMMITTER_EMAIL.'
+    value: ${{ steps.create-outputs.outputs.git-committer-email }}
+
+runs:
+  using: composite
+  steps:
+    - uses: wow-actions/use-app-token@v2
+      id: generate-token
+      with:
+        app_id: ${{ inputs.app-id }}
+        private_key: ${{ inputs.private-key }}
+
+    - name: 'Set outputs'
+      id: create-outputs
+      shell: bash
+      run: |
+        bot_name=${{ steps.generate-token.outputs.BOT_NAME }}
+        bot_git_name="${bot_name}[bot]"
+        bot_git_email="${bot_name}[bot]@users.noreply.github.com"
+        
+        echo "name=${bot_name}" >> $GITHUB_OUTPUT
+        echo "token=${{ steps.generate-token.outputs.BOT_TOKEN }}" >> $GITHUB_OUTPUT
+        echo "git-author-name=${bot_git_name}" >> $GITHUB_OUTPUT
+        echo "git-author-email=${bot_git_email}" >> $GITHUB_OUTPUT
+        echo "git-committer-name=${bot_git_name}" >> $GITHUB_OUTPUT
+        echo "git-committer-email=${bot_git_email}" >> $GITHUB_OUTPUT

@@ -1,17 +1,27 @@
-name: 'Setup Git credentials'
-description: 'Authenticates Git as MyParcelBot.'
+name: 'Setup git credentials'
+description: 'Authenticates git through a GitHub app.'
 
 inputs:
-  token:
+  app-id:
+    description: 'The app ID of the app.'
     required: true
-    description: 'GitHub Personal access token'
+
+  private-key:
+    description: 'The private key of the app.'
+    required: true
 
 runs:
   using: composite
   steps:
+    - uses: myparcelnl/actions/setup-app-credentials@v3
+      id: app-credentials
+      with:
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
     - uses: oleksiyrudenko/gha-git-credentials@v2.1
       with:
-        token: ${{ inputs.token }}
-        name: 'MyParcelBot'
-        email: 'edie+bot@myparcel.nl'
-        actor: 'MyParcelBot'
+        token: ${{ app-credentials.token }}
+        name: ${{ app-credentials.git-author-name }}
+        email: ${{ app-credentials.git-author-email }}
+        actor: ${{ app-credentials.git-author-name }}
