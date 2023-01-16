@@ -18,13 +18,11 @@ runs:
     - uses: actions/setup-node@v3
       with:
         node-version: ${{ inputs.node-version }}
-        cache: 'yarn'
 
     - name: 'Get yarn cache directory path'
       id: find-cache-dir
       run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
       shell: bash
-      working-directory: tooling
 
     - name: 'Restore yarn cache'
       uses: actions/cache@v3
