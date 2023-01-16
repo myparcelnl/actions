@@ -353,16 +353,15 @@ jobs using a registry.
 
 [Source](semantic-release/action.yml)
 
-Run semantic release using the MyParcel bot. Requires npm dependencies to be
-installed if using any non-built-in [semantic-release] plugins.
+Run semantic release. Requires npm dependencies to be installed if using any non-built-in [semantic-release] plugins.
 
 ##### Inputs
 
-| Required | Name                    | Description                                 | Example                       | Default   |
-|----------|-------------------------|---------------------------------------------|-------------------------------|-----------|
-| Yes      | `token`                 | GitHub Personal access token                | `${{ secrets.GITHUB_TOKEN }}` | –         |
-| No       | `semantic-release-args` | Semantic release arguments                  | `'true`                       | `'false'` |
-| No       | `write-summary`         | Write a summary to the GitHub action output | `'true`                       | `'false'` |
+| Required | Name                    | Description                                 | Example                       | Default |
+|----------|-------------------------|---------------------------------------------|-------------------------------|---------|
+| Yes      | `token`                 | GitHub Personal access token                | `${{ secrets.GITHUB_TOKEN }}` | –       |
+| No       | `semantic-release-args` | Semantic release arguments                  | `--dry-run`                   | –       |
+| No       | `write-summary`         | Write a summary to the GitHub action output | `true`                        | `false` |
 
 ##### Outputs
 

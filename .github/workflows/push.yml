@@ -27,9 +27,9 @@ jobs:
           app-id: ${{ secrets.MYPARCEL_APP_ID }}
           private-key: ${{ secrets.MYPARCEL_APP_PRIVATE_KEY }}
 
-      - run: yarn semantic-release
-        env:
-          GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
+      - uses: ./semantic-release
+        with:
+          token: ${{ steps.credentials.outputs.token }}
 
       - uses: ./update-tags
         with:

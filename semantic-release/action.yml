@@ -31,10 +31,6 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/setup-git-credentials@main
-      with:
-        token: ${{ inputs.token }}
-
     - name: 'Get previous version'
       run: |
         tag=$(git ls-remote --tags --sort="v:refname" | tail -n1 | sed 's/.*\///; s/\^{}//')
