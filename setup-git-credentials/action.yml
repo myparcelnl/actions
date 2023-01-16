@@ -10,18 +10,43 @@ inputs:
     description: 'The private key of the app.'
     required: true
 
+outputs:
+  name:
+    description: 'The name of the app.'
+    value: ${{ steps.create-outputs.outputs.name }}
+
+  token:
+    description: 'The GitHub token of the app.'
+    value: ${{ steps.create-outputs.outputs.token }}
+
+  git-author-name:
+    description: 'The name to use as GIT_AUTHOR_NAME.'
+    value: ${{ steps.create-outputs.outputs.git-author-name }}
+
+  git-author-email:
+    description: 'The email to use as GIT_AUTHOR_EMAIL.'
+    value: ${{ steps.create-outputs.outputs.git-author-email }}
+
+  git-committer-name:
+    description: 'The name to use as GIT_COMMITTER_NAME.'
+    value: ${{ steps.create-outputs.outputs.git-committer-name }}
+
+  git-committer-email:
+    description: 'The email to use as GIT_COMMITTER_EMAIL.'
+    value: ${{ steps.create-outputs.outputs.git-committer-email }}
+
 runs:
   using: composite
   steps:
     - uses: myparcelnl/actions/setup-app-credentials@v3
-      id: app-credentials
+      id: create-outputs
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
 
     - uses: oleksiyrudenko/gha-git-credentials@v2.1
       with:
-        token: ${{ app-credentials.token }}
-        name: ${{ app-credentials.git-author-name }}
-        email: ${{ app-credentials.git-author-email }}
-        actor: ${{ app-credentials.git-author-name }}
+        token: ${{ steps.create-outputs.outputs.token }}
+        name: ${{ steps.create-outputs.outputs.git-author-name }}
+        email: ${{ steps.create-outputs.outputs.git-author-email }}
+        actor: ${{ steps.create-outputs.outputs.git-author-name }}

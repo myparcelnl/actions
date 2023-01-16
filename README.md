@@ -73,7 +73,7 @@ Will use every patch update within `v2.1.x`.
 
 [Source](setup-app-credentials/action.yml)
 
-This action creates a GitHub token for a [GitHub app].
+Generate credentials and git committer details for a [GitHub app].
 
 ##### Example
 
@@ -87,6 +87,24 @@ This action creates a GitHub token for a [GitHub app].
   with:
     token: ${{ steps.setup-app-credentials.outputs.token }}
 ```
+
+##### Inputs
+
+| Required | Name          | Description                 | Example                          | Default |
+|----------|---------------|-----------------------------|----------------------------------|---------|
+| Yes      | `app-id`      | The app ID of the app.      | `${{ secrets.APP_ID }}`          | –       |
+| Yes      | `private-key` | The private key of the app. | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
+
+##### Outputs
+
+| Name                  | Description                              | Example                                |
+|-----------------------|------------------------------------------|----------------------------------------|
+| `name`                | The name of the app.                     | `my-app`                               |
+| `token`               | The GitHub token of the app.             | `ghp_1234567890`                       |
+| `git-author-name`     | The name to use as GIT_AUTHOR_NAME.      | `my-app[bot]`                          |
+| `git-author-email`    | The email to use as GIT_AUTHOR_EMAIL.    | `my-app[bot]@users.noreply.github.com` |
+| `git-committer-name`  | The name to use as GIT_COMMITTER_NAME.   | `my-app[bot]`                          |
+| `git-committer-email` | The email to use as GIT_COMMITTER_EMAIL. | `my-app[bot]@users.noreply.github.com` |
 
 See also [setup-git-credentials] for setting up git using a [GitHub app].
 
@@ -129,7 +147,7 @@ For use with Yarn 1.
 
 ##### Inputs
 
-| required | name           | description                        | Example                              | Default |
+| Required | Name           | Description                        | Example                              | Default |
 |----------|----------------|------------------------------------|--------------------------------------|---------|
 | No       | `node-version` | The Node.js version to use         | `18`                                 | `18`    |
 | No       | `yarn-args`    | Arguments to use with yarn install | `--frozen-lockfile --ignore-scripts` | ` `     |
@@ -156,7 +174,7 @@ For use with Yarn 2 (berry).
 
 ##### Inputs
 
-| required | name           | description                        | Example                         | Default |
+| Required | Name           | Description                        | Example                         | Default |
 |----------|----------------|------------------------------------|---------------------------------|---------|
 | No       | `node-version` | The Node.js version to use         | `18`                            | `18`    |
 | No       | `yarn-args`    | Arguments to use with yarn install | `--immutable --immutable-cache` | ` `     |
@@ -182,7 +200,7 @@ For use with Yarn 2 (berry).
 
 ##### Inputs
 
-| required | name           | description                        | Example                              | Default             |
+| Required | Name           | Description                        | Example                              | Default             |
 |----------|----------------|------------------------------------|--------------------------------------|---------------------|
 | No       | `node-version` | The Node.js version to use         | `18`                                 | `18`                |
 | No       | `pnpm-version` | The pnpm version to use            | `7.4.0`                              | `7.6.0`             |
@@ -260,7 +278,7 @@ jobs based on git ref and tag.
 
 ##### Inputs
 
-| required | name          | description                                  | Example                                   | Default                  |
+| Required | Name          | Description                                  | Example                                   | Default                  |
 |----------|---------------|----------------------------------------------|-------------------------------------------|--------------------------|
 | Yes      | `image`       | Image name                                   | `my-name/my-image`                        | –                        |
 | Yes      | `key`         | Cache key                                    | `my-image-${{ hashFiles('Dockerfile') }}` | `${{ github.workflow }}` |
@@ -272,7 +290,7 @@ jobs based on git ref and tag.
 
 ##### Outputs
 
-| name           | description                 | Example                       |
+| Name           | Description                 | Example                       |
 |----------------|-----------------------------|-------------------------------|
 | `tagged-image` | Created image name with tag | `my-name/my-image:1639002200` |
 | `tag`          | Tag of the created image    | `1639002200`                  |
@@ -301,7 +319,7 @@ jobs using a registry.
 
 ##### Inputs
 
-| required | name                | description                        | Example                               | Default      |
+| Required | Name                | Description                        | Example                               | Default      |
 |----------|---------------------|------------------------------------|---------------------------------------|--------------|
 | Yes      | `image`             | Image name                         | `my-name/my-image`                    | –            |
 | No       | `dockerfile`        | Path to dockerfile                 | `./docker/prod.Dockerfile`            | `Dockerfile` |
@@ -313,7 +331,7 @@ jobs using a registry.
 
 ##### Outputs
 
-| name           | description                 | Example                       |
+| Name           | Description                 | Example                       |
 |----------------|-----------------------------|-------------------------------|
 | `tagged-image` | Created image name with tag | `my-name/my-image:1639002200` |
 | `tag`          | Tag of the created image    | `1639002200`                  |
@@ -342,7 +360,7 @@ installed if using any non-built-in [semantic-release] plugins.
 
 ##### Inputs
 
-| required | name                    | description                                 | Example                       | Default   |
+| Required | Name                    | Description                                 | Example                       | Default   |
 |----------|-------------------------|---------------------------------------------|-------------------------------|-----------|
 | Yes      | `token`                 | GitHub Personal access token                | `${{ secrets.GITHUB_TOKEN }}` | –         |
 | No       | `semantic-release-args` | Semantic release arguments                  | `'true`                       | `'false'` |
@@ -350,7 +368,7 @@ installed if using any non-built-in [semantic-release] plugins.
 
 ##### Outputs
 
-| name               | description                        | example |
+| Name               | Description                        | Example |
 |--------------------|------------------------------------|---------|
 | `version`          | The new version                    | `1.2.3` |
 | `previous-version` | The previous version               | `1.2.2` |
@@ -391,6 +409,24 @@ Set up git credentials and authenticate as a [GitHub app].
     private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
 ```
 
+##### Inputs
+
+| Required | Name          | Description                 | Example                          | Default |
+|----------|---------------|-----------------------------|----------------------------------|---------|
+| true     | `app-id`      | The app ID of the app.      | `${{ secrets.APP_ID }}`          | –       |
+| true     | `private-key` | The private key of the app. | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
+
+##### Outputs
+
+| Name                  | Description                              | Example                                |
+|-----------------------|------------------------------------------|----------------------------------------|
+| `name`                | The name of the app.                     | `my-app`                               |
+| `token`               | The GitHub token of the app.             | `ghp_1234567890`                       |
+| `git-author-name`     | The name to use as GIT_AUTHOR_NAME.      | `my-app[bot]`                          |
+| `git-author-email`    | The email to use as GIT_AUTHOR_EMAIL.    | `my-app[bot]@users.noreply.github.com` |
+| `git-committer-name`  | The name to use as GIT_COMMITTER_NAME.   | `my-app[bot]`                          |
+| `git-committer-email` | The email to use as GIT_COMMITTER_EMAIL. | `my-app[bot]@users.noreply.github.com` |
+
 #### rebase
 
 [Source](rebase/action.yml)
@@ -399,7 +435,7 @@ Rebase two branches and push.
 
 ##### Inputs
 
-| required | name     | description                          | Example                        | Default  |
+| Required | Name     | Description                          | Example                        | Default  |
 |----------|----------|--------------------------------------|--------------------------------|----------|
 | Yes      | `target` | Target branch you wish to update.    | `develop`                      | –        |
 | Yes      | `base`   | Base branch to use to rebase target. | `main`                         | –        |
@@ -428,7 +464,7 @@ GitHub actions.
 
 ##### Inputs
 
-| required | name    | description               | Example | Default |
+| Required | Name    | Description               | Example | Default |
 |----------|---------|---------------------------|---------|---------|
 | No       | `minor` | Update the major version. | `true`  | `true`  |
 | No       | `major` | Update the minor version. | `true`  | `false` |

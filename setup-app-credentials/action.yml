@@ -16,7 +16,7 @@ outputs:
     value: ${{ steps.create-outputs.outputs.name }}
 
   token:
-    description: 'The token of the app.'
+    description: 'The GitHub token of the app.'
     value: ${{ steps.create-outputs.outputs.token }}
 
   git-author-name:
