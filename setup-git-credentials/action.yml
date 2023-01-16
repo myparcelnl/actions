@@ -48,3 +48,7 @@ runs:
         git config --global user.password "${git_token}"
 
         echo "GIT_USER=${git_name}:${git_token}" >> $GITHUB_ENV
+        echo "GIT_AUTHOR_NAME=${git_name}" >> $GITHUB_ENV
+        echo "GIT_AUTHOR_EMAIL=${git_email}" >> $GITHUB_ENV
+        echo "GIT_COMMITTER_NAME=${git_name}" >> $GITHUB_ENV
+        echo "GIT_COMMITTER_EMAIL=${git_email}" >> $GITHUB_ENV
