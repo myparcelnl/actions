@@ -29,8 +29,6 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
         - [compare-branches](#compare-branches)
     - [Miscellaneous](#miscellaneous)
         - [cache-nx](#cache-nx)
-- [Workflows](#workflows)
-    - [Semantic Release](#semantic-release-workflow)
 
 ## General usage
 
@@ -82,7 +80,7 @@ Will use every patch update within `v2.1.x`.
 ```yaml
 - uses: myparcelnl/actions/npm-install@v2
   with:
-    node-version: 16
+    node-version: 18
 ```
 
 #### yarn-install
@@ -100,7 +98,7 @@ For use with Yarn 1.
 ```yaml
 - uses: myparcelnl/actions/yarn-install@v2
   with:
-    node-version: 16
+    node-version: 18
     yarn-args: --frozen-lockfile --ignore-scripts
 ```
 
@@ -108,7 +106,7 @@ For use with Yarn 1.
 
 | required | name           | description                        | Example                              | Default |
 |----------|----------------|------------------------------------|--------------------------------------|---------|
-| No       | `node-version` | The Node.js version to use         | `16`                                 | `16`    |
+| No       | `node-version` | The Node.js version to use         | `18`                                 | `18`    |
 | No       | `yarn-args`    | Arguments to use with yarn install | `--frozen-lockfile --ignore-scripts` | ` `     |
 
 #### yarn2-install
@@ -127,7 +125,7 @@ For use with Yarn 2 (berry).
 ```yaml
 - uses: myparcelnl/actions/yarn2-install@v2
   with:
-    node-version: 16
+    node-version: 18
     yarn-args: --immutable --immutable-cache
 ```
 
@@ -135,7 +133,7 @@ For use with Yarn 2 (berry).
 
 | required | name           | description                        | Example                         | Default |
 |----------|----------------|------------------------------------|---------------------------------|---------|
-| No       | `node-version` | The Node.js version to use         | `16`                            | `16`    |
+| No       | `node-version` | The Node.js version to use         | `18`                            | `18`    |
 | No       | `yarn-args`    | Arguments to use with yarn install | `--immutable --immutable-cache` | ` `     |
 
 #### pnpm-install
@@ -152,7 +150,7 @@ For use with Yarn 2 (berry).
 ```yaml
 - uses: myparcelnl/actions/pnpm-install@v2
   with:
-    node-version: 16
+    node-version: 18
     pnpm-version: 7.4.0
     pnpm-args: --ignore-scripts --frozen-lockfile
 ```
@@ -161,7 +159,7 @@ For use with Yarn 2 (berry).
 
 | required | name           | description                        | Example                              | Default             |
 |----------|----------------|------------------------------------|--------------------------------------|---------------------|
-| No       | `node-version` | The Node.js version to use         | `16`                                 | `16`                |
+| No       | `node-version` | The Node.js version to use         | `18`                                 | `18`                |
 | No       | `pnpm-version` | The pnpm version to use            | `7.4.0`                              | `7.6.0`             |
 | No       | `pnpm-args`    | Arguments to use with pnpm install | `--ignore-scripts --frozen-lockfile` | `--frozen-lockfile` |
 
@@ -180,7 +178,7 @@ For use with Yarn 2 (berry).
 - name:
   uses: myparcelnl/actions/setup-node@v2
   with:
-    node-version: 16
+    node-version: 18
 ```
 
 ### PHP
@@ -476,30 +474,6 @@ Save and restore the [Nx](https://nx.dev/) cache. Defaults to using `yarn.lock` 
 - uses: myparcelnl/actions/cache-nx@v2
   with:
     lockfile: package-lock.json
-```
-
-## Workflows
-
-### Semantic Release workflow
-
-[Source](.github/workflows/--semantic-release.yml)
-
-- Runs [actions/checkout]@v3
-- Runs [yarn-install]
-- Runs [semantic-release]
-
-#### Example
-
-```yaml
-# These should be defined in your repository if they are needed.
-env:
-  GH_REPO_TOKEN: ... # Falls back to GITHUB_TOKEN
-  NPM_TOKEN: ...
-
-jobs:
-  release:
-    uses: myparcelnl/actions/.github/workflows/--semantic-release.yml@v2
-    secrets: inherit
 ```
 
 [Codecov]: https://codecov.io

@@ -4,7 +4,7 @@ description: Install npm dependencies from scratch or from cache
 inputs:
   node-version:
     description: 'The Node.js version to use'
-    default: '16'
+    default: '18'
     required: false
 
 runs:
