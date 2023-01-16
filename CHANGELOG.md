@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/myparcelnl/actions/compare/v2.18.4...v3.0.0) (2023-01-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** update npm dependencies
+
+### build
+
+* **deps:** update npm dependencies ([4c30dc5](https://github.com/myparcelnl/actions/commit/4c30dc543917ebc37a3beab58b73140f2550fd89))
+
+
+### :sparkles: New Features
+
+* add setup-app-credentials ([de632b3](https://github.com/myparcelnl/actions/commit/de632b39e037656ecbe707e7f22728f3181b32fe))
+
+
+### :bug: Bug Fixes
+
+* **yarn2-install:** improve caching ([7ae2c99](https://github.com/myparcelnl/actions/commit/7ae2c993ca94e50e5f50214de215cd828b98c8dc))
+* **yarn2-install:** remove working directory ([b39faee](https://github.com/myparcelnl/actions/commit/b39faee8e8cd6f6b9725d9252f8493467fe37dbf))
+
 ## [2.18.4](https://github.com/myparcelnl/actions/compare/v2.18.3...v2.18.4) (2022-11-24)
 
 
