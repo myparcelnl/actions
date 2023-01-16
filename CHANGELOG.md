@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.4](https://github.com/myparcelnl/actions/compare/v3.0.3...v3.0.4) (2023-01-16)
+
+
+### :bug: Bug Fixes
+
+* **semantic-release:** don't use setup-git-credentials anymore ([8cc3b6c](https://github.com/myparcelnl/actions/commit/8cc3b6c490f7cd1202ad2a6a0f697666a0b1491e))
+
 ## [3.0.3](https://github.com/myparcelnl/actions/compare/v3.0.2...v3.0.3) (2023-01-16)
 
 
