@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/myparcelnl/actions/compare/v3.0.0...v3.0.1) (2023-01-16)
+
+
+### :bug: Bug Fixes
+
+* **setup-git-credentials:** expose all app credentials as outputs ([6809088](https://github.com/myparcelnl/actions/commit/68090883f07580a4eb8b402d97896eac563b9c4b))
+
 ## [3.0.0](https://github.com/myparcelnl/actions/compare/v2.18.4...v3.0.0) (2023-01-16)
 
 
