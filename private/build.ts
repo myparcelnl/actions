@@ -4,7 +4,6 @@ import fs from 'fs';
 import path from 'path';
 
 const IGNORE_DIRS = ['node_modules'];
-const PNP_LOADER = path.resolve(__dirname, '..', '.pnp.cjs');
 
 void (async (): Promise<void> => {
   const directory = process.argv[2] ?? process.cwd();
@@ -22,16 +21,12 @@ void (async (): Promise<void> => {
       const distDir = path.resolve(actionDir, 'dist');
 
       console.log(`Compiling JS action: ${action}`);
-      const pnpLoaderPath = path.relative(distDir, PNP_LOADER);
 
       await build({
         entry: [path.resolve(actionDir, 'index.ts')],
         outDir: distDir,
         target: 'node16',
         minify: true,
-        banner: {
-          js: `require('${pnpLoaderPath}').setup();`,
-        },
       });
     });
 
