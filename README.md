@@ -97,14 +97,12 @@ Generate credentials and git committer details for a [GitHub app].
 
 ##### Outputs
 
-| Name                  | Description                              | Example                                |
-|-----------------------|------------------------------------------|----------------------------------------|
-| `name`                | The name of the app.                     | `my-app`                               |
-| `token`               | The GitHub token of the app.             | `ghp_1234567890`                       |
-| `git-author-name`     | The name to use as GIT_AUTHOR_NAME.      | `my-app[bot]`                          |
-| `git-author-email`    | The email to use as GIT_AUTHOR_EMAIL.    | `my-app[bot]@users.noreply.github.com` |
-| `git-committer-name`  | The name to use as GIT_COMMITTER_NAME.   | `my-app[bot]`                          |
-| `git-committer-email` | The email to use as GIT_COMMITTER_EMAIL. | `my-app[bot]@users.noreply.github.com` |
+| Name        | Description                  | Example                                |
+|-------------|------------------------------|----------------------------------------|
+| `name`      | The name of the app.         | `my-app`                               |
+| `token`     | The GitHub token of the app. | `ghp_1234567890`                       |
+| `git-name`  | The name to use with git.    | `my-app[bot]`                          |
+| `git-email` | The email to use with git.   | `my-app[bot]@users.noreply.github.com` |
 
 See also [setup-git-credentials] for setting up git using a [GitHub app].
 
@@ -397,9 +395,6 @@ installed if using any non-built-in [semantic-release] plugins.
 
 Set up git credentials and authenticate as a [GitHub app].
 
-1. Runs [oleksiyrudenko/gha-git-credentials@v2.1]
-    - Needs a [GitHub] app id in `app-id` and a private key in `private-key`.
-
 ##### Example
 
 ```yaml
@@ -418,14 +413,13 @@ Set up git credentials and authenticate as a [GitHub app].
 
 ##### Outputs
 
-| Name                  | Description                              | Example                                |
-|-----------------------|------------------------------------------|----------------------------------------|
-| `name`                | The name of the app.                     | `my-app`                               |
-| `token`               | The GitHub token of the app.             | `ghp_1234567890`                       |
-| `git-author-name`     | The name to use as GIT_AUTHOR_NAME.      | `my-app[bot]`                          |
-| `git-author-email`    | The email to use as GIT_AUTHOR_EMAIL.    | `my-app[bot]@users.noreply.github.com` |
-| `git-committer-name`  | The name to use as GIT_COMMITTER_NAME.   | `my-app[bot]`                          |
-| `git-committer-email` | The email to use as GIT_COMMITTER_EMAIL. | `my-app[bot]@users.noreply.github.com` |
+| Name        | Description                  | Example                                |
+|-------------|------------------------------|----------------------------------------|
+| `name`      | The name of the app.         | `my-app`                               |
+| `token`     | The GitHub token of the app. | `ghp_1234567890`                       |
+| `git-name`  | The name to use with git.    | `my-app[bot]`                          |
+| `git-email` | The email to use with git.   | `my-app[bot]@users.noreply.github.com` |
+
 
 #### rebase
 

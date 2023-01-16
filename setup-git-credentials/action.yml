@@ -13,40 +13,38 @@ inputs:
 outputs:
   name:
     description: 'The name of the app.'
-    value: ${{ steps.create-outputs.outputs.name }}
+    value: ${{ steps.credentials.outputs.name }}
 
   token:
     description: 'The GitHub token of the app.'
-    value: ${{ steps.create-outputs.outputs.token }}
+    value: ${{ steps.credentials.outputs.token }}
 
-  git-author-name:
-    description: 'The name to use as GIT_AUTHOR_NAME.'
-    value: ${{ steps.create-outputs.outputs.git-author-name }}
+  git-name:
+    description: 'The name to use with git.'
+    value: ${{ steps.credentials.outputs.git-name }}
 
-  git-author-email:
-    description: 'The email to use as GIT_AUTHOR_EMAIL.'
-    value: ${{ steps.create-outputs.outputs.git-author-email }}
-
-  git-committer-name:
-    description: 'The name to use as GIT_COMMITTER_NAME.'
-    value: ${{ steps.create-outputs.outputs.git-committer-name }}
-
-  git-committer-email:
-    description: 'The email to use as GIT_COMMITTER_EMAIL.'
-    value: ${{ steps.create-outputs.outputs.git-committer-email }}
+  git-email:
+    description: 'The email to use with git.'
+    value: ${{ steps.credentials.outputs.git-email }}
 
 runs:
   using: composite
   steps:
     - uses: myparcelnl/actions/setup-app-credentials@v3
-      id: create-outputs
+      id: credentials
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
 
-    - uses: oleksiyrudenko/gha-git-credentials@v2.1
-      with:
-        token: ${{ steps.create-outputs.outputs.token }}
-        name: ${{ steps.create-outputs.outputs.git-author-name }}
-        email: ${{ steps.create-outputs.outputs.git-author-email }}
-        actor: ${{ steps.create-outputs.outputs.git-author-name }}
+    - name: 'Set git credentials'
+      shell: bash
+      run: |
+        git_name=${{ steps.credentials.outputs.git-name }}
+        git_email=${{ steps.credentials.outputs.git-email }}
+        git_token=${{ steps.credentials.outputs.token }}
+
+        git config --global user.name "${git_name}"
+        git config --global user.email "${git_email}"
+        git config --global user.password "${git_token}"
+
+        echo "GIT_USER=${git_name}:${git_token}" >> $GITHUB_ENV
