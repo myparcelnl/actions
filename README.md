@@ -357,10 +357,10 @@ Pulls and caches a docker image. Outputs the image name that was input to provid
 
 ##### Inputs
 
-| Required | Name              | Description                 | Example            | Default          |
-|----------|-------------------|-----------------------------|--------------------|------------------|
-| Yes      | `image`           | Image name                  | `my-name/my-image` | –                |
-| No       | `cache-directory` | Directory to store cache in | `/path/to/cache`   | `/.docker-cache` |
+| Required | Name              | Description                 | Example            | Default           |
+|----------|-------------------|-----------------------------|--------------------|-------------------|
+| Yes      | `image`           | Image name                  | `my-name/my-image` | –                 |
+| No       | `cache-directory` | Directory to store cache in | `/path/to/cache`   | `~/.docker-cache` |
 
 ##### Outputs
 

@@ -9,7 +9,7 @@ inputs:
   cache-directory:
     description: 'Directory to store cache in'
     required: false
-    default: '/.docker-cache'
+    default: '~/.docker-cache'
 
 outputs:
   image:
