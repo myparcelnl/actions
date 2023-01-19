@@ -152,7 +152,7 @@ For use with Yarn 1.
 
 #### yarn2-install
 
-For use with Yarn 2 (berry).
+For use with Yarn 2 (berry). If your project does not use a lockfile, pass `no-lockfile: true`.
 
 [Source](yarn2-install/action.yml)
 
@@ -168,6 +168,7 @@ For use with Yarn 2 (berry).
   with:
     node-version: 18
     yarn-args: --immutable --immutable-cache
+    no-lockfile: true
 ```
 
 ##### Inputs
@@ -176,6 +177,7 @@ For use with Yarn 2 (berry).
 |----------|----------------|------------------------------------|---------------------------------|---------|
 | No       | `node-version` | The Node.js version to use         | `18`                            | `18`    |
 | No       | `yarn-args`    | Arguments to use with yarn install | `--immutable --immutable-cache` | ` `     |
+| No       | `no-lockfile`  | Do not look for yarn.lock          | `true`                          | `false` |
 
 #### pnpm-install
 

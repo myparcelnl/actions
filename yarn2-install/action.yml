@@ -12,6 +12,11 @@ inputs:
     default: ''
     required: false
 
+  no-lockfile:
+    description: 'Do not look for yarn.lock'
+    default: 'false'
+    required: false
+
 runs:
   using: composite
   steps:
@@ -24,11 +29,21 @@ runs:
       run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
       shell: bash
 
+    - name: 'Calculate hash'
+      id: calculate-hash
+      shell: bash
+      run: |
+        if [ "${{ inputs.no-lockfile }}" = "true" ]; then
+          echo "hash=${{ hashFiles('.yarnrc.yml') }}" >> $GITHUB_OUTPUT
+        else
+          echo "hash=${{ hashFiles('.yarnrc.yml', '**/yarn.lock') }}" >> $GITHUB_OUTPUT
+        fi
+
     - name: 'Restore yarn cache'
       uses: actions/cache@v3
       with:
         path: ${{ steps.find-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-yarn2-${{ hashFiles('**/yarn.lock', '.yarnrc.yml') }}
+        key: ${{ runner.os }}-yarn2-${{ steps.calculate-hash.outputs.hash }}
         restore-keys: |
           ${{ runner.os }}-yarn2-
 
