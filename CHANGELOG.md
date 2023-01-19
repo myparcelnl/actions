@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.1](https://github.com/myparcelnl/actions/compare/v3.2.0...v3.2.1) (2023-01-19)
+
+
+### :bug: Bug Fixes
+
+* **pull-docker-image:** change default cache directory ([91bc969](https://github.com/myparcelnl/actions/commit/91bc969ad903f29c6b042dcfefb9e9b27f4d393b))
+
 ## [3.2.0](https://github.com/myparcelnl/actions/compare/v3.1.0...v3.2.0) (2023-01-19)
 
 
