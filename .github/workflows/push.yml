@@ -7,6 +7,9 @@ on:
 
   workflow_dispatch:
 
+concurrency:
+  group: push-${{ github.ref }}
+
 jobs:
   release:
     name: 'Release'
