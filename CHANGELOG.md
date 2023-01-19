@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0](https://github.com/myparcelnl/actions/compare/v3.1.0...v3.2.0) (2023-01-19)
+
+
+### :sparkles: New Features
+
+* add pull-docker-image action ([53a28b8](https://github.com/myparcelnl/actions/commit/53a28b89868bc3da0bd50b0a583470192c252bfd))
+
 ## [3.1.0](https://github.com/myparcelnl/actions/compare/v3.0.4...v3.1.0) (2023-01-19)
 
 
