@@ -349,6 +349,36 @@ jobs using a registry.
 - run: docker run ${{ steps.docker.outputs.tagged-image }}
 ```
 
+#### pull-docker-image
+
+[Source](pull-docker-image/action.yml)
+
+Pulls and caches a docker image. Outputs the image name that was input to provide an easy way to not have to repeat the image name in the rest of your workflow.
+
+##### Inputs
+
+| Required | Name              | Description                 | Example            | Default          |
+|----------|-------------------|-----------------------------|--------------------|------------------|
+| Yes      | `image`           | Image name                  | `my-name/my-image` | –                |
+| No       | `cache-directory` | Directory to store cache in | `/path/to/cache`   | `/.docker-cache` |
+
+##### Outputs
+
+| Name    | Description | Example            |
+|---------|-------------|--------------------|
+| `image` | Image name  | `my-name/my-image` |
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/pull-docker-image@v3
+  id: pull
+  with:
+    image: ghcr.io/myparcelnl/php-xd:7.4
+
+- run: docker run ${{ steps.pull.outputs.image }}
+```
+
 ### Releasing
 
 #### semantic-release
@@ -420,7 +450,6 @@ Set up git credentials and authenticate as a [GitHub app].
 | `token`     | The GitHub token of the app. | `ghp_1234567890`                       |
 | `git-name`  | The name to use with git.    | `my-app[bot]`                          |
 | `git-email` | The email to use with git.   | `my-app[bot]@users.noreply.github.com` |
-
 
 #### rebase
 

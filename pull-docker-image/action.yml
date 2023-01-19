@@ -1,0 +1,40 @@
+name: 'Pull Docker image'
+description: 'Pull Docker image from registry, or load it from cache.'
+
+inputs:
+  image:
+    description: 'Image name'
+    required: true
+
+  cache-directory:
+    description: 'Directory to store cache in'
+    required: false
+    default: '/.docker-cache'
+
+outputs:
+  image:
+    description: 'Image name'
+    value: ${{ inputs.image }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/cache@v3
+      id: docker-cache
+      with:
+        path: ${{ inputs.cache-directory }}
+        key: docker-cache-${{ runner.os }}
+
+    - name: 'Load cached Docker image'
+      if: steps.docker-cache.outputs.cache-hit == 'true'
+      shell: bash
+      run: |
+        docker load -i ${{ inputs.cache-directory }}/image.tar
+
+    - name: 'Pull Docker image'
+      if: steps.docker-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        docker pull ${{ inputs.image }}
+        mkdir -p ${{ inputs.cache-directory }}
+        docker save -o ${{ inputs.cache-directory }}/image.tar ${{ inputs.image }} }}   
