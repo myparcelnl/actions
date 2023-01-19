@@ -515,22 +515,14 @@ Check if there are new commits in head that are not in base.
 
 [Source](cache-nx/action.yml)
 
-Save and restore the [Nx](https://nx.dev/) cache. Defaults to using `yarn.lock` for cache busting, use the `lockfile` input to override this.
+Save and restore the [Nx](https://nx.dev/) cache.
 
 1. Runs [actions/cache] and caches `./node_modules/.cache/nx`
-
-##### Inputs
-
-| Required | Name       | Description          | Example             | Default     |
-|----------|------------|----------------------|---------------------|-------------|
-| No       | `lockfile` | Path to the lockfile | `package-lock.json` | `yarn.lock` |
 
 ##### Example
 
 ```yaml
 - uses: myparcelnl/actions/cache-nx@v3
-  with:
-    lockfile: package-lock.json
 ```
 
 [Codecov]: https://codecov.io
