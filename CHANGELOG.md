@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0](https://github.com/myparcelnl/actions/compare/v3.0.4...v3.1.0) (2023-01-19)
+
+
+### :sparkles: New Features
+
+* **yarn2-install:** allow using no lockfile ([96ad91b](https://github.com/myparcelnl/actions/commit/96ad91bb21613bb5fb3da2324c3277240a6d2d8d))
+
+
+### :bug: Bug Fixes
+
+* **cache-nx:** cache based on nx.json ([6cc0848](https://github.com/myparcelnl/actions/commit/6cc0848935751574a3041df7853e5f98b3e81d47))
+* **yarn2-install:** add some optimizations ([c5c6691](https://github.com/myparcelnl/actions/commit/c5c66910bbb5a597477486e67c9b53f898489418))
+
 ## [3.0.4](https://github.com/myparcelnl/actions/compare/v3.0.3...v3.0.4) (2023-01-16)
 
 
