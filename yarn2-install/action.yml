@@ -50,3 +50,8 @@ runs:
     - name: 'Install yarn dependencies'
       run: yarn install ${{ inputs.yarn-args }}
       shell: bash
+      env:
+        YARN_ENABLE_GLOBAL_CACHE: 'false'
+        YARN_INSTALL_STATE_PATH: .yarn/ci-cache/install-state.gz
+        YARN_NM_MODE: 'hardlinks-local'
+        HUSKY: '0'
