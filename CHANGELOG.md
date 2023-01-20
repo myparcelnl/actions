@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.2](https://github.com/myparcelnl/actions/compare/v3.2.1...v3.2.2) (2023-01-20)
+
+
+### :bug: Bug Fixes
+
+* **pull-docker-image:** create unique filename for each image ([f086cb5](https://github.com/myparcelnl/actions/commit/f086cb5c1a301445ece02ad0840cd2f707c78a3e))
+
 ## [3.2.1](https://github.com/myparcelnl/actions/compare/v3.2.0...v3.2.1) (2023-01-19)
 
 
