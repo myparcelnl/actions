@@ -25,11 +25,17 @@ runs:
         path: ${{ inputs.cache-directory }}
         key: docker-cache-${{ runner.os }}
 
+    - name: 'Generate image name'
+      id: hash
+      shell: bash
+      run: |
+        echo "filename=$(echo ${{ inputs.image }} | md5sum | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
+
     - name: 'Load cached Docker image'
       if: steps.docker-cache.outputs.cache-hit == 'true'
       shell: bash
       run: |
-        docker load -i ${{ inputs.cache-directory }}/image.tar
+        docker load -i ${{ inputs.cache-directory }}/image-${{ steps.hash.outputs.filename }}.tar
 
     - name: 'Pull Docker image'
       if: steps.docker-cache.outputs.cache-hit != 'true'
@@ -37,4 +43,4 @@ runs:
       run: |
         docker pull ${{ inputs.image }}
         mkdir -p ${{ inputs.cache-directory }}
-        docker save -o ${{ inputs.cache-directory }}/image.tar ${{ inputs.image }} }}   
+        docker save -o ${{ inputs.cache-directory }}/image-${{ steps.hash.outputs.filename }}.tar ${{ inputs.image }}   
