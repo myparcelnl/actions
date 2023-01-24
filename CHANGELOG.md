@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0](https://github.com/myparcelnl/actions/compare/v3.2.3...v3.3.0) (2023-01-24)
+
+
+### :sparkles: New Features
+
+* **semantic-release:** improve release detection ([1c730aa](https://github.com/myparcelnl/actions/commit/1c730aaad54a28b4f4f43e05df51fa8f8df91871))
+
 ## [3.2.3](https://github.com/myparcelnl/actions/compare/v3.2.2...v3.2.3) (2023-01-24)
 
 
