@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.3](https://github.com/myparcelnl/actions/compare/v3.2.2...v3.2.3) (2023-01-24)
+
+
+### :bug: Bug Fixes
+
+* **rebase:** remove setup-git-credentials step ([e88f5be](https://github.com/myparcelnl/actions/commit/e88f5bebb86944c2b3579e1e884354cc57577373))
+
 ## [3.2.2](https://github.com/myparcelnl/actions/compare/v3.2.1...v3.2.2) (2023-01-20)
 
 
