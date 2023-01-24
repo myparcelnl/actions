@@ -385,7 +385,7 @@ Pulls and caches a docker image. Outputs the image name that was input to provid
 
 [Source](semantic-release/action.yml)
 
-Run semantic release. Requires npm dependencies to be installed if using any non-built-in [semantic-release] plugins.
+Run [semantic-release]. Requires npm dependencies to be installed. Outputs information on the release that was just made (or not).
 
 ##### Inputs
 
@@ -397,11 +397,12 @@ Run semantic release. Requires npm dependencies to be installed if using any non
 
 ##### Outputs
 
-| Name               | Description                        | Example |
-|--------------------|------------------------------------|---------|
-| `version`          | The new version                    | `1.2.3` |
-| `previous-version` | The previous version               | `1.2.2` |
-| `released`         | Whether a new version was released | `true`  |
+| Name               | Description                                                             | Example |
+|--------------------|-------------------------------------------------------------------------|---------|
+| `version`          | The version that was just released                                      | `1.2.3` |
+| `previous-version` | The version before the release                                          | `1.2.2` |
+| `release-type`     | The type of the new release. Can be "major", "minor", "patch" or "none" | `patch` |
+| `released`         | Whether a new version was released                                      | `true`  |
 
 ##### Example
 
@@ -412,6 +413,8 @@ Run semantic release. Requires npm dependencies to be installed if using any non
   id: release
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
+    write-summary: true
+    semantic-release-args: --branches=my-branch
   env:
     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
