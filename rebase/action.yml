@@ -33,10 +33,6 @@ runs:
         ref: ${{ inputs.target }}
         fetch-depth: 0
 
-    - uses: myparcelnl/actions/setup-git-credentials@main
-      with:
-        token: ${{ inputs.token }}
-
     - name: 'Rebase'
       id: rebase
       shell: bash
