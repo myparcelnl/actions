@@ -12,46 +12,15 @@ inputs:
     default: ''
     required: false
 
-  no-lockfile:
-    description: 'Do not look for yarn.lock'
-    default: 'false'
-    required: false
-
 runs:
   using: composite
   steps:
-    - uses: actions/setup-node@v3
-      with:
-        node-version: ${{ inputs.node-version }}
-
-    - name: 'Get yarn cache directory path'
-      id: find-cache-dir
-      run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-      shell: bash
-
-    - name: 'Calculate hash'
-      id: calculate-hash
+    - name: 'Notify about deprecation'
       shell: bash
       run: |
-        if [ "${{ inputs.no-lockfile }}" = "true" ]; then
-          echo "hash=${{ hashFiles('.yarnrc.yml') }}" >> $GITHUB_OUTPUT
-        else
-          echo "hash=${{ hashFiles('.yarnrc.yml', '**/yarn.lock') }}" >> $GITHUB_OUTPUT
-        fi
+        echo "::warning::myparcelnl/actions/yarn2-install is deprecated. Please switch to myparcelnl/actions/yarn-install. This action will be removed in v4."
 
-    - name: 'Restore yarn cache'
-      uses: actions/cache@v3
+    - uses: ./yarn-install
       with:
-        path: ${{ steps.find-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-yarn2-${{ steps.calculate-hash.outputs.hash }}
-        restore-keys: |
-          ${{ runner.os }}-yarn2-
-
-    - name: 'Install yarn dependencies'
-      run: yarn install ${{ inputs.yarn-args }}
-      shell: bash
-      env:
-        YARN_ENABLE_GLOBAL_CACHE: 'false'
-        YARN_INSTALL_STATE_PATH: .yarn/ci-cache/install-state.gz
-        YARN_NM_MODE: 'hardlinks-local'
-        HUSKY: '0'
+        node-version: ${{ inputs.node-version }}
+        yarn-args: ${{ inputs.yarn-args }}

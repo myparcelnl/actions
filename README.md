@@ -14,7 +14,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
         - [npm-install](#npm-install)
         - [setup-node](#setup-node)
         - [yarn-install](#yarn-install)
-        - [yarn2-install](#yarn2-install)
+        - [yarn2-install](#yarn2-install--deprecated-)
     - [PHP](#php)
         - [composer-install](#composer-install)
     - [Testing](#testing)
@@ -126,13 +126,13 @@ See also [setup-git-credentials] for setting up git using a [GitHub app].
 
 #### yarn-install
 
-For use with Yarn 1.
+Can be used with Yarn 1 and Yarn 2 (berry).
 
 [Source](yarn-install/action.yml)
 
 1. Runs [actions/setup-node]
-2. Handles `node_modules` cache
-3. Runs `yarn install --frozen-lockfile`
+2. Determines yarn arguments based on yarn version
+3. Runs `yarn install <determined-args> <your-args>`
 
 ##### Example
 
@@ -140,44 +140,19 @@ For use with Yarn 1.
 - uses: myparcelnl/actions/yarn-install@v3
   with:
     node-version: 18
-    yarn-args: --frozen-lockfile --ignore-scripts
+    yarn-args: --ignore-scripts
 ```
 
 ##### Inputs
 
-| Required | Name           | Description                        | Example                              | Default |
-|----------|----------------|------------------------------------|--------------------------------------|---------|
-| No       | `node-version` | The Node.js version to use         | `18`                                 | `18`    |
-| No       | `yarn-args`    | Arguments to use with yarn install | `--frozen-lockfile --ignore-scripts` | ` `     |
+| Required | Name           | Description                        | Example            | Default |
+|----------|----------------|------------------------------------|--------------------|---------|
+| No       | `node-version` | The Node.js version to use         | `19`               | `18`    |
+| No       | `yarn-args`    | Arguments to use with yarn install | `--ignore-scripts` | ` `     |
 
-#### yarn2-install
+#### yarn2-install (deprecated)
 
-For use with Yarn 2 (berry). If your project does not use a lockfile, pass `no-lockfile: true`.
-
-[Source](yarn2-install/action.yml)
-
-1. Runs [actions/setup-node]
-2. Handles yarn cache
-3. Runs `yarn install`. Because this runs on CI, [`--immutable` will be used by
-   default](https://yarnpkg.com/cli/install).
-
-##### Example
-
-```yaml
-- uses: myparcelnl/actions/yarn2-install@v3
-  with:
-    node-version: 18
-    yarn-args: --immutable --immutable-cache
-    no-lockfile: true
-```
-
-##### Inputs
-
-| Required | Name           | Description                        | Example                         | Default |
-|----------|----------------|------------------------------------|---------------------------------|---------|
-| No       | `node-version` | The Node.js version to use         | `18`                            | `18`    |
-| No       | `yarn-args`    | Arguments to use with yarn install | `--immutable --immutable-cache` | ` `     |
-| No       | `no-lockfile`  | Do not look for yarn.lock          | `true`                          | `false` |
+> Note: This action is deprecated and just calls [yarn-install]. Use myparcelnl/actions/yarn-install instead.
 
 #### pnpm-install
 

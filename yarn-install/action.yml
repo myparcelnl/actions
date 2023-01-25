@@ -1,5 +1,5 @@
 name: 'Install yarn dependencies'
-description: 'Install yarn dependencies from scratch or from cache'
+description: 'Install yarn dependencies using cache'
 
 inputs:
   node-version:
@@ -9,7 +9,6 @@ inputs:
 
   yarn-args:
     description: 'Arguments to use with yarn install'
-    default: '--frozen-lockfile'
     required: false
 
 runs:
@@ -20,6 +19,17 @@ runs:
         node-version: ${{ inputs.node-version }}
         cache: 'yarn'
 
-    - name: 'Install yarn dependencies'
-      run: yarn install ${{ inputs.yarn-args }}
+    - name: 'Create variables'
+      id: variables
       shell: bash
+      run: |
+        version=$(yarn --version)
+
+        if [ "$version" -lt "2" ]; then
+          echo "args=--frozen-lockfile"
+        fi
+
+    - name: 'Install yarn dependencies'
+      shell: bash
+      run: |
+        yarn install ${{ steps.variables.outputs.args }} ${{ inputs.yarn-args }}
