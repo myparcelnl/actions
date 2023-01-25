@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.0](https://github.com/myparcelnl/actions/compare/v3.3.0...v3.4.0) (2023-01-25)
+
+
+### :sparkles: New Features
+
+* **yarn-install:** combine yarn2-install into yarn-install ([ee62fbd](https://github.com/myparcelnl/actions/commit/ee62fbdd80b7e92480de936b881fde67f18b9958))
+
 ## [3.3.0](https://github.com/myparcelnl/actions/compare/v3.2.3...v3.3.0) (2023-01-24)
 
 
