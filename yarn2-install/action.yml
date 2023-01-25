@@ -20,7 +20,7 @@ runs:
       run: |
         echo "::warning::myparcelnl/actions/yarn2-install is deprecated. Please switch to myparcelnl/actions/yarn-install. This action will be removed in v4."
 
-    - uses: ./yarn-install
+    - uses: myparcelnl/actions/yarn-install@v3
       with:
         node-version: ${{ inputs.node-version }}
         yarn-args: ${{ inputs.yarn-args }}
