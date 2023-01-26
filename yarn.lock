@@ -250,7 +250,7 @@ __metadata:
     "@myparcel-eslint/eslint-config-esnext": ^1.2.0
     "@myparcel-eslint/eslint-config-node": ^1.2.0
     "@myparcel-eslint/eslint-config-prettier-typescript": ^1.2.0
-    "@myparcel/semantic-release-config": ^4.1.0
+    "@myparcel/semantic-release-config": ^4.2.2
     "@semantic-release/exec": ^6.0.3
     "@semantic-release/git": ^10.0.1
     "@types/node": ^18.11.18
@@ -271,9 +271,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@myparcel/semantic-release-config@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "@myparcel/semantic-release-config@npm:4.1.0"
+"@myparcel/semantic-release-config@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "@myparcel/semantic-release-config@npm:4.2.2"
   dependencies:
     "@iwavesmedia/semantic-release-composer": ^1.0.0
     "@semantic-release/changelog": ^6.0.1
@@ -285,7 +285,7 @@ __metadata:
     "@semantic-release/release-notes-generator": ^10.0.3
     conventional-changelog-conventionalcommits: ^4.0.0 || ^5.0.0
     semantic-release: ^19.0.3
-  checksum: 0b15a167e4b5565eca7ec63f418ec7d813a24fb57886c573bfa30cde2a1fa4afce3842441f5f484dd816af3678ef39df309f2d779356d14b16acad343841fa22
+  checksum: 5d53bd53f88771bac718637f4329d6e6ac22681f7c1b605f8119dcb6ee46722c6ae574c37ee385e2b38aeb423deca90919938e406ac40f9e00ff051da5c4c0a9
   languageName: node
   linkType: hard
 
