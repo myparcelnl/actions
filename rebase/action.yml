@@ -33,7 +33,7 @@ runs:
         ref: ${{ inputs.target }}
         fetch-depth: 0
 
-    - uses: myparcelnl/actions/setup-git-credentials@main
+    - uses: myparcelnl/actions/setup-git-credentials@v2
       with:
         token: ${{ inputs.token }}
 
