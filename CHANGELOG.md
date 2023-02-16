@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.5](https://github.com/myparcelnl/actions/compare/v2.18.4...v2.18.5) (2023-02-16)
+
+
+### :bug: Bug Fixes
+
+* **rebase:** use myparcelnl/actions@v2 instead of main ([9fabb8e](https://github.com/myparcelnl/actions/commit/9fabb8eefdf3d10e854185763715d91f05302afa))
+* **semantic-release:** use myparcelnl/actions@v2 instead of main ([d2182e3](https://github.com/myparcelnl/actions/commit/d2182e3cdf4b29c911217638f0346317291614bb))
+
 ## [2.18.4](https://github.com/myparcelnl/actions/compare/v2.18.3...v2.18.4) (2022-11-24)
 
 
