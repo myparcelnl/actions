@@ -16,20 +16,20 @@ jobs:
     name: 'Release'
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-
-      - uses: ./yarn2-install
-        with:
-          node-version: '18'
-
-      - uses: ./setup-git-credentials
+      - uses: myparcelnl/actions/setup-git-credentials@v3
         id: credentials
         with:
           app-id: ${{ secrets.MYPARCEL_APP_ID }}
           private-key: ${{ secrets.MYPARCEL_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ steps.credentials.outputs.token }}
+          fetch-depth: 0
+
+      - uses: myparcelnl/actions/yarn-install@v3
+        with:
+          node-version: '18'
 
       - run: yarn semantic-release
         env:
