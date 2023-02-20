@@ -23,7 +23,7 @@ runs:
       id: variables
       shell: bash
       run: |
-        version=$(yarn --version)
+        version=$(yarn --version | cut -d. -f1)
 
         if [ "$version" -lt "2" ]; then
           echo "args=--frozen-lockfile"
