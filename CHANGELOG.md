@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.2](https://github.com/myparcelnl/actions/compare/v3.4.1...v3.4.2) (2023-02-20)
+
+
+### :bug: Bug Fixes
+
+* **yarn-install:** fix comparing yarn version ([d476103](https://github.com/myparcelnl/actions/commit/d476103bf14b4239ba94a5bb085d5d71ec568d30))
+
 ## [3.4.1](https://github.com/myparcelnl/actions/compare/v3.4.0...v3.4.1) (2023-01-25)
 
 
