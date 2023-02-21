@@ -34,7 +34,8 @@ runs:
         echo "CI_COMMIT_SHA=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
 
     - name: 'Check bundle size'
-      run: npx bundlewatch --config ${{ inputs.config }}
+      run: |
+        npx bundlewatch $(if [ -n "${{ inputs.config }}" ]; then echo "--config ${{ inputs.config }}"; fi)
       shell: bash
       env:
         BUNDLEWATCH_GITHUB_TOKEN: ${{ inputs.token }}
