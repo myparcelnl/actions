@@ -30,6 +30,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
         - [update-tags](#update-tags)
         - [compare-branches](#compare-branches)
     - [Miscellaneous](#miscellaneous)
+        - [bundlewatch](#bundlewatch)
         - [cache-nx](#cache-nx)
 
 ## General usage
@@ -518,6 +519,28 @@ Check if there are new commits in head that are not in base.
 
 ### Miscellaneous
 
+#### bundlewatch
+
+[Source](bundlewatch/action.yml)
+
+Run [BundleWatch] to check the size of your bundles. You will need to provide a [BundleWatch token] and a configuration. If you don't pass the `config` input, it will look for the `bundlewatch` key in your `package.json`.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/bundlewatch@v3
+  with:
+    config: .bundlewatch.json
+    token: ${{ secrets.BUNDLEWATCH_TOKEN }}
+```
+
+##### Inputs
+
+| Required | Name   | Description                          | Example                            | Default |
+|----------|--------|--------------------------------------|------------------------------------|---------|
+| No       | config | Path to the BundleWatch config file. | `.bundlewatch.json`                | –       |
+| Yes      | token  | BundleWatch token to use.            | `${{ secrets.BUNDLEWATCH_TOKEN }}` | –       |
+
 #### cache-nx
 
 [Source](cache-nx/action.yml)
@@ -531,6 +554,8 @@ Save and restore the [Nx](https://nx.dev/) cache.
 ```yaml
 - uses: myparcelnl/actions/cache-nx@v3
 ```
+
+[BundleWatch]: https://bundlewatch.io/
 
 [Codecov]: https://codecov.io
 
