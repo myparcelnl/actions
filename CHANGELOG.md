@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.0](https://github.com/myparcelnl/actions/compare/v3.4.2...v3.5.0) (2023-02-21)
+
+
+### :sparkles: New Features
+
+* add bundlewatch ([73eacaf](https://github.com/myparcelnl/actions/commit/73eacafd9be38bb543dbc53eb03c22bed183440d))
+
 ## [3.4.2](https://github.com/myparcelnl/actions/compare/v3.4.1...v3.4.2) (2023-02-20)
 
 
