@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.1](https://github.com/myparcelnl/actions/compare/v3.5.0...v3.5.1) (2023-02-21)
+
+
+### :bug: Bug Fixes
+
+* **bundlewatch:** don't pass config parameter when not needed ([7948d2b](https://github.com/myparcelnl/actions/commit/7948d2b8a522c1ae4fe92b3c02763122eaa8fba7))
+
 ## [3.5.0](https://github.com/myparcelnl/actions/compare/v3.4.2...v3.5.0) (2023-02-21)
 
 
