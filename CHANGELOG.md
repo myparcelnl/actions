@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.0](https://github.com/myparcelnl/actions/compare/v3.5.1...v3.6.0) (2023-02-24)
+
+
+### :sparkles: New Features
+
+* add aws-setup and aws-s3-sync ([54133b7](https://github.com/myparcelnl/actions/commit/54133b744f05bc1c9d361b7856f1d9717edd68fa))
+
 ## [3.5.1](https://github.com/myparcelnl/actions/compare/v3.5.0...v3.5.1) (2023-02-21)
 
 
