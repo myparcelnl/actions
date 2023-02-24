@@ -1,0 +1,32 @@
+name: 'Setup AWS CLI'
+
+description: 'Install and configure the AWS CLI'
+
+inputs:
+  region:
+    description: 'The default region'
+    required: true
+
+  access-key-id:
+    description: 'The access key id'
+    required: true
+
+  secret-access-key:
+    description: 'The secret access key'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: 'Install aws cli'
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y awscli
+
+    - name: 'Configure aws cli'
+      shell: bash
+      run: |
+        aws configure set default.region ${{ inputs.region }}
+        aws configure set aws_access_key_id ${{ inputs.access-key-id }}
+        aws configure set aws_secret_access_key ${{ inputs.secret-access-key }}

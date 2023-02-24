@@ -10,6 +10,9 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
 - [Actions](#actions)
     - [Authentication](#authentication)
         - [setup-app-credentials](#setup-app-credentials)
+    - [AWS](#aws)
+        - [aws-setup](#aws-setup)
+        - [aws-s3-sync](#aws-s3-sync)
     - [Node](#node)
         - [npm-install](#npm-install)
         - [setup-node](#setup-node)
@@ -106,6 +109,62 @@ Generate credentials and git committer details for a [GitHub app].
 | `git-email` | The email to use with git.   | `my-app[bot]@users.noreply.github.com` |
 
 See also [setup-git-credentials] for setting up git using a [GitHub app].
+
+### AWS
+
+#### aws-setup
+
+[Source](aws-setup/action.yml)
+
+Setup AWS credentials for use with other AWS actions.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/aws-setup@v3
+  with:
+    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    aws-region: eu-west-1
+```
+
+##### Inputs
+
+| Required | Name                    | Description                | Example                                | Default |
+|----------|-------------------------|----------------------------|----------------------------------------|---------|
+| Yes      | `aws-access-key-id`     | The AWS access key ID.     | `${{ secrets.AWS_ACCESS_KEY_ID }}`     | –       |
+| Yes      | `aws-secret-access-key` | The AWS secret access key. | `${{ secrets.AWS_SECRET_ACCESS_KEY }}` | –       |
+| Yes      | `aws-region`            | The AWS region.            | `eu-west-1`                            | –       |
+
+#### aws-s3-sync
+
+[Source](aws-s3-sync/action.yml)
+
+Sync a directory to an S3 bucket. Must be run after [aws-setup].
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/aws-setup@v3
+  with:
+    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    aws-region: eu-west-1
+
+- uses: myparcelnl/actions/aws-s3-sync@v3
+  with:
+    source: dist
+    bucket: my-bucket
+    delete: true
+```
+
+##### Inputs
+
+| Required | Name     | Description                                                                   | Example                     | Default |
+|----------|----------|-------------------------------------------------------------------------------|-----------------------------|---------|
+| Yes      | `source` | The directory to sync.                                                        | `dist`                      | –       |
+| Yes      | `bucket` | Name of the S3 bucket to sync to.                                             | `${{ secrets.AWS_BUCKET }}` | –       |
+| No       | `delete` | Delete files that exist in the destination but not in the source during sync. | `true`                      | `false` |
 
 ### Node
 
