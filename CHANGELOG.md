@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.1](https://github.com/myparcelnl/actions/compare/v3.6.0...v3.6.1) (2023-02-28)
+
+
+### :bug: Bug Fixes
+
+* **pull-docker-image:** use proper cache key ([6a0508a](https://github.com/myparcelnl/actions/commit/6a0508aa51d54048987c69b77919619605db42a6))
+
 ## [3.6.0](https://github.com/myparcelnl/actions/compare/v3.5.1...v3.6.0) (2023-02-24)
 
 
