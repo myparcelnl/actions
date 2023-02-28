@@ -23,7 +23,7 @@ runs:
       id: docker-cache
       with:
         path: ${{ inputs.cache-directory }}
-        key: docker-cache-${{ runner.os }}
+        key: ${{ runner.os }}-cache-docker-${{ inputs.image }}
 
     - name: 'Generate image name'
       id: hash
