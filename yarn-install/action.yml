@@ -33,3 +33,7 @@ runs:
       shell: bash
       run: |
         yarn install ${{ steps.variables.outputs.args }} ${{ inputs.yarn-args }}
+      env:
+        YARN_ENABLE_GLOBAL_CACHE: 'false'
+        YARN_NM_MODE: 'hardlinks-local'
+        HUSKY: '0'
