@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.2](https://github.com/myparcelnl/actions/compare/v3.6.1...v3.6.2) (2023-04-06)
+
+
+### :bug: Bug Fixes
+
+* **yarn-install:** add environment variables to speed up install ([c6f039f](https://github.com/myparcelnl/actions/commit/c6f039f33e3b0774a47d38ef35aa7ddce1517e04))
+
 ## [3.6.1](https://github.com/myparcelnl/actions/compare/v3.6.0...v3.6.1) (2023-02-28)
 
 
