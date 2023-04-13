@@ -49,4 +49,4 @@ runs:
       shell: bash
       if: inputs.force == 'true' && steps.rebase.outputs.fail != 'true'
       run: |
-        git push --force 
+        git push --force

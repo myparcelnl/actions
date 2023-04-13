@@ -43,4 +43,4 @@ runs:
       run: |
         docker pull ${{ inputs.image }}
         mkdir -p ${{ inputs.cache-directory }}
-        docker save -o ${{ inputs.cache-directory }}/image-${{ steps.hash.outputs.filename }}.tar ${{ inputs.image }}   
+        docker save -o ${{ inputs.cache-directory }}/image-${{ steps.hash.outputs.filename }}.tar ${{ inputs.image }}

@@ -8,33 +8,33 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
 
 - [General usage](#general-usage)
 - [Actions](#actions)
-    - [Authentication](#authentication)
-        - [setup-app-credentials](#setup-app-credentials)
-    - [AWS](#aws)
-        - [aws-setup](#aws-setup)
-        - [aws-s3-sync](#aws-s3-sync)
-    - [Node](#node)
-        - [npm-install](#npm-install)
-        - [setup-node](#setup-node)
-        - [yarn-install](#yarn-install)
-        - [yarn2-install](#yarn2-install--deprecated-)
-    - [PHP](#php)
-        - [composer-install](#composer-install)
-    - [Testing](#testing)
-        - [update-coverage](#update-coverage)
-    - [Docker](#docker)
-        - [build-docker-image](#build-docker-image)
-        - [build-docker-image-reg](#build-docker-image-reg)
-    - [Releasing](#releasing)
-        - [semantic-release](#semantic-release)
-    - [Git](#git)
-        - [setup-git-credentials](#setup-git-credentials)
-        - [rebase](#rebase)
-        - [update-tags](#update-tags)
-        - [compare-branches](#compare-branches)
-    - [Miscellaneous](#miscellaneous)
-        - [bundlewatch](#bundlewatch)
-        - [cache-nx](#cache-nx)
+  - [Authentication](#authentication)
+    - [setup-app-credentials](#setup-app-credentials)
+  - [AWS](#aws)
+    - [aws-setup](#aws-setup)
+    - [aws-s3-sync](#aws-s3-sync)
+  - [Node](#node)
+    - [npm-install](#npm-install)
+    - [setup-node](#setup-node)
+    - [yarn-install](#yarn-install)
+    - [yarn2-install](#yarn2-install--deprecated-)
+  - [PHP](#php)
+    - [composer-install](#composer-install)
+  - [Testing](#testing)
+    - [update-coverage](#update-coverage)
+  - [Docker](#docker)
+    - [build-docker-image](#build-docker-image)
+    - [build-docker-image-reg](#build-docker-image-reg)
+  - [Releasing](#releasing)
+    - [semantic-release](#semantic-release)
+  - [Git](#git)
+    - [setup-git-credentials](#setup-git-credentials)
+    - [rebase](#rebase)
+    - [update-tags](#update-tags)
+    - [compare-branches](#compare-branches)
+  - [Miscellaneous](#miscellaneous)
+    - [bundlewatch](#bundlewatch)
+    - [cache-nx](#cache-nx)
 
 ## General usage
 
@@ -45,7 +45,7 @@ Minor versions are features, additions and improvements, and patch versions are
 bug fixes. **We recommend using a major version.**
 
 | Version | Constraint              |
-|---------|:------------------------|
+| ------- | :---------------------- |
 | v2      | `>= v2.0.0 && > v3.0.0` |
 | v2.0    | `>= v2.0.0 && > v2.1.0` |
 | v2.0.0  | `v2.0.0`                |
@@ -95,14 +95,14 @@ Generate credentials and git committer details for a [GitHub app].
 ##### Inputs
 
 | Required | Name          | Description                 | Example                          | Default |
-|----------|---------------|-----------------------------|----------------------------------|---------|
+| -------- | ------------- | --------------------------- | -------------------------------- | ------- |
 | Yes      | `app-id`      | The app ID of the app.      | `${{ secrets.APP_ID }}`          | –       |
 | Yes      | `private-key` | The private key of the app. | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
 
 ##### Outputs
 
 | Name        | Description                  | Example                                |
-|-------------|------------------------------|----------------------------------------|
+| ----------- | ---------------------------- | -------------------------------------- |
 | `name`      | The name of the app.         | `my-app`                               |
 | `token`     | The GitHub token of the app. | `ghp_1234567890`                       |
 | `git-name`  | The name to use with git.    | `my-app[bot]`                          |
@@ -131,7 +131,7 @@ Setup AWS credentials for use with other AWS actions.
 ##### Inputs
 
 | Required | Name                    | Description                | Example                                | Default |
-|----------|-------------------------|----------------------------|----------------------------------------|---------|
+| -------- | ----------------------- | -------------------------- | -------------------------------------- | ------- |
 | Yes      | `aws-access-key-id`     | The AWS access key ID.     | `${{ secrets.AWS_ACCESS_KEY_ID }}`     | –       |
 | Yes      | `aws-secret-access-key` | The AWS secret access key. | `${{ secrets.AWS_SECRET_ACCESS_KEY }}` | –       |
 | Yes      | `aws-region`            | The AWS region.            | `eu-west-1`                            | –       |
@@ -161,7 +161,7 @@ Sync a directory to an S3 bucket. Must be run after [aws-setup].
 ##### Inputs
 
 | Required | Name     | Description                                                                   | Example                     | Default |
-|----------|----------|-------------------------------------------------------------------------------|-----------------------------|---------|
+| -------- | -------- | ----------------------------------------------------------------------------- | --------------------------- | ------- |
 | Yes      | `source` | The directory to sync.                                                        | `dist`                      | –       |
 | Yes      | `bucket` | Name of the S3 bucket to sync to.                                             | `${{ secrets.AWS_BUCKET }}` | –       |
 | No       | `delete` | Delete files that exist in the destination but not in the source during sync. | `true`                      | `false` |
@@ -206,7 +206,7 @@ Can be used with Yarn 1 and Yarn 2 (berry).
 ##### Inputs
 
 | Required | Name           | Description                        | Example            | Default |
-|----------|----------------|------------------------------------|--------------------|---------|
+| -------- | -------------- | ---------------------------------- | ------------------ | ------- |
 | No       | `node-version` | The Node.js version to use         | `19`               | `18`    |
 | No       | `yarn-args`    | Arguments to use with yarn install | `--ignore-scripts` | ` `     |
 
@@ -236,7 +236,7 @@ Can be used with Yarn 1 and Yarn 2 (berry).
 ##### Inputs
 
 | Required | Name           | Description                        | Example                              | Default             |
-|----------|----------------|------------------------------------|--------------------------------------|---------------------|
+| -------- | -------------- | ---------------------------------- | ------------------------------------ | ------------------- |
 | No       | `node-version` | The Node.js version to use         | `18`                                 | `18`                |
 | No       | `pnpm-version` | The pnpm version to use            | `7.4.0`                              | `7.6.0`             |
 | No       | `pnpm-args`    | Arguments to use with pnpm install | `--ignore-scripts --frozen-lockfile` | `--frozen-lockfile` |
@@ -248,7 +248,7 @@ Can be used with Yarn 1 and Yarn 2 (berry).
 [Source](setup-node/action.yml)
 
 1. Sets up node@14
-    - You can change the version by passing `node-version`.
+   - You can change the version by passing `node-version`.
 
 ##### Example
 
@@ -266,14 +266,14 @@ Can be used with Yarn 1 and Yarn 2 (berry).
 [Source](composer-install/action.yml)
 
 1. Sets up php@7.2 with composer v2
-    - You can change the php version by passing `php-version`.
-    - You can change the composer version or install any other tools by
-      passing `tools`.
-      See [shivammathur/setup-php](https://github.com/shivammathur/setup-php#wrench-tools-support)
-      for supported values.
+   - You can change the php version by passing `php-version`.
+   - You can change the composer version or install any other tools by
+     passing `tools`.
+     See [shivammathur/setup-php](https://github.com/shivammathur/setup-php#wrench-tools-support)
+     for supported values.
 2. Handles cache
 3. Runs `composer install --no-interaction --no-progress`
-    - You can add additional flags by passing the `flags` option.
+   - You can add additional flags by passing the `flags` option.
 
 ##### Example
 
@@ -292,7 +292,7 @@ Can be used with Yarn 1 and Yarn 2 (berry).
 [Source](update-coverage/action.yml)
 
 1. Runs [codecov/codecov-action]
-    - Needs a [Codecov] token in `token`.
+   - Needs a [Codecov] token in `token`.
 
 ##### Example
 
@@ -314,7 +314,7 @@ jobs based on git ref and tag.
 ##### Inputs
 
 | Required | Name          | Description                                  | Example                                   | Default                  |
-|----------|---------------|----------------------------------------------|-------------------------------------------|--------------------------|
+| -------- | ------------- | -------------------------------------------- | ----------------------------------------- | ------------------------ |
 | Yes      | `image`       | Image name                                   | `my-name/my-image`                        | –                        |
 | Yes      | `key`         | Cache key                                    | `my-image-${{ hashFiles('Dockerfile') }}` | `${{ github.workflow }}` |
 | No       | `dockerfile`  | Path to dockerfile                           | `./docker/prod.Dockerfile`                | `Dockerfile`             |
@@ -326,7 +326,7 @@ jobs based on git ref and tag.
 ##### Outputs
 
 | Name           | Description                 | Example                       |
-|----------------|-----------------------------|-------------------------------|
+| -------------- | --------------------------- | ----------------------------- |
 | `tagged-image` | Created image name with tag | `my-name/my-image:1639002200` |
 | `tag`          | Tag of the created image    | `1639002200`                  |
 
@@ -355,7 +355,7 @@ jobs using a registry.
 ##### Inputs
 
 | Required | Name                | Description                        | Example                               | Default      |
-|----------|---------------------|------------------------------------|---------------------------------------|--------------|
+| -------- | ------------------- | ---------------------------------- | ------------------------------------- | ------------ |
 | Yes      | `image`             | Image name                         | `my-name/my-image`                    | –            |
 | No       | `dockerfile`        | Path to dockerfile                 | `./docker/prod.Dockerfile`            | `Dockerfile` |
 | No       | `context`           | Directory to build from            | `./docker`                            | `.`          |
@@ -367,7 +367,7 @@ jobs using a registry.
 ##### Outputs
 
 | Name           | Description                 | Example                       |
-|----------------|-----------------------------|-------------------------------|
+| -------------- | --------------------------- | ----------------------------- |
 | `tagged-image` | Created image name with tag | `my-name/my-image:1639002200` |
 | `tag`          | Tag of the created image    | `1639002200`                  |
 
@@ -393,14 +393,14 @@ Pulls and caches a docker image. Outputs the image name that was input to provid
 ##### Inputs
 
 | Required | Name              | Description                 | Example            | Default           |
-|----------|-------------------|-----------------------------|--------------------|-------------------|
+| -------- | ----------------- | --------------------------- | ------------------ | ----------------- |
 | Yes      | `image`           | Image name                  | `my-name/my-image` | –                 |
 | No       | `cache-directory` | Directory to store cache in | `/path/to/cache`   | `~/.docker-cache` |
 
 ##### Outputs
 
 | Name    | Description | Example            |
-|---------|-------------|--------------------|
+| ------- | ----------- | ------------------ |
 | `image` | Image name  | `my-name/my-image` |
 
 ##### Example
@@ -425,7 +425,7 @@ Run [semantic-release]. Requires npm dependencies to be installed. Outputs infor
 ##### Inputs
 
 | Required | Name                    | Description                                 | Example                       | Default |
-|----------|-------------------------|---------------------------------------------|-------------------------------|---------|
+| -------- | ----------------------- | ------------------------------------------- | ----------------------------- | ------- |
 | Yes      | `token`                 | GitHub Personal access token                | `${{ secrets.GITHUB_TOKEN }}` | –       |
 | No       | `semantic-release-args` | Semantic release arguments                  | `--dry-run`                   | –       |
 | No       | `write-summary`         | Write a summary to the GitHub action output | `true`                        | `false` |
@@ -433,7 +433,7 @@ Run [semantic-release]. Requires npm dependencies to be installed. Outputs infor
 ##### Outputs
 
 | Name                      | Description                                                             | Example  |
-|---------------------------|-------------------------------------------------------------------------|----------|
+| ------------------------- | ----------------------------------------------------------------------- | -------- |
 | `version`                 | The version that was just released, prefixed with "v"                   | `v1.2.3` |
 | `previous-version`        | The version before the release, prefixed with "v"                       | `v1.2.2` |
 | `version-number`          | The version number that was just released                               | `1.2.3`  |
@@ -478,14 +478,14 @@ Set up git credentials and authenticate as a [GitHub app].
 ##### Inputs
 
 | Required | Name          | Description                 | Example                          | Default |
-|----------|---------------|-----------------------------|----------------------------------|---------|
+| -------- | ------------- | --------------------------- | -------------------------------- | ------- |
 | true     | `app-id`      | The app ID of the app.      | `${{ secrets.APP_ID }}`          | –       |
 | true     | `private-key` | The private key of the app. | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
 
 ##### Outputs
 
 | Name        | Description                  | Example                                |
-|-------------|------------------------------|----------------------------------------|
+| ----------- | ---------------------------- | -------------------------------------- |
 | `name`      | The name of the app.         | `my-app`                               |
 | `token`     | The GitHub token of the app. | `ghp_1234567890`                       |
 | `git-name`  | The name to use with git.    | `my-app[bot]`                          |
@@ -500,7 +500,7 @@ Rebase two branches and push.
 ##### Inputs
 
 | Required | Name     | Description                          | Example                        | Default  |
-|----------|----------|--------------------------------------|--------------------------------|----------|
+| -------- | -------- | ------------------------------------ | ------------------------------ | -------- |
 | Yes      | `target` | Target branch you wish to update.    | `develop`                      | –        |
 | Yes      | `base`   | Base branch to use to rebase target. | `main`                         | –        |
 | Yes      | `token`  | GitHub token to use.                 | `${{ secrets.GH_REPO_TOKEN }}` | –        |
@@ -529,7 +529,7 @@ GitHub actions.
 ##### Inputs
 
 | Required | Name    | Description               | Example | Default |
-|----------|---------|---------------------------|---------|---------|
+| -------- | ------- | ------------------------- | ------- | ------- |
 | No       | `minor` | Update the major version. | `true`  | `true`  |
 | No       | `major` | Update the minor version. | `true`  | `false` |
 
@@ -565,7 +565,7 @@ Check if there are new commits in head that are not in base.
 ##### Inputs
 
 | Required | Name     | Description                         | Example           | Default   |
-|----------|----------|-------------------------------------|-------------------|-----------|
+| -------- | -------- | ----------------------------------- | ----------------- | --------- |
 | No       | `base`   | The base branch to compare against  | `main`            | `main`    |
 | No       | `head`   | The branch to check for new commits | `feat/my-feature` | `develop` |
 | No       | `remote` | The remote to use                   | `upstream`        | `origin`  |
@@ -573,7 +573,7 @@ Check if there are new commits in head that are not in base.
 ##### Outputs
 
 | Name          | Description                                  | Example                                                           |
-|---------------|----------------------------------------------|-------------------------------------------------------------------|
+| ------------- | -------------------------------------------- | ----------------------------------------------------------------- |
 | `diff`        | Whether the branches are different           | `true`                                                            |
 | `commits`     | List of commits in head that are not in base | `• fix: fix a bug (3 days ago)`                                   |
 | `compare-url` | Link to the compare view of both commits     | `https://github.com/myparcelnl/woocommerce/compare/main..develop` |
@@ -598,7 +598,7 @@ Run [BundleWatch] to check the size of your bundles. You will need to provide a 
 ##### Inputs
 
 | Required | Name   | Description                          | Example                            | Default |
-|----------|--------|--------------------------------------|------------------------------------|---------|
+| -------- | ------ | ------------------------------------ | ---------------------------------- | ------- |
 | No       | config | Path to the BundleWatch config file. | `.bundlewatch.json`                | –       |
 | Yes      | token  | BundleWatch token to use.            | `${{ secrets.BUNDLEWATCH_TOKEN }}` | –       |
 
@@ -617,29 +617,16 @@ Save and restore the [Nx](https://nx.dev/) cache.
 ```
 
 [BundleWatch]: https://bundlewatch.io/
-
 [Codecov]: https://codecov.io
-
 [Github app]: https://docs.github.com/en/developers/apps
-
 [actions/checkout]: https://github.com/actions/checkout
-
 [actions/setup-node]: https://github.com/actions/setup-node
-
 [build-docker-image-reg]: #build-docker-image-reg
-
 [build-docker-image]: #build-docker-image
-
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
-
 [composer-install]: #composer-install
-
 [npm-install]: #npm-install
-
 [pnpm-install]: #pnpm-install
-
 [semantic-release]: #semantic-release
-
 [setup-git-credentials]: #setup-git-credentials
-
 [yarn-install]: #yarn-install

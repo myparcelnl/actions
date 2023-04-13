@@ -43,7 +43,7 @@ runs:
         bot_name=${{ steps.generate-token.outputs.BOT_NAME }}
         bot_git_name="${bot_name}[bot]"
         bot_git_email="${bot_name}[bot]@users.noreply.github.com"
-        
+
         echo "name=${bot_name}" >> $GITHUB_OUTPUT
         echo "token=${{ steps.generate-token.outputs.BOT_TOKEN }}" >> $GITHUB_OUTPUT
         echo "git-name=${bot_git_name}" >> $GITHUB_OUTPUT
