@@ -32,6 +32,8 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [rebase](#rebase)
     - [update-tags](#update-tags)
     - [compare-branches](#compare-branches)
+  - [GitHub](#github)
+    - [get-github-token](#get-github-token)
   - [Miscellaneous](#miscellaneous)
     - [bundlewatch](#bundlewatch)
     - [cache-nx](#cache-nx)
@@ -577,6 +579,49 @@ Check if there are new commits in head that are not in base.
 | `diff`        | Whether the branches are different           | `true`                                                            |
 | `commits`     | List of commits in head that are not in base | `• fix: fix a bug (3 days ago)`                                   |
 | `compare-url` | Link to the compare view of both commits     | `https://github.com/myparcelnl/woocommerce/compare/main..develop` |
+
+### GitHub
+
+#### get-github-token
+
+[Source](get-github-token/action.yml)
+
+Gets a GitHub token to use in the workflow. If `token` is passed, it will be used. Otherwise, an app token will be generated. Either `token` or `app-id` and `private-key` must be passed.
+
+Meant for use within other actions, because obviously you could just use the `token` input directly.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/get-github-token@v3
+  id: passed-token
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+
+- uses: myparcelnl/actions/get-github-token@v3
+  id: generated-token
+  with:
+    app-id: ${{ secrets.GITHUB_APP_ID }}
+    private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
+
+- run: echo ${{ steps.passed-token.outputs.token }} # The GitHub token that was passed in.
+
+- run: echo ${{ steps.generated-token.outputs.token }} # The GitHub token that was generated.
+```
+
+##### Inputs
+
+| Required | Name          | Description                                                                                      | Example                          | Default |
+| -------- | ------------- | ------------------------------------------------------------------------------------------------ | -------------------------------- | ------- |
+| false    | `token`       | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –       |
+| false    | `app-id`      | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –       |
+| false    | `private-key` | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
+
+##### Outputs
+
+| Name    | Description       | Example |
+| ------- | ----------------- | ------- |
+| `token` | The GitHub token. | `***`   |
 
 ### Miscellaneous
 
