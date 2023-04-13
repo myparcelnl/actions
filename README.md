@@ -653,6 +653,42 @@ Assign the author of a pull request to the pull request. For use with the `pull_
 | false    | `app-id`      | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –       |
 | false    | `private-key` | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
 
+#### pr-validate-title-conventional
+
+[Source](pr-validate-title-conventional/action.yml)
+
+Validate the title of a pull request based on the conventional commit format. For use with the `pull_request` event.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/pr-validate-title-conventional@v3
+  with:
+    token: ${{ secrets.GITHUB_TOKEN }}
+
+# Or, if you want to use a GitHub app:
+
+- uses: myparcelnl/actions/pr-validate-title-conventional@v3
+  with:
+    app-id: ${{ secrets.GITHUB_APP_ID }}
+    private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
+```
+
+##### Inputs
+
+| Required | Name          | Description                                                                                      | Example                          | Default |
+| -------- | ------------- | ------------------------------------------------------------------------------------------------ | -------------------------------- | ------- |
+| false    | `token`       | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –       |
+| false    | `app-id`      | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –       |
+| false    | `private-key` | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
+
+##### Outputs
+
+| Name      | Description                              | Example                         |
+| --------- | ---------------------------------------- | ------------------------------- |
+| `success` | Whether the PR title is valid.           | `true`                          |
+| `error`   | Error in case the PR title is not valid. | `(string containing the error)` |
+
 ### Miscellaneous
 
 #### bundlewatch

@@ -1,0 +1,43 @@
+name: 'Validate PR title'
+description: 'Validate pull request title based on the conventional commits convention'
+
+inputs:
+  token:
+    description: 'GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.'
+
+  app-id:
+    description: 'The app ID of the app.'
+
+  private-key:
+    description: 'The private key of the app.'
+
+outputs:
+  success:
+    description: 'Whether the PR title is valid'
+    value: ${{ steps.validate.outputs.success }}
+
+  error:
+    description: 'Error in case the PR title is not valid'
+    value: ${{ steps.validate.outputs.error }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+
+    - uses: ./get-github-token
+      id: token
+      with:
+        token: ${{ inputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - uses: aslafy-z/conventional-pr-title-action@v3
+      id: validate
+      continue-on-error: true
+      with:
+        context-name: 'Validate pull request title'
+        success-state: 'Title follows conventional commits convention'
+        failure-state: 'Title does not follow conventional commits convention'
+      env:
+        GITHUB_TOKEN: ${{ steps.token.outputs.token }}
