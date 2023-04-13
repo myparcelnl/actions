@@ -1,0 +1,41 @@
+name: 'Auto assign author'
+description: 'Automatically assign the author of a pull request to the pull request.'
+
+inputs:
+  token:
+    description: 'GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.'
+
+  app-id:
+    description: 'The app ID of the app.'
+
+  private-key:
+    description: 'The private key of the app.'
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+
+    - uses: ./get-github-token
+      id: token
+      with:
+        token: ${{ inputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - name: 'Assign author if none are assigned'
+      uses: actions/github-script@v6
+      with:
+        token: ${{ steps.token.outputs.token }}
+        script: |
+          if (context.payload.pull_request.assignees.length > 0) {
+            return;
+          }
+
+          const author = context.payload.pull_request.user.login;
+
+          github.rest.issues.addAssignees({
+              ...context.repo,
+              issue_number: context.payload.pull_request.number,
+              assignees: [author],
+          });

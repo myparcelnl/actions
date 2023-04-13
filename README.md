@@ -34,6 +34,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [compare-branches](#compare-branches)
   - [GitHub](#github)
     - [get-github-token](#get-github-token)
+    - [pr-assign-author](#pr-assign-author)
   - [Miscellaneous](#miscellaneous)
     - [bundlewatch](#bundlewatch)
     - [cache-nx](#cache-nx)
@@ -622,6 +623,35 @@ Meant for use within other actions, because obviously you could just use the `to
 | Name    | Description       | Example |
 | ------- | ----------------- | ------- |
 | `token` | The GitHub token. | `***`   |
+
+#### pr-assign-author
+
+[Source](pr-assign-author/action.yml)
+
+Assign the author of a pull request to the pull request. For use with the `pull_request` event.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/pr-assign-author@v3
+  with:
+    token: ${{ secrets.GITHUB_TOKEN }}
+
+# Or, if you want to use a GitHub app:
+
+- uses: myparcelnl/actions/pr-assign-author@v3
+  with:
+    app-id: ${{ secrets.GITHUB_APP_ID }}
+    private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
+```
+
+##### Inputs
+
+| Required | Name          | Description                                                                                      | Example                          | Default |
+| -------- | ------------- | ------------------------------------------------------------------------------------------------ | -------------------------------- | ------- |
+| false    | `token`       | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –       |
+| false    | `app-id`      | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –       |
+| false    | `private-key` | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
 
 ### Miscellaneous
 
