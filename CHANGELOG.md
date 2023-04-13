@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.0](https://github.com/myparcelnl/actions/compare/v3.7.0...v3.8.0) (2023-04-13)
+
+
+### :sparkles: New Features
+
+* add get-github-token ([4da661d](https://github.com/myparcelnl/actions/commit/4da661d810f18d4ff8a3b68a5a633a7423ace865))
+* add pr-assign-author ([b458c5c](https://github.com/myparcelnl/actions/commit/b458c5c1c08f586cd2adf7dbb97fe4be0227ff55))
+* add pr-validate-title-conventional ([ad1b7a4](https://github.com/myparcelnl/actions/commit/ad1b7a4445ab6f14906cf86b8194f6408f003fb1))
+
 ## [3.7.0](https://github.com/myparcelnl/actions/compare/v3.6.2...v3.7.0) (2023-04-13)
 
 
