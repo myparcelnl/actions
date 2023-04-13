@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.7.0](https://github.com/myparcelnl/actions/compare/v3.6.2...v3.7.0) (2023-04-13)
+
+
+### :sparkles: New Features
+
+* **semantic-release:** add outputs with unprefixed version numbers ([d0be0ea](https://github.com/myparcelnl/actions/commit/d0be0ea3cddf0a7a950fb8ea1aa9e087dea88863))
+
 ## [3.6.2](https://github.com/myparcelnl/actions/compare/v3.6.1...v3.6.2) (2023-04-06)
 
 
