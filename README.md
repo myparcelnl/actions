@@ -432,12 +432,14 @@ Run [semantic-release]. Requires npm dependencies to be installed. Outputs infor
 
 ##### Outputs
 
-| Name               | Description                                                             | Example |
-|--------------------|-------------------------------------------------------------------------|---------|
-| `version`          | The version that was just released                                      | `1.2.3` |
-| `previous-version` | The version before the release                                          | `1.2.2` |
-| `release-type`     | The type of the new release. Can be "major", "minor", "patch" or "none" | `patch` |
-| `released`         | Whether a new version was released                                      | `true`  |
+| Name                      | Description                                                             | Example  |
+|---------------------------|-------------------------------------------------------------------------|----------|
+| `version`                 | The version that was just released, prefixed with "v"                   | `v1.2.3` |
+| `previous-version`        | The version before the release, prefixed with "v"                       | `v1.2.2` |
+| `version-number`          | The version number that was just released                               | `1.2.3`  |
+| `previous-version-number` | The version number before the release                                   | `1.2.2`  |
+| `release-type`            | The type of the new release. Can be "major", "minor", "patch" or "none" | `patch`  |
+| `released`                | Whether a new version was released                                      | `true`   |
 
 ##### Example
 

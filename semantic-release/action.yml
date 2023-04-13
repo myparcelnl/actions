@@ -17,12 +17,20 @@ inputs:
 
 outputs:
   version:
-    description: 'The version that was just released'
+    description: 'The version that was just released, prefixed with "v"'
     value: ${{ steps.normalize.outputs.next-version }}
 
   previous-version:
-    description: 'The version before the release'
+    description: 'The version before the release, prefixed with "v"'
     value: ${{ steps.normalize.outputs.last-version }}
+
+  version-number:
+    description: 'The version number that was just released'
+    value: ${{ steps.normalize.outputs.next-version-number }}
+
+  previous-version-number:
+    description: 'The version number before the release'
+    value: ${{ steps.normalize.outputs.last-version-number }}
 
   release-type:
     description: 'The type of the new release. Can be "major", "minor", "patch" or "none"'
@@ -52,6 +60,10 @@ runs:
 
         echo "next-version=${NEXT_VER:+v$NEXT_VER}" >> $GITHUB_OUTPUT
         echo "last-version=${LAST_VER:+v$LAST_VER}" >> $GITHUB_OUTPUT
+
+        echo "next-version-number=${NEXT_VER}" >> $GITHUB_OUTPUT
+        echo "last-version-number=${LAST_VER}" >> $GITHUB_OUTPUT
+
         echo "release-type=${RELEASE_TYPE:-none}" >> $GITHUB_OUTPUT
         echo "released=$( [[ -n "$RELEASE_TYPE" ]] && echo true || echo false )" >> $GITHUB_OUTPUT
 
