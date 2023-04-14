@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.1](https://github.com/myparcelnl/actions/compare/v3.8.0...v3.8.1) (2023-04-14)
+
+
+### :bug: Bug Fixes
+
+* **pr-assign-author:** refer to get-github-token via tag ([f62b51a](https://github.com/myparcelnl/actions/commit/f62b51ae300f679d114115bff0ce3159977d06cf))
+* **pr-validate-title-conventional:** refer to get-github-token via tag ([a97e1ee](https://github.com/myparcelnl/actions/commit/a97e1eed43cdea19eb82c30e2d47d4cbbae73df7))
+
 ## [3.8.0](https://github.com/myparcelnl/actions/compare/v3.7.0...v3.8.0) (2023-04-13)
 
 
