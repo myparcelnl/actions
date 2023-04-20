@@ -684,7 +684,7 @@ Label a pull request based on the review state. For use with the `pull_request_r
 
     label-approved: 'yay' # The label to add when the PR is approved.
     label-changes-requested: 'nay' # The label to add when changes are requested.
-    reviews-required: 2 # The number of reviews required to merge the PR. Should be passed only if you don't have an access token or app with the read settings permission.
+    required-approvals: 2 # The number of reviews required to merge the PR. Should be passed only if you don't have an access token or app with the read settings permission.
 ```
 
 ##### Inputs
@@ -694,7 +694,7 @@ Label a pull request based on the review state. For use with the `pull_request_r
 | false    | `token`                   | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.                                          | `${{ secrets.GITHUB_TOKEN }}`    | –                   |
 | false    | `app-id`                  | The app ID of the app.                                                                                                                    | `${{ secrets.APP_ID }}`          | –                   |
 | false    | `private-key`             | The private key of the app.                                                                                                               | `${{ secrets.APP_PRIVATE_KEY }}` | –                   |
-| false    | `reviews-required`        | The number of reviews required to merge the PR. Can be passed if you don't have an access token or app with the read settings permission. | `2`                              | –                   |
+| false    | `required-approvals`      | The number of reviews required to merge the PR. Can be passed if you don't have an access token or app with the read settings permission. | `2`                              | –                   |
 | false    | `label-approved`          | The label to add when the PR is approved.                                                                                                 | `ready to merge`                 | `approved`          |
 | false    | `label-changes-requested` | The label to add when changes are requested.                                                                                              | `needs work`                     | `changes requested` |
 
