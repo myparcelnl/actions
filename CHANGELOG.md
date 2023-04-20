@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.9.0](https://github.com/myparcelnl/actions/compare/v3.8.2...v3.9.0) (2023-04-20)
+
+
+### :sparkles: New Features
+
+* add pr-label-by-review ([bafc1e9](https://github.com/myparcelnl/actions/commit/bafc1e9535579543e836b21aed4daed2f5c3749f))
+
 ## [3.8.2](https://github.com/myparcelnl/actions/compare/v3.8.1...v3.8.2) (2023-04-20)
 
 
