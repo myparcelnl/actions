@@ -35,6 +35,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
   - [GitHub](#github)
     - [get-github-token](#get-github-token)
     - [pr-assign-author](#pr-assign-author)
+    - [pr-validate-title-conventional](#pr-validate-title-conventional)
   - [Miscellaneous](#miscellaneous)
     - [bundlewatch](#bundlewatch)
     - [cache-nx](#cache-nx)
