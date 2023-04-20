@@ -35,6 +35,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
   - [GitHub](#github)
     - [get-github-token](#get-github-token)
     - [pr-assign-author](#pr-assign-author)
+    - [pr-label-by-review](#pr-label-by-review)
     - [pr-validate-title-conventional](#pr-validate-title-conventional)
   - [Miscellaneous](#miscellaneous)
     - [bundlewatch](#bundlewatch)
@@ -653,6 +654,49 @@ Assign the author of a pull request to the pull request. For use with the `pull_
 | false    | `token`       | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –       |
 | false    | `app-id`      | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –       |
 | false    | `private-key` | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
+
+#### pr-label-by-review
+
+[Source](pr-label-by-review/action.yml)
+
+Label a pull request based on the review state. For use with the `pull_request_review` event.
+
+1. Gets the amount of reviews needed.
+   - Uses `inputs.reviews-required` if passed.
+   - If this input does not exist, the action will get the data via branch protections. You'll need an app or access token with the `read settings` permission for this.
+2. Calculates whether the PR is approved or changes are requested.
+3. Labels the PR accordingly, removing labels that are no longer relevant.
+   - If the PR is approved: `inputs.label-approved` is added, `inputs.label-changes-requested` is removed if it exists.
+   - If changes are requested: `inputs.label-changes-requested` is added, `inputs.label-approved` is removed if it exists.
+   - If the PR is not approved and no changes are requested: `inputs.label-approved` and `inputs.label-changes-requested` are removed if they exist.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/pr-label-by-review@v3
+  with:
+    # Either a GitHub token or a GitHub app is required.
+    token: ${{ secrets.GITHUB_TOKEN }}
+
+    # Omit `token` and pass the following if you want to use a GitHub app:
+    app-id: ${{ secrets.GITHUB_APP_ID }}
+    private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
+
+    label-approved: 'yay' # The label to add when the PR is approved.
+    label-changes-requested: 'nay' # The label to add when changes are requested.
+    reviews-required: 2 # The number of reviews required to merge the PR. Should be passed only if you don't have an access token or app with the read settings permission.
+```
+
+##### Inputs
+
+| Required | Name                      | Description                                                                                                                               | Example                          | Default             |
+| -------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ------------------- |
+| false    | `token`                   | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.                                          | `${{ secrets.GITHUB_TOKEN }}`    | –                   |
+| false    | `app-id`                  | The app ID of the app.                                                                                                                    | `${{ secrets.APP_ID }}`          | –                   |
+| false    | `private-key`             | The private key of the app.                                                                                                               | `${{ secrets.APP_PRIVATE_KEY }}` | –                   |
+| false    | `reviews-required`        | The number of reviews required to merge the PR. Can be passed if you don't have an access token or app with the read settings permission. | `2`                              | –                   |
+| false    | `label-approved`          | The label to add when the PR is approved.                                                                                                 | `ready to merge`                 | `approved`          |
+| false    | `label-changes-requested` | The label to add when changes are requested.                                                                                              | `needs work`                     | `changes requested` |
 
 #### pr-validate-title-conventional
 
