@@ -1,5 +1,5 @@
-name: Install npm dependencies
-description: Install npm dependencies from scratch or from cache
+name: 'Install npm dependencies'
+description: 'Install npm dependencies from scratch or from cache'
 
 inputs:
   node-version:
