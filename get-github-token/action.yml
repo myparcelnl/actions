@@ -19,12 +19,15 @@ outputs:
 runs:
   using: composite
   steps:
-    - id: log
+    - name: 'Log'
+      id: log
       shell: bash
       run: |
-        echo "token=${{ inputs.token }}"
-        echo "app-id=${{ inputs.app-id }}"
-        echo "private-key=${{ inputs.private-key }}"
+        if [ -n "${{ inputs.github-token }}" ]; then
+          echo "Using GitHub token."
+        elif [ -n "${{ inputs.app-id }}" ] && [ -n "${{ inputs.private-key }}" ]; then
+          echo "Using app credentials."
+        fi
 
     - id: app
       if: inputs.token == '' && (inputs.app-id != '' || inputs.private-key != '')
