@@ -17,7 +17,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [npm-install](#npm-install)
     - [setup-node](#setup-node)
     - [yarn-install](#yarn-install)
-    - [yarn2-install](#yarn2-install--deprecated-)
+    - [yarn2-install](#yarn2-install-deprecated)
   - [PHP](#php)
     - [composer-install](#composer-install)
   - [Testing](#testing)
