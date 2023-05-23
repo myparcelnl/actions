@@ -24,6 +24,11 @@ inputs:
     required: false
     default: 'origin'
 
+  continue-on-error:
+    description: 'Continue when rebasing fails'
+    required: false
+    default: 'true' # TODO: change to false in next major version
+
 runs:
   using: composite
   steps:
@@ -37,16 +42,25 @@ runs:
       id: rebase
       shell: bash
       run: |
-        git rebase "${{ inputs.remote }}/${{ inputs.base }}" || (echo "fail=true" >> $GITHUB_OUTPUT && git rebase --abort)
+        FAILED=false
+        git rebase "${{ inputs.remote }}/${{ inputs.base }}" || (FAILED=true && git rebase --abort)
+
+        if [ "$FAILED" = true ]; then
+          echo "failed=true" >> $GITHUB_OUTPUT
+
+          if [ "${{ inputs.continue-on-error }}" = false ]; then
+              exit 1
+          fi
+        fi
 
     - name: 'Push'
       shell: bash
-      if: inputs.force != 'true' && steps.rebase.outputs.fail != 'true'
+      if: inputs.force != 'true' && steps.rebase.outputs.failed != 'true'
       run: |
         git push
 
     - name: 'Force push'
       shell: bash
-      if: inputs.force == 'true' && steps.rebase.outputs.fail != 'true'
+      if: inputs.force == 'true' && steps.rebase.outputs.failed != 'true'
       run: |
         git push --force
