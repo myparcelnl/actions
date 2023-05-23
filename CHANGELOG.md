@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.10.0](https://github.com/myparcelnl/actions/compare/v3.9.0...v3.10.0) (2023-05-23)
+
+
+### :sparkles: New Features
+
+* **rebase:** add continue-on-error input ([68809e5](https://github.com/myparcelnl/actions/commit/68809e52fed3308e651524eaa815a47fc8a844d3))
+
 ## [3.9.0](https://github.com/myparcelnl/actions/compare/v3.8.2...v3.9.0) (2023-04-20)
 
 
