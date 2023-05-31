@@ -82,7 +82,7 @@ Will use every patch update within `v2.1.x`.
 
 [Source](setup-app-credentials/action.yml)
 
-Generate credentials and git committer details for a [GitHub app].
+Generate credentials for a [GitHub app].
 
 ##### Example
 
