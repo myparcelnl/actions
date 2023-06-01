@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.10.1](https://github.com/myparcelnl/actions/compare/v3.10.0...v3.10.1) (2023-06-01)
+
+
+### :bug: Bug Fixes
+
+* **setup-app-credentials:** pin use-app-token action to commit sha ([#54](https://github.com/myparcelnl/actions/issues/54)) ([d501431](https://github.com/myparcelnl/actions/commit/d501431db10f8f0302fa2bb7d3982c9b1d31c82a))
+
 ## [3.10.0](https://github.com/myparcelnl/actions/compare/v3.9.0...v3.10.0) (2023-05-23)
 
 
