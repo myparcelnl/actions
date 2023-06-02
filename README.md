@@ -292,6 +292,12 @@ Can be used with Yarn 1 and Yarn 2 (berry).
 | No       | `php-version` | The PHP version to use                         | `8.0`          | `7.2`   |
 | No       | `flags`       | Additional flags to pass to `composer install` | `--no-scripts` | –       |
 
+#### Outputs
+
+| Name    | Description                                                                           | Example                                    |
+| ------- | ------------------------------------------------------------------------------------- | ------------------------------------------ |
+| `image` | The image name that was used to install dependencies. Can be used in subsequent jobs. | `ghcr.io/myparcelnl/php-xd:7.4-cli-alpine` |
+
 ### Testing
 
 #### update-coverage

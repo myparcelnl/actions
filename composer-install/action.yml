@@ -12,9 +12,20 @@ inputs:
     required: false
     default: ''
 
+outputs:
+  image:
+    description: 'The image name that was used to install dependencies. Can be used in subsequent jobs.'
+    value: ${{ steps.prepare.outputs.image }}
+
 runs:
   using: composite
   steps:
+    - name: 'Get image name'
+      id: prepare
+      shell: bash
+      run: |
+        echo "image=ghcr.io/myparcelnl/php-xd:${{ inputs.php-version }}-cli-alpine" >> $GITHUB_ENV
+
     - name: 'Handle composer cache'
       uses: actions/cache@v3
       with:
@@ -26,7 +37,7 @@ runs:
 
     - uses: myparcelnl/actions/pull-docker-image@v3
       with:
-        image: ghcr.io/myparcelnl/php-xd:${{ inputs.php-version }}-cli-alpine
+        image: ${{ steps.prepare.outputs.image }}
 
     - name: 'Install composer dependencies'
       shell: bash
