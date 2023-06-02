@@ -270,13 +270,9 @@ Can be used with Yarn 1 and Yarn 2 (berry).
 
 [Source](composer-install/action.yml)
 
-1. Sets up php@7.2 with composer v2
+1. Pulls [`myparcelnl/php-xd`]
    - You can change the php version by passing `php-version`.
-   - You can change the composer version or install any other tools by
-     passing `tools`.
-     See [shivammathur/setup-php](https://github.com/shivammathur/setup-php#wrench-tools-support)
-     for supported values.
-2. Handles cache
+2. Handles composer cache
 3. Runs `composer install --no-interaction --no-progress`
    - You can add additional flags by passing the `flags` option.
 
@@ -286,9 +282,15 @@ Can be used with Yarn 1 and Yarn 2 (berry).
 - uses: myparcelnl/actions/composer-install@v3
   with:
     php-version: '8.0'
-    tools: php-cs-fixer, phpunit
     flags: --no-dev --no-plugins
 ```
+
+##### Inputs
+
+| Required | Name          | Description                                    | Example        | Default |
+| -------- | ------------- | ---------------------------------------------- | -------------- | ------- |
+| No       | `php-version` | The PHP version to use                         | `8.0`          | `7.2`   |
+| No       | `flags`       | Additional flags to pass to `composer install` | `--no-scripts` | –       |
 
 ### Testing
 
@@ -788,3 +790,4 @@ Save and restore the [Nx](https://nx.dev/) cache.
 [semantic-release]: #semantic-release
 [setup-git-credentials]: #setup-git-credentials
 [yarn-install]: #yarn-install
+[`myparcelnl/php-xd`]: https://github.com/myparcelnl/docker-images/pkgs/container/php-xd

@@ -7,35 +7,32 @@ inputs:
     default: '7.2'
     required: false
 
-  tools:
-    description: 'Tools to pass to shivammathur/setup-php.'
-    default: 'composer:v2'
-    required: false
-
   flags:
     description: 'Flags to use when installing composer dependencies.'
     required: false
+    default: ''
 
 runs:
   using: composite
   steps:
-    - name: 'Set up PHP'
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ inputs.php-version }}
-        tools: ${{ inputs.tools }}
-
-    - name: 'Prepare Composer cache'
+    - name: 'Handle composer cache'
       uses: actions/cache@v3
-      id: cache
       with:
-        path: vendor
-        key: ${{ runner.os }}-composer-vendor-${{ hashFiles('**/composer.lock') }}
+        path: $HOME/.composer
+        key: composer-${{ hashFiles('**/composer.json') }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-composer-vendor-
+          composer-${{ hashFiles('**/composer.json') }}-
+          composer-
+
+    - uses: myparcelnl/actions/pull-docker-image@v3
+      with:
+        image: ghcr.io/myparcelnl/php-xd:${{ inputs.php-version }}-cli-alpine
 
     - name: 'Install composer dependencies'
-      if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        composer install --no-interaction --no-progress ${{ inputs.flags }}
+        docker compose run \
+          --volume $HOME/.composer:/root/.composer \
+          --env COMPOSER_CACHE_DIR=/root/.composer \
+          php \
+          composer install --no-interaction --no-progress ${{ inputs.flags }}
