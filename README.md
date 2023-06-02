@@ -364,7 +364,7 @@ jobs using a registry.
 | Yes      | `image`             | Image name                         | `my-name/my-image`                    | –            |
 | No       | `dockerfile`        | Path to dockerfile                 | `./docker/prod.Dockerfile`            | `Dockerfile` |
 | No       | `context`           | Directory to build from            | `./docker`                            | `.`          |
-| No       | `target`            | Target stage to build              | `--target prod`                       | –            |
+| No       | `target`            | Target stage to build              | `prod`                                | –            |
 | No       | `registry`          | Packages registry to use           | `docker.io`                           | `ghcr.io`    |
 | Yes      | `registry-username` | Username to log into registry with | `${{ secrets.DOCKER_REGISTRY_USER }}` | –            |
 | Yes      | `registry-password` | Password to log into registry with | `${{ secrets.DOCKER_REGISTRY_PASS }}` | –            |
