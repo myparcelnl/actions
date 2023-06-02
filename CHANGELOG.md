@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.11.0](https://github.com/myparcelnl/actions/compare/v3.10.1...v3.11.0) (2023-06-02)
+
+
+### :sparkles: New Features
+
+* **composer-install:** use our own docker image rather than a 3rd party action ([e221147](https://github.com/myparcelnl/actions/commit/e221147c339da879cc94a52aaa8bb6d4c27eabac))
+
 ## [3.10.1](https://github.com/myparcelnl/actions/compare/v3.10.0...v3.10.1) (2023-06-01)
 
 
