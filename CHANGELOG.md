@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.0](https://github.com/myparcelnl/actions/compare/v3.11.0...v3.12.0) (2023-06-02)
+
+
+### :sparkles: New Features
+
+* **composer-install:** add used image name as output ([16c1389](https://github.com/myparcelnl/actions/commit/16c1389a290876bf588e9949de81a7f6b94d93fb))
+
 ## [3.11.0](https://github.com/myparcelnl/actions/compare/v3.10.1...v3.11.0) (2023-06-02)
 
 
