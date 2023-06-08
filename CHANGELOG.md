@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.1](https://github.com/myparcelnl/actions/compare/v3.12.0...v3.12.1) (2023-06-08)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** fix image argument not being passed on ([815358e](https://github.com/myparcelnl/actions/commit/815358eed6ff7ebe01840935c15fe5d72a62285c))
+
 ## [3.12.0](https://github.com/myparcelnl/actions/compare/v3.11.0...v3.12.0) (2023-06-02)
 
 
