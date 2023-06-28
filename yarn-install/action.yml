@@ -26,14 +26,37 @@ runs:
         version=$(yarn --version | cut -d. -f1)
 
         if [ "$version" -lt "2" ]; then
-          echo "args=--frozen-lockfile"
+          echo "args=--frozen-lockfile" >> $GITHUB_OUTPUT
+        else
+          echo "cache-folder=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
         fi
+
+        echo "version=$version" >> $GITHUB_OUTPUT
+
+    - name: 'Cache yarn downloads'
+      if: steps.variables.outputs.version >= 2
+      uses: actions/cache@v3
+      id: yarn-download-cache
+      with:
+        path: ${{ steps.variables.outputs.cache-folder }}
+        key: yarn-download-${{ hashFiles('yarn.lock') }}
+        restore-keys: |
+          yarn-download-
+
+    - name: 'Cache yarn install state'
+      if: steps.variables.outputs.version >= 2
+      uses: actions/cache@v3
+      id: yarn-install-state-cache
+      with:
+        path: .yarn/ci-cache/
+        key: ${{ runner.os }}-yarn-install-state-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
 
     - name: 'Install yarn dependencies'
       shell: bash
       run: |
         yarn install ${{ steps.variables.outputs.args }} ${{ inputs.yarn-args }}
       env:
-        YARN_ENABLE_GLOBAL_CACHE: 'false'
-        YARN_NM_MODE: 'hardlinks-local'
         HUSKY: '0'
+        YARN_ENABLE_GLOBAL_CACHE: 'false'
+        YARN_INSTALL_STATE_PATH: .yarn/ci-cache/install-state.gz
+        YARN_NM_MODE: 'hardlinks-local'
