@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.2](https://github.com/myparcelnl/actions/compare/v3.12.1...v3.12.2) (2023-06-28)
+
+
+### :bug: Bug Fixes
+
+* **yarn-install:** improve performance ([eb665be](https://github.com/myparcelnl/actions/commit/eb665beae61256acd61ce241a6f86e97fd98a0ef))
+
 ## [3.12.1](https://github.com/myparcelnl/actions/compare/v3.12.0...v3.12.1) (2023-06-08)
 
 
