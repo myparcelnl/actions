@@ -44,6 +44,7 @@ runs:
       run: |
         docker compose run \
           --volume $HOME/.composer:/root/.composer \
+          --volume $PWD:/app \
           --env COMPOSER_CACHE_DIR=/root/.composer \
-          php \
+          ${{ steps.prepare.outputs.image }} \
           composer install --no-interaction --no-progress ${{ inputs.flags }}
