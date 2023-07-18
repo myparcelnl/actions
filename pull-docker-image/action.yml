@@ -41,6 +41,20 @@ runs:
       if: steps.docker-cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        docker pull ${{ inputs.image }}
+        # if not present, pull from registry
+        EXISTS=$(docker image inspect ${{ inputs.image }} > /dev/null 2>&1))
+        # if image is not present, pull it
+
+        if [ $? -ne 0 ]; then
+          echo "Image not found, pulling from registry"
+          docker pull ${{ inputs.image }}
+        else
+          echo "Image found, skipping pull"
+        fi
+
+    - name: 'Save image to disk'
+      if: steps.docker-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
         mkdir -p ${{ inputs.cache-directory }}
         docker save -o ${{ inputs.cache-directory }}/image-${{ steps.hash.outputs.filename }}.tar ${{ inputs.image }}
