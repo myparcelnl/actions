@@ -42,7 +42,7 @@ runs:
     - name: 'Install composer dependencies'
       shell: bash
       run: |
-        docker compose run \
+        docker run \
           --volume $HOME/.composer:/root/.composer \
           --volume $PWD:/app \
           --env COMPOSER_CACHE_DIR=/root/.composer \
