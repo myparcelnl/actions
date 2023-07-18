@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.5](https://github.com/myparcelnl/actions/compare/v3.12.4...v3.12.5) (2023-07-18)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** use docker run instead of docker compose run ([b5e50e1](https://github.com/myparcelnl/actions/commit/b5e50e16aa9a32f0c3872cdb61a295182127b89c))
+
 ## [3.12.4](https://github.com/myparcelnl/actions/compare/v3.12.3...v3.12.4) (2023-07-18)
 
 
