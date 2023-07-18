@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.4](https://github.com/myparcelnl/actions/compare/v3.12.3...v3.12.4) (2023-07-18)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** use myparcelnl/php-xd image ([fd65806](https://github.com/myparcelnl/actions/commit/fd658066eacae801363d370a8ef17df2147b271d))
+
 ## [3.12.3](https://github.com/myparcelnl/actions/compare/v3.12.2...v3.12.3) (2023-07-18)
 
 
