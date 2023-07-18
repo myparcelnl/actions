@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.6](https://github.com/myparcelnl/actions/compare/v3.12.5...v3.12.6) (2023-07-18)
+
+
+### :zap: Performance Improvements
+
+* **composer-install:** improve caching ([72d56b1](https://github.com/myparcelnl/actions/commit/72d56b17551bde98eb7a9d6c047e925e1b191246))
+
 ## [3.12.5](https://github.com/myparcelnl/actions/compare/v3.12.4...v3.12.5) (2023-07-18)
 
 
