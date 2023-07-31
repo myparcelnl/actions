@@ -42,7 +42,7 @@ runs:
       shell: bash
       run: |
         # if not present, pull from registry
-        EXISTS=$(docker image inspect ${{ inputs.image }} > /dev/null 2>&1))
+        EXISTS=$(docker image inspect ${{ inputs.image }} > /dev/null 2>&1)
         # if image is not present, pull it
 
         if [ $? -ne 0 ]; then
