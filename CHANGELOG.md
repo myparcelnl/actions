@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.7](https://github.com/myparcelnl/actions/compare/v3.12.6...v3.12.7) (2023-07-31)
+
+
+### :bug: Bug Fixes
+
+* **pull-docker-image:** fix syntax error ([199bc18](https://github.com/myparcelnl/actions/commit/199bc181d686c426fee2ff296da9f96f27f998fc))
+
 ## [3.12.6](https://github.com/myparcelnl/actions/compare/v3.12.5...v3.12.6) (2023-07-18)
 
 
