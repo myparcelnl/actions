@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.9](https://github.com/myparcelnl/actions/compare/v3.12.8...v3.12.9) (2023-08-02)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** fix vendor cache clashing with composer cache ([9683980](https://github.com/myparcelnl/actions/commit/9683980aaf10682937db30cb550bc577a424a457))
+
 ## [3.12.8](https://github.com/myparcelnl/actions/compare/v3.12.7...v3.12.8) (2023-07-31)
 
 
