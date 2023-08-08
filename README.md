@@ -287,16 +287,40 @@ Can be used with Yarn 1 and Yarn 2 (berry).
 
 ##### Inputs
 
-| Required | Name          | Description                                    | Example        | Default |
-| -------- | ------------- | ---------------------------------------------- | -------------- | ------- |
-| No       | `php-version` | The PHP version to use                         | `8.0`          | `7.2`   |
-| No       | `flags`       | Additional flags to pass to `composer install` | `--no-scripts` | –       |
+| Required | Name          | Description                                    | Example        | Default                     |
+| -------- | ------------- | ---------------------------------------------- | -------------- | --------------------------- |
+| No       | `command`     | The command to run                             | `update`       | `install`                   |
+| No       | `flags`       | Additional flags to pass to `composer install` | `--no-scripts` | `--no-scripts --no-plugins` |
+| No       | `php-version` | The PHP version to use                         | `8.0`          | `7.2`                       |
 
 #### Outputs
 
 | Name    | Description                                                                           | Example                                    |
 | ------- | ------------------------------------------------------------------------------------- | ------------------------------------------ |
 | `image` | The image name that was used to install dependencies. Can be used in subsequent jobs. | `ghcr.io/myparcelnl/php-xd:7.4-cli-alpine` |
+
+#### composer-update
+
+[Source](composer-update/action.yml)
+
+1. Runs [composer-install] with `command: update`.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/composer-update@v3
+  with:
+    php-version: '8.0'
+    flags: --no-dev --no-plugins
+```
+
+##### Inputs
+
+Same as [composer-install].
+
+##### Outputs
+
+Same as [composer-install].
 
 ### Testing
 
@@ -401,7 +425,8 @@ jobs using a registry.
 
 [Source](pull-docker-image/action.yml)
 
-Pulls and caches a docker image. Outputs the image name that was input to provide an easy way to not have to repeat the image name in the rest of your workflow.
+Pulls and caches a docker image. Outputs the image name that was input to provide an easy way to not have to repeat the
+image name in the rest of your workflow.
 
 ##### Inputs
 
@@ -433,7 +458,8 @@ Pulls and caches a docker image. Outputs the image name that was input to provid
 
 [Source](semantic-release/action.yml)
 
-Run [semantic-release]. Requires npm dependencies to be installed. Outputs information on the release that was just made (or not).
+Run [semantic-release]. Requires npm dependencies to be installed. Outputs information on the release that was just
+made (or not).
 
 ##### Inputs
 
@@ -599,7 +625,8 @@ Check if there are new commits in head that are not in base.
 
 [Source](get-github-token/action.yml)
 
-Gets a GitHub token to use in the workflow. If `token` is passed, it will be used. Otherwise, an app token will be generated. Either `token` or `app-id` and `private-key` must be passed.
+Gets a GitHub token to use in the workflow. If `token` is passed, it will be used. Otherwise, an app token will be
+generated. Either `token` or `app-id` and `private-key` must be passed.
 
 Meant for use within other actions, because obviously you could just use the `token` input directly.
 
@@ -673,12 +700,15 @@ Label a pull request based on the review state. For use with the `pull_request_r
 
 1. Gets the amount of reviews needed.
    - Uses `inputs.reviews-required` if passed.
-   - If this input does not exist, the action will get the data via branch protections. You'll need an app or access token with the `read settings` permission for this.
+   - If this input does not exist, the action will get the data via branch protections. You'll need an app or access
+     token with the `read settings` permission for this.
 2. Calculates whether the PR is approved or changes are requested.
 3. Labels the PR accordingly, removing labels that are no longer relevant.
    - If the PR is approved: `inputs.label-approved` is added, `inputs.label-changes-requested` is removed if it exists.
-   - If changes are requested: `inputs.label-changes-requested` is added, `inputs.label-approved` is removed if it exists.
-   - If the PR is not approved and no changes are requested: `inputs.label-approved` and `inputs.label-changes-requested` are removed if they exist.
+   - If changes are requested: `inputs.label-changes-requested` is added, `inputs.label-approved` is removed if it
+     exists.
+   - If the PR is not approved and no changes are requested: `inputs.label-approved`
+     and `inputs.label-changes-requested` are removed if they exist.
 
 ##### Example
 
@@ -750,7 +780,8 @@ Validate the title of a pull request based on the conventional commit format. Fo
 
 [Source](bundlewatch/action.yml)
 
-Run [BundleWatch] to check the size of your bundles. You will need to provide a [BundleWatch token] and a configuration. If you don't pass the `config` input, it will look for the `bundlewatch` key in your `package.json`.
+Run [BundleWatch] to check the size of your bundles. You will need to provide a [BundleWatch token] and a configuration.
+If you don't pass the `config` input, it will look for the `bundlewatch` key in your `package.json`.
 
 ##### Example
 
@@ -791,6 +822,7 @@ Save and restore the [Nx](https://nx.dev/) cache.
 [build-docker-image]: #build-docker-image
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
 [composer-install]: #composer-install
+[composer-update]: #composer-update
 [npm-install]: #npm-install
 [pnpm-install]: #pnpm-install
 [semantic-release]: #semantic-release

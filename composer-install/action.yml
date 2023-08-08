@@ -1,16 +1,21 @@
-name: 'Set up PHP'
-description: 'Set up PHP and install composer dependencies from scratch or from cache'
+name: 'Install composer dependencies'
+description: 'Set up PHP and install composer dependencies'
 
 inputs:
-  php-version:
-    description: 'The php version to use.'
-    default: '7.2'
+  command:
+    description: 'The composer command to run.'
     required: false
+    default: 'install'
 
   flags:
     description: 'Flags to use when installing composer dependencies.'
     required: false
-    default: ''
+    default: '--no-scripts --no-plugins'
+
+  php-version:
+    description: 'The php version to use.'
+    default: '7.2'
+    required: false
 
 outputs:
   image:
@@ -55,4 +60,4 @@ runs:
           --volume $PWD:/app \
           --env COMPOSER_CACHE_DIR=/root/.composer \
           ${{ steps.prepare.outputs.image }} \
-          composer install --no-interaction --no-progress ${{ inputs.flags }} --no-scripts --no-plugins
+          composer ${{ inputs.command }} --no-interaction --no-progress ${{ inputs.flags }}

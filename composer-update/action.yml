@@ -1,0 +1,33 @@
+name: 'Update composer dependencies'
+description: 'Set up PHP and update composer dependencies'
+
+inputs:
+  command:
+    description: 'The composer command to run.'
+    required: false
+    default: 'install'
+
+  flags:
+    description: 'Flags to use when installing composer dependencies.'
+    required: false
+    default: '--no-scripts --no-plugins'
+
+  php-version:
+    description: 'The php version to use.'
+    default: '7.2'
+    required: false
+
+outputs:
+  image:
+    description: 'The image name that was used to install dependencies. Can be used in subsequent jobs.'
+    value: ${{ steps.install.outputs.image }}
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/composer-install@v3
+      id: install
+      with:
+        command: ${{ inputs.command }}
+        flags: ${{ inputs.flags }}
+        image: ${{ steps.prepare.outputs.image }}
