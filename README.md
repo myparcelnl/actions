@@ -38,6 +38,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [pr-assign-author](#pr-assign-author)
     - [pr-label-by-review](#pr-label-by-review)
     - [pr-validate-title-conventional](#pr-validate-title-conventional)
+    - [toggle-label](#toggle-label)
   - [Miscellaneous](#miscellaneous)
     - [bundlewatch](#bundlewatch)
     - [cache-nx](#cache-nx)
@@ -774,6 +775,33 @@ Validate the title of a pull request based on the conventional commit format. Fo
 | --------- | ---------------------------------------- | ------------------------------- |
 | `success` | Whether the PR title is valid.           | `true`                          |
 | `error`   | Error in case the PR title is not valid. | `(string containing the error)` |
+
+#### toggle-label
+
+[Source](toggle-label/action.yml)
+
+Toggle a label on a pull request on or off based on a boolean input, or automatically if `toggle` is omitted. For use
+with the `pull_request` event.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/toggle-label@v3
+  with:
+    token: ${{ secrets.GITHUB_TOKEN }}
+    label: 'failing tests'
+    toggle: ${{ steps.tests.outputs.failed }}
+```
+
+##### Inputs
+
+| Required | Name          | Description                                                                                      | Example                          | Default |
+| -------- | ------------- | ------------------------------------------------------------------------------------------------ | -------------------------------- | ------- |
+| false    | `token`       | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –       |
+| false    | `app-id`      | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –       |
+| false    | `private-key` | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
+| true     | `label`       | The label to toggle.                                                                             | `failing tests`                  | –       |
+| true     | `toggle`      | Whether to toggle the label on or off.                                                           | `true`                           | `auto`  |
 
 ### Miscellaneous
 

@@ -1,0 +1,56 @@
+name: 'Toggle label'
+description: 'Toggle a label on a pull request'
+
+inputs:
+  token:
+    description: 'GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.'
+
+  app-id:
+    description: 'The app ID of the app.'
+
+  private-key:
+    description: 'The private key of the app.'
+
+  label:
+    description: 'The label to toggle'
+    required: true
+
+  toggle:
+    description: 'Whether to add or remove the label.'
+    default: 'auto'
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/get-github-token@v3
+      id: token
+      with:
+        token: ${{ inputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - name: 'Add label'
+      uses: actions/github-script@v6
+      if: (inputs.toggle == 'true' || inputs.toggle == 'auto') && !contains(github.event.pull_request.labels.*.name, '${{ inputs.label }}')
+      with:
+        github-token: ${{ steps.token.outputs.token }}
+        script: |
+          github.rest.issues.addLabels({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            labels: ['${{ inputs.label }}']
+          });
+
+    - name: 'Remove label'
+      uses: actions/github-script@v6
+      if: (inputs.toggle == 'false' || inputs.toggle == 'auto') && contains(github.event.pull_request.labels.*.name, '${{ inputs.label }}')
+      with:
+        github-token: ${{ steps.token.outputs.token }}
+        script: |
+          github.rest.issues.removeLabel({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            labels: ['${{ inputs.label }}']
+          });
