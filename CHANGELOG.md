@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.13.0](https://github.com/myparcelnl/actions/compare/v3.12.9...v3.13.0) (2023-08-08)
+
+
+### :sparkles: New Features
+
+* add composer-update ([1f13797](https://github.com/myparcelnl/actions/commit/1f1379765c723cbd2f8f6bc9961fa55a8c3dd5a9))
+
 ## [3.12.9](https://github.com/myparcelnl/actions/compare/v3.12.8...v3.12.9) (2023-08-02)
 
 
