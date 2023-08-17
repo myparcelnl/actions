@@ -9,7 +9,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: oleksiyrudenko/gha-git-credentials@v2.1
+    - uses: oleksiyrudenko/gha-git-credentials@ac5b66bcf3873df4259c681d957d8c145980171f
       with:
         token: ${{ inputs.token }}
         name: 'MyParcelBot'
