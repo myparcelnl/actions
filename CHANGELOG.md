@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.7](https://github.com/myparcelnl/actions/compare/v2.18.6...v2.18.7) (2023-08-17)
+
+
+### :bug: Bug Fixes
+
+* set credentials version back to v2.1 ([#59](https://github.com/myparcelnl/actions/issues/59)) ([389b41f](https://github.com/myparcelnl/actions/commit/389b41f69ca053a05d98ad538595712946b0e03d))
+
 ## [2.18.6](https://github.com/myparcelnl/actions/compare/v2.18.5...v2.18.6) (2023-08-17)
 
 
