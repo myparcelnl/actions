@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.6](https://github.com/myparcelnl/actions/compare/v2.18.5...v2.18.6) (2023-08-17)
+
+
+### :bug: Bug Fixes
+
+* lock action to commit hash ([#57](https://github.com/myparcelnl/actions/issues/57)) ([01c2424](https://github.com/myparcelnl/actions/commit/01c2424657cb3f0b4c5da348096f03c5439043b7))
+
 ## [2.18.5](https://github.com/myparcelnl/actions/compare/v2.18.4...v2.18.5) (2023-02-16)
 
 
