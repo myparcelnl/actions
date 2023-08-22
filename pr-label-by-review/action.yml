@@ -49,6 +49,26 @@ runs:
 
           const requiredApprovals = branchProtection.data.required_pull_request_reviews?.required_approving_review_count ?? 0;
 
+          // get all the rules
+          const rules = await github.rest.rules.list({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            branch: context.payload.pull_request.base.ref
+          });
+
+          // get the highest required approvals from the rules
+          const rulesRequiredApprovals = 0;
+          rules.data.forEach(rule => {
+            if (rule.required_pull_request_reviews?.required_approving_review_count > rulesRequiredApprovals) {
+              rulesRequiredApprovals = rule.required_pull_request_reviews?.required_approving_review_count;
+            }
+          });
+
+          // if the rules have a higher required approvals, use that
+          if (rulesRequiredApprovals > requiredApprovals) {
+            requiredApprovals = rulesRequiredApprovals;
+          }
+
           core.setOutput('required-approvals', requiredApprovals);
 
     - name: 'Collect pull request reviews'
