@@ -22,6 +22,10 @@ inputs:
     description: 'Label to add when PR status is changes requested.'
     default: 'changes requested'
 
+  protectionType:
+    description: 'Type of protection to check for. Can be either "branchProtection" or "ruleSets".'
+    default: 'branchProtection'
+
 runs:
   using: composite
   steps:
@@ -36,7 +40,7 @@ runs:
 
     - name: 'Get required approvals from branch protection'
       id: branch-protection
-      if: inputs.required-approvals == ''
+      if: inputs.required-approvals == '' && inputs.protectionType == 'branchProtection'
       uses: actions/github-script@v6
       with:
         github-token: ${{ steps.token.outputs.token }}
@@ -49,25 +53,37 @@ runs:
 
           const requiredApprovals = branchProtection.data.required_pull_request_reviews?.required_approving_review_count ?? 0;
 
-          // get all the rules
-          const rules = await github.rest.rules.list({
+          core.setOutput('required-approvals', requiredApprovals);
+
+    - name: 'Get required approvals from rule sets'
+      id: rule-sets
+      if: inputs.required-approvals == '' && inputs.protectionType == 'ruleSets'
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ steps.token.outputs.token }}
+        script: |
+          // Get all rules for the branch
+          // we can use it directly from octokit since the endpoint is not yet supported by github-script
+          // https://octokit.github.io/rest.js/v20#repos-get-branch-rules
+          // When this issue is resolved, we can use github-script again
+          // https://github.com/actions/github-script/issues/345
+          const ruleSets = await github.request('/repos/{owner}/{repo}/rules/branches/{branch}', {
             owner: context.repo.owner,
             repo: context.repo.repo,
-            branch: context.payload.pull_request.base.ref
-          });
-
-          // get the highest required approvals from the rules
-          const rulesRequiredApprovals = 0;
-          rules.data.forEach(rule => {
-            if (rule.required_pull_request_reviews?.required_approving_review_count > rulesRequiredApprovals) {
-              rulesRequiredApprovals = rule.required_pull_request_reviews?.required_approving_review_count;
+            branch: context.payload.pull_request.base.ref,
+            headers: {
+              'X-GitHub-Api-Version': '2022-11-28'
             }
           });
 
-          // if the rules have a higher required approvals, use that
-          if (rulesRequiredApprovals > requiredApprovals) {
-            requiredApprovals = rulesRequiredApprovals;
-          }
+          // Filter out rules that are not for pull requests, Since we get all rules for the branch
+          const pullRequestRules = rules.data.filter(rule => rule.type === 'pull_request');
+          const highestAmountOfApprovals = pullRequestRules.reduce((highest, rule) => {
+            const approvals = rule.parameters.required_approving_review_count ?? 0;
+
+            return approvals > highest ? approvals : highest;
+          }, 0);
+          const requiredApprovals = highestAmountOfApprovals ?? 0;
 
           core.setOutput('required-approvals', requiredApprovals);
 
@@ -101,7 +117,7 @@ runs:
           const changesRequested = userReviewsArray.some(review => review.state === 'CHANGES_REQUESTED');
           const approvals = userReviewsArray.filter(review => review.state === 'APPROVED');
 
-          const requiredApprovals = Number(${{ inputs.required-approvals || steps.branch-protection.outputs.required-approvals }});
+          const requiredApprovals = Number(${{ inputs.required-approvals || steps.branch-protection.outputs.required-approvals || steps.rule-sets.outputs.required-approvals }});
           const isApproved = !changesRequested && approvals.length >= requiredApprovals;
 
           core.setOutput('approved', isApproved ? 'true' : 'false');
