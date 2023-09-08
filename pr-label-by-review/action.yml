@@ -65,7 +65,7 @@ runs:
           // Get all rules for the branch
           // we can use it directly from octokit since the endpoint is not yet supported by github-script
           // https://octokit.github.io/rest.js/v20#repos-get-branch-rules
-          // When this issue is resolved, we can use github-script again
+          // When this issue is resolved, we can use `github.rest.repos.getBranchRules` to get the rules
           // https://github.com/actions/github-script/issues/345
           const rulesets = await github.request('/repos/{owner}/{repo}/rules/branches/{branch}', {
             owner: context.repo.owner,
