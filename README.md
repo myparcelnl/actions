@@ -727,6 +727,7 @@ Label a pull request based on the review state. For use with the `pull_request_r
     label-approved: 'yay' # The label to add when the PR is approved.
     label-changes-requested: 'nay' # The label to add when changes are requested.
     required-approvals: 2 # The number of reviews required to merge the PR. Should be passed only if you don't have an access token or app with the read settings permission.
+    branch-protections: 'rulesets' # Whether to use branch protection or rulesets to determine the number of required reviews.
 ```
 
 ##### Inputs
@@ -739,6 +740,7 @@ Label a pull request based on the review state. For use with the `pull_request_r
 | false    | `required-approvals`      | The number of reviews required to merge the PR. Can be passed if you don't have an access token or app with the read settings permission. | `2`                              | –                   |
 | false    | `label-approved`          | The label to add when the PR is approved.                                                                                                 | `ready to merge`                 | `approved`          |
 | false    | `label-changes-requested` | The label to add when changes are requested.                                                                                              | `needs work`                     | `changes requested` |
+| false    | `branch-protection`    | Whether to use branch protection or rulesets to determine the number of required reviews.                                                | `rulesets`                       | `branch-protection` |
 
 #### pr-validate-title-conventional
 
