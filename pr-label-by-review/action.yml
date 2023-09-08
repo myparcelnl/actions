@@ -23,7 +23,7 @@ inputs:
     default: 'changes requested'
 
   protectionType:
-    description: 'Type of protection to check for. Can be either "branchProtection" or "ruleSets".'
+    description: 'Type of protection to check for. Can be either "branchProtection" or "rulesets".'
     default: 'branchProtection'
 
 runs:
@@ -56,8 +56,8 @@ runs:
           core.setOutput('required-approvals', requiredApprovals);
 
     - name: 'Get required approvals from rule sets'
-      id: rule-sets
-      if: inputs.required-approvals == '' && inputs.protectionType == 'ruleSets'
+      id: rulesets
+      if: inputs.required-approvals == '' && inputs.protectionType == 'rulesets'
       uses: actions/github-script@v6
       with:
         github-token: ${{ steps.token.outputs.token }}
@@ -67,7 +67,7 @@ runs:
           // https://octokit.github.io/rest.js/v20#repos-get-branch-rules
           // When this issue is resolved, we can use github-script again
           // https://github.com/actions/github-script/issues/345
-          const ruleSets = await github.request('/repos/{owner}/{repo}/rules/branches/{branch}', {
+          const rulesets = await github.request('/repos/{owner}/{repo}/rules/branches/{branch}', {
             owner: context.repo.owner,
             repo: context.repo.repo,
             branch: context.payload.pull_request.base.ref,
@@ -117,7 +117,7 @@ runs:
           const changesRequested = userReviewsArray.some(review => review.state === 'CHANGES_REQUESTED');
           const approvals = userReviewsArray.filter(review => review.state === 'APPROVED');
 
-          const requiredApprovals = Number(${{ inputs.required-approvals || steps.branch-protection.outputs.required-approvals || steps.rule-sets.outputs.required-approvals }});
+          const requiredApprovals = Number(${{ inputs.required-approvals || steps.branch-protection.outputs.required-approvals || steps.rulesets.outputs.required-approvals }});
           const isApproved = !changesRequested && approvals.length >= requiredApprovals;
 
           core.setOutput('approved', isApproved ? 'true' : 'false');
