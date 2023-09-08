@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.15.0](https://github.com/myparcelnl/actions/compare/v3.14.0...v3.15.0) (2023-09-08)
+
+
+### :sparkles: New Features
+
+* **pr-label-by-review:** allow checking rulesets instead of branch protections ([#60](https://github.com/myparcelnl/actions/issues/60)) ([8afb162](https://github.com/myparcelnl/actions/commit/8afb1625a4b49192004044eec73049b146f98033))
+
 ## [3.14.0](https://github.com/myparcelnl/actions/compare/v3.13.0...v3.14.0) (2023-08-08)
 
 
