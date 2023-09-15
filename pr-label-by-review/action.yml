@@ -77,7 +77,7 @@ runs:
           });
 
           // Filter out rules that are not for pull requests, Since we get all rules for the branch
-          const pullRequestRules = rules.data.filter(rule => rule.type === 'pull_request');
+          const pullRequestRules = rulesets.data.filter(rule => rule.type === 'pull_request');
           const highestAmountOfApprovals = pullRequestRules.reduce((highest, rule) => {
             const approvals = rule.parameters.required_approving_review_count ?? 0;
 
