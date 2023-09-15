@@ -40,7 +40,7 @@ runs:
 
     - name: 'Get required approvals from branch protection'
       id: branch-protection
-      if: inputs.required-approvals == '' && inputs.protectionType == 'branch-protection'
+      if: inputs.required-approvals == '' && inputs.protection-type == 'branch-protection'
       uses: actions/github-script@v6
       with:
         github-token: ${{ steps.token.outputs.token }}
@@ -57,7 +57,7 @@ runs:
 
     - name: 'Get required approvals from rule sets'
       id: rulesets
-      if: inputs.required-approvals == '' && inputs.protectionType == 'rulesets'
+      if: inputs.required-approvals == '' && inputs.protection-type == 'rulesets'
       uses: actions/github-script@v6
       with:
         github-token: ${{ steps.token.outputs.token }}
