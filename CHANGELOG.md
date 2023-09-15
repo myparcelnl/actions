@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.15.1](https://github.com/myparcelnl/actions/compare/v3.15.0...v3.15.1) (2023-09-15)
+
+
+### :bug: Bug Fixes
+
+* **pr-label-by-review:** fix protection type check ([#62](https://github.com/myparcelnl/actions/issues/62)) ([365f765](https://github.com/myparcelnl/actions/commit/365f765fba961d08dfcea2c28b50181304a99d58))
+
 ## [3.15.0](https://github.com/myparcelnl/actions/compare/v3.14.0...v3.15.0) (2023-09-08)
 
 
