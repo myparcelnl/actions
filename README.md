@@ -807,6 +807,29 @@ with the `pull_request` event.
 
 ### Miscellaneous
 
+#### bun-install
+
+Setup [Bun](https://bun.sh) and install dependencies.
+
+1. Runs [oven-sh/setup-bun](https://github.com/oven-sh/setup-bun)
+2. Caches bun cache folder
+3. Installs dependencies with `bun install <bun-args>`
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/bun-install@v3
+  with:
+    bun-version: 1.0.0
+```
+
+##### Inputs
+
+| Required | Name          | Description                      | Example         | Default             |
+| -------- | ------------- | -------------------------------- | --------------- | ------------------- |
+| No       | `bun-version` | The Bun version to install       | `latest`        | `1.0.0`             |
+| No       | `bun-args`    | Arguments to pass to bun install | `--no-progress` | `--frozen-lockfile` |
+
 #### bundlewatch
 
 [Source](bundlewatch/action.yml)
