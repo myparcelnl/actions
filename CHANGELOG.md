@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.17.0](https://github.com/myparcelnl/actions/compare/v3.16.0...v3.17.0) (2023-10-24)
+
+
+### :sparkles: New Features
+
+* add stale ([8d9d4c9](https://github.com/myparcelnl/actions/commit/8d9d4c98a56425909d0b217490156e2f471f73da))
+
+
+### :bug: Bug Fixes
+
+* **bun-install:** declare shell ([17e04e9](https://github.com/myparcelnl/actions/commit/17e04e9fc28d97dad96b5d0d385b34579ced7a20))
+
 ## [3.16.0](https://github.com/myparcelnl/actions/compare/v3.15.2...v3.16.0) (2023-09-26)
 
 
