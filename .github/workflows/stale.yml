@@ -1,0 +1,11 @@
+name: 'Update stale issues and PRs'
+
+on:
+  schedule:
+    - cron: '30 1 * * *'
+
+jobs:
+  stale:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: myparcelnl/actions/stale@v3
