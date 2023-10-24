@@ -1,0 +1,76 @@
+name: 'Mark issues as stale'
+description: 'Mark issues and pull requests as stale when there is no activity for a certain amount of days'
+
+inputs:
+  token:
+    description: 'GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.'
+
+  app-id:
+    description: 'The app ID of the app.'
+
+  private-key:
+    description: 'The private key of the app.'
+
+  days-before-stale:
+    description: 'Amount of days before an issue or pr is marked as stale.'
+    default: '60'
+
+  days-before-issue-stale:
+    description: 'Amount of days before an issue is marked as stale.'
+
+  days-before-pr-stale:
+    description: 'Amount of days before an issue is marked as stale.'
+
+  days-before-issue-close:
+    description: 'Amount of days before an issue is closed.'
+    default: '14'
+
+  days-before-pr-close:
+    description: 'Amount of days before a pull request is closed.'
+    default: '-1'
+
+outputs:
+  staled-issues-prs:
+    description: 'List of all staled issues and pull requests.'
+    value: ${{ steps.stale.outputs.staled-issues-prs }}
+
+  closed-issues-prs:
+    description: 'List of all closed issues and pull requests.'
+    value: ${{ steps.stale.outputs.closed-issues-prs }}
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/get-github-token@v3
+      id: token
+      with:
+        token: ${{ inputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - uses: actions/stale@v8
+      id: stale
+      with:
+        repo-token: ${{ steps.token.outputs.token }}
+
+        # Messages
+        stale-issue-message: 'This issue is stale because it has been open for ${{ inputs.days-before-stale }} days with no activity. Remove stale label or comment to make it active again.'
+        stale-pr-message: 'This pull request is stale because it has been open for ${{ inputs.days-before-stale }} days with no activity. Remove stale label or comment to make it active again.'
+        close-issue-message: 'This issue was closed because it has been stalled for ${{ inputs.days-before-close }} days with no activity.'
+
+        # Marking as stale
+        days-before-stale: ${{ inputs.days-before-stale }}
+        days-before-issue-stale: ${{ inputs.days-before-issue-stale }}
+        days-before-pr-stale: ${{ inputs.days-before-pr-stale }}
+
+        # Closing
+        days-before-issue-close: ${{ inputs.days-before-issue-close }}
+        days-before-pr-close: ${{ inputs.days-before-pr-close }}
+
+        # Exemptions
+        exempt-all-milestones: true
+        exempt-pr-labels: dependencies
+
+        # Labels
+        stale-issue-label: stale
+        stale-pr-label: stale

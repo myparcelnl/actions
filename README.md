@@ -38,6 +38,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [pr-assign-author](#pr-assign-author)
     - [pr-label-by-review](#pr-label-by-review)
     - [pr-validate-title-conventional](#pr-validate-title-conventional)
+    - [stale](#stale)
     - [toggle-label](#toggle-label)
   - [Miscellaneous](#miscellaneous)
     - [bundlewatch](#bundlewatch)
@@ -740,7 +741,7 @@ Label a pull request based on the review state. For use with the `pull_request_r
 | false    | `required-approvals`      | The number of reviews required to merge the PR. Can be passed if you don't have an access token or app with the read settings permission. | `2`                              | –                   |
 | false    | `label-approved`          | The label to add when the PR is approved.                                                                                                 | `ready to merge`                 | `approved`          |
 | false    | `label-changes-requested` | The label to add when changes are requested.                                                                                              | `needs work`                     | `changes requested` |
-| false    | `branch-protection`    | Whether to use branch protection or rulesets to determine the number of required reviews.                                                | `rulesets`                       | `branch-protection` |
+| false    | `branch-protection`       | Whether to use branch protection or rulesets to determine the number of required reviews.                                                 | `rulesets`                       | `branch-protection` |
 
 #### pr-validate-title-conventional
 
@@ -777,6 +778,42 @@ Validate the title of a pull request based on the conventional commit format. Fo
 | --------- | ---------------------------------------- | ------------------------------- |
 | `success` | Whether the PR title is valid.           | `true`                          |
 | `error`   | Error in case the PR title is not valid. | `(string containing the error)` |
+
+#### stale
+
+[Source](stale/action.yml)
+
+Mark issues and pull requests as stale after a period of inactivity. For use with the `schedule` event.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/stale@v3
+  with:
+    token: ${{ secrets.GITHUB_TOKEN }}
+    days-before-stale: 30
+    days-before-pr-stale: 30
+```
+
+##### Inputs
+
+| Required | Name                      | Description                                                                                      | Example                          | Default      |
+| -------- | ------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------- | ------------ |
+| false    | `token`                   | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –            |
+| false    | `app-id`                  | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –            |
+| false    | `private-key`             | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –            |
+| false    | `days-before-stale`       | Amount of days before an issue is marked as stale.                                               | `14`                             | `60`         |
+| false    | `days-before-issue-stale` | Amount of days before an issue is marked as stale.                                               | `14`                             | – (inherit)  |
+| false    | `days-before-pr-stale`    | Amount of days before a pull request is marked as stale.                                         | `30`                             | – (inherit)  |
+| false    | `days-before-issue-close` | Amount of days before an issue is closed.                                                        | `7`                              | `14`         |
+| false    | `days-before-pr-close`    | Amount of days before a pull request is closed.                                                  | `14`                             | `-1` (never) |
+
+##### Outputs
+
+| Name                | Description                                  | Example        |
+| ------------------- | -------------------------------------------- | -------------- |
+| `staled-issues-prs` | List of all staled issues and pull requests. | `[#1, #2, #3]` |
+| `closed-issues-prs` | List of all closed issues and pull requests. | `[#1, #2, #3]` |
 
 #### toggle-label
 
