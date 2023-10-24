@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.17.1](https://github.com/myparcelnl/actions/compare/v3.17.0...v3.17.1) (2023-10-24)
+
+
+### :bug: Bug Fixes
+
+* **deps:** bump actions/checkout from 3 to 4 ([#61](https://github.com/myparcelnl/actions/issues/61)) ([c38d3a3](https://github.com/myparcelnl/actions/commit/c38d3a36b8bfe6c0e47052f19c6641f624adba68)), closes [actions/checkout#1436](https://github.com/actions/checkout/issues/1436) [actions/checkout#1067](https://github.com/actions/checkout/issues/1067) [actions/checkout#1447](https://github.com/actions/checkout/issues/1447) [actions/checkout#1436](https://github.com/actions/checkout/issues/1436) [actions/checkout#1067](https://github.com/actions/checkout/issues/1067) [actions/checkout#1377](https://github.com/actions/checkout/issues/1377) [actions/checkout#579](https://github.com/actions/checkout/issues/579) [actions/checkout#1437](https://github.com/actions/checkout/issues/1437) [actions/checkout#579](https://github.com/actions/checkout/issues/579) [actions/checkout#1437](https://github.com/actions/checkout/issues/1437) [actions/checkout#1196](https://github.com/actions/checkout/issues/1196) [actions/checkout#1287](https://github.com/actions/checkout/issues/1287) [actions/checkout#1369](https://github.com/actions/checkout/issues/1369) [actions/checkout#1376](https://github.com/actions/checkout/issues/1376) [actions/checkout#1196](https://github.com/actions/checkout/issues/1196) [actions/checkout#1287](https://github.com/actions/checkout/issues/1287) [actions/checkout#1369](https://github.com/actions/checkout/issues/1369) [actions/checkout#1289](https://github.com/actions/checkout/issues/1289) [#1286](https://github.com/myparcelnl/actions/issues/1286) [actions/checkout#1246](https://github.com/actions/checkout/issues/1246) [actions/checkout#1246](https://github.com/actions/checkout/issues/1246) [#770](https://github.com/myparcelnl/actions/issues/770) [actions/checkout#1057](https://github.com/actions/checkout/issues/1057) [#1447](https://github.com/myparcelnl/actions/issues/1447) [#1067](https://github.com/myparcelnl/actions/issues/1067) [#1436](https://github.com/myparcelnl/actions/issues/1436)
+
 ## [3.17.0](https://github.com/myparcelnl/actions/compare/v3.16.0...v3.17.0) (2023-10-24)
 
 
