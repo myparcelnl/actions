@@ -23,6 +23,7 @@ runs:
 
     - name: 'Get bun variables'
       id: variables
+      shell: bash
       #language=sh
       run: |
         hash=$(bun pm hash-print || echo '')
