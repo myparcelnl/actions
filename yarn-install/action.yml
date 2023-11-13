@@ -39,9 +39,9 @@ runs:
       id: yarn-download-cache
       with:
         path: ${{ steps.variables.outputs.cache-folder }}
-        key: yarn-download-${{ hashFiles('yarn.lock') }}
+        key: yarn-download-${{ inputs.node-version }}-${{ hashFiles('yarn.lock') }}
         restore-keys: |
-          yarn-download-
+          yarn-download-${{ inputs.node-version }}-
 
     - name: 'Cache yarn install state'
       if: steps.variables.outputs.version >= 2
@@ -49,7 +49,7 @@ runs:
       id: yarn-install-state-cache
       with:
         path: .yarn/ci-cache/
-        key: ${{ runner.os }}-yarn-install-state-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
+        key: ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
 
     - name: 'Install yarn dependencies'
       shell: bash
