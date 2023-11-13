@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.17.2](https://github.com/myparcelnl/actions/compare/v3.17.1...v3.17.2) (2023-11-13)
+
+
+### :bug: Bug Fixes
+
+* **yarn-install:** include node version in cache key ([db4d48c](https://github.com/myparcelnl/actions/commit/db4d48c8cce5b60a29cb23fd73e56ef01280862a))
+
 ## [3.17.1](https://github.com/myparcelnl/actions/compare/v3.17.0...v3.17.1) (2023-10-24)
 
 
