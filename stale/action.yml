@@ -41,14 +41,14 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/get-github-token@v3
+    - uses: myparcelnl/actions/get-github-token@v4
       id: token
       with:
         token: ${{ inputs.token }}
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
 
-    - uses: actions/stale@v8
+    - uses: actions/stale@v9
       id: stale
       with:
         repo-token: ${{ steps.token.outputs.token }}

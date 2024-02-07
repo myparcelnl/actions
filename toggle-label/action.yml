@@ -22,7 +22,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/get-github-token@v3
+    - uses: myparcelnl/actions/get-github-token@v4
       id: token
       with:
         token: ${{ inputs.token }}

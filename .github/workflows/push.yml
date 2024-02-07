@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - 2.x
+      - 3.x
 
   workflow_dispatch:
 
@@ -29,7 +30,7 @@ jobs:
 
       - uses: myparcelnl/actions/yarn-install@v3
         with:
-          node-version: '18'
+          node-version: '20'
 
       - run: yarn semantic-release
         env:

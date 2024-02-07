@@ -5,7 +5,7 @@ runs:
   using: composite
   steps:
     - name: 'Cache Nx'
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules/.cache/nx
         key: ${{ runner.os }}-cache-nx-${{ hashFiles('nx.json') }}-${{ github.sha }}

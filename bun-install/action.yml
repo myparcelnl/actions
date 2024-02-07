@@ -15,7 +15,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - uses: oven-sh/setup-bun@v1
       with:
@@ -33,7 +33,7 @@ runs:
 
     - name: 'Cache bun dependencies'
       if: steps.variables.outputs.hash != ''
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.variables.outputs.cache-dir }}
         key: ${{ runner.os }}-bun-${{ steps.variables.outputs.hash }}

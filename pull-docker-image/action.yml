@@ -19,7 +19,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: docker-cache
       with:
         path: ${{ inputs.cache-directory }}

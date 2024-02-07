@@ -4,7 +4,7 @@ description: 'Install yarn dependencies using cache'
 inputs:
   node-version:
     description: 'The Node.js version to use'
-    default: '18'
+    default: '20'
     required: false
 
   yarn-args:
@@ -14,7 +14,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
         cache: 'yarn'
@@ -35,7 +35,7 @@ runs:
 
     - name: 'Cache yarn downloads'
       if: steps.variables.outputs.version >= 2
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: yarn-download-cache
       with:
         path: ${{ steps.variables.outputs.cache-folder }}
@@ -45,7 +45,7 @@ runs:
 
     - name: 'Cache yarn install state'
       if: steps.variables.outputs.version >= 2
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: yarn-install-state-cache
       with:
         path: .yarn/ci-cache/

@@ -4,13 +4,13 @@ description: 'Install npm dependencies from scratch or from cache'
 inputs:
   node-version:
     description: 'The Node.js version to use'
-    default: '18'
+    default: '20'
     required: false
 
 runs:
   using: composite
   steps:
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
         cache: 'npm'

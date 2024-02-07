@@ -446,7 +446,7 @@ __metadata:
     "@myparcel/semantic-release-config": ^4.1.0
     "@semantic-release/exec": ^6.0.3
     "@semantic-release/git": ^10.0.1
-    "@types/node": ^18.11.18
+    "@types/node": ^20.0.0
     eslint: ^8.32.0
     husky: ^8.0.3
     is-ci: ^3.0.1
@@ -1048,10 +1048,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.11.18":
-  version: 18.15.11
-  resolution: "@types/node@npm:18.15.11"
-  checksum: 977b4ad04708897ff0eb049ecf82246d210939c82461922d20f7d2dcfd81bbc661582ba3af28869210f7e8b1934529dcd46bff7d448551400f9d48b9d3bddec3
+"@types/node@npm:^20.0.0":
+  version: 20.11.16
+  resolution: "@types/node@npm:20.11.16"
+  dependencies:
+    undici-types: ~5.26.4
+  checksum: 51f0831c1219bf4698e7430aeb9892237bd851deeb25ce23c5bb0ceefcc77c3b114e48f4e98d9fc26def5a87ba9d8079f0281dd37bee691140a93f133812c152
   languageName: node
   linkType: hard
 
@@ -6395,6 +6397,13 @@ __metadata:
   bin:
     uglifyjs: bin/uglifyjs
   checksum: 7b3897df38b6fc7d7d9f4dcd658599d81aa2b1fb0d074829dd4e5290f7318dbca1f4af2f45acb833b95b1fe0ed4698662ab61b87e94328eb4c0a0d3435baf924
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~5.26.4":
+  version: 5.26.5
+  resolution: "undici-types@npm:5.26.5"
+  checksum: 3192ef6f3fd5df652f2dc1cd782b49d6ff14dc98e5dced492aa8a8c65425227da5da6aafe22523c67f035a272c599bb89cfe803c1db6311e44bed3042fc25487
   languageName: node
   linkType: hard
 

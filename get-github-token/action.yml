@@ -31,7 +31,7 @@ runs:
 
     - id: app
       if: inputs.token == '' && (inputs.app-id != '' || inputs.private-key != '')
-      uses: myparcelnl/actions/setup-app-credentials@v3
+      uses: myparcelnl/actions/setup-app-credentials@v4
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
