@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/myparcelnl/actions/compare/v4.0.0...v4.0.1) (2024-02-07)
+
+
+### :bug: Bug Fixes
+
+* **pnpm-install:** use corepack enable instead of pnpm/action-setup ([01481f8](https://github.com/myparcelnl/actions/commit/01481f855f89bb693bf0633e4bef48ed8a143233))
+
 ## [4.0.0](https://github.com/myparcelnl/actions/compare/v3.18.0...v4.0.0) (2024-02-07)
 
 
