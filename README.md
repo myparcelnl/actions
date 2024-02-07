@@ -16,6 +16,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
   - [Node](#node)
     - [npm-install](#npm-install)
     - [yarn-install](#yarn-install)
+    - [pnpm-install](#pnpm-install)
   - [PHP](#php)
     - [composer-install](#composer-install)
     - [composer-update](#composer-update)
@@ -215,6 +216,33 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 | -------- | -------------- | ---------------------------------- | ------------------ | ------- |
 | No       | `node-version` | The Node.js version to use         | `19`               | `18`    |
 | No       | `yarn-args`    | Arguments to use with yarn install | `--ignore-scripts` | ` `     |
+
+#### pnpm-install
+
+[Source](pnpm-install/action.yml)
+
+1. Runs [actions/setup-node]
+2. Installs pnpm
+3. Handles pnpm cache
+4. Runs `pnpm install --frozen-lockfile`
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/pnpm-install@v4
+  with:
+    node-version: 20
+    pnpm-version: 8.15.1
+    pnpm-args: --ignore-scripts --frozen-lockfile
+```
+
+##### Inputs
+
+| Required | Name           | Description                        | Example                              | Default             |
+| -------- | -------------- | ---------------------------------- | ------------------------------------ | ------------------- |
+| No       | `node-version` | The Node.js version to use         | `18`                                 | `20`                |
+| No       | `pnpm-version` | The pnpm version to use            | `7.4.0`                              | `8.15.1`            |
+| No       | `pnpm-args`    | Arguments to use with pnpm install | `--ignore-scripts --frozen-lockfile` | `--frozen-lockfile` |
 
 ### PHP
 
