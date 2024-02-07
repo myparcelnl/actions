@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.18.0](https://github.com/myparcelnl/actions/compare/v3.17.2...v3.18.0) (2024-02-07)
+
+
+### :sparkles: New Features
+
+* **pnpm-install:** update pnpm/action-setup to v2.4.0 ([01294c0](https://github.com/myparcelnl/actions/commit/01294c09926418943959d3a427a000677fb1f23a))
+
 ## [3.17.2](https://github.com/myparcelnl/actions/compare/v3.17.1...v3.17.2) (2023-11-13)
 
 
