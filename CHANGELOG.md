@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0](https://github.com/myparcelnl/actions/compare/v3.18.0...v4.0.0) (2024-02-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove myparcelnl/setup-node
+* remove myparcelnl/yarn2-install
+* default node version for all actions is now 20
+* default pnpm version for pnpm-install is now 8.15.1
+
+### :sparkles: New Features
+
+* update node runtime to 20 ([935818f](https://github.com/myparcelnl/actions/commit/935818f402bbd159126bfc9cba16f4ff41482147))
+
 ## [3.18.0](https://github.com/myparcelnl/actions/compare/v3.17.2...v3.18.0) (2024-02-07)
 
 
