@@ -194,7 +194,7 @@ Sync a directory to an S3 bucket. Must be run after [aws-setup].
 
 #### yarn-install
 
-Can be used with Yarn 1 and Yarn 2 (berry).
+Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 
 [Source](yarn-install/action.yml)
 
