@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.2](https://github.com/myparcelnl/actions/compare/v4.0.1...v4.0.2) (2024-02-23)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** fix issues with cache keys ([ddab17f](https://github.com/myparcelnl/actions/commit/ddab17f4e7e96a762b69fb33b206662d3254fc50))
+
 ## [4.0.1](https://github.com/myparcelnl/actions/compare/v4.0.0...v4.0.1) (2024-02-07)
 
 
