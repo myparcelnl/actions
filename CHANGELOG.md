@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.0](https://github.com/myparcelnl/actions/compare/v4.0.2...v4.1.0) (2024-03-13)
+
+
+### :sparkles: New Features
+
+* add nx run-many and deprecated actions ([ea4f6f2](https://github.com/myparcelnl/actions/commit/ea4f6f20d47c5776fe6011911231815e14592bb3))
+
 ## [4.0.2](https://github.com/myparcelnl/actions/compare/v4.0.1...v4.0.2) (2024-02-23)
 
 
