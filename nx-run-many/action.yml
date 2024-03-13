@@ -1,0 +1,31 @@
+name: 'Run many nx actions'
+description: 'Run multiple actions in parallel'
+
+inputs:
+  target:
+    description: 'The target to run'
+    required: true
+
+  args:
+    description: 'The arguments to pass to the target'
+    required: false
+    default: ''
+
+  prefix:
+    description: 'The prefix to use for the commands'
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/nx-cache@v4
+
+    - name: 'Run'
+      shell: bash
+      #language=bash
+      run: |
+        ${{ inputs.prefix }} nx run-many \
+          --output-style=static \
+          --target="${{ inputs.target }}" \
+          ${{ inputs.args }}

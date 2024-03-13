@@ -1,0 +1,32 @@
+name: 'Mark as deprecated'
+description: 'Mark something as deprecated'
+
+inputs:
+  name:
+    description: 'Name of the thing to mark as deprecated'
+    required: true
+
+  replacement:
+    description: 'The replacement'
+    required: false
+
+  reason:
+    description: 'The reason why it is deprecated'
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: 'Mark as deprecated'
+      shell: bash
+      #language=bash
+      run: |
+        msg="${{ inputs.name }} is deprecated and will be removed in the future."
+
+        if [ -n "${{ inputs.replacement }}" ]; then
+          msg="${msg} Use ${{ inputs.replacement }} instead."
+        fi
+
+        if [ -n "${{ inputs.reason }}" ]; then
+          msg="${msg} Reason: ${{ inputs.reason }}"
+        fi

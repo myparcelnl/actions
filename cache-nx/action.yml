@@ -4,11 +4,9 @@ description: 'Cache Nx build results'
 runs:
   using: composite
   steps:
-    - name: 'Cache Nx'
-      uses: actions/cache@v4
+    - uses: myparcelnl/actions/deprecated@v4
       with:
-        path: node_modules/.cache/nx
-        key: ${{ runner.os }}-cache-nx-${{ hashFiles('nx.json') }}-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-cache-nx-${{ hashFiles('nx.json') }}-
-          ${{ runner.os }}-cache-nx-
+        name: 'cache-nx'
+        replacement: 'nx-cache'
+
+    - uses: myparcelnl/actions/nx-cache@v4

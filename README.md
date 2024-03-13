@@ -39,9 +39,12 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [pr-validate-title-conventional](#pr-validate-title-conventional)
     - [stale](#stale)
     - [toggle-label](#toggle-label)
+  - [Nx](#nx)
+    - [nx-cache](#nx-cache)
+    - [nx-run-many](#nx-run-many)
   - [Miscellaneous](#miscellaneous)
     - [bundlewatch](#bundlewatch)
-    - [cache-nx](#cache-nx)
+    - [deprecated](#deprecated)
 
 ## General usage
 
@@ -819,6 +822,43 @@ with the `pull_request` event.
 | true     | `label`       | The label to toggle.                                                                             | `failing tests`                  | –       |
 | true     | `toggle`      | Whether to toggle the label on or off.                                                           | `true`                           | `auto`  |
 
+### Nx
+
+#### nx-cache
+
+[Source](nx-cache/action.yml)
+
+Save and restore the [Nx](https://nx.dev/) cache.
+
+1. Runs [actions/cache] and caches `./node_modules/.cache/nx`
+
+#### nx-run-many
+
+[Source](nx-run-many/action.yml)
+
+Run `nx run-many` with the provided arguments.
+
+1. Runs [nx-cache]
+2. Runs `<prefix> nx run-many <args> --target=<build>`.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/nx-run-many@v4
+  with:
+    target: 'build'
+    prefix: 'yarn'
+    args: '--all --runner=cloud'
+```
+
+##### Inputs
+
+| Required | Name     | Description                       | Example                | Default |
+| -------- | -------- | --------------------------------- | ---------------------- | ------- |
+| Yes      | `target` | The target to run.                | `build`                | -       |
+| No       | `prefix` | The prefix to use with `nx`.      | `yarn`                 | -       |
+| No       | `args`   | Arguments to pass to the command. | `--all --runner=cloud` | -       |
+
 ### Miscellaneous
 
 #### bun-install
@@ -867,19 +907,29 @@ If you don't pass the `config` input, it will look for the `bundlewatch` key in 
 | No       | config | Path to the BundleWatch config file. | `.bundlewatch.json`                | –       |
 | Yes      | token  | BundleWatch token to use.            | `${{ secrets.BUNDLEWATCH_TOKEN }}` | –       |
 
-#### cache-nx
+#### deprecated
 
-[Source](cache-nx/action.yml)
+[Source](deprecated/action.yml)
 
-Save and restore the [Nx](https://nx.dev/) cache.
-
-1. Runs [actions/cache] and caches `./node_modules/.cache/nx`
+Mark something as deprecated. This will add a warning to the workflow run.
 
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/cache-nx@v4
+- uses: myparcelnl/actions/deprecated@v4
+  with:
+    name: 'my-name/my-action'
+    replacement: 'my-name/my-new-action'
+    reason: 'It is no longer maintained.'
 ```
+
+##### Inputs
+
+| Required | Name          | Description                             | Example                       | Default |
+| -------- | ------------- | --------------------------------------- | ----------------------------- | ------- |
+| Yes      | `name`        | Name of the thing to mark as deprecated | `my-name/my-action`           | –       |
+| No       | `replacement` | The replacement                         | `my-name/my-new-action`       | –       |
+| No       | `reason`      | The reason why it is deprecated         | `It is no longer maintained.` | –       |
 
 [BundleWatch]: https://bundlewatch.io/
 [Codecov]: https://codecov.io
