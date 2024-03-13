@@ -17,7 +17,7 @@ jobs:
     name: 'Release'
     runs-on: ubuntu-22.04
     steps:
-      - uses: myparcelnl/actions/setup-git-credentials@v3
+      - uses: myparcelnl/actions/setup-git-credentials@v4
         id: credentials
         with:
           app-id: ${{ secrets.MYPARCEL_APP_ID }}
@@ -28,7 +28,7 @@ jobs:
           token: ${{ steps.credentials.outputs.token }}
           fetch-depth: 0
 
-      - uses: myparcelnl/actions/yarn-install@v3
+      - uses: myparcelnl/actions/yarn-install@v4
         with:
           node-version: '20'
 

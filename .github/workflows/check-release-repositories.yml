@@ -25,7 +25,7 @@ jobs:
           repository: ${{ matrix.repository }}
           fetch-depth: 0
 
-      - uses: myparcelnl/actions/compare-branches@v3
+      - uses: myparcelnl/actions/compare-branches@v4
         id: compare
 
       - uses: slackapi/slack-github-action@v1.24.0
