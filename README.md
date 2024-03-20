@@ -36,6 +36,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [get-github-token](#get-github-token)
     - [pr-assign-author](#pr-assign-author)
     - [pr-label-by-review](#pr-label-by-review)
+    - [pr-post-artifacts](#pr-post-artifacts)
     - [pr-validate-title-conventional](#pr-validate-title-conventional)
     - [stale](#stale)
     - [toggle-label](#toggle-label)
@@ -722,6 +723,44 @@ Label a pull request based on the review state. For use with the `pull_request_r
 | false    | `label-approved`          | The label to add when the PR is approved.                                                                                                 | `ready to merge`                 | `approved`          |
 | false    | `label-changes-requested` | The label to add when changes are requested.                                                                                              | `needs work`                     | `changes requested` |
 | false    | `branch-protection`       | Whether to use branch protection or rulesets to determine the number of required reviews.                                                 | `rulesets`                       | `branch-protection` |
+
+#### pr-post-artifacts
+
+[Source](pr-post-artifacts/action.yml)
+
+Post an artifact to a pull request. For use with the `workflow_run` event with `completed` type. Shows either success with link to artifact or failure depending on the outcome of the workflow.
+
+Requires the referenced workflow to have produced an artifact using the `actions/upload-artifact` action.
+
+##### Example
+
+```yaml
+name: 'Post PR Artifacts'
+
+on:
+  workflow_run:
+    types:
+      - completed
+
+    workflows:
+      - 'My PR Workflow' # The name of the workflow that produces the artifact
+
+jobs:
+  comment-success:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: myparcelnl/actions/pr-post-artifacts@v4
+        with:
+          app-id: ${{ secrets.GITHUB_APP_ID }}
+          private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
+```
+
+##### Inputs
+
+| Required | Name          | Description                 | Example                          | Default |
+| -------- | ------------- | --------------------------- | -------------------------------- | ------- |
+| false    | `app-id`      | The app ID of the app.      | `${{ secrets.APP_ID }}`          | –       |
+| false    | `private-key` | The private key of the app. | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
 
 #### pr-validate-title-conventional
 
