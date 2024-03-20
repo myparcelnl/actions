@@ -36,11 +36,11 @@ runs:
         maxSizeKB=$(($MAX_CACHE_SIZE))
 
         function size() {
-          (du -sk "$1" &1> /dev/null || echo 0) | cut -f 1
+          (du -sk "$1" 2>/dev/null || echo 0) | cut -f 1
         }
 
         # Sort files by modification time, oldest first
-        taskHashes=($(ls -trF .nx/cache | grep "\d\+/$" | sed 's/\///'))
+        taskHashes=$(ls -trF .nx/cache 2>/dev/null || echo "" | grep "\d\+/$" | sed 's/\///')
 
         # Calculate current total size
         totalSize=0
@@ -57,7 +57,7 @@ runs:
           fi
         done
 
-        if [ "$totalSize" -lt "$maxSizeKB" ]; then
+        if [ "$totalSize" -le "$maxSizeKB" ]; then
           echo "Cache size is already below the threshold."
           exit 0
         fi
