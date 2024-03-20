@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.1](https://github.com/myparcelnl/actions/compare/v4.2.0...v4.2.1) (2024-03-20)
+
+
+### :bug: Bug Fixes
+
+* **nx-run-many:** use npx as default prefix ([8d03a81](https://github.com/myparcelnl/actions/commit/8d03a81dd4b90a344985de78a3445bae96602d43))
+
 ## [4.2.0](https://github.com/myparcelnl/actions/compare/v4.1.0...v4.2.0) (2024-03-20)
 
 
