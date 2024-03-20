@@ -871,6 +871,12 @@ Save and restore the [Nx](https://nx.dev/) cache.
 
 1. Runs [actions/cache] and caches `./node_modules/.cache/nx`
 
+#### Inputs
+
+| Required | Name             | Description                        | Example | Default |
+| -------- | ---------------- | ---------------------------------- | ------- | ------- |
+| No       | `max-cache-size` | Maximum size of the nx cache in KB | `4096`  | `8192`  |
+
 #### nx-run-many
 
 [Source](nx-run-many/action.yml)
@@ -892,11 +898,12 @@ Run `nx run-many` with the provided arguments.
 
 ##### Inputs
 
-| Required | Name     | Description                       | Example                | Default |
-| -------- | -------- | --------------------------------- | ---------------------- | ------- |
-| Yes      | `target` | The target to run.                | `build`                | -       |
-| No       | `prefix` | The prefix to use with `nx`.      | `yarn`                 | `npx`   |
-| No       | `args`   | Arguments to pass to the command. | `--all --runner=cloud` | -       |
+| Required | Name             | Description                        | Example                | Default |
+| -------- | ---------------- | ---------------------------------- | ---------------------- | ------- |
+| Yes      | `target`         | The target to run.                 | `build`                | -       |
+| No       | `prefix`         | The prefix to use with `nx`.       | `yarn`                 | `npx`   |
+| No       | `args`           | Arguments to pass to the command.  | `--all --runner=cloud` | -       |
+| No       | `max-cache-size` | Maximum size of the nx cache in KB | `4096`                 | `8192`  |
 
 ### Miscellaneous
 
