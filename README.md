@@ -895,7 +895,7 @@ Run `nx run-many` with the provided arguments.
 | Required | Name     | Description                       | Example                | Default |
 | -------- | -------- | --------------------------------- | ---------------------- | ------- |
 | Yes      | `target` | The target to run.                | `build`                | -       |
-| No       | `prefix` | The prefix to use with `nx`.      | `yarn`                 | -       |
+| No       | `prefix` | The prefix to use with `nx`.      | `yarn`                 | `npx`   |
 | No       | `args`   | Arguments to pass to the command. | `--all --runner=cloud` | -       |
 
 ### Miscellaneous

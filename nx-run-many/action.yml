@@ -14,7 +14,7 @@ inputs:
   prefix:
     description: 'The prefix to use for the commands'
     required: false
-    default: ''
+    default: 'npx'
 
 runs:
   using: composite
