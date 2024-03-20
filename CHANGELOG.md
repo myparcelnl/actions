@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.0](https://github.com/myparcelnl/actions/compare/v4.1.0...v4.2.0) (2024-03-20)
+
+
+### :sparkles: New Features
+
+* add pr-post-artifacts ([2b31c76](https://github.com/myparcelnl/actions/commit/2b31c762f507059e8aae86c3775452a47de10f31))
+
 ## [4.1.0](https://github.com/myparcelnl/actions/compare/v4.0.2...v4.1.0) (2024-03-13)
 
 
