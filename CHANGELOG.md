@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.2](https://github.com/myparcelnl/actions/compare/v4.3.1...v4.3.2) (2024-03-28)
+
+
+### :bug: Bug Fixes
+
+* **nx-cache:** fix cache strategy ([dbdc475](https://github.com/myparcelnl/actions/commit/dbdc475620f6e9f6b985d69dcc42461ab9cb3819))
+
 ## [4.3.1](https://github.com/myparcelnl/actions/compare/v4.3.0...v4.3.1) (2024-03-20)
 
 
