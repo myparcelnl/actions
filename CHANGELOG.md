@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0](https://github.com/myparcelnl/actions/compare/v4.3.2...v4.4.0) (2024-04-04)
+
+
+### :bug: Bug Fixes
+
+* **pr-assign-author:** pass github token to actions/github-script ([1056f72](https://github.com/myparcelnl/actions/commit/1056f7274a1cb73ed30e05785b288b7d0e309452))
+
+
+### :sparkles: New Features
+
+* update all github-script actions to v7 ([8294784](https://github.com/myparcelnl/actions/commit/8294784090e206f6c420e3b622769f7adace2652))
+
 ## [4.3.2](https://github.com/myparcelnl/actions/compare/v4.3.1...v4.3.2) (2024-03-28)
 
 
