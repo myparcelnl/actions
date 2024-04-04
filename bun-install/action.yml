@@ -24,7 +24,7 @@ runs:
     - name: 'Get bun variables'
       id: variables
       shell: bash
-      #language=sh
+      #language=bash
       run: |
         hash=$(bun pm hash-print || echo '')
 
@@ -42,6 +42,6 @@ runs:
 
     - name: 'Install bun dependencies'
       shell: bash
-      #language=sh
+      #language=bash
       run: |
         bun install ${{ inputs.bun-args }}

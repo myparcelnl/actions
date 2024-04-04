@@ -38,6 +38,7 @@ runs:
 
     - name: 'Set git credentials'
       shell: bash
+      #language=bash
       run: |
         git_name=${{ steps.credentials.outputs.git-name }}
         git_email=${{ steps.credentials.outputs.git-email }}

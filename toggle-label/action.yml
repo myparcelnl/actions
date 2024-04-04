@@ -34,6 +34,7 @@ runs:
       if: (inputs.toggle == 'true' || inputs.toggle == 'auto') && !contains(github.event.pull_request.labels.*.name, '${{ inputs.label }}')
       with:
         github-token: ${{ steps.token.outputs.token }}
+        #language=javascript
         script: |
           github.rest.issues.addLabels({
             issue_number: context.issue.number,
@@ -47,6 +48,7 @@ runs:
       if: (inputs.toggle == 'false' || inputs.toggle == 'auto') && contains(github.event.pull_request.labels.*.name, '${{ inputs.label }}')
       with:
         github-token: ${{ steps.token.outputs.token }}
+        #language=javascript
         script: |
           github.rest.issues.removeLabel({
             issue_number: context.issue.number,

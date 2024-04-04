@@ -28,6 +28,7 @@ runs:
     - name: 'Get image name'
       id: prepare
       shell: bash
+      #language=bash
       run: |
         echo "image=ghcr.io/myparcelnl/php-xd:${{ inputs.php-version }}-cli-alpine" >> $GITHUB_OUTPUT
 
@@ -55,6 +56,7 @@ runs:
 
     - name: 'Install composer dependencies'
       shell: bash
+      #language=bash
       run: |
         docker run \
           --volume /tmp/composer-cache:/root/.composer \

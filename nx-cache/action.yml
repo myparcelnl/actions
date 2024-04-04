@@ -24,9 +24,9 @@ runs:
 
     - name: 'Prune cache'
       if: steps.cache.outputs.cache-hit == 'true'
-      shell: bash
       env:
         MAX_CACHE_SIZE: ${{ inputs.max-cache-size }}
+      shell: bash
       #language=bash
       run: |
         maxSizeKB=$(($MAX_CACHE_SIZE))

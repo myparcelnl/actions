@@ -49,6 +49,8 @@ runs:
   steps:
     - name: 'Prepare'
       id: prep
+      shell: bash
+      #language=bash
       run: |
         IMAGE=$(echo ${{ inputs.image }})
         ARGS=$(echo ${{ inputs.docker-args }} | shasum | head -c 40)
@@ -56,7 +58,6 @@ runs:
         echo "args=${ARGS}" >> $GITHUB_OUTPUT
         echo "tag=${TAG}" >> $GITHUB_OUTPUT
         echo "tagged-image=${IMAGE}:${TAG}" >> $GITHUB_OUTPUT
-      shell: bash
 
     - uses: satackey/action-docker-layer-caching@v0.0.11
       with:
@@ -66,6 +67,7 @@ runs:
 
     - name: 'Build image'
       shell: bash
+      #language=bash
       run: >
         docker build ${{ inputs.docker-args }} \
           --label args=${{ steps.prep.outputs.args }} \
@@ -79,6 +81,7 @@ runs:
 
     - name: 'Prune previous images'
       shell: bash
+      #language=bash
       run: >
         docker image prune \
           --all \
@@ -89,6 +92,7 @@ runs:
 
     - name: 'Prune stale images'
       shell: bash
+      #language=bash
       run: >
         docker image prune \
           --force \

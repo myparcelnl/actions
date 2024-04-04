@@ -39,6 +39,7 @@ runs:
     - name: 'Set outputs'
       id: create-outputs
       shell: bash
+      #language=bash
       run: |
         bot_name=${{ steps.generate-token.outputs.BOT_NAME }}
         bot_git_name="${bot_name}[bot]"

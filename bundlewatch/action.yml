@@ -19,6 +19,7 @@ runs:
     - name: 'Prepare env values - push'
       if: ${{ github.event_name == 'push' }}
       shell: bash
+      #language=bash
       run: |
         BRANCH=$(echo '${{ github.event.ref }}' | sed 's/^refs\/heads\///')
         echo "CI_BRANCH=$BRANCH" >> $GITHUB_ENV
@@ -28,14 +29,16 @@ runs:
     - name: 'Prepare env values - pull request'
       if: ${{ github.event_name == 'pull_request' }}
       shell: bash
+      #language=bash
       run: |
         echo "CI_BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV
         echo "CI_BRANCH_BASE=${{ github.base_ref }}" >> $GITHUB_ENV
         echo "CI_COMMIT_SHA=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
 
     - name: 'Check bundle size'
+      shell: bash
+      #language=bash
       run: |
         npx bundlewatch $(if [ -n "${{ inputs.config }}" ]; then echo "--config ${{ inputs.config }}"; fi)
-      shell: bash
       env:
         BUNDLEWATCH_GITHUB_TOKEN: ${{ inputs.token }}

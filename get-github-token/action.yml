@@ -22,6 +22,7 @@ runs:
     - name: 'Log'
       id: log
       shell: bash
+      #language=bash
       run: |
         if [ -n "${{ inputs.github-token }}" ]; then
           echo "Using GitHub token."
@@ -39,12 +40,14 @@ runs:
     - id: token
       if: inputs.token != ''
       shell: bash
+      #language=bash
       run: |
         echo "token=${{ inputs.token }}" >> $GITHUB_OUTPUT
 
     - id: error
       if: inputs.token == '' && (inputs.app-id == '' || inputs.private-key == '')
       shell: bash
+      #language=bash
       run: |
         echo "::error::No GitHub token or app credentials provided."
         exit 1

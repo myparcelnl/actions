@@ -28,18 +28,21 @@ runs:
     - name: 'Generate image name'
       id: hash
       shell: bash
+      #language=bash
       run: |
         echo "filename=$(echo ${{ inputs.image }} | md5sum | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
 
     - name: 'Load cached Docker image'
       if: steps.docker-cache.outputs.cache-hit == 'true'
       shell: bash
+      #language=bash
       run: |
         docker load -i ${{ inputs.cache-directory }}/image-${{ steps.hash.outputs.filename }}.tar
 
     - name: 'Pull Docker image'
       if: steps.docker-cache.outputs.cache-hit != 'true'
       shell: bash
+      #language=bash
       run: |
         # if not present, pull from registry
         EXISTS=$(docker image inspect ${{ inputs.image }} > /dev/null 2>&1 || echo 0)
@@ -54,6 +57,7 @@ runs:
     - name: 'Save image to disk'
       if: steps.docker-cache.outputs.cache-hit != 'true'
       shell: bash
+      #language=bash
       run: |
         mkdir -p ${{ inputs.cache-directory }}
         docker save -o ${{ inputs.cache-directory }}/image-${{ steps.hash.outputs.filename }}.tar ${{ inputs.image }}

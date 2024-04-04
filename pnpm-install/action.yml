@@ -24,7 +24,7 @@ runs:
 
     - name: 'Enable corepack'
       shell: bash
-      #language=sh
+      #language=bash
       run: |
         corepack enable
 
@@ -35,4 +35,5 @@ runs:
 
     - name: 'Install pnpm dependencies'
       shell: bash
+      #language=bash
       run: pnpm install ${{ inputs.pnpm-args }}

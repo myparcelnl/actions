@@ -45,14 +45,16 @@ runs:
   steps:
     - name: 'Run semantic release'
       id: release
-      run: npx semantic-release ${{ inputs.semantic-release-args }}
-      shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
+      shell: bash
+      #language=bash
+      run: npx semantic-release ${{ inputs.semantic-release-args }}
 
     - name: 'Normalize outputs'
       id: normalize
       shell: bash
+      #language=bash
       run: |
         LAST_VER=${{ steps.release.outputs.last-version }}
         NEXT_VER=${{ steps.release.outputs.next-version }}
@@ -70,6 +72,7 @@ runs:
     - name: 'Write job summary'
       if: ${{ inputs.write-summary == 'true' }}
       shell: bash
+      #language=bash
       run: |
         REPO_URL="https://github.com/${{ github.repository }}"
         LAST_VER=${{ steps.normalize.outputs.last-version }}

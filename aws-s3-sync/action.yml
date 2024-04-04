@@ -23,6 +23,7 @@ runs:
   steps:
     - name: 'Sync files'
       shell: bash
+      #language=bash
       run: |
         aws s3 sync "${{ inputs.source }}" \
           "s3://${{ inputs.bucket }}" \
@@ -31,6 +32,7 @@ runs:
     - name: 'Invalidate CloudFront'
       if: inputs.distribution-id != ''
       shell: bash
+      #language=bash
       run: |
         aws cloudfront create-invalidation \
           --distribution-id ${{ inputs.distribution-id }} \

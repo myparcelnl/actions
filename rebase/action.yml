@@ -41,6 +41,7 @@ runs:
     - name: 'Rebase'
       id: rebase
       shell: bash
+      #language=bash
       run: |
         FAILED=false
         git rebase "${{ inputs.remote }}/${{ inputs.base }}" || (FAILED=true && git rebase --abort)
@@ -54,13 +55,15 @@ runs:
         fi
 
     - name: 'Push'
-      shell: bash
       if: inputs.force != 'true' && steps.rebase.outputs.failed != 'true'
+      shell: bash
+      #language=bash
       run: |
         git push
 
     - name: 'Force push'
-      shell: bash
       if: inputs.force == 'true' && steps.rebase.outputs.failed != 'true'
+      shell: bash
+      #language=bash
       run: |
         git push --force

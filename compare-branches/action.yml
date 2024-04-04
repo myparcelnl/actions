@@ -36,6 +36,7 @@ runs:
     - name: 'Compare branches'
       id: compare
       shell: bash
+      #language=bash
       run: |
         RANGE="${{ inputs.remote }}/${{ inputs.base }}..${{ inputs.remote }}/${{ inputs.head }}"
         COMMITS="$(git rev-list --count $RANGE)"

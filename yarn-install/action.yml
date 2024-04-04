@@ -22,6 +22,7 @@ runs:
     - name: 'Create variables'
       id: variables
       shell: bash
+      #language=bash
       run: |
         version=$(yarn --version | cut -d. -f1)
 
@@ -53,6 +54,7 @@ runs:
 
     - name: 'Install yarn dependencies'
       shell: bash
+      #language=bash
       run: |
         yarn install ${{ steps.variables.outputs.args }} ${{ inputs.yarn-args }}
       env:
