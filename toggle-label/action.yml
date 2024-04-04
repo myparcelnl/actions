@@ -30,7 +30,7 @@ runs:
         private-key: ${{ inputs.private-key }}
 
     - name: 'Add label'
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       if: (inputs.toggle == 'true' || inputs.toggle == 'auto') && !contains(github.event.pull_request.labels.*.name, '${{ inputs.label }}')
       with:
         github-token: ${{ steps.token.outputs.token }}
@@ -43,7 +43,7 @@ runs:
           });
 
     - name: 'Remove label'
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       if: (inputs.toggle == 'false' || inputs.toggle == 'auto') && contains(github.event.pull_request.labels.*.name, '${{ inputs.label }}')
       with:
         github-token: ${{ steps.token.outputs.token }}

@@ -24,7 +24,7 @@ runs:
         private-key: ${{ inputs.private-key }}
 
     - name: 'Assign author if none are assigned'
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         github-token: ${{ steps.token.outputs.token }}
         #language=javascript
