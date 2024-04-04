@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.1](https://github.com/myparcelnl/actions/compare/v4.4.0...v4.4.1) (2024-04-04)
+
+
+### :bug: Bug Fixes
+
+* **nx-run-many:** ignore unknown local cache error ([fbcfa54](https://github.com/myparcelnl/actions/commit/fbcfa54219a55138ac5b52275a492ae9dce55627))
+
 ## [4.4.0](https://github.com/myparcelnl/actions/compare/v4.3.2...v4.4.0) (2024-04-04)
 
 
