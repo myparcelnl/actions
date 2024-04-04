@@ -38,6 +38,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [pr-label-by-review](#pr-label-by-review)
     - [pr-post-artifacts](#pr-post-artifacts)
     - [pr-validate-title-conventional](#pr-validate-title-conventional)
+    - [repository-dispatch](#repository-dispatch)
     - [stale](#stale)
     - [toggle-label](#toggle-label)
   - [Nx](#nx)
@@ -635,11 +636,7 @@ Meant for use within other actions, because obviously you could just use the `to
 
 ##### Inputs
 
-| Required | Name          | Description                                                                                      | Example                          | Default |
-| -------- | ------------- | ------------------------------------------------------------------------------------------------ | -------------------------------- | ------- |
-| false    | `token`       | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –       |
-| false    | `app-id`      | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –       |
-| false    | `private-key` | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
+This action uses the [App inputs](#app-inputs).
 
 ##### Outputs
 
@@ -670,11 +667,7 @@ Assign the author of a pull request to the pull request. For use with the `pull_
 
 ##### Inputs
 
-| Required | Name          | Description                                                                                      | Example                          | Default |
-| -------- | ------------- | ------------------------------------------------------------------------------------------------ | -------------------------------- | ------- |
-| false    | `token`       | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –       |
-| false    | `app-id`      | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –       |
-| false    | `private-key` | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
+See [App inputs](#app-inputs)
 
 #### pr-label-by-review
 
@@ -714,15 +707,14 @@ Label a pull request based on the review state. For use with the `pull_request_r
 
 ##### Inputs
 
-| Required | Name                      | Description                                                                                                                               | Example                          | Default             |
-| -------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ------------------- |
-| false    | `token`                   | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.                                          | `${{ secrets.GITHUB_TOKEN }}`    | –                   |
-| false    | `app-id`                  | The app ID of the app.                                                                                                                    | `${{ secrets.APP_ID }}`          | –                   |
-| false    | `private-key`             | The private key of the app.                                                                                                               | `${{ secrets.APP_PRIVATE_KEY }}` | –                   |
-| false    | `required-approvals`      | The number of reviews required to merge the PR. Can be passed if you don't have an access token or app with the read settings permission. | `2`                              | –                   |
-| false    | `label-approved`          | The label to add when the PR is approved.                                                                                                 | `ready to merge`                 | `approved`          |
-| false    | `label-changes-requested` | The label to add when changes are requested.                                                                                              | `needs work`                     | `changes requested` |
-| false    | `branch-protection`       | Whether to use branch protection or rulesets to determine the number of required reviews.                                                 | `rulesets`                       | `branch-protection` |
+This action uses the [App inputs](#app-inputs), as well as the following:
+
+| Required | Name                      | Description                                                                                                                               | Example          | Default             |
+| -------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ------------------- |
+| false    | `required-approvals`      | The number of reviews required to merge the PR. Can be passed if you don't have an access token or app with the read settings permission. | `2`              | –                   |
+| false    | `label-approved`          | The label to add when the PR is approved.                                                                                                 | `ready to merge` | `approved`          |
+| false    | `label-changes-requested` | The label to add when changes are requested.                                                                                              | `needs work`     | `changes requested` |
+| false    | `branch-protection`       | Whether to use branch protection or rulesets to determine the number of required reviews.                                                 | `rulesets`       | `branch-protection` |
 
 #### pr-post-artifacts
 
@@ -785,11 +777,7 @@ Validate the title of a pull request based on the conventional commit format. Fo
 
 ##### Inputs
 
-| Required | Name          | Description                                                                                      | Example                          | Default |
-| -------- | ------------- | ------------------------------------------------------------------------------------------------ | -------------------------------- | ------- |
-| false    | `token`       | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –       |
-| false    | `app-id`      | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –       |
-| false    | `private-key` | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
+This action uses the [App inputs](#app-inputs).
 
 ##### Outputs
 
@@ -797,6 +785,21 @@ Validate the title of a pull request based on the conventional commit format. Fo
 | --------- | ---------------------------------------- | ------------------------------- |
 | `success` | Whether the PR title is valid.           | `true`                          |
 | `error`   | Error in case the PR title is not valid. | `(string containing the error)` |
+
+#### repository-dispatch
+
+[Source](repository-dispatch/action.yml)
+
+Wraps [`peter-evans/repository-dispatch`](https://github.com/peter-evans/repository-dispatch) with the ability to use a GitHub app easily.
+
+Usage is the same as the original action, but with the addition of the `app-id` and `private-key` inputs.
+
+- Uses [get-github-token] to get a token.
+- Passes the token and other inputs to `peter-evans/repository-dispatch`.
+
+##### Inputs
+
+This action uses the [App inputs](#app-inputs), as well as the inputs from the original action.
 
 #### stale
 
@@ -816,16 +819,15 @@ Mark issues and pull requests as stale after a period of inactivity. For use wit
 
 ##### Inputs
 
-| Required | Name                      | Description                                                                                      | Example                          | Default      |
-| -------- | ------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------- | ------------ |
-| false    | `token`                   | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –            |
-| false    | `app-id`                  | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –            |
-| false    | `private-key`             | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –            |
-| false    | `days-before-stale`       | Amount of days before an issue is marked as stale.                                               | `14`                             | `60`         |
-| false    | `days-before-issue-stale` | Amount of days before an issue is marked as stale.                                               | `14`                             | – (inherit)  |
-| false    | `days-before-pr-stale`    | Amount of days before a pull request is marked as stale.                                         | `30`                             | – (inherit)  |
-| false    | `days-before-issue-close` | Amount of days before an issue is closed.                                                        | `7`                              | `14`         |
-| false    | `days-before-pr-close`    | Amount of days before a pull request is closed.                                                  | `14`                             | `-1` (never) |
+This action uses the [App inputs](#app-inputs), as well as the following:
+
+| Required | Name                      | Description                                              | Example | Default      |
+| -------- | ------------------------- | -------------------------------------------------------- | ------- | ------------ |
+| false    | `days-before-stale`       | Amount of days before an issue is marked as stale.       | `14`    | `60`         |
+| false    | `days-before-issue-stale` | Amount of days before an issue is marked as stale.       | `14`    | – (inherit)  |
+| false    | `days-before-pr-stale`    | Amount of days before a pull request is marked as stale. | `30`    | – (inherit)  |
+| false    | `days-before-issue-close` | Amount of days before an issue is closed.                | `7`     | `14`         |
+| false    | `days-before-pr-close`    | Amount of days before a pull request is closed.          | `14`    | `-1` (never) |
 
 ##### Outputs
 
@@ -853,13 +855,12 @@ with the `pull_request` event.
 
 ##### Inputs
 
-| Required | Name          | Description                                                                                      | Example                          | Default |
-| -------- | ------------- | ------------------------------------------------------------------------------------------------ | -------------------------------- | ------- |
-| false    | `token`       | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –       |
-| false    | `app-id`      | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –       |
-| false    | `private-key` | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
-| true     | `label`       | The label to toggle.                                                                             | `failing tests`                  | –       |
-| true     | `toggle`      | Whether to toggle the label on or off.                                                           | `true`                           | `auto`  |
+This action uses the [App inputs](#app-inputs), as well as the following:
+
+| Required | Name     | Description                            | Example         | Default |
+| -------- | -------- | -------------------------------------- | --------------- | ------- |
+| true     | `label`  | The label to toggle.                   | `failing tests` | –       |
+| true     | `toggle` | Whether to toggle the label on or off. | `true`          | `auto`  |
 
 ### Nx
 
@@ -976,6 +977,20 @@ Mark something as deprecated. This will add a warning to the workflow run.
 | Yes      | `name`        | Name of the thing to mark as deprecated | `my-name/my-action`           | –       |
 | No       | `replacement` | The replacement                         | `my-name/my-new-action`       | –       |
 | No       | `reason`      | The reason why it is deprecated         | `It is no longer maintained.` | –       |
+
+## App inputs
+
+Many of these actions can use either a GitHub token or a GitHub app. If you want to use a GitHub app, you can pass the `app-id` and `private-key` inputs. The app will then be used to authenticate with GitHub.
+
+##### Inputs
+
+These inputs apply on top of the other inputs of the action that allows for GitHub app authentication.
+
+| Required | Name          | Description                                                                                      | Example                          | Default |
+| -------- | ------------- | ------------------------------------------------------------------------------------------------ | -------------------------------- | ------- |
+| false    | `token`       | GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs. | `${{ secrets.GITHUB_TOKEN }}`    | –       |
+| false    | `app-id`      | The app ID of the app.                                                                           | `${{ secrets.APP_ID }}`          | –       |
+| false    | `private-key` | The private key of the app.                                                                      | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
 
 [BundleWatch]: https://bundlewatch.io/
 [Codecov]: https://codecov.io

@@ -1,0 +1,40 @@
+name: 'Repository Dispatch'
+description: 'Create a repository dispatch event'
+inputs:
+  token:
+    description: 'GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.'
+
+  app-id:
+    description: 'The app ID of the app.'
+
+  private-key:
+    description: 'The private key of the app.'
+
+  repository:
+    description: 'The full name of the repository to send the dispatch.'
+    default: ${{ github.repository }}
+
+  event-type:
+    description: 'A custom webhook event name.'
+    required: true
+
+  client-payload:
+    description: 'JSON payload with extra information about the webhook event that your action or workflow may use.'
+    default: '{}'
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/get-github-token@v4
+      id: token
+      with:
+        token: ${{ inputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - uses: peter-evans/repository-dispatch@v3
+      with:
+        token: ${{ steps.token.outputs.token }}
+        repository: ${{ inputs.repository }}
+        event-type: ${{ inputs.event-type }}
+        client-payload: ${{ inputs.client-payload }}
