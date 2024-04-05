@@ -38,6 +38,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [pr-label-by-review](#pr-label-by-review)
     - [pr-post-artifacts](#pr-post-artifacts)
     - [pr-validate-title-conventional](#pr-validate-title-conventional)
+    - [rebase-prs](#rebase-prs)
     - [repository-dispatch](#repository-dispatch)
     - [stale](#stale)
     - [toggle-label](#toggle-label)
@@ -785,6 +786,19 @@ This action uses the [App inputs](#app-inputs).
 | --------- | ---------------------------------------- | ------------------------------- |
 | `success` | Whether the PR title is valid.           | `true`                          |
 | `error`   | Error in case the PR title is not valid. | `(string containing the error)` |
+
+#### rebase-prs
+
+[Source](rebase-prs/action.yml)
+
+Wraps [`peter-evans/rebase`](https://github.com/peter-evans/rebase) with the ability to use a GitHub app easily.
+
+- Uses [get-github-token] to get a token.
+- Passes the token and other inputs to `peter-evans/rebase`.
+
+##### Inputs
+
+This action uses the [App inputs](#app-inputs), as well as the inputs from the original action.
 
 #### repository-dispatch
 

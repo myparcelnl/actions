@@ -1,0 +1,58 @@
+name: 'Rebase pull requests'
+description: 'Rebase pull requests in a repository'
+
+inputs:
+  token:
+    description: 'GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.'
+
+  app-id:
+    description: 'The app ID of the app.'
+
+  private-key:
+    description: 'The private key of the app.'
+
+  repository:
+    description: 'The target GitHub repository'
+    default: ${{ github.repository }}
+
+  head:
+    description: >
+      Filter pull requests by head user or head organization and branch name in the format user:ref-name or organization:ref-name.
+      For example: github:new-script-format or octocat:test-branch.
+
+  base:
+    description: >
+      Filter pull requests by base branch name.
+      Example: gh-pages.
+
+  include-labels:
+    description: >
+      A comma or newline separated list of pull request labels to include.
+      Allows any labels if unspecified.
+
+  exclude-labels:
+    description: 'A comma or newline separated list of pull request labels to exclude'
+
+  exclude-drafts:
+    description: 'Exclude draft pull requests'
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: myparcelnl/actions/get-github-token@v4
+      id: token
+      with:
+        token: ${{ inputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - uses: peter-evans/rebase@v3
+      with:
+        token: ${{ steps.token.outputs.token }}
+        repository: ${{ inputs.repository }}
+        head: ${{ inputs.head }}
+        base: ${{ inputs.base }}
+        include-labels: ${{ inputs.include-labels }}
+        exclude-labels: ${{ inputs.exclude-labels }}
+        exclude-drafts: ${{ inputs.exclude-drafts }}
