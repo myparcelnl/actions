@@ -24,7 +24,9 @@ runs:
       uses: actions/cache/restore@v4
       with:
         path: ${{ inputs.cache-dir }}
-        key: ${{ runner.os }}-nx-cache
+        key: '${{ runner.os }}-nx-cache-${{ github.sha }}'
+        restore-keys: |
+          ${{ runner.os }}-nx-cache-
 
     - name: 'Prune cache'
       if: steps.cache.outputs.cache-hit == 'true'
