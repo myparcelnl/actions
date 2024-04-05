@@ -16,6 +16,11 @@ inputs:
     required: false
     default: 'npx'
 
+  cache-dir:
+    description: 'The nx cache directory'
+    required: false
+    default: '.nx/cache'
+
   max-cache-size:
     description: 'The maximum size of the cache in KB'
     required: false
@@ -26,11 +31,13 @@ runs:
   steps:
     - uses: myparcelnl/actions/nx-cache@v4
       with:
+        cache-dir: ${{ inputs.cache-dir }}
         max-cache-size: ${{ inputs.max-cache-size }}
 
     - name: 'Run'
       shell: bash
       env:
+        NX_CACHE_DIRECTORY: ${{ inputs.cache-dir }}
         NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
       #language=bash
       run: |
