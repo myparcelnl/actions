@@ -45,3 +45,9 @@ runs:
           --output-style=static \
           --target="${{ inputs.target }}" \
           ${{ inputs.args }}
+
+    - name: 'Save nx cache'
+      uses: actions/cache/save@v4
+      with:
+        path: ${{ inputs.cache-dir }}
+        key: ${{ runner.os }}-nx-cache

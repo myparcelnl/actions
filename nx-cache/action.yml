@@ -91,9 +91,3 @@ runs:
         done
 
         echo "Pruned cache from $startSize KB to $totalSize KB by deleting $i items."
-
-    - name: 'Save nx cache'
-      uses: actions/cache/save@v4
-      with:
-        path: ${{ inputs.cache-dir }}
-        key: ${{ runner.os }}-nx-cache
