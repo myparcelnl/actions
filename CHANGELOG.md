@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.0](https://github.com/myparcelnl/actions/compare/v4.4.1...v4.5.0) (2024-04-05)
+
+
+### :sparkles: New Features
+
+* add rebase-prs ([dca96ca](https://github.com/myparcelnl/actions/commit/dca96ca2adc3276004d804941edf4815a2fc6af0))
+* add repository-dispatch ([453821f](https://github.com/myparcelnl/actions/commit/453821f40edaf399938dc4ed58a826a5880ff28b))
+
 ## [4.4.1](https://github.com/myparcelnl/actions/compare/v4.4.0...v4.4.1) (2024-04-04)
 
 
