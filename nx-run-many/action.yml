@@ -50,4 +50,4 @@ runs:
       uses: actions/cache/save@v4
       with:
         path: ${{ inputs.cache-dir }}
-        key: '${{ runner.os }}-nx-cache-${{ github.sha }}'
+        key: '${{ runner.os }}-nx-cache-${{ github.sha }}-${{ github.run_id }}-${{ github.run_number }}'
