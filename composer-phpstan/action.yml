@@ -1,0 +1,83 @@
+name: 'Run PHPStan'
+description: 'Set up PHP and run PHPStan'
+
+inputs:
+  command:
+    description: 'The PHPStan command to run.'
+    required: false
+    default: 'analyse'
+
+  config-file:
+    description: 'PHPStan configuration file'
+    required: false
+    default: ''
+
+  cache-dir:
+    description: 'PHPStan cache directory'
+    required: false
+    default: '/tmp/phpstan'
+
+  cache-hash:
+    description: 'Hash to use for caching'
+    required: false
+    default: ${{ hashFiles('**/*.php') }}
+
+  image:
+    description: 'PHP Docker image to use'
+    required: false
+    default: ''
+
+  php-version:
+    description: 'PHP version to use. If image is set, this will be ignored.'
+    default: '7.4'
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: 'Prepare variables'
+      id: prepare
+      shell: bash
+      env:
+        CONFIG_FILE: ${{ inputs.config-file }}
+      #language=bash
+      run: |
+        ARGS=""
+
+        if [ -n "$CONFIG_FILE" ]; then
+          ARGS="$ARGS --configuration $CONFIG_FILE"
+        fi
+
+        echo "args=$ARGS" >> $GITHUB_OUTPUT
+
+    - name: 'Handle PHPStan cache'
+      uses: actions/cache@v4
+      id: phpstan-cache
+      with:
+        path: ${{ inputs.cache-dir }}
+        key: phpstan-cache-${{ hashFiles('phpstan.neon.dist', 'composer.json') }}-${{ inputs.cache-hash }}
+        restore-keys: |
+          phpstan-cache-${{ hashFiles('phpstan.neon.dist', 'composer.json') }}-
+          phpstan-cache-
+
+    - uses: myparcelnl/actions/pdk-setup-backend@v4
+      id: setup
+      if: steps.phpstan-cache.outputs.cache-hit != 'true'
+      with:
+        php-version: ${{ vars.PHP_VERSION }}
+
+    - name: 'Run PHPStan analysis'
+      if: steps.phpstan-cache.outputs.cache-hit != 'true'
+      env:
+        ARGS: ${{ inputs.args }}
+        IMAGE: ${{ steps.setup.outputs.image }}
+      shell: bash
+      #language=bash
+      run: |
+        docker run -t \
+          --volume $PWD:/app \
+          $IMAGE \
+          php -dmemory_limit=-1 vendor/bin/phpstan \
+            analyse \
+            --no-progress \
+            --no-interaction
