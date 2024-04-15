@@ -524,14 +524,15 @@ Rebase two branches and push.
 
 ##### Inputs
 
-| Required | Name                | Description                          | Example                        | Default  |
-| -------- | ------------------- | ------------------------------------ | ------------------------------ | -------- |
-| Yes      | `target`            | Target branch you wish to update.    | `develop`                      | –        |
-| Yes      | `base`              | Base branch to use to rebase target. | `main`                         | –        |
-| Yes      | `token`             | GitHub token to use.                 | `${{ secrets.GH_REPO_TOKEN }}` | –        |
-| No       | `force`             | Force push.                          | `true`                         | `false`  |
-| No       | `remote`            | The remote to use                    | `upstream`                     | `origin` |
-| No       | `continue-on-error` | Continue when rebasing fails         | `false`                        | `true`   |
+This action uses the [App inputs](#app-inputs), as well as the following:
+
+| Required | Name                | Description                          | Example    | Default  |
+| -------- | ------------------- | ------------------------------------ | ---------- | -------- |
+| Yes      | `target`            | Target branch you wish to update.    | `develop`  | –        |
+| Yes      | `base`              | Base branch to use to rebase target. | `main`     | –        |
+| No       | `force`             | Force push.                          | `true`     | `false`  |
+| No       | `remote`            | The remote to use                    | `upstream` | `origin` |
+| No       | `continue-on-error` | Continue when rebasing fails         | `false`    | `true`   |
 
 ##### Example
 

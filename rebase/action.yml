@@ -10,10 +10,6 @@ inputs:
     description: 'Base branch to use to rebase target.'
     required: true
 
-  token:
-    description: 'GitHub token to use.'
-    required: true
-
   force:
     description: 'Force push.'
     required: false
@@ -29,12 +25,28 @@ inputs:
     required: false
     default: 'true' # TODO: change to false in next major version
 
+  token:
+    description: 'GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.'
+
+  app-id:
+    description: 'The app ID of the app.'
+
+  private-key:
+    description: 'The private key of the app.'
+
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v4
+    - uses: myparcelnl/actions/get-github-token@v4
+      id: token
       with:
         token: ${{ inputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ steps.token.outputs.token }}
         ref: ${{ inputs.target }}
         fetch-depth: 0
 
