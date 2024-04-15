@@ -12,6 +12,11 @@ inputs:
     default: '7.4'
     required: false
 
+  args:
+    description: 'Arguments to pass to Behat'
+    required: false
+    default: ''
+
 runs:
   using: composite
   steps:
@@ -23,6 +28,7 @@ runs:
 
     - name: 'Run Behat'
       env:
+        ARGS: ${{ inputs.args }}
         IMAGE: ${{ inputs.image || steps.install.outputs.image }}
       shell: bash
       #language=bash
@@ -31,6 +37,6 @@ runs:
           --volume $PWD:/app \
           $IMAGE \
           php \
-            vendor/bin/behat \
+            vendor/bin/behat $ARGS \
             --colors \
             --no-interaction
