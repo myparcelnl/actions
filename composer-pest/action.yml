@@ -1,0 +1,37 @@
+name: 'Run Pest'
+description: 'Requires Docker image to be set up'
+
+inputs:
+  image:
+    description: 'PHP Docker image to use'
+    required: false
+    default: ''
+
+  php-version:
+    description: 'PHP version to use. If image is set, this will be ignored.'
+    default: '7.4'
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/composer-install@v4
+      id: install
+      if: ${{ inputs.image == '' }}
+      with:
+        php-version: ${{ inputs.php-version }}
+
+    - name: 'Run Pest'
+      env:
+        IMAGE: ${{ inputs.image || steps.install.outputs.image }}
+      shell: bash
+      #language=bash
+      run: |
+        docker run -t \
+          --volume $PWD:/app \
+          $IMAGE \
+          php -dpcov.enabled=1 \
+          vendor/bin/pest \
+            --colors=always \
+            --coverage-clover=clover.xml \
+            --no-interaction
