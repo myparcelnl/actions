@@ -2,10 +2,9 @@ name: 'Run PDK app builder'
 description: 'Run @myparcel-pdk/app-builder'
 
 inputs:
-  root-command:
-    description: 'Root command to use'
-    required: false
-    default: ''
+  image:
+    description: 'PHP Docker image to use'
+    required: true
 
   no-commit:
     description: 'Do not commit changes'
@@ -54,12 +53,12 @@ runs:
 
     - uses: myparcelnl/actions/pdk-builder@v4
       with:
-        root-command: ${{ inputs.root-command }}
         command: 'upgrade-self'
+        image: ${{ inputs.image }}
         args: ${{ steps.arguments.outputs.args }}
 
     - uses: myparcelnl/actions/pdk-builder@v4
       with:
-        root-command: ${{ inputs.root-command }}
         command: 'upgrade-all'
+        image: ${{ inputs.image }}
         args: ${{ steps.arguments.outputs.args }}

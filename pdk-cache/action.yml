@@ -5,7 +5,7 @@ inputs:
   php-version:
     description: 'PHP version that is used'
     required: false
-    default: '7.2'
+    default: '7.4'
 
   php-scoper-version:
     description: 'PHP Scoper Version'

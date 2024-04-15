@@ -6,8 +6,8 @@ inputs:
     description: 'Command to run'
     required: true
 
-  root-command:
-    description: 'Root command to use'
+  image:
+    description: 'PHP Docker image to use'
     required: false
     default: ''
 
@@ -19,7 +19,26 @@ inputs:
 runs:
   using: composite
   steps:
-    - shell: bash
+    - name: 'Create root command'
+      id: prepare
+      shell: bash
+      env:
+        IMAGE: ${{ inputs.image }}
       #language=bash
       run: |
-        npx pdk-builder ${{ inputs.command }} ${{ input.args }} --root-command="${{ inputs.root-command }}"
+        if [ -z "$IMAGE" ]; then
+          ROOT_COMMAND=''
+        else
+          ROOT_COMMAND="docker run -t --user $(id -u):$(id -g) -v $PWD:/app -w /app $IMAGE"
+        fi
+
+        echo "root-command=$ROOT_COMMAND" >> $GITHUB_OUTPUT
+
+    - shell: bash
+      env:
+        COMMAND: ${{ inputs.command }}
+        ARGS: ${{ inputs.args }}
+        PDK_ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
+      #language=bash
+      run: |
+        npx pdk-builder "$COMMAND" $ARGS --root-command="$PDK_ROOT_COMMAND"

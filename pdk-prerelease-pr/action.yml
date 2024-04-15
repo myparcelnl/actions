@@ -10,10 +10,9 @@ inputs:
     description: 'Version to release'
     required: true
 
-  root-command:
-    description: 'Root command to use'
-    required: false
-    default: ''
+  image:
+    description: 'PHP Docker image to use'
+    required: true
 
 outputs:
   version:
@@ -37,11 +36,11 @@ runs:
 
     - uses: myparcelnl/actions/pdk-upgrade@v4
       with:
-        root-command: ${{ inputs.root-command }}
         no-commit: true
+        image: ${{ inputs.image }}
 
     - uses: myparcelnl/actions/pdk-release@v4
       with:
-        root-command: ${{ inputs.root-command }}
         command: 'prerelease'
-        args: '--version ${{ steps.version.outputs.version }}'
+        image: ${{ inputs.image }}
+        version: ${{ steps.version.outputs.version }}
