@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.7.1](https://github.com/myparcelnl/actions/compare/v4.7.0...v4.7.1) (2024-04-15)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** add php version input ([d71936a](https://github.com/myparcelnl/actions/commit/d71936a4705a7cebad30f0ce54c312a95015b9cd))
+
 ## [4.7.0](https://github.com/myparcelnl/actions/compare/v4.6.4...v4.7.0) (2024-04-15)
 
 
