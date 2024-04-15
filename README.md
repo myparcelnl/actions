@@ -20,6 +20,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
   - [PHP](#php)
     - [composer-install](#composer-install)
     - [composer-update](#composer-update)
+    - [composer-behat](#composer-behat)
   - [Testing](#testing)
     - [update-coverage](#update-coverage)
   - [Docker](#docker)
@@ -307,6 +308,23 @@ Same as [composer-install].
 ##### Outputs
 
 Same as [composer-install].
+
+#### composer-behat
+
+[Source](composer-behat/action.yml)
+
+Run Behat through composer.
+
+1. Runs [composer-install].
+2. Runs `vendor/bin/behat` in container.
+
+##### Inputs
+
+| Required | Name          | Description                                                | Example      | Default |
+| -------- | ------------- | ---------------------------------------------------------- | ------------ | ------- |
+| No       | `image`       | PHP Docker image to use                                    | `8.1`        | `7.4`   |
+| No       | `php-version` | PHP version to use. If image is set, this will be ignored. | `php:8.1`    | `''`    |
+| No       | `flags`       | Additional flags to pass to `vendor/bin/behat`             | `--no-paths` | `''`    |
 
 ### Testing
 
