@@ -12,6 +12,11 @@ inputs:
     default: '7.4'
     required: false
 
+  args:
+    description: 'Arguments to pass to Pest'
+    required: false
+    default: ''
+
 runs:
   using: composite
   steps:
@@ -23,6 +28,7 @@ runs:
 
     - name: 'Run Pest'
       env:
+        ARGS: ${{ inputs.args }}
         IMAGE: ${{ inputs.image || steps.install.outputs.image }}
       shell: bash
       #language=bash
@@ -31,7 +37,7 @@ runs:
           --volume $PWD:/app \
           $IMAGE \
           php -dpcov.enabled=1 \
-          vendor/bin/pest \
+          vendor/bin/pest $ARGS \
             --colors=always \
             --coverage-clover=clover.xml \
             --no-interaction

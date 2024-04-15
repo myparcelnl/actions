@@ -331,7 +331,7 @@ Run [Behat](https://docs.behat.org/en/latest/) through composer.
 
 [Source](composer-pest/action.yml)
 
-Run Behat through composer.
+Run [Pest](https://pestphp.com/) through composer.
 
 1. Runs [composer-install].
 2. Runs `vendor/bin/pest` in container.
@@ -342,7 +342,7 @@ Run Behat through composer.
 | -------- | ------------- | ---------------------------------------------------------- | --------- | ------- |
 | No       | `image`       | PHP Docker image to use                                    | `8.1`     | `7.4`   |
 | No       | `php-version` | PHP version to use. If image is set, this will be ignored. | `php:8.1` | `''`    |
-| No       | `flags`       | Additional flags to pass to `vendor/bin/pest`              | `--retry` | `''`    |
+| No       | `flags`       | Additional flags to pass to Pest                           | `--retry` | `''`    |
 
 ### Testing
 
