@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.8.1](https://github.com/myparcelnl/actions/compare/v4.8.0...v4.8.1) (2024-04-15)
+
+
+### :bug: Bug Fixes
+
+* **composer-behat:** add args input ([978b37d](https://github.com/myparcelnl/actions/commit/978b37d3b0a744f7767a06883a965db5ea88dc08))
+* **composer-pest:** add args input ([bf041ea](https://github.com/myparcelnl/actions/commit/bf041ea8211f867aaed21d885dbff452b0920f88))
+
 ## [4.8.0](https://github.com/myparcelnl/actions/compare/v4.7.2...v4.8.0) (2024-04-15)
 
 
