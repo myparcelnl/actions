@@ -2,10 +2,6 @@ name: 'Create push prerelease artifacts'
 description: 'Requires package to have been built'
 
 inputs:
-  pr-number:
-    description: 'Pull request number'
-    required: true
-
   image:
     description: 'PHP Docker image to use'
     required: true

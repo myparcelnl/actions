@@ -9,7 +9,7 @@ inputs:
 
   php-version:
     description: 'PHP version to use'
-    default: '7.2'
+    default: '7.4'
     required: false
 
   composer-flags:

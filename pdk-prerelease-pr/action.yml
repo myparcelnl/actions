@@ -6,10 +6,6 @@ inputs:
     description: 'Pull request number'
     required: true
 
-  version:
-    description: 'Version to release'
-    required: true
-
   image:
     description: 'PHP Docker image to use'
     required: true
