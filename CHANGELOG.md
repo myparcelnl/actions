@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.7.0](https://github.com/myparcelnl/actions/compare/v4.6.4...v4.7.0) (2024-04-15)
+
+
+### :sparkles: New Features
+
+* **pdk:** add pdk actions ([560747a](https://github.com/myparcelnl/actions/commit/560747a38071cd91cd68c371b14f556b1f27c6ad))
+
 ## [4.6.4](https://github.com/myparcelnl/actions/compare/v4.6.3...v4.6.4) (2024-04-12)
 
 
