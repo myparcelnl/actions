@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.8.0](https://github.com/myparcelnl/actions/compare/v4.7.2...v4.8.0) (2024-04-15)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** update inputs ([511a247](https://github.com/myparcelnl/actions/commit/511a2472b888c7a0bc7d55f4ffd8a70aab48aeb5))
+
+
+### :sparkles: New Features
+
+* add composer-behat ([dd7f30b](https://github.com/myparcelnl/actions/commit/dd7f30bfc234493d3774c0759b9a6d7b367907aa))
+* add composer-pest ([c6a39c3](https://github.com/myparcelnl/actions/commit/c6a39c3a8edb9c9745a14039d8cf9befdddc2868))
+* **rebase:** allow using github app directly ([8a922ae](https://github.com/myparcelnl/actions/commit/8a922ae17039a4438392162d68bf8338000ee489))
+
 ## [4.7.2](https://github.com/myparcelnl/actions/compare/v4.7.1...v4.7.2) (2024-04-15)
 
 
