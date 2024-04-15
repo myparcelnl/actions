@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.7.2](https://github.com/myparcelnl/actions/compare/v4.7.1...v4.7.2) (2024-04-15)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** update action inputs ([ff8aef7](https://github.com/myparcelnl/actions/commit/ff8aef77fcbea765b0cf28391b68cb4ce38b0e91))
+
 ## [4.7.1](https://github.com/myparcelnl/actions/compare/v4.7.0...v4.7.1) (2024-04-15)
 
 
