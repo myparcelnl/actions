@@ -1,0 +1,65 @@
+name: 'Run PDK app builder'
+description: 'Run @myparcel-pdk/app-builder'
+
+inputs:
+  root-command:
+    description: 'Root command to use'
+    required: false
+    default: ''
+
+  no-commit:
+    description: 'Do not commit changes'
+    required: false
+    default: 'false'
+
+  no-check:
+    description: 'Skip checking whether the lockfile is modified.'
+    required: false
+    default: 'false'
+
+  commit-type:
+    description: 'Commit type'
+    required: false
+    default: 'auto'
+
+  args:
+    description: 'Additional arguments to pass to the command'
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: 'Create arguments'
+      id: arguments
+      env:
+        ARGS: ${{ inputs.args }}
+        NO_COMMIT: ${{ inputs.no-commit }}
+        NO_CHECK: ${{ inputs.no-check }}
+        COMMIT_TYPE: ${{ inputs.commit-type }}
+      shell: bash
+      #language=bash
+      run: |
+        args="$ARGS --commit-type=$COMMIT_TYPE"
+
+        if [ "$NO_CHECK" == 'true' ]; then
+          args="$args --no-check"
+        fi
+
+        if [ "$NO_COMMIT" == 'true' ]; then
+          args="$args --no-commit"
+        fi
+
+        echo "args=$args" >> $GITHUB_OUTPUT
+
+    - uses: myparcelnl/actions/pdk-builder@v4
+      with:
+        root-command: ${{ inputs.root-command }}
+        command: 'upgrade-self'
+        args: ${{ steps.arguments.outputs.args }}
+
+    - uses: myparcelnl/actions/pdk-builder@v4
+      with:
+        root-command: ${{ inputs.root-command }}
+        command: 'upgrade-all'
+        args: ${{ steps.arguments.outputs.args }}

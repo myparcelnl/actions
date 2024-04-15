@@ -1,0 +1,25 @@
+name: 'Run PDK app builder'
+description: 'Run @myparcel-pdk/app-builder'
+
+inputs:
+  command:
+    description: 'Command to run'
+    required: true
+
+  root-command:
+    description: 'Root command to use'
+    required: false
+    default: ''
+
+  args:
+    description: 'Additional arguments to pass to the command'
+    required: false
+    default: '-v'
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      #language=bash
+      run: |
+        npx pdk-builder ${{ inputs.command }} ${{ input.args }} --root-command="${{ inputs.root-command }}"

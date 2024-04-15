@@ -1,0 +1,38 @@
+name: 'Cache PDK data'
+description: 'Cache data used with @myparcel-pdk/app-builder'
+
+inputs:
+  php-scoper-version:
+    description: 'PHP Scoper Version'
+    required: false
+    default: '^0.18.0'
+
+  source-hash:
+    description: 'Hash of the source files'
+    required: true
+
+  vendor-hash:
+    description: 'Hash of the vendor files'
+    required: false
+    default: ${{ hashFiles('**/composer.json', '**/composer.lock', '**/scoper.inc.php', '**/scoper.*.inc.php') }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Cache php-scoper'
+      uses: actions/cache@v4
+      with:
+        path: .tmp/php-scoper
+        key: php-scoper-${{ inputs.php-scoper-version }}
+
+    - name: 'Cache scoped source php'
+      uses: actions/cache@v4
+      with:
+        path: .tmp/scoped/source
+        key: scoped-php-src-${{ inputs.source-hash }}
+
+    - name: 'Cache scoped vendor php'
+      uses: actions/cache@v4
+      with:
+        path: .tmp/scoped/vendor
+        key: scoped-php-vendor-${{ inputs.vendor-hash }}

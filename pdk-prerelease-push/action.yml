@@ -1,0 +1,46 @@
+name: 'Create push prerelease artifacts'
+description: 'Requires package to have been built'
+
+inputs:
+  pr-number:
+    description: 'Pull request number'
+    required: true
+
+  version:
+    description: 'Version to release'
+    required: true
+
+  root-command:
+    description: 'Root command to use'
+    required: false
+    default: ''
+
+outputs:
+  version:
+    description: 'The version that was released.'
+    value: ${{ steps.version.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Determine version'
+      id: version
+      shell: bash
+      #language=bash
+      run: |
+        version=$(npm pkg get version | sed 's/"//g')
+        commitsSinceTag=$(git log --oneline v$version.. | wc -l)
+        releaseVersion="$version-$commitsSinceTag"
+
+        echo "version=$releaseVersion" >> $GITHUB_OUTPUT
+
+    - uses: myparcelnl/actions/pdk-upgrade@v4
+      with:
+        root-command: ${{ inputs.root-command }}
+        no-commit: true
+
+    - uses: myparcelnl/actions/pdk-release@v4
+      with:
+        root-command: ${{ inputs.root-command }}
+        command: 'prerelease'
+        args: '--version ${{ steps.version.outputs.version }}'

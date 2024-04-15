@@ -1,0 +1,33 @@
+name: 'Create release artifacts'
+description: 'Requires package to have been built'
+
+inputs:
+  command:
+    description: 'Command to run'
+    required: false
+    default: 'release'
+
+  version:
+    description: 'Version to release'
+    required: true
+
+  root-command:
+    description: 'Root command to use'
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/pdk-builder@v4
+      with:
+        root-command: ${{ inputs.root-command }}
+        command: ${{ inputs.command }}
+        args: '--version ${{ inputs.version }}'
+
+    - name: 'Upload build artifacts'
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-${{ inputs.version }}
+        path: |
+          dist/*.zip

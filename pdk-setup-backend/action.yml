@@ -1,0 +1,27 @@
+name: 'Setup PDK backend'
+description: 'Setup PDK backend dependencies'
+
+inputs:
+  php-version:
+    description: 'PHP version to use'
+    default: '7.2'
+    required: false
+
+  composer-flags:
+    description: 'Flags to use when installing composer dependencies.'
+    required: false
+    default: ''
+
+outputs:
+  image:
+    description: 'The image name that was used to setup composer dependencies. Can be used in subsequent jobs.'
+    value: ${{ steps.composer.outputs.image }}
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/composer-install@v4
+      id: composer
+      with:
+        php-version: ${{ inputs.php-version }}
+        flags: ${{ inputs.composer-flags }}
