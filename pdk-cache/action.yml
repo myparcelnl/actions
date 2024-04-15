@@ -2,6 +2,11 @@ name: 'Cache PDK data'
 description: 'Cache data used with @myparcel-pdk/app-builder'
 
 inputs:
+  php-version:
+    description: 'PHP version that is used'
+    required: false
+    default: '7.2'
+
   php-scoper-version:
     description: 'PHP Scoper Version'
     required: false
@@ -23,16 +28,16 @@ runs:
       uses: actions/cache@v4
       with:
         path: .tmp/php-scoper
-        key: php-scoper-${{ inputs.php-scoper-version }}
+        key: php-scoper-${{ inputs.php-version }}-${{ inputs.php-scoper-version }}
 
     - name: 'Cache scoped source php'
       uses: actions/cache@v4
       with:
         path: .tmp/scoped/source
-        key: scoped-php-src-${{ inputs.source-hash }}
+        key: scoped-php-src-${{ inputs.php-version }}-${{ inputs.source-hash }}
 
     - name: 'Cache scoped vendor php'
       uses: actions/cache@v4
       with:
         path: .tmp/scoped/vendor
-        key: scoped-php-vendor-${{ inputs.vendor-hash }}
+        key: scoped-php-vendor-${{ inputs.php-version }}-${{ inputs.vendor-hash }}
