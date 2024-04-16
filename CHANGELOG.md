@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.9.2](https://github.com/myparcelnl/actions/compare/v4.9.1...v4.9.2) (2024-04-16)
+
+
+### :bug: Bug Fixes
+
+* **nx:** update cache key ([edce084](https://github.com/myparcelnl/actions/commit/edce0842c1d62a0f9bfdef371093a777299f4f17))
+
 ## [4.9.1](https://github.com/myparcelnl/actions/compare/v4.9.0...v4.9.1) (2024-04-16)
 
 
