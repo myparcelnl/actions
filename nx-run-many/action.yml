@@ -30,6 +30,7 @@ runs:
   using: composite
   steps:
     - uses: myparcelnl/actions/nx-cache@v4
+      id: cache
       with:
         cache-dir: ${{ inputs.cache-dir }}
         max-cache-size: ${{ inputs.max-cache-size }}
@@ -50,4 +51,4 @@ runs:
       uses: actions/cache/save@v4
       with:
         path: ${{ inputs.cache-dir }}
-        key: '${{ runner.os }}-nx-cache-${{ github.sha }}-${{ github.run_id }}-${{ github.run_number }}'
+        key: ${{ steps.cache.outputs.cache-primary-key }}

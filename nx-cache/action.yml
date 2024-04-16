@@ -17,10 +17,19 @@ outputs:
     description: 'A boolean value to indicate an exact match was found for the primary key'
     value: ${{ steps.cache.outputs.cache-hit}}
 
+  cache-primary-key:
+    description: 'A resolved cache key for which cache match was attempted'
+    value: ${{ steps.cache.outputs.cache-primary-key }}
+
+  cache-matched-key:
+    description: 'Key of the cache that was restored, it could either be the primary key on cache-hit or a partial/complete match of one of the restore keys'
+    value: ${{ steps.cache.outputs.cache-matched-key }}
+
 runs:
   using: composite
   steps:
     - name: 'Restore nx cache'
+      id: cache
       uses: actions/cache/restore@v4
       with:
         path: ${{ inputs.cache-dir }}
