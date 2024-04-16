@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.9.0](https://github.com/myparcelnl/actions/compare/v4.8.1...v4.9.0) (2024-04-16)
+
+
+### :sparkles: New Features
+
+* add composer-phpstan ([e1b94b3](https://github.com/myparcelnl/actions/commit/e1b94b35da350dded9de22879418ebd4cb7711d8))
+
+
+### :bug: Bug Fixes
+
+* **pdk:** run cache after upgrade on prerelease ([66155f7](https://github.com/myparcelnl/actions/commit/66155f78f5a2a96fab4fbaa487b7d48ccc1061b8))
+
 ## [4.8.1](https://github.com/myparcelnl/actions/compare/v4.8.0...v4.8.1) (2024-04-15)
 
 
