@@ -33,10 +33,12 @@ runs:
       uses: actions/cache/restore@v4
       with:
         path: ${{ inputs.cache-dir }}
-        key: '${{ runner.os }}-nx-cache-${{ github.sha }}-${{ github.run_id }}-${{ github.run_number }}'
+        key: '${{ runner.os }}-nx-cache-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.action }}'
         restore-keys: |
+          ${{ runner.os }}-nx-cache-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt}}-
           ${{ runner.os }}-nx-cache-${{ github.sha }}-${{ github.run_id }}-
           ${{ runner.os }}-nx-cache-${{ github.sha }}-
+          ${{ runner.os }}-nx-cache-
 
     - name: 'Prune cache'
       if: steps.cache.outputs.cache-hit == 'true'
