@@ -30,7 +30,6 @@ runs:
   using: composite
   steps:
     - uses: myparcelnl/actions/nx-cache@v4
-      id: cache
       with:
         cache-dir: ${{ inputs.cache-dir }}
         max-cache-size: ${{ inputs.max-cache-size }}
@@ -46,9 +45,3 @@ runs:
           --output-style=static \
           --target="${{ inputs.target }}" \
           ${{ inputs.args }}
-
-    - name: 'Save nx cache'
-      uses: actions/cache/save@v4
-      with:
-        path: ${{ inputs.cache-dir }}
-        key: ${{ steps.cache.outputs.cache-primary-key }}

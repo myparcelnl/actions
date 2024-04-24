@@ -28,20 +28,33 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: 'Restore nx cache'
+    - name: 'Check if cache already exists'
+      id: prepare
+      env:
+        CACHE_DIR: ${{ inputs.cache-dir }}
+      shell: bash
+      #language=bash
+      run: |
+        if [ -d "$CACHE_DIR" ]; then
+          echo "cache-exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "cache-exists=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: 'Handle nx cache'
       id: cache
-      uses: actions/cache/restore@v4
+      uses: actions/cache@v4
+      if: steps.prepare.outputs.cache-exists == 'false'
       with:
         path: ${{ inputs.cache-dir }}
-        key: '${{ runner.os }}-nx-cache-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.action }}'
+        save-always: true
+        key: '${{ runner.os }}-nx-cache-${{ github.action }}-${{ github.run_id }}-${{ github.run_attempt }}'
         restore-keys: |
-          ${{ runner.os }}-nx-cache-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt}}-
-          ${{ runner.os }}-nx-cache-${{ github.sha }}-${{ github.run_id }}-
-          ${{ runner.os }}-nx-cache-${{ github.sha }}-
+          ${{ runner.os }}-nx-cache-${{ github.action }}-${{ github.run_id }}-
+          ${{ runner.os }}-nx-cache-${{ github.action }}-
           ${{ runner.os }}-nx-cache-
 
     - name: 'Prune cache'
-      if: steps.cache.outputs.cache-hit == 'true'
       env:
         MAX_CACHE_SIZE: ${{ inputs.max-cache-size }}
         NX_CACHE_DIRECTORY: ${{ inputs.cache-dir }}
@@ -50,6 +63,10 @@ runs:
       run: |
         maxSizeKB=$(($MAX_CACHE_SIZE))
         cacheDir="$NX_CACHE_DIRECTORY"
+
+        if [ ! -d "$cacheDir" ]; then
+          exit 0
+        fi
 
         function size() {
           (du -sk "$1" 2>/dev/null || echo 0) | cut -f 1
