@@ -35,7 +35,7 @@ runs:
       shell: bash
       #language=bash
       run: |
-        if [ -d "$CACHE_DIR" ]; then
+        if [ -d "$CACHE_DIR/d" ]; then
           echo "cache-exists=true" >> $GITHUB_OUTPUT
         else
           echo "cache-exists=false" >> $GITHUB_OUTPUT
