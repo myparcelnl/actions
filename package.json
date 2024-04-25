@@ -16,13 +16,14 @@
   "author": "Edie Lemoine <edie@myparcel.nl>",
   "scripts": {
     "build": "node dist/build.js",
-    "compile": "tsup private/build.ts --external tsup --target node16",
+    "compile": "tsup-node private/build.ts --target node20",
     "postinstall": "is-ci || husky install",
     "test:update-tags": "INPUT_MAJOR=true INPUT_MINOR=true bun update-tags/dist/index.js"
   },
   "lint-staged": {
     "*.{json,md,yml}": "npx -q prettier --write",
-    "package.json": "npx -q sort-package-json"
+    "package.json": "npx -q sort-package-json",
+    "*.ts": "yarn compile && yarn build"
   },
   "prettier": "@myparcel/prettier-config",
   "eslintConfig": {

@@ -17,7 +17,7 @@ jobs:
     name: 'Release'
     runs-on: ubuntu-22.04
     steps:
-      - uses: myparcelnl/actions/setup-git-credentials@v4
+      - uses: ./setup-git-credentials
         id: credentials
         with:
           app-id: ${{ secrets.MYPARCEL_APP_ID }}
@@ -32,9 +32,9 @@ jobs:
         with:
           node-version: '20'
 
-      - run: yarn semantic-release
-        env:
-          GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
+      - uses: ./semantic-release
+        with:
+          token: ${{ steps.credentials.outputs.token }}
 
       - uses: ./update-tags
         with:

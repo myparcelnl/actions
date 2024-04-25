@@ -6,13 +6,13 @@ import {spawn} from 'node:child_process';
 
 const remoteRepo = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 
-const run = (command, args): Promise<string> => {
+const run = (command: string, args: string[]): Promise<string> => {
   return new Promise((resolve, reject) => {
     core.debug(`> ${command} ${args.join(' ')}`);
 
     const child = spawn(command, args);
     let content = '';
-    const errors = [];
+    const errors: string[] = [];
 
     child.on('error', (error) => {
       reject(error);
@@ -111,5 +111,7 @@ const updateTags = async (): Promise<void> => {
 try {
   void updateTags();
 } catch (e) {
-  core.setFailed(e.message);
+  if (e instanceof Error) {
+    core.setFailed(e.message);
+  }
 }

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers,no-console */
 import {build} from 'tsup';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const IGNORE_DIRS = ['node_modules'];
 
@@ -25,8 +25,12 @@ void (async (): Promise<void> => {
       await build({
         entry: [path.resolve(actionDir, 'index.ts')],
         outDir: distDir,
-        target: 'node16',
+        target: 'node20',
+        format: 'esm',
         minify: true,
+        outExtension() {
+          return {js: '.js'};
+        },
       });
     });
 
