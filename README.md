@@ -46,6 +46,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [toggle-label](#toggle-label)
   - [Nx](#nx)
     - [nx-cache](#nx-cache)
+    - [nx-run](#nx-run)
     - [nx-run-many](#nx-run-many)
   - [Miscellaneous](#miscellaneous)
     - [bundlewatch](#bundlewatch)
@@ -950,6 +951,35 @@ Save and restore the [Nx](https://nx.dev/) cache.
 | No       | `cache-directory` | The nx cache directory             | `./path/to/nx/cache` | `.nx/cache` |
 | No       | `max-cache-size`  | Maximum size of the nx cache in KB | `4096`               | `8192`      |
 
+#### nx-run
+
+[Source](nx-run/action.yml)
+
+Run `nx run` with the provided arguments.
+
+1. Runs [nx-cache]
+2. Runs `<prefix> nx run <target> <args>`.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/nx-run@v4
+  with:
+    target: 'my-project:build'
+    prefix: 'yarn'
+    args: '--runner=cloud'
+```
+
+##### Inputs
+
+| Required | Name              | Description                        | Example              | Default     |
+| -------- | ----------------- | ---------------------------------- | -------------------- | ----------- |
+| Yes      | `target`          | The target to run.                 | `my-project:build`   | -           |
+| No       | `prefix`          | The prefix to use with `nx`.       | `yarn`               | `npx`       |
+| No       | `args`            | Arguments to pass to the command.  | `--runner=cloud`     | -           |
+| No       | `cache-directory` | The nx cache directory             | `./path/to/nx/cache` | `.nx/cache` |
+| No       | `max-cache-size`  | Maximum size of the nx cache in KB | `4096`               | `8192`      |
+
 #### nx-run-many
 
 [Source](nx-run-many/action.yml)
@@ -957,7 +987,7 @@ Save and restore the [Nx](https://nx.dev/) cache.
 Run `nx run-many` with the provided arguments.
 
 1. Runs [nx-cache]
-2. Runs `<prefix> nx run-many <args> --target=<build>`.
+2. Runs `<prefix> nx run-many <args> --target=<target>`.
 
 ##### Example
 
