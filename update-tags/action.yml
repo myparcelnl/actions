@@ -13,5 +13,5 @@ inputs:
     description: 'Update the minor version.'
 
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
