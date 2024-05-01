@@ -17,7 +17,6 @@ runs:
     - uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
-        cache: 'yarn'
 
     - name: 'Create variables'
       id: variables
