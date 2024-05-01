@@ -32,6 +32,26 @@ jobs:
         with:
           node-version: '20'
 
+      - uses: actions/cache@v4
+        id: compile-cache
+        with:
+          path: ./dist
+          key: ${{ runner.os }}-compile-${{ hashFiles( 'package.json', 'yarn.lock', 'private/**/*.ts' ) }}
+
+      - name: 'Compile builder'
+        if: steps.compile-cache.outputs.cache-hit != 'true'
+        run: yarn compile
+
+      - uses: actions/cache@v4
+        id: build-cache
+        with:
+          path: ./*/dist
+          key: ${{ runner.os }}-build-${{ hashFiles( 'package.json', 'yarn.lock', '**/*.ts' ) }}
+
+      - name: 'Build actions'
+        if: steps.build-cache.outputs.cache-hit != 'true'
+        run: yarn build
+
       - uses: ./semantic-release
         with:
           token: ${{ steps.credentials.outputs.token }}
