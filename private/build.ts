@@ -29,7 +29,7 @@ void (async (): Promise<void> => {
         format: 'esm',
         minify: true,
         outExtension() {
-          return {js: '.js'};
+          return {js: '.mjs'};
         },
       });
     });
