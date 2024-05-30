@@ -502,15 +502,36 @@ image name in the rest of your workflow.
 [Source](semantic-release/action.yml)
 
 Run [semantic-release]. Requires npm dependencies to be installed. Outputs information on the release that was just
-made (or not).
+made (or not). Additional tokens like NPM_TOKEN can be passed via the environment.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/semantic-release@v4
+  id: release
+  with:
+    token: ${{ secrets.GITHUB_TOKEN }}
+    dry-run: true
+  env:
+    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+- name: 'Say "do something" if released'
+  if: steps.release.outputs.released == 'true'
+  #language=bash
+  run: |
+    echo "do something"
+```
+
+> Note: In dry-run mode, no summary will be printed, even if `write-summary` is set to `true`.
 
 ##### Inputs
 
 | Required | Name                    | Description                                 | Example                       | Default |
 | -------- | ----------------------- | ------------------------------------------- | ----------------------------- | ------- |
 | Yes      | `token`                 | GitHub Personal access token                | `${{ secrets.GITHUB_TOKEN }}` | –       |
-| No       | `semantic-release-args` | Semantic release arguments                  | `--dry-run`                   | –       |
 | No       | `write-summary`         | Write a summary to the GitHub action output | `true`                        | `false` |
+| No       | `dry-run`               | Run semantic release in dry-run mode        | `true`                        | `false` |
+| No       | `semantic-release-args` | Additional semantic release arguments       | `--debug`                     | –       |
 
 ##### Outputs
 

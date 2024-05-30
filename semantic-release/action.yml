@@ -6,14 +6,19 @@ inputs:
     description: 'GitHub Personal access token'
     required: true
 
-  semantic-release-args:
-    description: 'Semantic release arguments'
-    required: false
-
   write-summary:
     description: 'Write a summary to the GitHub action output'
     required: false
     default: 'false'
+
+  dry-run:
+    description: 'Run semantic release in dry-run mode'
+    required: false
+    default: 'false'
+
+  semantic-release-args:
+    description: 'Additional semantic release arguments'
+    required: false
 
 outputs:
   version:
@@ -47,9 +52,12 @@ runs:
       id: release
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
+        ARGS: ${{ inputs.semantic-release-args }}
+        DRY_RUN_ARG: ${{ inputs.dry-run == 'true' && '--dry-run' || '' }}
       shell: bash
       #language=bash
-      run: npx semantic-release ${{ inputs.semantic-release-args }}
+      run: |
+        npx semantic-release $ARGS $DRY_RUN_ARG
 
     - name: 'Normalize outputs'
       id: normalize
