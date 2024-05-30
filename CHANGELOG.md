@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.10.0](https://github.com/myparcelnl/actions/compare/v4.9.3...v4.10.0) (2024-05-30)
+
+
+### :bug: Bug Fixes
+
+* **nx:** update cache logic ([a83ca27](https://github.com/myparcelnl/actions/commit/a83ca27e4cb87124484dd0ff59b5100fab5ffd93))
+* **update-tags:** update node runtime to 20 ([9f992f5](https://github.com/myparcelnl/actions/commit/9f992f54f3f61e5063723aba49feafe0ca0d5c41))
+
+
+### :sparkles: New Features
+
+* add nx-run ([c485afb](https://github.com/myparcelnl/actions/commit/c485afb75fd50b5a101d6ff030387c3c4b26fa3b))
+* **semantic-release:** add standalone dry-run input ([512f5f2](https://github.com/myparcelnl/actions/commit/512f5f2885833bb4cae0a7194d1e97c9d0883345))
+
 ## [4.9.3](https://github.com/myparcelnl/actions/compare/v4.9.2...v4.9.3) (2024-04-24)
 
 
