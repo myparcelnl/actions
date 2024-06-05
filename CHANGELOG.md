@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.10.1](https://github.com/myparcelnl/actions/compare/v4.10.0...v4.10.1) (2024-06-05)
+
+
+### :zap: Performance Improvements
+
+* **yarn-install:** increase speed by disabling hardened mode ([765ff54](https://github.com/myparcelnl/actions/commit/765ff54ef48518ceaa5805acb5ade1dfa03b22ca))
+
 ## [4.10.0](https://github.com/myparcelnl/actions/compare/v4.9.3...v4.10.0) (2024-05-30)
 
 
