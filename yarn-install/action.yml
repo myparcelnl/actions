@@ -59,6 +59,5 @@ runs:
       env:
         HUSKY: '0'
         YARN_ENABLE_GLOBAL_CACHE: 'false'
-        YARN_ENABLE_HARDENED_MODE: '0'
         YARN_INSTALL_STATE_PATH: .yarn/ci-cache/install-state.gz
         YARN_NM_MODE: 'hardlinks-local'
