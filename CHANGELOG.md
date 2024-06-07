@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.10.2](https://github.com/myparcelnl/actions/compare/v4.10.1...v4.10.2) (2024-06-07)
+
+
+### :bug: Bug Fixes
+
+* **yarn-install:** remove hardened mode env as it causes errors in some versions ([35410b0](https://github.com/myparcelnl/actions/commit/35410b017af16598d87cd26e8312da2ea98bd50e))
+
 ## [4.10.1](https://github.com/myparcelnl/actions/compare/v4.10.0...v4.10.1) (2024-06-05)
 
 
