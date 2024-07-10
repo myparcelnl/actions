@@ -30,6 +30,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
   - [Releasing](#releasing)
     - [semantic-release](#semantic-release)
   - [Git](#git)
+    - [has-refs-between](#has-refs-between)
     - [setup-git-credentials](#setup-git-credentials)
     - [rebase](#rebase)
     - [update-tags](#update-tags)
@@ -562,6 +563,40 @@ made (or not). Additional tokens like NPM_TOKEN can be passed via the environmen
 ```
 
 ### Git
+
+#### has-refs-between
+
+[Source](has-refs-between/action.yml)
+
+Check if there are refs between two refs. Compares the last tag to HEAD by default. Returns `true` if there are refs between the two, `false` otherwise.
+
+This can be used to check if a new release needs to be done, for example.
+
+##### Example
+
+```yaml
+- uses: actions/checkout@v4
+  with:
+    fetch-depth: 0
+
+- uses: myparcelnl/actions/has-refs-between@v4
+  with:
+    ref-a: 'v2.0.0'
+    ref-b: 'main'
+```
+
+##### Inputs
+
+| Required | Name    | Description    | Example  | Default                           |
+| -------- | ------- | -------------- | -------- | --------------------------------- |
+| false    | `ref-a` | The first ref  | `v2.0.0` | `last-tag` (resolved to last tag) |
+| false    | `ref-b` | The second ref | `main`   | `HEAD`                            |
+
+##### Outputs
+
+| Name       | Description                                | Example           |
+| ---------- | ------------------------------------------ | ----------------- |
+| `has-refs` | Whether there are refs between ref A and B | `true` or `false` |
 
 #### setup-git-credentials
 

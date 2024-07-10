@@ -1,0 +1,50 @@
+name: 'Check for refs between two refs'
+description: 'Checks if there are refs between two refs'
+
+inputs:
+  ref-a:
+    description: 'The first ref'
+    required: false
+    default: 'last-tag'
+
+  ref-b:
+    description: 'The second ref'
+    required: false
+    default: 'HEAD'
+
+outputs:
+  has-refs:
+    description: 'Whether there are refs between ref A and B'
+    value: ${{ steps.check.outputs.has-refs }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Get ref A'
+      env:
+        REF_A: ${{ inputs.ref-a }}
+      id: ref-a
+      shell: bash
+      # language=bash
+      run: |
+        if [[ "$REF_A" == "last-tag" ]]; then
+            echo "ref=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+        else
+            echo "ref=$REF_A" >> $GITHUB_OUTPUT
+        fi
+
+    - name: 'Check if there are refs since tag'
+      id: check
+      env:
+        REF_A: ${{ steps.ref-a.outputs.ref }}
+        REF_B: ${{ inputs.ref-b }}
+      shell: bash
+      #language=bash
+      run: |
+        LOG=$(git log "$REF_A..$REF_B")
+
+        if [[ -z "$LOG" ]]; then
+            echo "has-refs=false" >> $GITHUB_OUTPUT
+        else
+            echo "has-refs=true" >> $GITHUB_OUTPUT
+        fi
