@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.12.2](https://github.com/myparcelnl/actions/compare/v4.12.1...v4.12.2) (2024-07-11)
+
+
+### :bug: Bug Fixes
+
+* **pdk-upgrade:** do not try to post comment if not triggered from pr ([2e15404](https://github.com/myparcelnl/actions/commit/2e1540491051624bdcbd49b343866ce046220fbe))
+* **pdk-upgrade:** sort upgraded entries in summary ([e3eda8a](https://github.com/myparcelnl/actions/commit/e3eda8ac66a1d3da2f444f23962ac15d0d633dfe))
+
 ## [4.12.1](https://github.com/myparcelnl/actions/compare/v4.12.0...v4.12.1) (2024-07-11)
 
 
