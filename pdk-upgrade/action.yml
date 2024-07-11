@@ -95,7 +95,7 @@ runs:
         REPORT_FILE: ${{ inputs.report-file }}
       # language=bash
       run: |
-        JSON=$(cat $REPORT_FILE | jq -c)
+        JSON=$(cat $REPORT_FILE | jq -c 'sort_by(.name)')
 
         echo "## PDK upgrade summary" >> $GITHUB_STEP_SUMMARY
         echo ""                       >> $GITHUB_STEP_SUMMARY
@@ -110,7 +110,6 @@ runs:
         echo "| Package | Old version | New version |" >> $GITHUB_STEP_SUMMARY
         echo "| ------- | ----------- | ----------- |" >> $GITHUB_STEP_SUMMARY
 
-        # For each item in the report json, print the diff
         for row in $(echo "${JSON}" | jq -cr '.[]'); do
             NAME=$(echo $row | jq -r '.name')
             OLD_VERSION=$(echo $row | jq -r '.oldVersion')
