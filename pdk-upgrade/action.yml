@@ -95,6 +95,11 @@ runs:
         REPORT_FILE: ${{ inputs.report-file }}
       # language=bash
       run: |
+        if [ ! -f $REPORT_FILE ]; then
+          echo 'has-report=false' >> $GITHUB_OUTPUT
+          exit 0
+        fi
+
         JSON=$(cat $REPORT_FILE | jq -c 'sort_by(.name)')
 
         echo "## PDK upgrade summary" >> $GITHUB_STEP_SUMMARY
@@ -119,12 +124,13 @@ runs:
             echo "| [\`$NAME\`]($REPOSITORY) | ~~$OLD_VERSION~~ | **$NEW_VERSION** |" >> $GITHUB_STEP_SUMMARY
         done
 
+        echo 'has-report=true'   >> $GITHUB_OUTPUT
         echo 'summary<<EOF'      >> $GITHUB_OUTPUT
         cat $GITHUB_STEP_SUMMARY >> $GITHUB_OUTPUT
         echo 'EOF'               >> $GITHUB_OUTPUT
 
     - uses: myparcelnl/actions/create-or-update-comment@v4
-      if: github.event_name == 'pull_request' && inputs.report == 'true'
+      if: github.event_name == 'pull_request' && inputs.report == 'true' && steps.report.outputs.has-report == 'true'
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
