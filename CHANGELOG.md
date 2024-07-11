@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.11.1](https://github.com/myparcelnl/actions/compare/v4.11.0...v4.11.1) (2024-07-11)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** add no-check to prerelease commands ([e7f8ab2](https://github.com/myparcelnl/actions/commit/e7f8ab295ddbad91f566b74f2453a5a7b2671b4d))
+
 ## [4.11.0](https://github.com/myparcelnl/actions/compare/v4.10.2...v4.11.0) (2024-07-10)
 
 
