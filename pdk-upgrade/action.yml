@@ -2,6 +2,14 @@ name: 'Run PDK app builder'
 description: 'Run @myparcel-pdk/app-builder'
 
 inputs:
+  app-id:
+    required: false
+    description: 'The app ID of the app. Needed when writing a report.'
+
+  private-key:
+    required: false
+    description: 'The private key of the app. Needed when writing a report.'
+
   image:
     description: 'PHP Docker image to use'
     required: true
@@ -21,6 +29,16 @@ inputs:
     required: false
     default: 'auto'
 
+  report:
+    description: 'Report the changes made by the command'
+    required: false
+    default: 'true'
+
+  report-file:
+    description: 'Filename of the report file'
+    required: false
+    default: 'upgrade-report.json'
+
   args:
     description: 'Additional arguments to pass to the command'
     required: false
@@ -33,13 +51,19 @@ runs:
       id: arguments
       env:
         ARGS: ${{ inputs.args }}
-        NO_COMMIT: ${{ inputs.no-commit }}
-        NO_CHECK: ${{ inputs.no-check }}
         COMMIT_TYPE: ${{ inputs.commit-type }}
+        NO_CHECK: ${{ inputs.no-check }}
+        NO_COMMIT: ${{ inputs.no-commit }}
+        REPORT: ${{ inputs.report }}
+        REPORT_FILE: ${{ inputs.report-file }}
       shell: bash
       #language=bash
       run: |
-        args="$ARGS --commit-type=$COMMIT_TYPE"
+        args="$ARGS --commit-type=$COMMIT_TYPE --report-file=$REPORT_FILE"
+
+        if [ "$REPORT" == 'true' ]; then
+          args="$args --report"
+        fi
 
         if [ "$NO_CHECK" == 'true' ]; then
           args="$args --no-check"
@@ -62,3 +86,50 @@ runs:
         command: 'upgrade-all'
         image: ${{ inputs.image }}
         args: ${{ steps.arguments.outputs.args }}
+
+    - name: 'Create report'
+      if: inputs.report == 'true'
+      id: report
+      shell: bash
+      env:
+        REPORT_FILE: ${{ inputs.report-file }}
+      # language=bash
+      run: |
+        JSON=$(cat $REPORT_FILE | jq -c)
+
+        echo "## PDK upgrade summary" >> $GITHUB_STEP_SUMMARY
+        echo ""                       >> $GITHUB_STEP_SUMMARY
+
+        if [ $(echo "${JSON}" | jq '. | length') -eq 0 ]; then
+            echo "No packages were upgraded." >> $GITHUB_STEP_SUMMARY
+            exit 0
+        fi
+
+        echo "The following packages were upgraded:"   >> $GITHUB_STEP_SUMMARY
+        echo ""                                        >> $GITHUB_STEP_SUMMARY
+        echo "| Package | Old version | New version |" >> $GITHUB_STEP_SUMMARY
+        echo "| ------- | ----------- | ----------- |" >> $GITHUB_STEP_SUMMARY
+
+        # For each item in the report json, print the diff
+        for row in $(echo "${JSON}" | jq -cr '.[]'); do
+            NAME=$(echo $row | jq -r '.name')
+            OLD_VERSION=$(echo $row | jq -r '.oldVersion')
+            NEW_VERSION=$(echo $row | jq -r '.version')
+            REPOSITORY=$(echo $row | jq -r '.repository')
+
+            echo "| [\`$NAME\`]($REPOSITORY) | ~~$OLD_VERSION~~ | **$NEW_VERSION** |" >> $GITHUB_STEP_SUMMARY
+        done
+
+        echo 'summary<<EOF'      >> $GITHUB_OUTPUT
+        cat $GITHUB_STEP_SUMMARY >> $GITHUB_OUTPUT
+        echo 'EOF'               >> $GITHUB_OUTPUT
+
+    - uses: myparcelnl/actions/create-or-update-comment@v4
+      if: inputs.report == 'true'
+      with:
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+        identifier: 'pdk-upgrade-report'
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |-
+          ${{ steps.report.outputs.summary }}
