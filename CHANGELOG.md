@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.12.0](https://github.com/myparcelnl/actions/compare/v4.11.1...v4.12.0) (2024-07-11)
+
+
+### :bug: Bug Fixes
+
+* **pr-post-artifacts:** support multiple bot comments in the same pr ([ea63a1e](https://github.com/myparcelnl/actions/commit/ea63a1e5dd4d1efbf5d586f3f811627fe8c69e47))
+
+
+### :sparkles: New Features
+
+* add create-or-update-comment ([b2e1cd9](https://github.com/myparcelnl/actions/commit/b2e1cd9b67f2206cdec5d0d6344995e7f6da1183))
+* **pdk:** write report when running upgrade ([bd94340](https://github.com/myparcelnl/actions/commit/bd943407ded9ec5012f325e185b20d28c946e6e3))
+
 ## [4.11.1](https://github.com/myparcelnl/actions/compare/v4.11.0...v4.11.1) (2024-07-11)
 
 
