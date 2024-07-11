@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.12.1](https://github.com/myparcelnl/actions/compare/v4.12.0...v4.12.1) (2024-07-11)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** add app id and private key parameters ([0f6514e](https://github.com/myparcelnl/actions/commit/0f6514e169760165ee9830d9b986322eaada3f98))
+
 ## [4.12.0](https://github.com/myparcelnl/actions/compare/v4.11.1...v4.12.0) (2024-07-11)
 
 
