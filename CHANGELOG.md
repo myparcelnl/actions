@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.12.3](https://github.com/myparcelnl/actions/compare/v4.12.2...v4.12.3) (2024-07-11)
+
+
+### :bug: Bug Fixes
+
+* **pdk-upgrade:** fix error when report file does not exist ([59b25f9](https://github.com/myparcelnl/actions/commit/59b25f9e9fd9ebb8ee8679dff629ad06eb3d89a1))
+
 ## [4.12.2](https://github.com/myparcelnl/actions/compare/v4.12.1...v4.12.2) (2024-07-11)
 
 
