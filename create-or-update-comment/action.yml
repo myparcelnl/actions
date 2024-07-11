@@ -1,0 +1,75 @@
+name: 'Create or update a comment'
+description: 'Create or update a comment on an issue or PR'
+
+inputs:
+  app-id:
+    description: 'The app ID of the app.'
+
+  private-key:
+    description: 'The private key of the app.'
+
+  issue-number:
+    required: false
+    description: 'Issue number'
+    default: ''
+
+  comment-id:
+    required: false
+    description: 'Comment ID'
+    default: ''
+
+  body:
+    required: true
+    description: 'Body of the comment'
+
+  identifier:
+    required: false
+    description: 'Hidden identifier to use for the comment'
+
+outputs:
+  comment-id:
+    description: 'The ID of the comment that was created or updated'
+    value: ${{ inputs.comment-id || steps.find-comment.outputs.comment-id }}
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/setup-app-credentials@v4
+      id: credentials
+      with:
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - name: 'Create identifier'
+      id: prepare
+      shell: bash
+      env:
+        IDENTIFIER: ${{ inputs.identifier }}
+      #language=bash
+      run: |
+        identifier="myparcelnl/actions/create-or-update-comment"
+
+        if [ -n "$IDENTIFIER" ]; then
+          identifier="$identifier-$IDENTIFIER"
+        fi
+
+        echo "identifier=$identifier" >> $GITHUB_OUTPUT
+
+    - uses: peter-evans/find-comment@v3
+      if: inputs.comment-id == ''
+      id: find-comment
+      with:
+        body-includes: ${{ steps.prepare.outputs.identifier }}
+        comment-author: ${{ steps.credentials.outputs.git-name }}
+        issue-number: ${{ inputs.issue-number }}
+
+    - uses: peter-evans/create-or-update-comment@v4
+      with:
+        token: ${{ steps.credentials.outputs.token }}
+        comment-id: ${{ inputs.comment-id || steps.find-comment.outputs.comment-id }}
+        edit-mode: replace
+        issue-number: ${{ inputs.issue-number }}
+        body: |-
+          ${{ inputs.body }}
+
+          <!-- ${{ steps.prepare.outputs.identifier }} -->

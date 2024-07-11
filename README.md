@@ -45,6 +45,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [repository-dispatch](#repository-dispatch)
     - [stale](#stale)
     - [toggle-label](#toggle-label)
+    - [update-comment](#update-comment)
   - [Nx](#nx)
     - [nx-cache](#nx-cache)
     - [nx-run](#nx-run)
@@ -989,6 +990,45 @@ This action uses the [App inputs](#app-inputs), as well as the following:
 | -------- | -------- | -------------------------------------- | --------------- | ------- |
 | true     | `label`  | The label to toggle.                   | `failing tests` | –       |
 | true     | `toggle` | Whether to toggle the label on or off. | `true`          | `auto`  |
+
+#### update-comment
+
+[Source](create-or-update-comment/action.yml)
+
+Create or update a comment on an issue or pull request.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/create-or-update-comment@v4
+  with:
+    app-id: ${{ secrets.GITHUB_APP_ID }}
+    private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
+    identifier: 'my-unique-id'
+    body: |-
+      This is a comment.
+      It can be multiline.
+    issue-number: 123
+    # When omitted, comment-id will be searched for based on the identifier.
+    comment-id: 123456789
+```
+
+##### Inputs
+
+This action uses the [App inputs](#app-inputs) (without `token`), as well as the following:
+
+| Required | Name           | Description                              | Example         | Default |
+| -------- | -------------- | ---------------------------------------- | --------------- | ------- |
+| true     | `body`         | The body of the comment.                 | `failing tests` | –       |
+| false    | `identifier`   | Hidden identifier to update the comment. | `my-unique-id`  | –       |
+| false    | `issue-number` | The issue number to comment on.          | `123`           | –       |
+| false    | `comment-id`   | The comment ID to update.                | `123456789`     | –       |
+
+##### Outputs
+
+| Name         | Description                                       | Example     |
+| ------------ | ------------------------------------------------- | ----------- |
+| `comment-id` | The ID of the comment that was created or updated | `572389429` |
 
 ### Nx
 
