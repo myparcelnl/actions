@@ -2,6 +2,14 @@ name: 'Create push prerelease artifacts'
 description: 'Requires package to have been built'
 
 inputs:
+  app-id:
+    required: true
+    description: 'The app ID of the GitHub app.'
+
+  private-key:
+    required: true
+    description: 'The private key of the GitHub app.'
+
   image:
     description: 'PHP Docker image to use'
     required: true
@@ -36,6 +44,8 @@ runs:
 
     - uses: myparcelnl/actions/pdk-upgrade@v4
       with:
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
         no-check: true
         no-commit: true
         image: ${{ inputs.image }}
