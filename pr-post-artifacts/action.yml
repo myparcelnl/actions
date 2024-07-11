@@ -60,24 +60,18 @@ runs:
           exit 1
         fi
 
-    - uses: peter-evans/find-comment@v3
-      id: find-comment
-      with:
-        issue-number: ${{ steps.info.outputs.pr-number }}
-        comment-author: ${{ steps.credentials.outputs.git-name }}
-
     - name: 'Create or update comment with success state'
       if: github.event.workflow_run.conclusion == 'success'
-      uses: peter-evans/create-or-update-comment@v4
+      uses: myparcelnl/actions/create-or-update-comment@v4
       env:
         JOB_PATH: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ steps.info.outputs.previous-job-id }}
         ARTIFACT_URL: ${{ github.server_url }}/${{ github.repository }}/suites/${{ steps.info.outputs.suite-id }}/artifacts/${{ steps.info.outputs.artifact-id }}
         HEAD_SHA: ${{ steps.info.outputs.head-sha }}
       with:
-        token: ${{ steps.credentials.outputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+        identifier: 'pr-post-artifacts'
         issue-number: ${{ steps.info.outputs.pr-number }}
-        comment-id: ${{ steps.find-comment.outputs.comment-id }}
-        edit-mode: replace
         body: |-
           ✅ Build successful!
 
@@ -91,15 +85,15 @@ runs:
 
     - name: 'Create or update comment with failure state'
       if: github.event.workflow_run.conclusion == 'failure'
-      uses: peter-evans/create-or-update-comment@v4
+      uses: myparcelnl/actions/create-or-update-comment@v4
       env:
         JOB_PATH: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ steps.info.outputs.previous-job-id }}
         HEAD_SHA: ${{ steps.info.outputs.head-sha }}
       with:
-        token: ${{ steps.credentials.outputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+        identifier: 'pr-post-artifacts'
         issue-number: ${{ steps.info.outputs.pr-number }}
-        comment-id: ${{ steps.find-comment.outputs.comment-id }}
-        edit-mode: replace
         body: |-
           ❌ Build failed!
 
