@@ -36,8 +36,9 @@ runs:
 
     - uses: myparcelnl/actions/pdk-upgrade@v4
       with:
-        image: ${{ inputs.image }}
+        no-check: true
         no-commit: true
+        image: ${{ inputs.image }}
 
     - uses: myparcelnl/actions/pdk-cache@v4
       with:
