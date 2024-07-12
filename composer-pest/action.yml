@@ -34,8 +34,9 @@ runs:
       #language=bash
       run: |
         docker run -t \
+          --user $(id -u):$(id -g) \
           --volume $PWD:/app \
-          $IMAGE \
+          "$IMAGE" \
           php -dpcov.enabled=1 \
           vendor/bin/pest $ARGS \
             --colors=always \
