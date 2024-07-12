@@ -214,7 +214,7 @@ Uses [Volta] or [actions/setup-node] to set up Node.js.
 
 [Source](npm-install/action.yml)
 
-1. Runs [actions/setup-node]
+1. Runs [setup-node]
 2. Handles `node_modules` cache
 3. Runs `npm ci`
 
@@ -225,6 +225,12 @@ Uses [Volta] or [actions/setup-node] to set up Node.js.
   with:
     node-version: 20
 ```
+
+##### Inputs
+
+| Required | Name           | Description                | Example | Default |
+| -------- | -------------- | -------------------------- | ------- | ------- |
+| No       | `node-version` | The Node.js version to use | `19`    | –       |
 
 #### yarn-install
 
@@ -1229,5 +1235,6 @@ These inputs apply on top of the other inputs of the action that allows for GitH
 [pnpm-install]: #pnpm-install
 [semantic-release]: #semantic-release
 [setup-git-credentials]: #setup-git-credentials
+[setup-node]: #setup-node
 [yarn-install]: #yarn-install
 [`myparcelnl/php-xd`]: https://github.com/myparcelnl/docker-images/pkgs/container/php-xd
