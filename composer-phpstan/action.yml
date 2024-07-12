@@ -75,8 +75,9 @@ runs:
       #language=bash
       run: |
         docker run -t \
+          --user $(id -u):$(id -g) \
           --volume $PWD:/app \
-          $IMAGE \
+          "$IMAGE" \
           php -dmemory_limit=-1 vendor/bin/phpstan \
             analyse \
             --no-progress \
