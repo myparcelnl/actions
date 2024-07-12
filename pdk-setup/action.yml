@@ -4,7 +4,6 @@ description: 'Setup @myparcel-pdk/app-builder'
 inputs:
   node-version:
     description: 'Node version to use'
-    default: '20'
     required: false
 
   php-version:
