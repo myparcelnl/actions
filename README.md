@@ -14,6 +14,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [aws-setup](#aws-setup)
     - [aws-s3-sync](#aws-s3-sync)
   - [Node](#node)
+    - [setup-node](#setup-node)
     - [npm-install](#npm-install)
     - [yarn-install](#yarn-install)
     - [pnpm-install](#pnpm-install)
@@ -185,6 +186,29 @@ Sync a directory to an S3 bucket. Must be run after [aws-setup].
 | No       | `delete` | Delete files that exist in the destination but not in the source during sync. | `true`                      | `false` |
 
 ### Node
+
+#### setup-node
+
+[Source](setup-node/action.yml)
+
+Uses [Volta] or [actions/setup-node] to set up Node.js.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/setup-node@v4
+  with:
+    # Will use actions/setup-node to set up Node.js 21. If node-version is
+    # omitted, Volta will be used. If there is no volta.node key in
+    # package.json, the default node version will be used. (20)
+    node-version: 21
+```
+
+##### Inputs
+
+| Required | Name           | Description                | Example | Default |
+| -------- | -------------- | -------------------------- | ------- | ------- |
+| No       | `node-version` | The Node.js version to use | `21`    | –       |
 
 #### npm-install
 

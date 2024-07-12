@@ -1,0 +1,44 @@
+name: 'Setup node'
+description: 'Set up node with Volta or actions/setup-node'
+
+inputs:
+  node-version:
+    description: 'The Node.js version to use. Leave empty to use Volta if present, or default version. (20)'
+    required: false
+
+  cache:
+    description: 'Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.'
+
+  cache-dependency-path:
+    description: 'Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.'
+
+runs:
+  using: composite
+  steps:
+    - name: 'Prepare'
+      id: prepare
+      env:
+        NODE_VERSION: ${{ inputs.node-version }}
+        PACKAGE_JSON_PATH: ${{ inputs.package-json-path }}
+      shell: bash
+      #language=bash
+      run: |
+        version=${NODE_VERSION:-20}
+
+        if [[ -z "$NODE_VERSION" && -f "package.json" && "$(jq -e '.volta.node' "package.json")" != 'null' ]]; then
+          echo "volta=true" >> $GITHUB_OUTPUT
+        else 
+          echo "volta=false" >> $GITHUB_OUTPUT
+        fi
+
+        echo "node-version=$version" >> $GITHUB_OUTPUT
+
+    - uses: actions/setup-node@v4
+      if: steps.prepare.outputs.volta != 'true'
+      with:
+        node-version: ${{ steps.prepare.outputs.node-version }}
+        cache: ${{ inputs.cache }}
+        cache-dependency-path: ${{ inputs.cache-dependency-path }}
+
+    - uses: volta-cli/action@v4
+      if: steps.prepare.outputs.volta == 'true'
