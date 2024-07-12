@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.1](https://github.com/myparcelnl/actions/compare/v4.13.0...v4.13.1) (2024-07-12)
+
+
+### :bug: Bug Fixes
+
+* **npm-install:** remove node version default ([8bf895d](https://github.com/myparcelnl/actions/commit/8bf895d294125846545584213dc3134ef610082e))
+* **pdk-setup:** remove node version default ([ed757d8](https://github.com/myparcelnl/actions/commit/ed757d85937a938621ce53a6a0f7671e863d35d5))
+* **pnpm-install:** remove node version default ([ceb02e8](https://github.com/myparcelnl/actions/commit/ceb02e81a8c226d4e3e8e4e83d28d7f5eaa2a4fe))
+
 ## [4.13.0](https://github.com/myparcelnl/actions/compare/v4.12.3...v4.13.0) (2024-07-12)
 
 
