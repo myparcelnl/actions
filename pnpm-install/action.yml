@@ -20,6 +20,7 @@ inputs:
 runs:
   using: composite
   steps:
+    # TODO: REMOVE THIS!
     - uses: actions/checkout@v4
 
     - name: 'Enable corepack'
@@ -28,7 +29,7 @@ runs:
       run: |
         corepack enable
 
-    - uses: actions/setup-node@v4
+    - uses: myparcelnl/actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
         cache: 'pnpm'

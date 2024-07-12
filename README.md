@@ -262,7 +262,7 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 
 [Source](pnpm-install/action.yml)
 
-1. Runs [actions/setup-node]
+1. Runs [setup-node]
 2. Installs pnpm
 3. Handles pnpm cache
 4. Runs `pnpm install --frozen-lockfile`
@@ -281,7 +281,7 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 
 | Required | Name           | Description                        | Example                              | Default             |
 | -------- | -------------- | ---------------------------------- | ------------------------------------ | ------------------- |
-| No       | `node-version` | The Node.js version to use         | `18`                                 | `20`                |
+| No       | `node-version` | The Node.js version to use         | `18`                                 | –                   |
 | No       | `pnpm-version` | The pnpm version to use            | `7.4.0`                              | `8.15.1`            |
 | No       | `pnpm-args`    | Arguments to use with pnpm install | `--ignore-scripts --frozen-lockfile` | `--frozen-lockfile` |
 
