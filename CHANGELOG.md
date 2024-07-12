@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.2](https://github.com/myparcelnl/actions/compare/v4.13.1...v4.13.2) (2024-07-12)
+
+
+### :bug: Bug Fixes
+
+* **composer-behat:** inherit host permissions ([a57cfc2](https://github.com/myparcelnl/actions/commit/a57cfc2f123896078a18974e9648b3596249e9bb))
+* **composer-install:** inherit host permissions ([589c5a6](https://github.com/myparcelnl/actions/commit/589c5a6f3b6f46de7fea92d489fc52df72bfc41c))
+* **composer-pest:** inherit host permissions ([b97bc52](https://github.com/myparcelnl/actions/commit/b97bc5235daa4132280cd74cd1f6c7224882c82b))
+* **composer-phpstan:** inherit host permissions ([0801fee](https://github.com/myparcelnl/actions/commit/0801feea4fda7579dabeaac25cb5ccbb5ef53642))
+
 ## [4.13.1](https://github.com/myparcelnl/actions/compare/v4.13.0...v4.13.1) (2024-07-12)
 
 
