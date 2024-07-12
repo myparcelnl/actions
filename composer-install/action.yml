@@ -56,11 +56,16 @@ runs:
 
     - name: 'Install composer dependencies'
       shell: bash
+      env:
+        IMAGE: ${{ steps.prepare.outputs.image }}
+        COMMAND: ${{ inputs.command }}
+        FLAGS: ${{ inputs.flags }}
       #language=bash
       run: |
         docker run \
-          --volume /tmp/composer-cache:/root/.composer \
-          --volume $PWD:/app \
           --env COMPOSER_CACHE_DIR=/root/.composer \
-          ${{ steps.prepare.outputs.image }} \
-          composer ${{ inputs.command }} --no-interaction --no-progress ${{ inputs.flags }}
+          --user $(id -u):$(id -g) \
+          --volume $PWD:/app \
+          --volume /tmp/composer-cache:/root/.composer \
+          "$IMAGE" \
+          composer $COMMAND --no-interaction --no-progress $FLAGS
