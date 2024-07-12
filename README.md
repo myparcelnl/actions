@@ -238,7 +238,7 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 
 [Source](yarn-install/action.yml)
 
-1. Runs [actions/setup-node]
+1. Runs [setup-node]
 2. Determines yarn arguments based on yarn version
 3. Runs `yarn install <determined-args> <your-args>`
 
@@ -255,7 +255,7 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 
 | Required | Name           | Description                        | Example            | Default |
 | -------- | -------------- | ---------------------------------- | ------------------ | ------- |
-| No       | `node-version` | The Node.js version to use         | `19`               | `20`    |
+| No       | `node-version` | The Node.js version to use         | `19`               | –       |
 | No       | `yarn-args`    | Arguments to use with yarn install | `--ignore-scripts` | ` `     |
 
 #### pnpm-install
