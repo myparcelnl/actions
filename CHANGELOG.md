@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.3](https://github.com/myparcelnl/actions/compare/v4.13.2...v4.13.3) (2024-07-12)
+
+
+### :bug: Bug Fixes
+
+* **setup-node:** support overriding volta node version ([6d700f8](https://github.com/myparcelnl/actions/commit/6d700f8c0dafb013252d5cad3bb0f00e906e0935))
+
 ## [4.13.2](https://github.com/myparcelnl/actions/compare/v4.13.1...v4.13.2) (2024-07-12)
 
 
