@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.0](https://github.com/myparcelnl/actions/compare/v4.12.3...v4.13.0) (2024-07-12)
+
+
+### :sparkles: New Features
+
+* add setup-node ([98f1a6a](https://github.com/myparcelnl/actions/commit/98f1a6aca31c6e34e5e31de0866133923f9197fb))
+* **npm-install:** support using volta ([81bf081](https://github.com/myparcelnl/actions/commit/81bf0812776de3186fa4246227ff17c7988e1c26))
+* **pdk:** support using volta ([f8453d8](https://github.com/myparcelnl/actions/commit/f8453d8b870fb4dc558ecc8c484be74dd24a1bc2))
+* **pnpm-install:** support using volta ([7802208](https://github.com/myparcelnl/actions/commit/7802208c926c62cfe0c674d20846ffb06eaa9671))
+* **yarn-install:** support using volta ([8501b7d](https://github.com/myparcelnl/actions/commit/8501b7d17a0fa9bfa951803632bd132be789c388))
+
 ## [4.12.3](https://github.com/myparcelnl/actions/compare/v4.12.2...v4.12.3) (2024-07-11)
 
 
