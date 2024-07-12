@@ -3,7 +3,7 @@ description: 'Set up node with Volta or actions/setup-node'
 
 inputs:
   node-version:
-    description: 'The Node.js version to use. Leave empty to use Volta if present, or default version. (20)'
+    description: 'The Node.js version to use. Leave empty to use Volta version or fallback default version. (20)'
     required: false
 
   cache:
@@ -25,13 +25,15 @@ runs:
       run: |
         version=${NODE_VERSION:-20}
 
-        if [[ -z "$NODE_VERSION" && -f "package.json" && "$(jq -e '.volta.node' "package.json")" != 'null' ]]; then
+        if [[ -f "package.json" && "$(jq -e '.volta.node' "package.json")" != 'null' ]]; then
+          # If Volta is present, use a manually specified node version if present
           echo "volta=true" >> $GITHUB_OUTPUT
+          echo "node-version=${NODE_VERSION}" >> $GITHUB_OUTPUT
         else 
+          # If Volta is not present, use a fallback node version 
           echo "volta=false" >> $GITHUB_OUTPUT
+          echo "node-version=${NODE_VERSION:-20}" >> $GITHUB_OUTPUT
         fi
-
-        echo "node-version=$version" >> $GITHUB_OUTPUT
 
     - uses: actions/setup-node@v4
       if: steps.prepare.outputs.volta != 'true'
@@ -42,3 +44,5 @@ runs:
 
     - uses: volta-cli/action@v4
       if: steps.prepare.outputs.volta == 'true'
+      with:
+        node-version: ${{ steps.prepare.outputs.node-version }}

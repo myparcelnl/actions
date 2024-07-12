@@ -191,24 +191,27 @@ Sync a directory to an S3 bucket. Must be run after [aws-setup].
 
 [Source](setup-node/action.yml)
 
-Uses [Volta] or [actions/setup-node] to set up Node.js.
+Uses [Volta] or [actions/setup-node] to set up Node.js. If Volta is present in the project, it will use the version from
+`volta.node` in `package.json`. If Volta is not present, it will use the fallback version with [actions/setup-node].
+
+If `node-version` is passed, it will use that version instead of Volta or the fallback version.
 
 ##### Example
 
 ```yaml
 - uses: myparcelnl/actions/setup-node@v4
   with:
-    # Will use actions/setup-node to set up Node.js 21. If node-version is
-    # omitted, Volta will be used. If there is no volta.node key in
-    # package.json, the default node version will be used. (20)
+    # Omit to use Volta or fallback version.
     node-version: 21
 ```
 
+Includes the `cache` and `cache-dependency-path` inputs from [actions/setup-node], which only apply when not using Volta.
+
 ##### Inputs
 
-| Required | Name           | Description                | Example | Default |
-| -------- | -------------- | -------------------------- | ------- | ------- |
-| No       | `node-version` | The Node.js version to use | `21`    | –       |
+| Required | Name           | Description                                                                                    | Example | Default |
+| -------- | -------------- | ---------------------------------------------------------------------------------------------- | ------- | ------- |
+| No       | `node-version` | The Node.js version to use. Leave empty to use Volta version or fallback default version. (20) | `21`    | –       |
 
 #### npm-install
 
