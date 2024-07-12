@@ -34,8 +34,9 @@ runs:
       #language=bash
       run: |
         docker run -t \
+          --user $(id -u):$(id -g) \
           --volume $PWD:/app \
-          $IMAGE \
+          "$IMAGE" \
           php \
             vendor/bin/behat $ARGS \
             --colors \
