@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.13.4](https://github.com/myparcelnl/actions/compare/v4.13.3...v4.13.4) (2024-07-17)
+
+
+### :bug: Bug Fixes
+
+* **setup-node:** check if correct key exists before using volta ([ed16829](https://github.com/myparcelnl/actions/commit/ed16829ad6843c550cadcfaec440f8b44cf98467))
+
 ## [4.13.3](https://github.com/myparcelnl/actions/compare/v4.13.2...v4.13.3) (2024-07-12)
 
 
