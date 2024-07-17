@@ -30,8 +30,9 @@ runs:
 
     - uses: myparcelnl/actions/setup-node@v4
       with:
-        node-version: ${{ inputs.node-version }}
         cache: 'pnpm'
+        key: 'pnpm'
+        node-version: ${{ inputs.node-version }}
 
     - name: 'Install pnpm dependencies'
       shell: bash

@@ -15,6 +15,7 @@ runs:
   steps:
     - uses: myparcelnl/actions/setup-node@v4
       with:
+        key: 'yarn'
         node-version: ${{ inputs.node-version }}
 
     - name: 'Create variables'
