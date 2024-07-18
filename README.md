@@ -464,20 +464,19 @@ jobs based on git ref and tag.
 
 [Source](build-docker-image-reg/action.yml)
 
-Builds a docker image from a Dockerfile. Layers are cached and pruned between
-jobs using a registry.
+Builds a docker image from a Dockerfile. Layers are cached and pruned between jobs using a registry.
 
 ##### Inputs
 
-| Required | Name                | Description                        | Example                               | Default      |
-| -------- | ------------------- | ---------------------------------- | ------------------------------------- | ------------ |
-| Yes      | `image`             | Image name                         | `my-name/my-image`                    | –            |
-| No       | `dockerfile`        | Path to dockerfile                 | `./docker/prod.Dockerfile`            | `Dockerfile` |
-| No       | `context`           | Directory to build from            | `./docker`                            | `.`          |
-| No       | `target`            | Target stage to build              | `prod`                                | –            |
-| No       | `registry`          | Packages registry to use           | `docker.io`                           | `ghcr.io`    |
-| Yes      | `registry-username` | Username to log into registry with | `${{ secrets.DOCKER_REGISTRY_USER }}` | –            |
-| Yes      | `registry-password` | Password to log into registry with | `${{ secrets.DOCKER_REGISTRY_PASS }}` | –            |
+| Required | Name                | Description                        | Example                               | Default                    |
+| -------- | ------------------- | ---------------------------------- | ------------------------------------- | -------------------------- |
+| No       | `image`             | Image name                         | `my-name/my-image`                    | `${{ github.repository }}` |
+| No       | `dockerfile`        | Path to dockerfile                 | `./docker/prod.Dockerfile`            | `Dockerfile`               |
+| No       | `context`           | Directory to build from            | `./docker`                            | `.`                        |
+| No       | `target`            | Target stage to build              | `prod`                                | –                          |
+| No       | `registry`          | Packages registry to use           | `docker.io`                           | `ghcr.io`                  |
+| No       | `registry-username` | Username to log into registry with | `${{ secrets.DOCKER_REGISTRY_USER }}` | `${{ github.actor }}`      |
+| Yes      | `registry-password` | Password to log into registry with | `${{ secrets.DOCKER_REGISTRY_PASS }}` | –                          |
 
 ##### Outputs
 

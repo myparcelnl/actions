@@ -4,7 +4,8 @@ description: 'Build Docker image from cache using a registry'
 inputs:
   image:
     description: 'Image name'
-    required: true
+    required: false
+    default: ${{ github.repository }}
 
   dockerfile:
     description: 'Path to dockerfile'
@@ -27,7 +28,8 @@ inputs:
 
   registry-user:
     description: 'Username to log into registry with'
-    required: true
+    required: false
+    default: ${{ github.actor }}
 
   registry-password:
     description: 'Password to log into registry with'
