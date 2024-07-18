@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.15.0](https://github.com/myparcelnl/actions/compare/v4.14.0...v4.15.0) (2024-07-18)
+
+
+### :sparkles: New Features
+
+* **build-docker-image-reg:** add default values to inputs ([9a1c5a2](https://github.com/myparcelnl/actions/commit/9a1c5a2a7ca694b7e9122c1fa2209b7696160912))
+* **build-docker-image:** add default values to inputs ([768c0bf](https://github.com/myparcelnl/actions/commit/768c0bf4aa8d484de3eba2331a5ba4b4d504f708))
+
 ## [4.14.0](https://github.com/myparcelnl/actions/compare/v4.13.4...v4.14.0) (2024-07-18)
 
 
