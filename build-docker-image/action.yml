@@ -4,7 +4,8 @@ description: Build Docker image from cache
 inputs:
   image:
     description: 'Image name'
-    required: true
+    required: false
+    default: ${{ github.repository }}
 
   key:
     description: 'Cache key'

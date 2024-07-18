@@ -423,20 +423,19 @@ Run [PHPStan](https://phpstan.org/) through composer.
 
 [Source](build-docker-image/action.yml)
 
-Builds a docker image from a Dockerfile. Layers are cached and pruned between
-jobs based on git ref and tag.
+Builds a docker image from a Dockerfile. Layers are cached and pruned between jobs based on git ref and tag.
 
 ##### Inputs
 
-| Required | Name          | Description                                  | Example                                   | Default                  |
-| -------- | ------------- | -------------------------------------------- | ----------------------------------------- | ------------------------ |
-| Yes      | `image`       | Image name                                   | `my-name/my-image`                        | –                        |
-| Yes      | `key`         | Cache key                                    | `my-image-${{ hashFiles('Dockerfile') }}` | `${{ github.workflow }}` |
-| No       | `dockerfile`  | Path to dockerfile                           | `./docker/prod.Dockerfile`                | `Dockerfile`             |
-| No       | `context`     | Directory to build from                      | `./docker`                                | `.`                      |
-| No       | `docker-args` | Arguments to pass to docker build            | `--target prod`                           |                          |
-| No       | `prune-after` | Amount of time until which images get pruned | `24h`                                     | `260h` (2 weeks)         |
-| No       | `buildkit`    | Whether to use Docker BuildKit               | `true`                                    | `false`                  |
+| Required | Name          | Description                                  | Example                                   | Default                    |
+| -------- | ------------- | -------------------------------------------- | ----------------------------------------- | -------------------------- |
+| No       | `image`       | Image name                                   | `my-name/my-image`                        | `${{ github.repository }}` |
+| Yes      | `key`         | Cache key                                    | `my-image-${{ hashFiles('Dockerfile') }}` | `${{ github.workflow }}`   |
+| No       | `dockerfile`  | Path to dockerfile                           | `./docker/prod.Dockerfile`                | `Dockerfile`               |
+| No       | `context`     | Directory to build from                      | `./docker`                                | `.`                        |
+| No       | `docker-args` | Arguments to pass to docker build            | `--target prod`                           |                            |
+| No       | `prune-after` | Amount of time until which images get pruned | `24h`                                     | `260h` (2 weeks)           |
+| No       | `buildkit`    | Whether to use Docker BuildKit               | `true`                                    | `false`                    |
 
 ##### Outputs
 
