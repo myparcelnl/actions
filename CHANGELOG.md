@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.14.0](https://github.com/myparcelnl/actions/compare/v4.13.4...v4.14.0) (2024-07-18)
+
+
+### :sparkles: New Features
+
+* **build-docker-image-reg:** update version of used actions ([97c3d8f](https://github.com/myparcelnl/actions/commit/97c3d8f08bfe2df075d2b6c0ac75a018c8811677))
+
 ## [4.13.4](https://github.com/myparcelnl/actions/compare/v4.13.3...v4.13.4) (2024-07-17)
 
 
