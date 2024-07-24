@@ -1,0 +1,91 @@
+name: 'Prepare custom build'
+description: 'Prepare the build environment for a custom build using specific PDK versions'
+
+inputs:
+  php-pdk-ref:
+    default: 'main'
+    description: 'Ref of myparcelnl/pdk to use'
+
+  js-pdk-ref:
+    default: 'main'
+    description: 'Ref of myparcelnl/js-pdk to use'
+
+  php-version:
+    description: 'PHP version that is used'
+    required: false
+    default: '7.4'
+
+  php-scoper-version:
+    description: 'PHP Scoper Version'
+    required: false
+    default: '^0.18.0'
+
+  source-hash:
+    description: 'Hash of the source files'
+    required: true
+
+  vendor-hash:
+    description: 'Hash of the vendor files'
+    required: false
+    default: ${{ hashFiles('**/composer.json', '**/composer.lock', '**/scoper.inc.php', '**/scoper.*.inc.php') }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Checkout myparcelnl/js-pdk'
+      if: inputs.js-pdk-ref != 'main'
+      uses: actions/checkout@v4
+      with:
+        path: js-pdk
+        repository: myparcelnl/js-pdk
+        ref: ${{ inputs.js-pdk-ref }}
+
+    - name: 'Link myparcelnl/js-pdk'
+      if: inputs.js-pdk-ref != 'main'
+      shell: bash
+      #language=bash
+      run: |
+        npm pkg set \
+          "resolutions.@myparcel-pdk/admin=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin" \
+          "resolutions.@myparcel-pdk/admin-component-tests=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-component-tests" \
+          "resolutions.@myparcel-pdk/admin-js=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-js" \
+          "resolutions.@myparcel-pdk/admin-preset-bootstrap4=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-bootstrap4" \
+          "resolutions.@myparcel-pdk/admin-preset-dashicons=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-dashicons" \
+          "resolutions.@myparcel-pdk/admin-preset-default=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-default" \
+          "resolutions.@myparcel-pdk/admin-preset-fontawesome=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-fontawesome" \
+          "resolutions.@myparcel-pdk/checkout=portal:$GITHUB_WORKSPACE/js-pdk/apps/checkout" \
+          "resolutions.@myparcel-pdk/checkout-js=portal:$GITHUB_WORKSPACE/js-pdk/apps/checkout-js" \
+          "resolutions.@myparcel-pdk/checkout-common=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-common" \
+          "resolutions.@myparcel-pdk/checkout-delivery-options=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-delivery-options" \
+          "resolutions.@myparcel-pdk/checkout-separate-address-fields=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-separate-address-fields" \
+          "resolutions.@myparcel-pdk/checkout-tax-fields=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-tax-fields" \
+          "resolutions.@myparcel-pdk/common=portal:$GITHUB_WORKSPACE/js-pdk/libs/common"
+
+    - name: 'Link myparcelnl/pdk'
+      if: inputs.php-pdk-ref != 'main'
+      env:
+        REF: ${{ inputs.php-pdk-ref }}
+      shell: bash
+      #language=bash
+      run: |
+        jq '.require["myparcelnl/pdk"] = "dev-'$REF'" | ."minimum-stability" = "dev"' composer.json > composer.json.tmp
+        mv composer.json.tmp composer.json
+
+    - uses: myparcelnl/actions/pdk-cache@v4
+      with:
+        php-version: ${{ inputs.php-version }}
+        php-scoper-version: ${{ inputs.php-scoper-version }}
+        source-hash: ${{ inputs.source-hash }}
+        vendor-hash: ${{ inputs.vendor-hash }}
+
+    - uses: myparcelnl/actions/pdk-setup@v4
+      with:
+        composer-command: 'update'
+        php-version: ${{ inputs.php-version }}
+        yarn-args: '--no-immutable --no-dev'
+
+    - name: 'Run pdk-builder update-self'
+      uses: myparcelnl/actions/pdk-builder@v4
+      with:
+        command: 'upgrade-self'
+        args: '--no-check --no-commit'

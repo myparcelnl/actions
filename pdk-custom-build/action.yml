@@ -1,0 +1,50 @@
+name: 'Create custom build'
+description: 'Create custom build using specific PDK versions'
+
+inputs:
+  php-pdk-ref:
+    default: 'main'
+    description: 'Ref of myparcelnl/pdk to use'
+
+  js-pdk-ref:
+    default: 'main'
+    description: 'Ref of myparcelnl/js-pdk to use'
+
+  image:
+    description: 'PHP Docker image to use'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: 'Determine version'
+      id: version
+      shell: bash
+      env:
+        RUN_ID: ${{ github.run_id }}
+      #language=bash
+      run: |
+        version=$(npm pkg get version | sed 's/"//g')
+        releaseVersion="$version-$RUN_ID"
+
+        echo "version=$releaseVersion" >> $GITHUB_OUTPUT
+
+    - uses: myparcelnl/actions/pdk-release@v4
+      with:
+        command: 'prerelease'
+        image: ${{ steps.setup.outputs.image }}
+        version: ${{ steps.version.outputs.version }}
+
+    - name: 'Write summary'
+      shell: bash
+      env:
+        JS_PDK_REF: ${{ inputs.js-pdk-ref }}
+        PHP_PDK_REF: ${{ inputs.php-pdk-ref }}
+        VERSION: ${{ steps.version.outputs.version }}
+      #language=bash
+      run: |
+        echo "# Build summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- **Generated version**: $VERSION" >> $GITHUB_STEP_SUMMARY
+        echo "- **myparcelnl/pdk**: [$PHP_PDK_REF](https://github.com/myparcelnl/pdk/commits/$PHP_PDK_REF/)" >> $GITHUB_STEP_SUMMARY
+        echo "- **myparcelnl/js-pdk**: [$JS_PDK_REF](https://github.com/myparcelnl/js-pdk/commits/$JS_PDK_REF/)" >> $GITHUB_STEP_SUMMARY
