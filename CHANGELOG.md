@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.16.2](https://github.com/myparcelnl/actions/compare/v4.16.1...v4.16.2) (2024-07-24)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** allow passing yarn-args ([4888d1c](https://github.com/myparcelnl/actions/commit/4888d1c867404380af1d402fbddee0f9682df532))
+* **yarn-install:** remove forced --frozen-lockfile parameter ([aa87c3e](https://github.com/myparcelnl/actions/commit/aa87c3e3b9cb9d1b1307824c3cd7281ad5b89850))
+
 ## [4.16.1](https://github.com/myparcelnl/actions/compare/v4.16.0...v4.16.1) (2024-07-24)
 
 
