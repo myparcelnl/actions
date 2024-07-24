@@ -340,7 +340,7 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 
 ##### Inputs
 
-Same as [composer-install].
+Same as [composer-install], but without `command`.
 
 ##### Outputs
 

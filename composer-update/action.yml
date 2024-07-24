@@ -2,11 +2,6 @@ name: 'Update composer dependencies'
 description: 'Set up PHP and update composer dependencies'
 
 inputs:
-  command:
-    description: 'The composer command to run.'
-    required: false
-    default: 'install'
-
   flags:
     description: 'Flags to use when installing composer dependencies.'
     required: false
@@ -28,6 +23,6 @@ runs:
     - uses: myparcelnl/actions/composer-install@v4
       id: install
       with:
-        command: ${{ inputs.command }}
+        command: 'update'
         flags: ${{ inputs.flags }}
-        image: ${{ steps.prepare.outputs.image }}
+        php-version: ${{ inputs.php-version }}
