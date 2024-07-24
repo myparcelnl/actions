@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.17.0](https://github.com/myparcelnl/actions/compare/v4.16.2...v4.17.0) (2024-07-24)
+
+
+### :bug: Bug Fixes
+
+* **setup-node:** add a retry in case volta setup fails ([ac772fa](https://github.com/myparcelnl/actions/commit/ac772fa0dfb0c6e4a30e58375246af61c4635d16))
+
+
+### :sparkles: New Features
+
+* **pdk:** add pdk-custom-build actions ([0ed92db](https://github.com/myparcelnl/actions/commit/0ed92dbb362bd9ecab395fffc05acd776ad47246))
+
 ## [4.16.2](https://github.com/myparcelnl/actions/compare/v4.16.1...v4.16.2) (2024-07-24)
 
 
