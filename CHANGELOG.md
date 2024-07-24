@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.16.0](https://github.com/myparcelnl/actions/compare/v4.15.0...v4.16.0) (2024-07-24)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** make cache depend on command input ([28e0d79](https://github.com/myparcelnl/actions/commit/28e0d791d5e49ad12de69042aba0a9356715bde8))
+* **composer-update:** make command work as expected ([43d4715](https://github.com/myparcelnl/actions/commit/43d47154f3d93758e73da8cf513827fa698a943a))
+
+
+### :sparkles: New Features
+
+* **pdk:** allow choosing between composer update and install ([d52d8e1](https://github.com/myparcelnl/actions/commit/d52d8e17bbb92dd11fb13ad2374078eae8f2e204))
+
 ## [4.15.0](https://github.com/myparcelnl/actions/compare/v4.14.0...v4.15.0) (2024-07-18)
 
 
