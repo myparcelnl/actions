@@ -7,10 +7,15 @@ inputs:
     default: '7.4'
     required: false
 
+  composer-command:
+    description: 'The composer command to run.'
+    default: 'install'
+    required: false
+
   composer-flags:
     description: 'Flags to use when installing composer dependencies.'
     required: false
-    default: ''
+    default: '--no-scripts --no-plugins --ignore-platform-reqs'
 
 outputs:
   image:
@@ -21,6 +26,14 @@ runs:
   using: composite
   steps:
     - uses: myparcelnl/actions/composer-install@v4
+      if: inputs.composer-command == 'install'
+      id: setup
+      with:
+        php-version: ${{ inputs.php-version }}
+        flags: ${{ inputs.composer-flags }}
+
+    - uses: myparcelnl/actions/composer-update@v4
+      if: inputs.composer-command == 'update'
       id: setup
       with:
         php-version: ${{ inputs.php-version }}
