@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.16.1](https://github.com/myparcelnl/actions/compare/v4.16.0...v4.16.1) (2024-07-24)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** do not use duplicate step ids ([dba4b31](https://github.com/myparcelnl/actions/commit/dba4b31a3e979da8ab312d809e603c801c2d7199))
+
 ## [4.16.0](https://github.com/myparcelnl/actions/compare/v4.15.0...v4.16.0) (2024-07-24)
 
 
