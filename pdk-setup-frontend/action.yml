@@ -6,11 +6,16 @@ inputs:
     description: 'Node version to use'
     required: false
 
+  yarn-args:
+    description: 'Arguments to use with yarn install'
+    required: false
+
 runs:
   using: composite
   steps:
     - uses: myparcelnl/actions/yarn-install@v4
       with:
+        yarn-args: ${{ inputs.yarn-args }}
         node-version: ${{ inputs.node-version }}
 
     - uses: myparcelnl/actions/pdk-builder@v4
