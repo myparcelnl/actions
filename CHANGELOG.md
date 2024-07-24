@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.17.1](https://github.com/myparcelnl/actions/compare/v4.17.0...v4.17.1) (2024-07-24)
+
+
+### :bug: Bug Fixes
+
+* **pdk-custom-build:** add missing image output ([606ac00](https://github.com/myparcelnl/actions/commit/606ac005d62fce1809077df0970457faf481332c))
+
 ## [4.17.0](https://github.com/myparcelnl/actions/compare/v4.16.2...v4.17.0) (2024-07-24)
 
 
