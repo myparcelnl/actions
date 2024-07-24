@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.17.2](https://github.com/myparcelnl/actions/compare/v4.17.1...v4.17.2) (2024-07-24)
+
+
+### :bug: Bug Fixes
+
+* **pdk-custom-build:** fix yarn and composer install ([5ef377d](https://github.com/myparcelnl/actions/commit/5ef377dba2a80770bb97e7209e7cd96725f24d75))
+
 ## [4.17.1](https://github.com/myparcelnl/actions/compare/v4.17.0...v4.17.1) (2024-07-24)
 
 
