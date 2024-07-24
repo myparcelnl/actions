@@ -51,6 +51,21 @@ runs:
         cache-dependency-path: ${{ inputs.cache-dependency-path }}
 
     - uses: volta-cli/action@v4
+      id: volta
       if: steps.prepare.outputs.volta == 'true'
+      continue-on-error: true
+      with:
+        node-version: ${{ steps.prepare.outputs.node-version }}
+
+    # Retry setting up Volta in 3 seconds in case it failed. Seen it happen in the wild...
+    - name: 'Wait 3 seconds before retrying...'
+      if: steps.prepare.outputs.volta == 'true' && steps.volta.outcome == 'failure'
+      shell: bash
+      #language=bash
+      run: sleep 3
+
+    - name: 'Retry setting up Volta'
+      if: steps.prepare.outputs.volta == 'true' && steps.volta.outcome == 'failure'
+      uses: volta-cli/action@v4
       with:
         node-version: ${{ steps.prepare.outputs.node-version }}
