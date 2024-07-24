@@ -243,7 +243,7 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 
 1. Runs [setup-node]
 2. Determines yarn arguments based on yarn version
-3. Runs `yarn install <determined-args> <your-args>`
+3. Runs `yarn install <your-args>`
 
 ##### Example
 

@@ -21,13 +21,12 @@ runs:
     - name: 'Create variables'
       id: variables
       shell: bash
+
       #language=bash
       run: |
         version=$(yarn --version | cut -d. -f1)
 
-        if [ "$version" -lt "2" ]; then
-          echo "args=--frozen-lockfile" >> $GITHUB_OUTPUT
-        else
+        if [ "$version" -ge "2" ]; then
           echo "cache-folder=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
         fi
 
@@ -49,13 +48,16 @@ runs:
       id: yarn-install-state-cache
       with:
         path: .yarn/ci-cache/
-        key: ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
+        key: ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-${{ inputs.yarn-args }}-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-${{ inputs.yarn-args }}-
+          ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-
 
     - name: 'Install yarn dependencies'
       shell: bash
       #language=bash
       run: |
-        yarn install ${{ steps.variables.outputs.args }} ${{ inputs.yarn-args }}
+        yarn install ${{ inputs.yarn-args }}
       env:
         HUSKY: '0'
         YARN_ENABLE_GLOBAL_CACHE: 'false'
