@@ -87,8 +87,9 @@ runs:
       id: setup
       with:
         composer-command: 'update'
+        composer-flags: '--no-scripts --no-plugins --ignore-platform-reqs --no-dev'
         php-version: ${{ inputs.php-version }}
-        yarn-args: '--no-immutable --no-dev'
+        yarn-args: '--no-immutable'
 
     - name: 'Run pdk-builder update-self'
       uses: myparcelnl/actions/pdk-builder@v4
