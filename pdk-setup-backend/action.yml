@@ -20,21 +20,21 @@ inputs:
 outputs:
   image:
     description: 'The image name that was used to setup composer dependencies. Can be used in subsequent jobs.'
-    value: ${{ steps.setup.outputs.image }}
+    value: ${{ steps.setup-install.outputs.image || steps.setup-update.outputs.image }}
 
 runs:
   using: composite
   steps:
     - uses: myparcelnl/actions/composer-install@v4
       if: inputs.composer-command == 'install'
-      id: setup
+      id: setup-install
       with:
         php-version: ${{ inputs.php-version }}
         flags: ${{ inputs.composer-flags }}
 
     - uses: myparcelnl/actions/composer-update@v4
       if: inputs.composer-command == 'update'
-      id: setup
+      id: setup-update
       with:
         php-version: ${{ inputs.php-version }}
         flags: ${{ inputs.composer-flags }}
