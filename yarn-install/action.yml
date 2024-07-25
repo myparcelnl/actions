@@ -13,6 +13,12 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: 'Hash yarn args'
+      id: args
+      uses: myparcelnl/actions/hash-string@v4
+      with:
+        string: ${{ inputs.yarn-args }}
+
     - uses: myparcelnl/actions/setup-node@v4
       with:
         key: 'yarn'
@@ -48,9 +54,9 @@ runs:
       id: yarn-install-state-cache
       with:
         path: .yarn/ci-cache/
-        key: ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-${{ inputs.yarn-args }}-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
+        key: ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-${{ steps.args.outputs.hash }}-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
         restore-keys: |
-          ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-${{ inputs.yarn-args }}-
+          ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-${{ steps.args.outputs.hash }}-
           ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-
 
     - name: 'Install yarn dependencies'
