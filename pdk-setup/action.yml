@@ -23,7 +23,7 @@ inputs:
   composer-flags:
     description: 'Flags to use when installing composer dependencies.'
     required: false
-    default: '--no-scripts --no-plugins --ignore-platform-reqs'
+    default: '--no-scripts --no-plugins --ignore-platform-req=ext-* --ignore-platform-req=lib-*'
 
 outputs:
   image:

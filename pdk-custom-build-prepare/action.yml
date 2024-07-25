@@ -87,7 +87,7 @@ runs:
       id: setup
       with:
         composer-command: 'update'
-        composer-flags: '--no-scripts --no-plugins --ignore-platform-reqs --no-dev'
+        composer-flags: '--no-scripts --no-plugins --no-dev --ignore-platform-req=ext-* --ignore-platform-req=lib-*'
         php-version: ${{ inputs.php-version }}
         yarn-args: '--no-immutable'
 
