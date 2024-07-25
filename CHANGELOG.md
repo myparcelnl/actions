@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.18.2](https://github.com/myparcelnl/actions/compare/v4.18.1...v4.18.2) (2024-07-25)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** fix input of glob.create ([1c4f0c1](https://github.com/myparcelnl/actions/commit/1c4f0c1a9360bd7588e03aeb8b5265df7e838fb4))
+
 ## [4.18.1](https://github.com/myparcelnl/actions/compare/v4.18.0...v4.18.1) (2024-07-25)
 
 
