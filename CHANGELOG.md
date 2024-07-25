@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.17.5](https://github.com/myparcelnl/actions/compare/v4.17.4...v4.17.5) (2024-07-25)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** create packagist cache folder before installing ([2be8654](https://github.com/myparcelnl/actions/commit/2be8654c7941ee9f3ad18d0fe6f67fa0a51e28cb))
+* **pdk:** ignore platform reqs for extensions and libs only and not php ([4bab0d5](https://github.com/myparcelnl/actions/commit/4bab0d55a0a92429e68ce6534b434cbe7065aac7))
+
 ## [4.17.4](https://github.com/myparcelnl/actions/compare/v4.17.3...v4.17.4) (2024-07-25)
 
 
