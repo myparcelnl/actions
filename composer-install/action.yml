@@ -66,13 +66,8 @@ runs:
         FLAGS: ${{ inputs.flags }}
       #language=bash
       run: |
-        docker run \
-          --env COMPOSER_CACHE_DIR=/root/.composer \
-          --user "$(id -u):$(id -g)" \
-          --volume $PWD:/app \
-          --volume /tmp/composer-cache:/root/.composer \
-          "$IMAGE" \
-          sudo chown -R "$(id -u):$(id -g)" /app/vendor
+        mkdir -p /tmp/composer-cache
+        sudo chown -R "$(id -u):$(id -g)" /tmp/composer-cache
 
         docker run \
           --env COMPOSER_CACHE_DIR=/root/.composer \
