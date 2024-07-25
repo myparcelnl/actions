@@ -50,8 +50,8 @@ runs:
         path: vendor
         key: composer-vendor-${{ inputs.php-version }}-${{ inputs.command}}-${{ inputs.flags }}-${{ hashFiles('**/composer.json', '**/composer.lock') }}
         restore-keys: |
-          composer-vendor-${{ inputs.php-version }}-${{ inputs.command}}-${{ inputs.flags }}-
-          composer-vendor-${{ inputs.php-version }}-${{ inputs.command}}-
+          composer-vendor-${{ inputs.php-version }}-${{ inputs.command }}-${{ inputs.flags }}-
+          composer-vendor-${{ inputs.php-version }}-${{ inputs.command }}-
           composer-vendor-${{ inputs.php-version }}-
 
     - uses: myparcelnl/actions/pull-docker-image@v4
@@ -66,13 +66,11 @@ runs:
         FLAGS: ${{ inputs.flags }}
       #language=bash
       run: |
-        mkdir -p /tmp/composer-cache/repo/https---repo.packagist.org/
-        sudo chown -R "$(id -u):$(id -g)" /tmp/composer-cache/
-
         docker run \
           --env COMPOSER_CACHE_DIR=/root/.composer \
-          --user "$(id -u):$(id -g)" \
           --volume $PWD:/app \
           --volume /tmp/composer-cache:/root/.composer \
           "$IMAGE" \
           composer $COMMAND --no-interaction --no-progress $FLAGS
+
+        sudo chown -R "$(id -u):$(id -g)" vendor
