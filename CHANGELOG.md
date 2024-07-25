@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.18.0](https://github.com/myparcelnl/actions/compare/v4.17.7...v4.18.0) (2024-07-25)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** improve cache logic ([1932771](https://github.com/myparcelnl/actions/commit/1932771ce2e0f2073fa4b4f331f5151b99a55d02))
+
+
+### :sparkles: New Features
+
+* add hash-string ([36ff1fc](https://github.com/myparcelnl/actions/commit/36ff1fc9dccfa430c3deae4323e2b4c097c35214))
+* **composer-install:** hash the composer flags instead of using them as is for cache ([9606a8b](https://github.com/myparcelnl/actions/commit/9606a8baabb035b24df4754b26937f770a2f1d4c))
+* **setup-node:** output final used node version ([a351209](https://github.com/myparcelnl/actions/commit/a351209dec75fb75ed68a9d3e17ed4a7e1ca9254))
+* **yarn-install:** hash yarn args rather than using them as is ([7b00aa4](https://github.com/myparcelnl/actions/commit/7b00aa4ceae64a68611d734cb7ec6125eaa6c87f))
+
 ## [4.17.7](https://github.com/myparcelnl/actions/compare/v4.17.6...v4.17.7) (2024-07-25)
 
 
