@@ -18,14 +18,13 @@ inputs:
     description: 'PHP Docker image to use'
     required: true
 
-  source-hash:
-    description: 'Hash of the source files'
+  source-files:
+    description: 'List of source files to use for caching'
     required: true
 
-  vendor-hash:
-    description: 'Hash of the vendor files'
+  vendor-files:
+    description: 'List of files to use for caching'
     required: false
-    default: ${{ hashFiles('**/composer.json', '**/composer.lock', '**/scoper.inc.php', '**/scoper.*.inc.php') }}
 
 outputs:
   version:
@@ -59,8 +58,8 @@ runs:
       with:
         php-version: ${{ inputs.php-version }}
         php-scoper-version: ${{ inputs.php-scoper-version }}
-        source-hash: ${{ inputs.source-hash }}
-        vendor-hash: ${{ inputs.vendor-hash }}
+        source-files: ${{ inputs.source-files }}
+        vendor-files: ${{ inputs.vendor-files }}
 
     - uses: myparcelnl/actions/pdk-release@v4
       with:

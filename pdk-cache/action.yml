@@ -12,18 +12,61 @@ inputs:
     required: false
     default: '^0.18.0'
 
-  source-hash:
-    description: 'Hash of the source files'
+  vendor-key:
+    description: 'Composer key to use for caching in addition to the vendor files'
+    required: false
+
+  source-files:
+    description: 'List of files to use for source caching'
     required: true
 
-  vendor-hash:
-    description: 'Hash of the vendor files'
+  vendor-files:
+    description: 'List of files to use for vendor caching'
     required: false
-    default: ${{ hashFiles('**/composer.json', '**/composer.lock', '**/scoper.inc.php', '**/scoper.*.inc.php') }}
+    default: |
+      **/composer.json
+      **/composer.lock
+      **/scoper.inc.php
+      **/scoper.*.inc.php
 
 runs:
   using: composite
   steps:
+    - name: 'Create variables'
+      id: prepare
+      shell: bash
+      env:
+        SOURCE_FILES: ${{ inputs.source-files }}
+        VENDOR_FILES: ${{ inputs.vendor-files }}
+        VENDOR_KEY: ${{ inputs.vendor-key }}
+      #language=bash
+      run: |
+        # if vendor key is not a hash, hash it now
+        if [[ -n "$VENDOR_KEY" && ! "$VENDOR_KEY" =~ ^[a-f0-9]{40}$ ]]; then
+          NEW_VENDOR_KEY=$(echo "$VENDOR_KEY" | sha1sum | cut -d ' ' -f 1)
+        else 
+          NEW_VENDOR_KEY=$VENDOR_KEY
+        fi
+
+        # trim leading and trailing whitespaces and remove empty lines
+        TRIMMED_SOURCE_FILES=$(echo "$SOURCE_FILES" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e '/^$/d')
+        TRIMMED_VENDOR_FILES=$(echo "$VENDOR_FILES" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e '/^$/d')
+
+        NEW_SOURCE_FILES=$(echo "$TRIMMED_SOURCE_FILES" | tr '\n' ',' | sed 's/,$//')
+        NEW_VENDOR_FILES=$(echo "$TRIMMED_VENDOR_FILES" | tr '\n' ',' | sed 's/,$//')
+
+        echo "source-files=$NEW_SOURCE_FILES" >> $GITHUB_OUTPUT
+        echo "vendor-files=$NEW_VENDOR_FILES" >> $GITHUB_OUTPUT
+        echo "vendor-key=$NEW_VENDOR_KEY-" >> $GITHUB_OUTPUT
+
+    - name: 'Create hashes'
+      id: hashes
+      shell: bash
+      #language=bash
+      run: |
+        echo "source-hash=${{ hashFiles(steps.prepare.outputs.source-files) }}" >> $GITHUB_OUTPUT
+        echo "vendor-hash=${{ steps.prepare.outputs.vendor-key }}${{ hashFiles(steps.prepare.outputs.vendor-files) }}" >> $GITHUB_OUTPUT
+
     - name: 'Cache php-scoper'
       uses: actions/cache@v4
       with:
@@ -34,10 +77,10 @@ runs:
       uses: actions/cache@v4
       with:
         path: .tmp/scoped/source
-        key: scoped-php-src-${{ inputs.php-version }}-${{ inputs.source-hash }}
+        key: scoped-php-src-${{ inputs.php-version }}-${{ outputs.hashes.outputs.source-hash }}
 
     - name: 'Cache scoped vendor php'
       uses: actions/cache@v4
       with:
         path: .tmp/scoped/vendor
-        key: scoped-php-vendor-${{ inputs.php-version }}-${{ inputs.vendor-hash }}
+        key: scoped-php-vendor-${{ inputs.php-version }}-${{ steps.hashes.outputs.vendor-hash }}
