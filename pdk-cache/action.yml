@@ -77,7 +77,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: .tmp/scoped/source
-        key: scoped-php-src-${{ inputs.php-version }}-${{ outputs.hashes.outputs.source-hash }}
+        key: scoped-php-src-${{ inputs.php-version }}-${{ steps.hashes.outputs.source-hash }}
 
     - name: 'Cache scoped vendor php'
       uses: actions/cache@v4
