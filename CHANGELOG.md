@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.17.7](https://github.com/myparcelnl/actions/compare/v4.17.6...v4.17.7) (2024-07-25)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** fix wrong reference to step ([20a2e97](https://github.com/myparcelnl/actions/commit/20a2e97de550820436f16c81b62ff7cc2be447ae))
+
 ## [4.17.6](https://github.com/myparcelnl/actions/compare/v4.17.5...v4.17.6) (2024-07-25)
 
 
