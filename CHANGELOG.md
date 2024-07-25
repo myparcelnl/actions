@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.17.6](https://github.com/myparcelnl/actions/compare/v4.17.5...v4.17.6) (2024-07-25)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** change permissions of vendor after install ([97e2c2e](https://github.com/myparcelnl/actions/commit/97e2c2e3bd36b341cbdf18d9a8d8192e44881567))
+* **pdk:** pass files instead of pre-made hashes for caching ([d180881](https://github.com/myparcelnl/actions/commit/d18088189b3d4caf322c40117e1617b1d449c33b))
+
 ## [4.17.5](https://github.com/myparcelnl/actions/compare/v4.17.4...v4.17.5) (2024-07-25)
 
 
