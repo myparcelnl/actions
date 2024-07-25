@@ -10,7 +10,9 @@ inputs:
   flags:
     description: 'Flags to use when installing composer dependencies.'
     required: false
-    default: '--no-scripts --no-plugins'
+    default: |
+      --no-plugins
+      --no-scripts
 
   php-version:
     description: 'The php version to use.'
@@ -25,6 +27,12 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: 'Hash composer flags'
+      id: flags
+      uses: myparcelnl/actions/hash-string@v4
+      with:
+        string: ${{ inputs.flags }}
+
     - name: 'Get image name'
       id: prepare
       shell: bash
@@ -38,9 +46,9 @@ runs:
       uses: actions/cache@v4
       with:
         path: /tmp/composer-cache
-        key: composer-${{ inputs.php-version }}-${{ inputs.command }}-${{ inputs.flags }}-${{ hashFiles('**/composer.json', '**/composer.lock') }}
+        key: composer-${{ inputs.php-version }}-${{ inputs.command }}-${{ steps.flags.outputs.hash }}-${{ hashFiles('**/composer.json', '**/composer.lock') }}
         restore-keys: |
-          composer-${{ inputs.php-version }}-${{ inputs.command }}-${{ inputs.flags }}-
+          composer-${{ inputs.php-version }}-${{ inputs.command }}-${{ steps.flags.outputs.hash }}-
           composer-${{ inputs.php-version }}-${{ inputs.command }}-
           composer-${{ inputs.php-version }}-
 
@@ -48,9 +56,9 @@ runs:
       uses: actions/cache@v4
       with:
         path: vendor
-        key: composer-vendor-${{ inputs.php-version }}-${{ inputs.command}}-${{ inputs.flags }}-${{ hashFiles('**/composer.json', '**/composer.lock') }}
+        key: composer-vendor-${{ inputs.php-version }}-${{ inputs.command }}-${{ steps.flags.outputs.hash }}-${{ hashFiles('**/composer.json', '**/composer.lock') }}
         restore-keys: |
-          composer-vendor-${{ inputs.php-version }}-${{ inputs.command }}-${{ inputs.flags }}-
+          composer-vendor-${{ inputs.php-version }}-${{ inputs.command }}-${{ steps.flags.outputs.hash }}-
           composer-vendor-${{ inputs.php-version }}-${{ inputs.command }}-
           composer-vendor-${{ inputs.php-version }}-
 
@@ -63,7 +71,7 @@ runs:
       env:
         IMAGE: ${{ steps.prepare.outputs.image }}
         COMMAND: ${{ inputs.command }}
-        FLAGS: ${{ inputs.flags }}
+        FLAGS: ${{ steps.flags.outputs.string }}
       #language=bash
       run: |
         docker run \
