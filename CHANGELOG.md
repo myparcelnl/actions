@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.17.4](https://github.com/myparcelnl/actions/compare/v4.17.3...v4.17.4) (2024-07-25)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** use different approach of changing cache permissions ([68a491b](https://github.com/myparcelnl/actions/commit/68a491bf957b22aa16b692acc302a21c8e1196a6))
+
 ## [4.17.3](https://github.com/myparcelnl/actions/compare/v4.17.2...v4.17.3) (2024-07-25)
 
 
