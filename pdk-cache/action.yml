@@ -47,11 +47,13 @@ runs:
       with:
         #language=js
         script: |
-          const sourceFiles = process.env.SOURCE_FILES.trim().split('\n')
-          const vendorFiles = process.env.VENDOR_FILES.trim().split('\n')
+          const parseFiles = (input) => input.split('\n').filter(Boolean).map(file => file.trim());
 
-          const sourceHash = await glob.hashFiles(...sourceFiles);
-          const vendorHash = await glob.hashFiles(...vendorFiles);
+          const sourceFileGlobber = await glob.create(parseFiles(process.env.SOURCE_FILES));
+          const vendorFileGlobber = await glob.create(parseFiles(process.env.VENDOR_FILES));
+
+          const sourceHash = await glob.hashFiles(sourceFileGlobber);
+          const vendorHash = await glob.hashFiles(vendorFileGlobber);
 
           core.setOutput('source-hash', sourceHash);
           core.setOutput('vendor-hash', [vendorHash, process.env.VENDOR_KEY_HASH].filter(Boolean).join('-'));
