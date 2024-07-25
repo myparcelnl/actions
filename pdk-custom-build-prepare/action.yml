@@ -25,8 +25,13 @@ inputs:
     required: true
 
   vendor-files:
-    description: 'List of files to use for caching'
+    description: 'List of files to use for vendor caching'
     required: false
+    default: |
+      **/composer.json
+      **/composer.lock
+      **/scoper.inc.php
+      **/scoper.*.inc.php
 
 outputs:
   image:
@@ -36,6 +41,15 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: 'Prepare'
+      id: prepare
+      shell: bash
+      #language=bash
+      run: |
+        COMPOSER_FLAGS="--no-scripts --no-plugins --ignore-platform-req=ext-* --ignore-platform-req=lib-*"
+
+        echo "composer-flags=$COMPOSER_FLAGS" >> $GITHUB_OUTPUT
+
     - name: 'Checkout myparcelnl/js-pdk'
       if: inputs.js-pdk-ref != 'main'
       uses: actions/checkout@v4
@@ -81,12 +95,13 @@ runs:
         php-scoper-version: ${{ inputs.php-scoper-version }}
         source-files: ${{ inputs.source-files }}
         vendor-files: ${{ inputs.vendor-files }}
+        vendor-key: update-${{ steps.prepare.outputs.composer-flags }}
 
     - uses: myparcelnl/actions/pdk-setup@v4
       id: setup
       with:
         composer-command: 'update'
-        composer-flags: '--no-scripts --no-plugins --no-dev --ignore-platform-req=ext-* --ignore-platform-req=lib-*'
+        composer-flags: ${{ steps.prepare.outputs.composer-flags }}
         php-version: ${{ inputs.php-version }}
         yarn-args: '--no-immutable'
 

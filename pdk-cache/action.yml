@@ -13,7 +13,7 @@ inputs:
     default: '^0.18.0'
 
   vendor-key:
-    description: 'Composer key to use for caching in addition to the vendor files'
+    description: 'Composer key to use for caching in addition to the vendor files. For example the arguments used in composer install.'
     required: false
 
   source-files:
@@ -32,40 +32,29 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: 'Create variables'
-      id: prepare
-      shell: bash
-      env:
-        SOURCE_FILES: ${{ inputs.source-files }}
-        VENDOR_FILES: ${{ inputs.vendor-files }}
-        VENDOR_KEY: ${{ inputs.vendor-key }}
-      #language=bash
-      run: |
-        # if vendor key is not a hash, hash it now
-        if [[ -n "$VENDOR_KEY" && ! "$VENDOR_KEY" =~ ^[a-f0-9]{40}$ ]]; then
-          NEW_VENDOR_KEY=$(echo "$VENDOR_KEY" | sha1sum | cut -d ' ' -f 1)
-        else 
-          NEW_VENDOR_KEY=$VENDOR_KEY
-        fi
-
-        # trim leading and trailing whitespaces and remove empty lines
-        TRIMMED_SOURCE_FILES=$(echo "$SOURCE_FILES" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e '/^$/d')
-        TRIMMED_VENDOR_FILES=$(echo "$VENDOR_FILES" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e '/^$/d')
-
-        NEW_SOURCE_FILES=$(echo "$TRIMMED_SOURCE_FILES" | tr '\n' ',' | sed 's/,$//')
-        NEW_VENDOR_FILES=$(echo "$TRIMMED_VENDOR_FILES" | tr '\n' ',' | sed 's/,$//')
-
-        echo "source-files=$NEW_SOURCE_FILES" >> $GITHUB_OUTPUT
-        echo "vendor-files=$NEW_VENDOR_FILES" >> $GITHUB_OUTPUT
-        echo "vendor-key=$NEW_VENDOR_KEY-" >> $GITHUB_OUTPUT
+    - uses: myparcelnl/actions/hash-string@v4
+      id: vendor-key
+      with:
+        string: ${{ inputs.vendor-key }}
 
     - name: 'Create hashes'
       id: hashes
-      shell: bash
-      #language=bash
-      run: |
-        echo "source-hash=${{ hashFiles(steps.prepare.outputs.source-files) }}" >> $GITHUB_OUTPUT
-        echo "vendor-hash=${{ steps.prepare.outputs.vendor-key }}${{ hashFiles(steps.prepare.outputs.vendor-files) }}" >> $GITHUB_OUTPUT
+      uses: actions/github-script@v7
+      env:
+        SOURCE_FILES: ${{ inputs.source-files }}
+        VENDOR_FILES: ${{ inputs.vendor-files }}
+        VENDOR_KEY_HASH: ${{ steps.vendor-key.outputs.hash }}
+      with:
+        #language=js
+        script: |
+          const sourceFiles = process.env.SOURCE_FILES.trim().split('\n')
+          const vendorFiles = process.env.VENDOR_FILES.trim().split('\n')
+
+          const sourceHash = await glob.hashFiles(...sourceFiles);
+          const vendorHash = await glob.hashFiles(...vendorFiles);
+
+          core.setOutput('source-hash', sourceHash);
+          core.setOutput('vendor-hash', [vendorHash, process.env.VENDOR_KEY_HASH].filter(Boolean).join('-'));
 
     - name: 'Cache php-scoper'
       uses: actions/cache@v4

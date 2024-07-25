@@ -23,8 +23,13 @@ inputs:
     required: true
 
   vendor-files:
-    description: 'List of files to use for caching'
+    description: 'List of files to use for vendor caching'
     required: false
+    default: |
+      **/composer.json
+      **/composer.lock
+      **/scoper.inc.php
+      **/scoper.*.inc.php
 
 outputs:
   version:
