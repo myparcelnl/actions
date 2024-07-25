@@ -66,8 +66,8 @@ runs:
         FLAGS: ${{ inputs.flags }}
       #language=bash
       run: |
-        mkdir -p /tmp/composer-cache
-        sudo chown -R "$(id -u):$(id -g)" /tmp/composer-cache
+        mkdir -p /tmp/composer-cache/repo/https---repo.packagist.org/
+        sudo chown -R "$(id -u):$(id -g)" /tmp/composer-cache/
 
         docker run \
           --env COMPOSER_CACHE_DIR=/root/.composer \
