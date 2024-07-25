@@ -47,11 +47,8 @@ runs:
       with:
         #language=js
         script: |
-          const sourceFileGlobber = await glob.create(process.env.SOURCE_FILES);
-          const vendorFileGlobber = await glob.create(process.env.VENDOR_FILES);
-
-          const sourceHash = await glob.hashFiles(sourceFileGlobber);
-          const vendorHash = await glob.hashFiles(vendorFileGlobber);
+          const sourceHash = await glob.hashFiles(process.env.SOURCE_FILES ?? '');
+          const vendorHash = await glob.hashFiles(process.env.VENDOR_FILES ?? '');
 
           core.setOutput('source-hash', sourceHash);
           core.setOutput('vendor-hash', [vendorHash, process.env.VENDOR_KEY_HASH].filter(Boolean).join('-'));
