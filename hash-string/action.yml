@@ -1,0 +1,48 @@
+name: 'Hash string'
+description: 'Hash a string'
+
+inputs:
+  string:
+    description: 'The string to hash. Can be empty or multiple lines.'
+    required: true
+
+  method:
+    description: 'The hashing method to use.'
+    required: false
+    default: 'md5sum'
+
+outputs:
+  hash:
+    description: 'The hashed string, empty if no string was provided.'
+    value: ${{ steps.hash.outputs.hash }}
+
+  string:
+    description: 'The string that was hashed.'
+    value: ${{ steps.hash.outputs.string }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Hash string'
+      id: hash
+      shell: bash
+      env:
+        STRING: ${{ inputs.string }}
+        HASH_METHOD: ${{ inputs.method }}
+      #language=bash
+      run: |
+        if [ -z "$STRING" ]; then
+          echo "hash="   >> $GITHUB_OUTPUT
+          echo "string=" >> $GITHUB_OUTPUT
+          exit 0
+        fi
+
+        # if multiline string, sort, deduplicate, concatenate and trim before hashing
+        if [ $(echo "$STRING" | wc -l) -gt 1 ]; then
+          STRING=$(echo "$STRING" | sort | uniq | tr '\n' ' ' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+        fi
+
+        HASH=$(echo -n "$STRING" | $(echo "$HASH_METHOD") | cut -d ' ' -f 1)
+
+        echo "hash=$HASH"     >> $GITHUB_OUTPUT
+        echo "string=$STRING" >> $GITHUB_OUTPUT

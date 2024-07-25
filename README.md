@@ -54,6 +54,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
   - [Miscellaneous](#miscellaneous)
     - [bundlewatch](#bundlewatch)
     - [deprecated](#deprecated)
+    - [hash-string](#hash-string)
 
 ## General usage
 
@@ -1207,6 +1208,45 @@ Mark something as deprecated. This will add a warning to the workflow run.
 | Yes      | `name`        | Name of the thing to mark as deprecated | `my-name/my-action`           | –       |
 | No       | `replacement` | The replacement                         | `my-name/my-new-action`       | –       |
 | No       | `reason`      | The reason why it is deprecated         | `It is no longer maintained.` | –       |
+
+#### hash-string
+
+[Source](hash-string/action.yml)
+
+Hash a string. Input can be string, multiline string or empty. If input string is empty, an empty string will be returned. If input string is multiline, the lines will be sorted, deduplicated and hashed. The string that is hashed will be output as `string`.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/hash-string@v4
+  id: hash
+  with:
+    method: 'sha256sum'
+    string: 'my-string'
+    # or
+    string: |
+      my
+      multiline
+      string
+
+- run: echo ${{ steps.hash.outputs.string }} // multiline my string
+
+- run: echo ${{ steps.hash.outputs.hash }} // bdfe7443bc0ddf3fb21a2c407e876458d04a5931b16259cbd727f7fd6ac4ef3b
+```
+
+##### Inputs
+
+| Required | Name     | Description                                         | Example     | Default  |
+| -------- | -------- | --------------------------------------------------- | ----------- | -------- |
+| Yes      | `string` | The string to hash. Can be empty or multiple lines. | `my string` | –        |
+| No       | `method` | The hashing method to use.                          | `sha256sum` | `md5sum` |
+
+##### Outputs
+
+| Name     | Description                                         | Example                            |
+| -------- | --------------------------------------------------- | ---------------------------------- |
+| `hash`   | The hashed string, empty if no string was provided. | `c403c22aac54783366d90df0bbdadc1a` |
+| `string` | The string that was hashed.                         | `my string to hash'                |
 
 ## App inputs
 
