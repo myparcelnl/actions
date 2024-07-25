@@ -68,7 +68,15 @@ runs:
       run: |
         docker run \
           --env COMPOSER_CACHE_DIR=/root/.composer \
-          --user $(id -u):$(id -g) \
+          --user "$(id -u):$(id -g)" \
+          --volume $PWD:/app \
+          --volume /tmp/composer-cache:/root/.composer \
+          "$IMAGE" \
+          sudo chown -R "$(id -u):$(id -g)" /app/vendor
+
+        docker run \
+          --env COMPOSER_CACHE_DIR=/root/.composer \
+          --user "$(id -u):$(id -g)" \
           --volume $PWD:/app \
           --volume /tmp/composer-cache:/root/.composer \
           "$IMAGE" \
