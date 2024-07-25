@@ -214,6 +214,12 @@ Includes the `cache` and `cache-dependency-path` inputs from [actions/setup-node
 | -------- | -------------- | ---------------------------------------------------------------------------------------------- | ------- | ------- |
 | No       | `node-version` | The Node.js version to use. Leave empty to use Volta version or fallback default version. (20) | `21`    | –       |
 
+##### Outputs
+
+| Name           | Description                    | Example  |
+| -------------- | ------------------------------ | -------- |
+| `node-version` | The node version that is used. | `20.3.1` |
+
 #### npm-install
 
 [Source](npm-install/action.yml)

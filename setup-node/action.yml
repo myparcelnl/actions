@@ -16,6 +16,11 @@ inputs:
     description: 'The key to look for under volta in package.json.'
     required: false
 
+outputs:
+  node-version:
+    description: 'The node version that is used.'
+    value: ${{ steps.node-version.outputs.version }}
+
 runs:
   using: composite
   steps:
@@ -69,3 +74,13 @@ runs:
       uses: volta-cli/action@v4
       with:
         node-version: ${{ steps.prepare.outputs.node-version }}
+
+    - name: 'Get node version'
+      id: node-version
+      shell: bash
+      #language=bash
+      run: |
+        VERSION="$(node --version)"
+        TRIMMED="${VERSION:1}"
+
+        echo "version=$TRIMMED" >> $GITHUB_OUTPUT
