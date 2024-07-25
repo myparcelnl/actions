@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.18.1](https://github.com/myparcelnl/actions/compare/v4.18.0...v4.18.1) (2024-07-25)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** fix hashing files in cache action ([7f19944](https://github.com/myparcelnl/actions/commit/7f19944287ff60ec998b38b12ab1933b3993cb7a))
+
 ## [4.18.0](https://github.com/myparcelnl/actions/compare/v4.17.7...v4.18.0) (2024-07-25)
 
 
