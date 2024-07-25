@@ -47,10 +47,8 @@ runs:
       with:
         #language=js
         script: |
-          const parseFiles = (input) => input.split('\n').filter(Boolean).map(file => file.trim());
-
-          const sourceFileGlobber = await glob.create(parseFiles(process.env.SOURCE_FILES));
-          const vendorFileGlobber = await glob.create(parseFiles(process.env.VENDOR_FILES));
+          const sourceFileGlobber = await glob.create(process.env.SOURCE_FILES);
+          const vendorFileGlobber = await glob.create(process.env.VENDOR_FILES);
 
           const sourceHash = await glob.hashFiles(sourceFileGlobber);
           const vendorHash = await glob.hashFiles(vendorFileGlobber);
