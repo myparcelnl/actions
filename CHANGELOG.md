@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.19.1](https://github.com/myparcelnl/actions/compare/v4.19.0...v4.19.1) (2024-07-31)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** set COMPOSER_NO_DEV variable ([483c337](https://github.com/myparcelnl/actions/commit/483c337106f446a78da096abdcd07d686f29c87a))
+
 ## [4.19.0](https://github.com/myparcelnl/actions/compare/v4.18.3...v4.19.0) (2024-07-31)
 
 
