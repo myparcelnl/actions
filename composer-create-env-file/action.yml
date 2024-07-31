@@ -21,6 +21,6 @@ runs:
         echo "COMPOSER_CACHE_DIR=/root/composer" > "$envFilename"
 
         # Then add all present composer env variables
-        printenv | grep -E "^COMPOSER_" >> "$envFilename"
+        printenv | (grep -E "^COMPOSER_" || true) >> "$envFilename"
 
         echo "filename=$envFilename" >> $GITHUB_OUTPUT
