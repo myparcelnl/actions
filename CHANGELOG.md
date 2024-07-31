@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.19.2](https://github.com/myparcelnl/actions/compare/v4.19.1...v4.19.2) (2024-07-31)
+
+
+### :bug: Bug Fixes
+
+* **composer:** incorporate present composer environment variables in commands ([ccaa24a](https://github.com/myparcelnl/actions/commit/ccaa24a1c9b5592f3c156980e144bafa5e616114))
+* **pdk:** use composer env variables ([218bba7](https://github.com/myparcelnl/actions/commit/218bba7a891d4dda3c016cc0d0ba102fd4eb0359))
+
 ## [4.19.1](https://github.com/myparcelnl/actions/compare/v4.19.0...v4.19.1) (2024-07-31)
 
 
