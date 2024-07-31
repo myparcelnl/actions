@@ -19,7 +19,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/composer-create-env@v4
+    - uses: myparcelnl/actions/composer-create-env-file@v4
       id: env
 
     - name: 'Create root command'
