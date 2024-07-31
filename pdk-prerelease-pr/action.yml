@@ -14,9 +14,15 @@ inputs:
     description: 'Pull request number'
     required: true
 
-  image:
-    description: 'PHP Docker image to use'
-    required: true
+  php-version:
+    description: 'PHP version that is used'
+    required: false
+    default: '7.4'
+
+  php-scoper-version:
+    description: 'PHP Scoper Version'
+    required: false
+    default: '^0.18.0'
 
   source-files:
     description: 'List of source files to use for caching'
@@ -51,13 +57,19 @@ runs:
 
         echo "version=$releaseVersion" >> $GITHUB_OUTPUT
 
+    - uses: myparcelnl/actions/pdk-setup@v4
+      id: setup
+      with:
+        php-version: ${{ inputs.php-version }}
+        composer-dev: 'false'
+
     - uses: myparcelnl/actions/pdk-upgrade@v4
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
         no-check: true
         no-commit: true
-        image: ${{ inputs.image }}
+        image: ${{ steps.setup.outputs.image }}
 
     - uses: myparcelnl/actions/pdk-cache@v4
       with:

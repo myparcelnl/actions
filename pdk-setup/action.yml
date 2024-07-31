@@ -20,10 +20,10 @@ inputs:
     default: 'install'
     required: false
 
-  composer-flags:
-    description: 'Flags to use when installing composer dependencies.'
+  composer-dev:
+    description: 'Whether to install composer dev dependencies.'
     required: false
-    default: '--no-scripts --no-plugins --ignore-platform-req=ext-* --ignore-platform-req=lib-*'
+    default: 'true'
 
 outputs:
   image:
@@ -37,7 +37,7 @@ runs:
       id: setup-backend
       with:
         composer-command: ${{ inputs.composer-command }}
-        composer-flags: ${{ inputs.composer-flags }}
+        composer-dev: ${{ inputs.composer-dev }}
         php-version: ${{ inputs.php-version }}
 
     - uses: myparcelnl/actions/pdk-setup-frontend@v4

@@ -12,10 +12,10 @@ inputs:
     default: 'install'
     required: false
 
-  composer-flags:
-    description: 'Flags to use when installing composer dependencies.'
+  composer-dev:
+    description: 'Whether to install composer dev dependencies.'
     required: false
-    default: '--no-scripts --no-plugins --ignore-platform-req=ext-* --ignore-platform-req=lib-*'
+    default: 'true'
 
 outputs:
   image:
@@ -25,16 +25,31 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: 'Create composer flags'
+      id: composer-flags
+      env:
+        DEV: ${{ inputs.composer-dev }}
+      shell: bash
+      #language=bash
+      run: |
+        composerFlags="--ignore-platform-req=ext-* --ignore-platform-req=lib-* --no-scripts --no-plugins"
+
+        if [ "$DEV" == 'false' ]; then
+          composerFlags="$composerFlags --no-dev"
+        fi
+
+        echo "flags=$composerFlags" >> $GITHUB_OUTPUT
+
     - uses: myparcelnl/actions/composer-install@v4
       if: inputs.composer-command == 'install'
       id: setup-install
       with:
         php-version: ${{ inputs.php-version }}
-        flags: ${{ inputs.composer-flags }}
+        flags: ${{ steps.composer-flags.outputs.flags }}
 
     - uses: myparcelnl/actions/composer-update@v4
       if: inputs.composer-command == 'update'
       id: setup-update
       with:
         php-version: ${{ inputs.php-version }}
-        flags: ${{ inputs.composer-flags }}
+        flags: ${{ steps.composer-flags.outputs.flags }}

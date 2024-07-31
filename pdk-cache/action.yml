@@ -1,5 +1,5 @@
 name: 'Cache PDK data'
-description: 'Cache data used with @myparcel-pdk/app-builder'
+description: 'Cache php generation data used with @myparcel-pdk/app-builder'
 
 inputs:
   php-version:
