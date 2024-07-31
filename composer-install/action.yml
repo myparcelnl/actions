@@ -24,6 +24,10 @@ outputs:
     description: 'The image name that was used to install dependencies. Can be used in subsequent jobs.'
     value: ${{ steps.prepare.outputs.image }}
 
+  env-file:
+    description: 'The filename of the env file that was created.'
+    value: ${{ steps.env.outputs.filename }}
+
 runs:
   using: composite
   steps:
