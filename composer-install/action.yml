@@ -89,4 +89,5 @@ runs:
           "$IMAGE" \
           composer $COMMAND --no-interaction --no-progress $FLAGS
 
+        sudo chown -R "$(id -u):$(id -g)" /tmp/composer-cache
         sudo chown -R "$(id -u):$(id -g)" vendor
