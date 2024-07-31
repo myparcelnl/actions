@@ -87,23 +87,6 @@ runs:
         jq '.require["myparcelnl/pdk"] = "dev-'$REF'" | ."minimum-stability" = "dev"' composer.json > composer.json.tmp
         mv composer.json.tmp composer.json
 
-    - name: 'Create composer flags'
-      id: composer-flags
-      shell: bash
-      #language=bash
-      run: |
-        composerFlags="--ignore-platform-req=ext-* --ignore-platform-req=lib-* --no-scripts --no-plugins --no-dev"
-
-        echo "flags=$composerFlags" >> $GITHUB_OUTPUT
-
-    - uses: myparcelnl/actions/pdk-cache@v4
-      with:
-        php-version: ${{ inputs.php-version }}
-        php-scoper-version: ${{ inputs.php-scoper-version }}
-        source-files: ${{ inputs.source-files }}
-        vendor-files: ${{ inputs.vendor-files }}
-        vendor-key: update-${{ steps.composer-flags.outputs.flags }}
-
     - uses: myparcelnl/actions/pdk-setup@v4
       id: setup
       with:
@@ -111,6 +94,14 @@ runs:
         composer-dev: false
         php-version: ${{ inputs.php-version }}
         yarn-args: '--no-immutable'
+
+    - uses: myparcelnl/actions/pdk-cache@v4
+      with:
+        php-version: ${{ inputs.php-version }}
+        php-scoper-version: ${{ inputs.php-scoper-version }}
+        source-files: ${{ inputs.source-files }}
+        vendor-files: ${{ inputs.vendor-files }}
+        vendor-key: update-${{ steps.setup.outputs.composer-flags }}
 
     - name: 'Run pdk-builder update-self'
       uses: myparcelnl/actions/pdk-builder@v4

@@ -77,6 +77,7 @@ runs:
         php-scoper-version: ${{ inputs.php-scoper-version }}
         source-files: ${{ inputs.source-files }}
         vendor-files: ${{ inputs.vendor-files }}
+        vendor-key: install-${{ steps.setup.outputs.composer-flags }}
 
     - uses: myparcelnl/actions/pdk-release@v4
       with:

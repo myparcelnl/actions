@@ -34,6 +34,10 @@ outputs:
     description: 'The filename of the env file that was created.'
     value: ${{ steps.setup-backend.outputs.env-file }}
 
+  composer-flags:
+    description: 'The flags that were used to install composer dependencies.'
+    value: ${{ steps.setup-backend.outputs.flags }}
+
 runs:
   using: composite
   steps:
