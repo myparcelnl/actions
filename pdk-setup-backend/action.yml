@@ -36,6 +36,10 @@ runs:
 
         if [ "$DEV" == 'false' ]; then
           composerFlags="$composerFlags --no-dev"
+
+          echo "COMPOSER_NO_DEV=1" >> $GITHUB_ENV
+        else
+          echo "COMPOSER_NO_DEV=0" >> $GITHUB_ENV
         fi
 
         echo "flags=$composerFlags" >> $GITHUB_OUTPUT
