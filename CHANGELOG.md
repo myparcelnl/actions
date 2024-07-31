@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.19.0](https://github.com/myparcelnl/actions/compare/v4.18.3...v4.19.0) (2024-07-31)
+
+
+### :sparkles: New Features
+
+* **pdk:** simplify pdk actions ([df191b2](https://github.com/myparcelnl/actions/commit/df191b2e08d12879739bdd48d800346ee3cb2b48))
+
 ## [4.18.3](https://github.com/myparcelnl/actions/compare/v4.18.2...v4.18.3) (2024-07-25)
 
 
