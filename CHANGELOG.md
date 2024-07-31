@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.20.1](https://github.com/myparcelnl/actions/compare/v4.20.0...v4.20.1) (2024-07-31)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** include checkout step in prerelease actions ([5cf96b0](https://github.com/myparcelnl/actions/commit/5cf96b02c2811ad17efa043d2493c67214ece185))
+* **pdk:** remove ignore platform req env variable for now as it creates warnings ([fde9566](https://github.com/myparcelnl/actions/commit/fde956630291fa9d25e865ad2e2a3aa26d87074d))
+
 ## [4.20.0](https://github.com/myparcelnl/actions/compare/v4.19.3...v4.20.0) (2024-07-31)
 
 
