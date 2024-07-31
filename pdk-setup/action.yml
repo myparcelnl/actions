@@ -30,6 +30,10 @@ outputs:
     description: 'The image name that was used to setup composer dependencies. Can be used in subsequent jobs.'
     value: ${{ steps.setup-backend.outputs.image }}
 
+  env-file:
+    description: 'The filename of the env file that was created.'
+    value: ${{ steps.setup-backend.outputs.env-file }}
+
 runs:
   using: composite
   steps:
