@@ -66,16 +66,20 @@ runs:
       with:
         image: ${{ steps.prepare.outputs.image }}
 
+    - uses: myparcelnl/actions/composer-create-env-file@v4
+      id: env
+
     - name: 'Install composer dependencies'
       shell: bash
       env:
-        IMAGE: ${{ steps.prepare.outputs.image }}
         COMMAND: ${{ inputs.command }}
+        ENV_FILE: ${{ steps.env.outputs.filename }}
         FLAGS: ${{ steps.flags.outputs.string }}
+        IMAGE: ${{ steps.prepare.outputs.image }}
       #language=bash
       run: |
         docker run \
-          --env COMPOSER_CACHE_DIR=/root/.composer \
+          --env-file "$ENV_FILE" \
           --volume $PWD:/app \
           --volume /tmp/composer-cache:/root/.composer \
           "$IMAGE" \

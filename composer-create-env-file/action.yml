@@ -1,0 +1,26 @@
+name: 'Create composer env'
+description: 'Create env file for use with docker containers'
+
+outputs:
+  filename:
+    description: 'The filename of the created env file'
+    value: ${{ steps.create.outputs.filename }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Create env file'
+      id: create
+      shell: bash
+      #language=bash
+      run: |
+        timestamp=$(date +%s)
+        envFilename=".env-$timestamp.local.tmp"
+
+        # Create an env file, adding fallback value for COMPOSER_CACHE_DIR
+        echo "COMPOSER_CACHE_DIR=/root/composer" > "$envFilename"
+
+        # Then add all present composer env variables
+        printenv | grep -E "^COMPOSER_" >> "$envFilename"
+
+        echo "filename=$envFilename" >> $GITHUB_OUTPUT

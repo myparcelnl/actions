@@ -26,14 +26,19 @@ runs:
       with:
         php-version: ${{ inputs.php-version }}
 
+    - uses: myparcelnl/actions/composer-create-env-file@v4
+      id: env
+
     - name: 'Run Behat'
       env:
         ARGS: ${{ inputs.args }}
+        ENV_FILE: ${{ steps.env.outputs.filename }}
         IMAGE: ${{ inputs.image || steps.install.outputs.image }}
       shell: bash
       #language=bash
       run: |
         docker run -t \
+          --env-file="$ENV_FILE" \
           --user $(id -u):$(id -g) \
           --volume $PWD:/app \
           "$IMAGE" \
