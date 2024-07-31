@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.20.2](https://github.com/myparcelnl/actions/compare/v4.20.1...v4.20.2) (2024-07-31)
+
+
+### :zap: Performance Improvements
+
+* **pdk:** remove wildcards before default vendor files ([1fb7f2d](https://github.com/myparcelnl/actions/commit/1fb7f2d6cb1f5b2a54df7db039f291fadbc04064))
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** reset permissions of composer cache ([95fe5a5](https://github.com/myparcelnl/actions/commit/95fe5a58bf1bb389c99b5246b472602f7a7d75d7))
+* **pdk:** get nx cache if needed ([9f4a1c6](https://github.com/myparcelnl/actions/commit/9f4a1c66ecc6fb749a11c3e5a6e84ac9ac53177f))
+* **setup-node:** add retries to getting node version ([fa39225](https://github.com/myparcelnl/actions/commit/fa39225f6ff8f4a1d367bd3a1bd4f39f22156448))
+
 ## [4.20.1](https://github.com/myparcelnl/actions/compare/v4.20.0...v4.20.1) (2024-07-31)
 
 
