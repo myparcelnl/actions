@@ -75,12 +75,28 @@ runs:
       with:
         node-version: ${{ steps.prepare.outputs.node-version }}
 
+    # Tries getting the node version 3 times. When using volta you can sometimes get an error while downloading node,
+    # causing this command to fail.
     - name: 'Get node version'
       id: node-version
       shell: bash
       #language=bash
       run: |
-        VERSION="$(node --version)"
-        TRIMMED="${VERSION:1}"
+        MAX_RETRIES=3
+        RETRY_COUNT=0
+        SUCCESS=false
 
-        echo "version=$TRIMMED" >> $GITHUB_OUTPUT
+        while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+          VERSION=$(node --version) && SUCCESS=true && break
+          RETRY_COUNT=$((RETRY_COUNT+1))
+          echo "Attempt $RETRY_COUNT failed. Retrying..."
+          sleep 2
+        done
+
+        if [ "$SUCCESS" = true ]; then
+          TRIMMED="${VERSION:1}"
+          echo "version=$TRIMMED" >> $GITHUB_OUTPUT
+        else
+          echo "Failed to get Node.js version after $MAX_RETRIES attempts."
+          exit 1
+        fi
