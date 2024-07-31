@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.20.0](https://github.com/myparcelnl/actions/compare/v4.19.3...v4.20.0) (2024-07-31)
+
+
+### :bug: Bug Fixes
+
+* **composer:** expose the created env file filename ([ebc4203](https://github.com/myparcelnl/actions/commit/ebc4203f8e24c55d318773cf179ecd181295f0a1))
+* **pdk:** expose the created env file filename ([3577df3](https://github.com/myparcelnl/actions/commit/3577df30a30a06fc1c414a543d6c73ef759f24ad))
+* **pdk:** normalize used vendor cache key ([17a7a4f](https://github.com/myparcelnl/actions/commit/17a7a4f06919a172eab77a11525741ebddf16a3a))
+* **pdk:** remove lib-* from ignored platform reqs ([edc4d2f](https://github.com/myparcelnl/actions/commit/edc4d2fd548c3e16ecc5ec61709c2a58e9c5a7f2))
+
+
+### :sparkles: New Features
+
+* **pdk:** add pdk-semantic-release ([2a576de](https://github.com/myparcelnl/actions/commit/2a576de6a3d37a6ed1d84270049d3eb701fe9e7e))
+
 ## [4.19.3](https://github.com/myparcelnl/actions/compare/v4.19.2...v4.19.3) (2024-07-31)
 
 
