@@ -18,6 +18,17 @@ runs:
         yarn-args: ${{ inputs.yarn-args }}
         node-version: ${{ inputs.node-version }}
 
+    - name: 'Check if nx is present'
+      id: nx
+      shell: bash
+      #language=bash
+      run: yarn nx --version
+      continue-on-error: true
+
+    - name: 'Set up nx cache'
+      uses: myparcelnl/actions/nx-cache@v4
+      if: steps.nx.outcome == 'success'
+
     - uses: myparcelnl/actions/pdk-builder@v4
       with:
         command: 'translations'
