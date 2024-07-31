@@ -10,6 +10,11 @@ inputs:
     required: true
     description: 'The private key of the GitHub app.'
 
+  ref:
+    description: 'The ref to check out'
+    required: false
+    default: ${{ github.event.client_payload.ref || github.ref }}
+
   pr-number:
     description: 'Pull request number'
     required: true
@@ -45,6 +50,11 @@ outputs:
 runs:
   using: composite
   steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.ref }}
+        fetch-depth: 0
+
     - name: 'Determine version'
       id: version
       shell: bash
