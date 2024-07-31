@@ -19,17 +19,21 @@ inputs:
 runs:
   using: composite
   steps:
+    - uses: myparcelnl/actions/composer-create-env@v4
+      id: env
+
     - name: 'Create root command'
       id: prepare
       shell: bash
       env:
+        ENV_FILE: ${{ steps.env.outputs.filename }}
         IMAGE: ${{ inputs.image }}
       #language=bash
       run: |
         if [ -z "$IMAGE" ]; then
           ROOT_COMMAND=''
         else
-          ROOT_COMMAND="docker run -t --user $(id -u):$(id -g) -v $PWD:/app -w /app $IMAGE"
+          ROOT_COMMAND="docker run -t --user $(id -u):$(id -g) --env-file=$ENV_FILE -v $PWD:/app -w /app $IMAGE"
         fi
 
         echo "root-command=$ROOT_COMMAND" >> $GITHUB_OUTPUT
