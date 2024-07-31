@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.20.3](https://github.com/myparcelnl/actions/compare/v4.20.2...v4.20.3) (2024-07-31)
+
+
+### :bug: Bug Fixes
+
+* **composer:** fix error when no composer env variables are present ([cfe56d6](https://github.com/myparcelnl/actions/commit/cfe56d67e7359803e3f0b5f69b74bcb98dc8db03))
+
 ## [4.20.2](https://github.com/myparcelnl/actions/compare/v4.20.1...v4.20.2) (2024-07-31)
 
 
