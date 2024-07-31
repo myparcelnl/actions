@@ -1,0 +1,94 @@
+name: 'PDK semantic release'
+description: 'Runs semantic release in a pdk context. Requires app builder release step to be present in release config.'
+
+inputs:
+  app-id:
+    description: 'The app ID of the app.'
+    required: true
+
+  private-key:
+    description: 'The private key of the app.'
+    required: true
+
+  node-version:
+    description: 'Node version to use'
+    required: false
+
+  yarn-args:
+    description: 'Arguments to use with yarn install'
+    required: false
+
+  php-version:
+    description: 'PHP version that is used'
+    required: false
+    default: '7.4'
+
+  php-scoper-version:
+    description: 'PHP Scoper Version'
+    required: false
+    default: '^0.18.0'
+
+  vendor-key:
+    description: 'Composer key to use for caching in addition to the vendor files. For example the arguments used in composer install.'
+    required: false
+
+  source-files:
+    description: 'List of files to use for source caching'
+    required: true
+
+  vendor-files:
+    description: 'List of files to use for vendor caching'
+    required: false
+    default: |
+      **/composer.json
+      **/composer.lock
+      **/scoper.inc.php
+      **/scoper.*.inc.php
+
+outputs:
+  released:
+    description: 'Whether a release was made.'
+    value: ${{ steps.release.outputs.released }}
+
+  version:
+    description: 'The version that was released.'
+    value: ${{ steps.release.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/setup-git-credentials@v4
+      id: credentials
+      with:
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ steps.credentials.outputs.token }}
+
+    - uses: myparcelnl/actions/pdk-setup@v4
+      id: setup
+      with:
+        php-version: ${{ inputs.php-version }}
+        node-version: ${{ inputs.node-version }}
+        yarn-args: ${{ inputs.yarn-args }}
+        composer-dev: false
+
+    - uses: myparcelnl/actions/pdk-cache@v4
+      with:
+        php-version: ${{ inputs.php-version }}
+        php-scoper-version: ${{ inputs.php-scoper-version }}
+        source-files: ${{ inputs.source-files }}
+        vendor-files: ${{ inputs.vendor-files }}
+        vendor-key: install-${{ steps.setup.outputs.composer-flags }}
+
+    # The pdk-builder release step should be run through the release config
+    - uses: myparcelnl/actions/semantic-release@v4
+      id: release
+      env:
+        PDK_ROOT_COMMAND: 'docker run -t --user $(id -u):$(id -g) --env-file="${{ steps.setup.outputs.env-file }}" -v $PWD:/app -w /app ${{ steps.setup.outputs.image }}'
+      with:
+        token: ${{ steps.credentials.outputs.token }}
+        write-summary: true
