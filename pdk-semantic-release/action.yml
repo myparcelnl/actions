@@ -40,10 +40,10 @@ inputs:
     description: 'List of files to use for vendor caching'
     required: false
     default: |
-      **/composer.json
-      **/composer.lock
-      **/scoper.inc.php
-      **/scoper.*.inc.php
+      composer.json
+      composer.lock
+      scoper.inc.php
+      scoper.*.inc.php
 
 outputs:
   released:
