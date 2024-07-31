@@ -42,8 +42,6 @@ runs:
       run: |
         composerFlags="--ignore-platform-req=ext-* --no-scripts --no-plugins"
 
-        echo COMPOSER_IGNORE_PLATFORM_REQ="ext-*" >> $GITHUB_ENV
-
         if [ "$DEV" == 'false' ]; then
           composerFlags="$composerFlags --no-dev"
 
