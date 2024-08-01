@@ -23,41 +23,52 @@ runs:
       id: docker-cache
       with:
         path: ${{ inputs.cache-directory }}
-        key: ${{ runner.os }}-cache-docker-${{ inputs.image }}
+        key: ${{ format('{0}{1}-cache-docker-{2}', runner.os, runner.arch, inputs.image) }}
 
     - name: 'Generate image name'
       id: hash
+      env:
+        IMAGE: ${{ inputs.image }}
       shell: bash
       #language=bash
       run: |
-        echo "filename=$(echo ${{ inputs.image }} | md5sum | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
+        echo "filename=$(echo "$IMAGE" | md5sum | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
 
     - name: 'Load cached Docker image'
       if: steps.docker-cache.outputs.cache-hit == 'true'
+      env:
+        CACHE_DIR: ${{ inputs.cache-directory }}
+        FILENAME: ${{ steps.hash.outputs.filename }}
       shell: bash
       #language=bash
       run: |
-        docker load -i ${{ inputs.cache-directory }}/image-${{ steps.hash.outputs.filename }}.tar
+        docker load -i "$CACHE_DIR/image-$FILENAME.tar"
 
     - name: 'Pull Docker image'
       if: steps.docker-cache.outputs.cache-hit != 'true'
+      env:
+        IMAGE: ${{ inputs.image }}
       shell: bash
       #language=bash
       run: |
         # if not present, pull from registry
-        EXISTS=$(docker image inspect ${{ inputs.image }} > /dev/null 2>&1 || echo 0)
+        EXISTS=$(docker image inspect "$IMAGE" > /dev/null 2>&1 || echo 0)
 
         if [ $EXISTS -eq 0 ]; then
           echo "Image not found, pulling from registry"
-          docker pull ${{ inputs.image }}
+          docker pull "$IMAGE"
         else
           echo "Image found, skipping pull"
         fi
 
     - name: 'Save image to disk'
       if: steps.docker-cache.outputs.cache-hit != 'true'
+      env:
+        CACHE_DIR: ${{ inputs.cache-directory }}
+        FILENAME: ${{ steps.hash.outputs.filename }}
+        IMAGE: ${{ inputs.image }}
       shell: bash
       #language=bash
       run: |
-        mkdir -p ${{ inputs.cache-directory }}
-        docker save -o ${{ inputs.cache-directory }}/image-${{ steps.hash.outputs.filename }}.tar ${{ inputs.image }}
+        mkdir -p "$CACHE_DIR"
+        docker save -o "$CACHE_DIR/image-$FILENAME.tar" "$IMAGE"
