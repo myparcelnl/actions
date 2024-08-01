@@ -20,6 +20,7 @@ runs:
         string: ${{ inputs.yarn-args }}
 
     - uses: myparcelnl/actions/setup-node@v4
+      id: setup
       with:
         key: 'yarn'
         node-version: ${{ inputs.node-version }}
@@ -43,7 +44,7 @@ runs:
       with:
         key: 'yarn-download'
         input: |
-          ${{ inputs.node-version }}
+          ${{ steps.setup.outputs.node-version }}
           ${{ hashFiles('yarn.lock') }}
 
     - name: 'Cache yarn downloads'
@@ -60,7 +61,7 @@ runs:
       with:
         key: ${{ format('{0}{1}-yarn-install-state-', runner.os, runner.arch) }}
         input: |
-          ${{ inputs.node-version }}
+          ${{ steps.setup.outputs.node-version }}
           ${{ steps.args.outputs.hash }}
           ${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
 
