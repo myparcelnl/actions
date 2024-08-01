@@ -78,10 +78,9 @@ runs:
       shell: bash
       #language=bash
       run: |
-        yarn install $YARN_ARGS
+        yarn install ${{ inputs.yarn-args }}
       env:
         HUSKY: '0'
-        YARN_ARGS: ${{ inputs.yarn-args }}
         YARN_ENABLE_GLOBAL_CACHE: 'false'
         YARN_INSTALL_STATE_PATH: .yarn/ci-cache/install-state.gz
         YARN_NM_MODE: 'hardlinks-local'
