@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.2](https://github.com/myparcelnl/actions/compare/v4.21.1...v4.21.2) (2024-08-01)
+
+
+### :bug: Bug Fixes
+
+* **release:** properly commit created dist files on release ([31318a8](https://github.com/myparcelnl/actions/commit/31318a896a95e2af989f049de8600d3ceebc7d4f))
+
 ## [4.21.1](https://github.com/myparcelnl/actions/compare/v4.21.0...v4.21.1) (2024-08-01)
 
 
