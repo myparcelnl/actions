@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.4](https://github.com/myparcelnl/actions/compare/v4.21.3...v4.21.4) (2024-08-01)
+
+
+### :bug: Bug Fixes
+
+* **deps:** check in more missing dependencies ([a71681a](https://github.com/myparcelnl/actions/commit/a71681a0978fdbdec283bee50d572e48dc46ab5b))
+
 ## [4.21.3](https://github.com/myparcelnl/actions/compare/v4.21.2...v4.21.3) (2024-08-01)
 
 
