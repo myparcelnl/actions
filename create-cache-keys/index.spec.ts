@@ -1,17 +1,16 @@
 import {beforeEach, describe, expect, it, vi} from 'vitest';
-import {getOutput, setEnv} from '../private/test';
+import {getOutput, setInputs} from '../private/test';
 
-type EnvironmentVariables = {
-  INPUT?: string;
-  KEY: string;
-  KEY_SEPARATOR?: string;
-  RESTORE_KEYS?: string;
+type Inputs = {
+  input?: string;
+  key: string;
+  'restore-keys'?: string;
 };
 
 interface TestInput {
-  env: EnvironmentVariables;
   expectedKey: string;
   expectedRestoreKeys: string[];
+  inputs: Inputs;
   name: string;
 }
 
@@ -23,40 +22,38 @@ describe('create-cache-keys', () => {
   it.each([
     {
       name: 'only key',
-      env: {
-        KEY: 'my-cache-identifier',
+      inputs: {
+        key: 'my-cache-identifier',
       },
       expectedKey: 'my-cache-identifier',
       expectedRestoreKeys: [],
     },
     {
       name: 'with input',
-      env: {
-        KEY: 'my-key',
-        INPUT: [`20.04`, `8d8gy7ehg9e9a87ghr98`].join('\n'),
+      inputs: {
+        key: 'my-key',
+        input: [`20.04`, `8d8gy7ehg9e9a87ghr98`].join('\n'),
       },
       expectedKey: 'my-key-20.04-8d8gy7ehg9e9a87ghr98',
       expectedRestoreKeys: ['my-key-20.04-', 'my-key-'],
     },
     {
       name: 'with manual restore keys amount',
-      env: {
-        KEY: 'Linux-cache',
-        INPUT: ['a', 'b', 'c'].join('\n'),
-        RESTORE_KEYS: '2',
+      inputs: {
+        key: 'Linux-cache',
+        input: ['a', 'b', 'c'].join('\n'),
+        'restore-keys': '2',
       },
       expectedKey: 'Linux-cache-a-b-c',
       expectedRestoreKeys: ['Linux-cache-a-b-', 'Linux-cache-a-'],
     },
-  ] satisfies TestInput[])('creates cache keys with $name', async ({env, expectedKey, expectedRestoreKeys}) => {
+  ] satisfies TestInput[])('creates cache keys with $name', async ({inputs, expectedKey, expectedRestoreKeys}) => {
     expect.assertions(2);
 
-    setEnv({
-      INPUT: '',
-      KEY_SEPARATOR: '-',
-      RESTORE_KEYS: 'auto',
-      ...env,
-    } satisfies EnvironmentVariables);
+    setInputs<Inputs>({
+      'restore-keys': 'auto',
+      ...inputs,
+    });
 
     await import('./index');
 

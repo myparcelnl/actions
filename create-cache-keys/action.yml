@@ -5,7 +5,7 @@ inputs:
   os:
     description: 'Include OS in cache key'
     required: false
-    default: false
+    default: 'false'
 
   key:
     description: 'The base key for the cache'
