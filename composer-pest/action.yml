@@ -22,7 +22,7 @@ runs:
   steps:
     - uses: myparcelnl/actions/composer-install@v4
       id: install
-      if: ${{ inputs.image == '' }}
+      if: inputs.image == ''
       with:
         php-version: ${{ inputs.php-version }}
 
@@ -32,8 +32,8 @@ runs:
     - name: 'Run Pest'
       env:
         ARGS: ${{ inputs.args }}
+        ENV_FILE: ${{ steps.env.outputs.env_file }}
         IMAGE: ${{ inputs.image || steps.install.outputs.image }}
-
       shell: bash
       #language=bash
       run: |
