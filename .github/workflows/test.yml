@@ -8,13 +8,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ./.github/actions/yarn-install
-
       - uses: actions/cache@v4
         id: coverage-cache
         with:
           path: ./coverage
           key: ${{ format('coverage-{0}', hashFiles('package.json', 'yarn.lock', 'vitest.config.ts', 'private/test/**/*.ts', '**/*.spec.*')) }}
+
+      - uses: ./.github/actions/yarn-install
+        if: steps.coverage-cache.outputs.cache-hit != 'true'
 
       - name: 'Run tests'
         if: steps.coverage-cache.outputs.cache-hit != 'true'
