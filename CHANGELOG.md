@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.6](https://github.com/myparcelnl/actions/compare/v4.21.5...v4.21.6) (2024-08-01)
+
+
+### :bug: Bug Fixes
+
+* **composer-pest:** add missing env file variable ([9e908fb](https://github.com/myparcelnl/actions/commit/9e908fbbf5a45f2f29795b3c7c3439c5ffec4964))
+
 ## [4.21.5](https://github.com/myparcelnl/actions/compare/v4.21.4...v4.21.5) (2024-08-01)
 
 
