@@ -53,6 +53,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [nx-run-many](#nx-run-many)
   - [Miscellaneous](#miscellaneous)
     - [bundlewatch](#bundlewatch)
+    - [create-cache-keys](#create-cache-keys)
     - [deprecated](#deprecated)
     - [hash-string](#hash-string)
 
@@ -302,10 +303,13 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 [Source](composer-install/action.yml)
 
 1. Pulls [`myparcelnl/php-xd`]
-   - You can change the php version by passing `php-version`.
+
+- You can change the php version by passing `php-version`.
+
 2. Handles composer cache
 3. Runs `composer install --no-interaction --no-progress`
-   - You can add additional flags by passing the `flags` option.
+
+- You can add additional flags by passing the `flags` option.
 
 ##### Example
 
@@ -414,7 +418,8 @@ Run [PHPStan](https://phpstan.org/) through composer.
 [Source](update-coverage/action.yml)
 
 1. Runs [codecov/codecov-action]
-   - Needs a [Codecov] token in `token`.
+
+- Needs a [Codecov] token in `token`.
 
 ##### Example
 
@@ -830,16 +835,19 @@ See [App inputs](#app-inputs)
 Label a pull request based on the review state. For use with the `pull_request_review` event.
 
 1. Gets the amount of reviews needed.
-   - Uses `inputs.reviews-required` if passed.
-   - If this input does not exist, the action will get the data via branch protections. You'll need an app or access
-     token with the `read settings` permission for this.
+
+- Uses `inputs.reviews-required` if passed.
+- If this input does not exist, the action will get the data via branch protections. You'll need an app or access
+  token with the `read settings` permission for this.
+
 2. Calculates whether the PR is approved or changes are requested.
 3. Labels the PR accordingly, removing labels that are no longer relevant.
-   - If the PR is approved: `inputs.label-approved` is added, `inputs.label-changes-requested` is removed if it exists.
-   - If changes are requested: `inputs.label-changes-requested` is added, `inputs.label-approved` is removed if it
-     exists.
-   - If the PR is not approved and no changes are requested: `inputs.label-approved`
-     and `inputs.label-changes-requested` are removed if they exist.
+
+- If the PR is approved: `inputs.label-approved` is added, `inputs.label-changes-requested` is removed if it exists.
+- If changes are requested: `inputs.label-changes-requested` is added, `inputs.label-approved` is removed if it
+  exists.
+- If the PR is not approved and no changes are requested: `inputs.label-approved`
+  and `inputs.label-changes-requested` are removed if they exist.
 
 ##### Example
 
@@ -1190,6 +1198,45 @@ If you don't pass the `config` input, it will look for the `bundlewatch` key in 
 | -------- | ------ | ------------------------------------ | ---------------------------------- | ------- |
 | No       | config | Path to the BundleWatch config file. | `.bundlewatch.json`                | –       |
 | Yes      | token  | BundleWatch token to use.            | `${{ secrets.BUNDLEWATCH_TOKEN }}` | –       |
+
+#### create-cache-keys
+
+[Source](create-cache-keys/action.yml)
+
+Create cache keys for use with [actions/cache].
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/create-cache-keys@v4
+  id: keys
+  with:
+    key: '${{ runner.os }}-composer'
+    input: |
+      7.4
+      ${{ hashFiles('composer.json', 'composer.lock') }}
+
+- uses: actions/cache@v4
+  with:
+    path: some-path
+    key: ${{ steps.keys.outputs.key }} # Linux-composer-7.4-<hash>
+    restore-keys: ${{ steps.keys.outputs.restore-keys }} # Linux-composer-7.4-, Linux-composer- (as multiline string)
+```
+
+##### Inputs
+
+| Required | Name           | Description                                              | Example    | Default |
+| -------- | -------------- | -------------------------------------------------------- | ---------- | ------- |
+| Yes      | `key`          | The base key for the cache                               | `composer` | –       |
+| No       | `input`        | Input list to use for generating the cache key           | `7.4`      | `''`    |
+| No       | `restore-keys` | Number of restore keys. Set to 0 to disable restore keys | `2`        | `auto`  |
+
+##### Outputs
+
+| Name           | Description                | Example                                   |
+| -------------- | -------------------------- | ----------------------------------------- |
+| `cache-key`    | The generated cache key    | `composer-7.4-1234567890-bla`             |
+| `restore-keys` | The generated restore keys | `composer-7.4-1234567890-\ncomposer-7.4-` |
 
 #### deprecated
 

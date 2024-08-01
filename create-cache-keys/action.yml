@@ -1,0 +1,32 @@
+name: 'Create cache keys'
+description: 'Create cache keys for use with actions/cache'
+
+inputs:
+  os:
+    description: 'Include OS in cache key'
+    required: false
+    default: false
+
+  key:
+    description: 'The base key for the cache'
+    required: true
+
+  restore-keys:
+    description: 'Number of restore keys. Set to 0 to disable restore keys'
+    required: false
+    default: 'auto'
+
+  input:
+    description: 'Input list to use for generating the cache key'
+    required: false
+
+outputs:
+  key:
+    description: 'The generated cache key'
+
+  restore-keys:
+    description: 'The generated restore keys'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.mjs'
