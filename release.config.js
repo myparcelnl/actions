@@ -8,7 +8,7 @@ module.exports = {
   plugins: [
     ...baseConfig.plugins,
     addGitPlugin({
-      assets: [...gitPluginDefaults.assets, './**/dist/**/*.js'],
+      assets: [...gitPluginDefaults.assets, './**/dist/**/*'],
     }),
     addGitHubPlugin(),
   ],
