@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.1](https://github.com/myparcelnl/actions/compare/v4.21.0...v4.21.1) (2024-08-01)
+
+
+### :bug: Bug Fixes
+
+* **bun-install:** use os arch in cache key ([3090bdc](https://github.com/myparcelnl/actions/commit/3090bdc38614e6a2f31ffff461d4255265ecb17d))
+* **nx:** simplify cache logic ([e0d0920](https://github.com/myparcelnl/actions/commit/e0d09200ba387957d388f06b912c12fcd3f5cd11))
+* **pull-docker-image:** include os arch in cache ([4d90131](https://github.com/myparcelnl/actions/commit/4d9013108bd6433ed9d730a32a0f52c11117cc9f))
+* **yarn-install:** fix args input ([405212d](https://github.com/myparcelnl/actions/commit/405212d712f56c4cab8e6e9cf1928290e3123331))
+* **yarn-install:** include os arch in cache ([7cb1e76](https://github.com/myparcelnl/actions/commit/7cb1e769ae0b8c86213ecef42206d1b0e14ab960))
+* **yarn-install:** use actual node version in cache keys ([9331efd](https://github.com/myparcelnl/actions/commit/9331efde6dfc197b871efdf009cf00fe2db1e01e))
+
 ## [4.21.0](https://github.com/myparcelnl/actions/compare/v4.20.3...v4.21.0) (2024-08-01)
 
 
