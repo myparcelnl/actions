@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.0](https://github.com/myparcelnl/actions/compare/v4.20.3...v4.21.0) (2024-08-01)
+
+
+### :sparkles: New Features
+
+* add create-cache-keys ([355f685](https://github.com/myparcelnl/actions/commit/355f68591cfd2db186a7b6d32928fc0a13aa7e99))
+
+
+### :bug: Bug Fixes
+
+* **setup-node:** increase retry delay to 5 seconds ([a4cab07](https://github.com/myparcelnl/actions/commit/a4cab07ddc9ddf65b960b6bec499db298320401e))
+
 ## [4.20.3](https://github.com/myparcelnl/actions/compare/v4.20.2...v4.20.3) (2024-07-31)
 
 
