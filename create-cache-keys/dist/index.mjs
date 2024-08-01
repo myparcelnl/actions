@@ -1,3 +1,3 @@
-import*as s from"@actions/core";var o=e=>e.map(r=>r.trim()).filter(Boolean),c=e=>o(e.split(`
-`)),g=e=>process.env.RESTORE_KEYS==="auto"?e:Number(process.env.RESTORE_KEYS),m=()=>{let e=process.env.KEY_SEPARATOR??"-",r=c(process.env.INPUT??""),i=g(r.length),t=o([process.env.KEY??"",...c(process.env.INPUT??"")]),a=t.join(e),u=t.reduce((n,l,p)=>{if(n.length<i){let y=t.slice(0,-p-1);n.push(`${y.join(e)}${e}`)}return n},[]);s.setOutput("key",a),s.setOutput("restore-keys",o(u).join(`
-`))};try{m()}catch(e){e instanceof Error&&s.setFailed(e.message)}
+import*as r from"@actions/core";import{getInput as o}from"@actions/core";var i=e=>e.map(t=>t.trim()).filter(Boolean),p=e=>i(e.split(`
+`)),l=e=>{let t=o("restore-keys");return t==="auto"?e:Number(t)},K=()=>{let e=o("key"),t=process.env.KEY_SEPARATOR??"-",c=p(o("input")??""),u=l(c.length),s=i([e??"",...c]),a=s.join(t),y=s.reduce((n,k,m)=>{if(n.length<u){let g=s.slice(0,-m-1);n.push(`${g.join(t)}${t}`)}return n},[]);r.setOutput("key",a),r.setOutput("restore-keys",i(y).join(`
+`))};try{K()}catch(e){e instanceof Error&&r.setFailed(e.message)}

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.5](https://github.com/myparcelnl/actions/compare/v4.21.4...v4.21.5) (2024-08-01)
+
+
+### :bug: Bug Fixes
+
+* **create-cache-keys:** use inputs instead of env ([d8a886e](https://github.com/myparcelnl/actions/commit/d8a886e931e8fc7887ad28d0a3b3fa8acca04a24))
+
 ## [4.21.4](https://github.com/myparcelnl/actions/compare/v4.21.3...v4.21.4) (2024-08-01)
 
 
