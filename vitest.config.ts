@@ -6,6 +6,7 @@ export default defineConfig({
     coverage: {
       all: true,
       reporter: ['text', 'clover'],
+      include: ['**/*', '!**/dist/**', '!**/node_modules/**', '!**/private/**', '!*.*'],
     },
   },
 });

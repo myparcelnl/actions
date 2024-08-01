@@ -1,0 +1,28 @@
+name: 'Run tests'
+
+on: workflow_call
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/yarn-install
+
+      - uses: actions/cache@v4
+        id: coverage-cache
+        with:
+          path: ./coverage
+          key: ${{ format('coverage-{0}', hashFiles('package.json', 'yarn.lock', 'vitest.config.ts', 'private/test/**/*.ts', '**/*.spec.*')) }}
+
+      - name: 'Run tests'
+        if: steps.coverage-cache.outputs.cache-hit != 'true'
+        shell: bash
+        #language=bash
+        run: |
+          yarn vitest run --coverage
+
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

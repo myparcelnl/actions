@@ -18,6 +18,9 @@
     "build": "node dist/build.js",
     "compile": "tsup-node private/build.ts --target node20",
     "postinstall": "is-ci || husky install",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:run": "vitest run",
     "test:update-tags": "INPUT_MAJOR=true INPUT_MINOR=true bun update-tags/dist/index.js"
   },
   "lint-staged": {

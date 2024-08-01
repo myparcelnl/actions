@@ -2,6 +2,7 @@
 .idea
 .vscode
 node_modules/
+coverage/
 
 .yarn/*
 !.yarn/releases

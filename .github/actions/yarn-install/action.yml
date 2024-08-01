@@ -1,0 +1,76 @@
+# Copy of ./yarn-install but using the actions locally.
+
+name: 'Install yarn dependencies'
+description: 'Install yarn dependencies using cache'
+
+inputs:
+  node-version:
+    description: 'The Node.js version to use'
+    required: false
+
+  yarn-args:
+    description: 'Arguments to use with yarn install'
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: 'Hash yarn args'
+      id: args
+      uses: ./hash-string
+      with:
+        string: ${{ inputs.yarn-args }}
+
+    - uses: ./setup-node
+      with:
+        key: 'yarn'
+        node-version: ${{ inputs.node-version }}
+
+    - name: 'Create variables'
+      id: variables
+      shell: bash
+
+      #language=bash
+      run: |
+        version=$(yarn --version | cut -d. -f1)
+
+        if [ "$version" -ge "2" ]; then
+          echo "cache-folder=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+        fi
+
+        echo "version=$version" >> $GITHUB_OUTPUT
+
+    - name: 'Cache yarn downloads'
+      if: steps.variables.outputs.version >= 2
+      uses: actions/cache@v4
+      id: yarn-download-cache
+      with:
+        path: ${{ steps.variables.outputs.cache-folder }}
+        key: ${{ format('{0}{1}-yarn-download-{2}-{3}', runner.os, runner.arch, inputs.node-version, hashFiles('yarn.lock')) }}
+        restore-keys: |
+          ${{ format('{0}{1}-yarn-download-{2}-', runner.os, runner.arch, inputs.node-version) }}
+          ${{ format('{0}{1}-yarn-download-', runner.os, runner.arch) }}
+
+    - name: 'Cache yarn install state'
+      if: steps.variables.outputs.version >= 2
+      uses: actions/cache@v4
+      id: yarn-install-state-cache
+      with:
+        path: .yarn/ci-cache/
+        key: ${{ format('{0}{1}-yarn-install-state-{2}-{3}-{4}', runner.os, runner.arch, inputs.node-version, steps.args.outputs.hash, hashFiles('yarn.lock', '.yarnrc.yml')) }}
+        restore-keys: |
+          ${{ format('{0}{1}-yarn-install-state-{2}-{3}-', runner.os, runner.arch, inputs.node-version, steps.args.outputs.hash) }}
+          ${{ format('{0}{1}-yarn-install-state-{2}-', runner.os, runner.arch, inputs.node-version) }}
+          ${{ format('{0}{1}-yarn-install-state-', runner.os, runner.arch) }}
+
+    - name: 'Install yarn dependencies'
+      shell: bash
+      #language=bash
+      run: |
+        yarn install $YARN_ARGS
+      env:
+        HUSKY: '0'
+        YARN_ARGS: ${{ inputs.yarn-args }}
+        YARN_ENABLE_GLOBAL_CACHE: 'false'
+        YARN_INSTALL_STATE_PATH: .yarn/ci-cache/install-state.gz
+        YARN_NM_MODE: 'hardlinks-local'
