@@ -40,35 +40,21 @@ jobs:
         run: |
           yarn install
 
-      - uses: ./create-cache-keys
-        id: keys-compile-cache
-        with:
-          key: ${{ format('{0}{1}-compile', runner.os, runner.arch) }}
-          input: |
-            ${{ hashFiles('package.json', 'yarn.lock', 'private/**/*.ts') }}
-
       - uses: actions/cache@v4
         id: compile-cache
         with:
           path: ./dist
-          key: ${{ steps.keys-compile-cache.outputs.key }}
+          key: ${{ format('{0}{1}-compile-{2}', runner.os, runner.arch, hashFiles('package.json', 'yarn.lock', 'private/**/*.ts')) }}
 
       - name: 'Compile builder'
         if: steps.compile-cache.outputs.cache-hit != 'true'
         run: yarn compile
 
-      - uses: ./create-cache-keys
-        id: keys-build-cache
-        with:
-          key: ${{ format('{0}{1}-build', runner.os, runner.arch) }}
-          input: |
-            ${{ hashFiles('package.json', 'yarn.lock', '**/*.ts') }}
-
       - uses: actions/cache@v4
         id: build-cache
         with:
           path: ./*/dist
-          key: ${{ steps.keys-build-cache.outputs.key }}
+          key: ${{ format('{0}{1}-build-{2}', runner.os, runner.arch, hashFiles('package.json', 'yarn.lock', '**/*.ts')) }}
 
       - name: 'Build actions'
         if: steps.build-cache.outputs.cache-hit != 'true'
