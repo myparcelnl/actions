@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.21.3](https://github.com/myparcelnl/actions/compare/v4.21.2...v4.21.3) (2024-08-01)
+
+
+### :bug: Bug Fixes
+
+* **deps:** check proper node_modules in to git ([2fc4688](https://github.com/myparcelnl/actions/commit/2fc4688ae09a88e1a4fac5b716f06ec1500aee64))
+
 ## [4.21.2](https://github.com/myparcelnl/actions/compare/v4.21.1...v4.21.2) (2024-08-01)
 
 
