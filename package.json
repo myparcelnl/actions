@@ -24,9 +24,10 @@
     "test:update-tags": "INPUT_MAJOR=true INPUT_MINOR=true bun update-tags/dist/index.js"
   },
   "lint-staged": {
-    "*.{json,md,yml}": "npx -q prettier --write",
-    "package.json": "npx -q sort-package-json",
-    "*.ts": "yarn compile && yarn build"
+    "!(node_modules/**/*)*.ts": "yarn compile && yarn build",
+    "!(node_modules/**/*)*.{json,md,yml}": "npx -q prettier --write",
+    "!(node_modules/**/*)*.{ts,js}": "npx -q eslint --fix",
+    "./package.json": "npx -q sort-package-json"
   },
   "prettier": "@myparcel/prettier-config",
   "eslintConfig": {

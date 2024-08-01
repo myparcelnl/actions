@@ -1,7 +1,6 @@
 .DS_Store
 .idea
 .vscode
-node_modules/
 coverage/
 
 .yarn/*
@@ -10,3 +9,17 @@ coverage/
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+
+# <!-- start automatically generated entries -->
+node_modules/*
+!node_modules/@actions/
+!node_modules/@actions/core/
+!node_modules/@actions/glob/
+!node_modules/@actions/http-client/
+!node_modules/balanced-match/
+!node_modules/brace-expansion/
+!node_modules/minimatch/
+!node_modules/tunnel/
+!node_modules/undici/
+!node_modules/uuid/
+# <!-- end automatically generated entries -->
