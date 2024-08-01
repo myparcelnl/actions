@@ -31,17 +31,25 @@ runs:
         echo "cache-dir=$(bun pm cache)" >> $GITHUB_OUTPUT
         echo "hash=$hash" >> $GITHUB_OUTPUT
 
+    - uses: myparcelnl/actions/create-cache-keys@v4
+      id: keys-bun
+      with:
+        key: ${{ format('{0}{1}-bun', runner.os, runner.arch) }}
+        input: |
+          ${{ steps.variables.outputs.hash }}
+
     - name: 'Cache bun dependencies'
       if: steps.variables.outputs.hash != ''
       uses: actions/cache@v4
       with:
         path: ${{ steps.variables.outputs.cache-dir }}
-        key: ${{ runner.os }}-bun-${{ steps.variables.outputs.hash }}
-        restore-keys: |
-          ${{ runner.os }}-bun-
+        key: ${{ steps.keys-bun.outputs.key }}
+        restore-keys: ${{ steps.keys-bun.outputs.restore-keys }}
 
     - name: 'Install bun dependencies'
+      env:
+        BUN_ARGS: ${{ inputs.bun-args }}
       shell: bash
       #language=bash
       run: |
-        bun install ${{ inputs.bun-args }}
+        bun install $BUN_ARGS
