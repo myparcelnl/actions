@@ -39,13 +39,15 @@ runs:
     - name: 'Set outputs'
       id: create-outputs
       shell: bash
+      env:
+        BOT_NAME: ${{ steps.generate-token.outputs.BOT_NAME }}
+        BOT_TOKEN: ${{ steps.generate-token.outputs.BOT_TOKEN }}
       #language=bash
       run: |
-        bot_name=${{ steps.generate-token.outputs.BOT_NAME }}
-        bot_git_name="${bot_name}[bot]"
-        bot_git_email="${bot_name}[bot]@users.noreply.github.com"
+        botGitName="$BOT_NAME[bot]"
+        botGitEmail="$BOT_NAME[bot]@users.noreply.github.com"
 
-        echo "name=${bot_name}" >> $GITHUB_OUTPUT
-        echo "token=${{ steps.generate-token.outputs.BOT_TOKEN }}" >> $GITHUB_OUTPUT
-        echo "git-name=${bot_git_name}" >> $GITHUB_OUTPUT
-        echo "git-email=${bot_git_email}" >> $GITHUB_OUTPUT
+        echo "name=$BOT_NAME" >> $GITHUB_OUTPUT
+        echo "token=$BOT_TOKEN" >> $GITHUB_OUTPUT
+        echo "git-name=$botGitName" >> $GITHUB_OUTPUT
+        echo "git-email=$botGitEmail" >> $GITHUB_OUTPUT
