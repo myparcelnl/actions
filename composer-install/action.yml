@@ -46,25 +46,41 @@ runs:
       run: |
         echo "image=ghcr.io/myparcelnl/php-xd:$VERSION-cli-alpine" >> $GITHUB_OUTPUT
 
+    - uses: myparcelnl/actions/create-cache-keys@v4
+      id: keys-composer
+      with:
+        key: 'composer'
+        restore-keys: 3
+        input: |
+          ${{ inputs.php-version }}
+          ${{ inputs.command }}
+          ${{ steps.flags.outputs.hash }}
+          ${{ hashFiles('**/composer.json', '**/composer.lock') }}
+
     - name: 'Handle composer cache'
       uses: actions/cache@v4
       with:
         path: /tmp/composer-cache
-        key: composer-${{ inputs.php-version }}-${{ inputs.command }}-${{ steps.flags.outputs.hash }}-${{ hashFiles('**/composer.json', '**/composer.lock') }}
-        restore-keys: |
-          composer-${{ inputs.php-version }}-${{ inputs.command }}-${{ steps.flags.outputs.hash }}-
-          composer-${{ inputs.php-version }}-${{ inputs.command }}-
-          composer-${{ inputs.php-version }}-
+        key: ${{ steps.keys-composer.outputs.key }}
+        restore-keys: ${{ steps.keys-composer.outputs.restore-keys }}
+
+    - uses: myparcelnl/actions/create-cache-keys@v4
+      id: keys-vendor
+      with:
+        key: 'composer-vendor'
+        restore-keys: 3
+        input: |
+          ${{ inputs.php-version }}
+          ${{ inputs.command }}
+          ${{ steps.flags.outputs.hash }}
+          ${{ hashFiles('**/composer.json', '**/composer.lock') }}
 
     - name: 'Handle vendor folder cache'
       uses: actions/cache@v4
       with:
         path: vendor
-        key: composer-vendor-${{ inputs.php-version }}-${{ inputs.command }}-${{ steps.flags.outputs.hash }}-${{ hashFiles('**/composer.json', '**/composer.lock') }}
-        restore-keys: |
-          composer-vendor-${{ inputs.php-version }}-${{ inputs.command }}-${{ steps.flags.outputs.hash }}-
-          composer-vendor-${{ inputs.php-version }}-${{ inputs.command }}-
-          composer-vendor-${{ inputs.php-version }}-
+        key: ${{ steps.keys-vendor.outputs.key }}
+        restore-keys: ${{ steps.keys-vendor.outputs.restore-keys }}
 
     - uses: myparcelnl/actions/pull-docker-image@v4
       with:
