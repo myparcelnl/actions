@@ -6,24 +6,25 @@
 deps=$(npm pkg get dependencies --json)
 
 allDependencies="[]"
-fetchedDepsFor=()
+fetchedDepsFor="[]"
 
 function get-deps-recursive() {
   package=$1
+  echo "Fetching deps for $package"
+  fetchedDepsFor+=($package)
 
   dependencies=$(yarn npm info $package --json | jq '.dependencies')
-  fetchedDepsFor+=($package)
+
+  # if package is scoped, add the namespace to the list of dependencies
+  packageNamespace=$(echo $package | cut -d'/' -f1)
+  allDependencies=$(echo $allDependencies | jq ". + [\"$packageNamespace\"]")
+  allDependencies=$(echo $allDependencies | jq ". + [\"$package\"]")
 
   if [ "$dependencies" == "null" ]; then
     return
   fi
 
   dependencyKeys=$(echo $dependencies | jq -r 'keys[]')
-
-  # if package is scoped, add the namespace to the list of dependencies
-  packageNamespace=$(echo $package | cut -d'/' -f1)
-  allDependencies=$(echo $allDependencies | jq ". + [\"$packageNamespace\"]")
-  allDependencies=$(echo $allDependencies | jq ". + [\"$package\"]")
 
   for dep in $dependencyKeys; do
     allDependencies=$(echo $allDependencies | jq ". + [\"$dep\"]")
@@ -35,7 +36,6 @@ function get-deps-recursive() {
       continue
     fi
 
-    echo "Fetching deps for $dep"
     get-deps-recursive $dep
   done
 }
