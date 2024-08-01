@@ -1,0 +1,57 @@
+# Copy of ./setup-git-credentials but using the actions locally.
+
+name: 'Setup git credentials'
+description: 'Authenticates git through a GitHub app.'
+
+inputs:
+  app-id:
+    description: 'The app ID of the app.'
+    required: true
+
+  private-key:
+    description: 'The private key of the app.'
+    required: true
+
+outputs:
+  name:
+    description: 'The name of the app.'
+    value: ${{ steps.credentials.outputs.name }}
+
+  token:
+    description: 'The GitHub token of the app.'
+    value: ${{ steps.credentials.outputs.token }}
+
+  git-name:
+    description: 'The name to use with git.'
+    value: ${{ steps.credentials.outputs.git-name }}
+
+  git-email:
+    description: 'The email to use with git.'
+    value: ${{ steps.credentials.outputs.git-email }}
+
+runs:
+  using: composite
+  steps:
+    - uses: ./setup-app-credentials
+      id: credentials
+      with:
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - name: 'Set git credentials'
+      shell: bash
+      env:
+        GIT_NAME: ${{ steps.credentials.outputs.git-name }}
+        GIT_EMAIL: ${{ steps.credentials.outputs.git-email }}
+        GIT_TOKEN: ${{ steps.credentials.outputs.token }}
+      #language=bash
+      run: |
+        git config --global user.name "$GIT_NAME"
+        git config --global user.email "$GIT_EMAIL"
+        git config --global user.password "$GIT_TOKEN"
+
+        echo "GIT_USER=$GIT_NAME:$GIT_TOKEN" >> $GITHUB_ENV
+        echo "GIT_AUTHOR_NAME=$GIT_NAME" >> $GITHUB_ENV
+        echo "GIT_AUTHOR_EMAIL=$GIT_EMAIL" >> $GITHUB_ENV
+        echo "GIT_COMMITTER_NAME=$GIT_NAME" >> $GITHUB_ENV
+        echo "GIT_COMMITTER_EMAIL=$GIT_EMAIL" >> $GITHUB_ENV

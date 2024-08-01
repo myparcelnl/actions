@@ -26,7 +26,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: ./setup-git-credentials
+      - uses: ./.github/actions/setup-git-credentials
         id: credentials
         with:
           app-id: ${{ secrets.MYPARCEL_APP_ID }}
