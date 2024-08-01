@@ -38,15 +38,31 @@ runs:
 
         echo "version=$version" >> $GITHUB_OUTPUT
 
+    - uses: myparcelnl/actions/create-cache-keys@v4
+      id: keys-yarn-download
+      with:
+        key: 'yarn-download'
+        input: |
+          ${{ inputs.node-version }}
+          ${{ hashFiles('yarn.lock') }}
+
     - name: 'Cache yarn downloads'
       if: steps.variables.outputs.version >= 2
       uses: actions/cache@v4
       id: yarn-download-cache
       with:
         path: ${{ steps.variables.outputs.cache-folder }}
-        key: yarn-download-${{ inputs.node-version }}-${{ hashFiles('yarn.lock') }}
-        restore-keys: |
-          yarn-download-${{ inputs.node-version }}-
+        key: ${{ steps.keys-yarn-download.outputs.key }}
+        restore-keys: ${{ steps.keys-yarn-download.outputs.restore-keys }}
+
+    - uses: myparcelnl/actions/create-cache-keys@v4
+      id: keys-yarn-install-state
+      with:
+        key: ${{ format('{0}{1}-yarn-install-state-', runner.os, runner.arch) }}
+        input: |
+          ${{ inputs.node-version }}
+          ${{ steps.args.outputs.hash }}
+          ${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
 
     - name: 'Cache yarn install state'
       if: steps.variables.outputs.version >= 2
@@ -54,18 +70,17 @@ runs:
       id: yarn-install-state-cache
       with:
         path: .yarn/ci-cache/
-        key: ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-${{ steps.args.outputs.hash }}-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-${{ steps.args.outputs.hash }}-
-          ${{ runner.os }}-yarn-install-state-${{ inputs.node-version }}-
+        key: ${{ steps.keys-yarn-install-state.outputs.key }}
+        restore-keys: ${{ steps.keys-yarn-install-state.outputs.restore-keys }}
 
     - name: 'Install yarn dependencies'
       shell: bash
       #language=bash
       run: |
-        yarn install ${{ inputs.yarn-args }}
+        yarn install $YARN_ARGS
       env:
         HUSKY: '0'
+        YARN_ARGS: ${{ inputs.yarn-args }}
         YARN_ENABLE_GLOBAL_CACHE: 'false'
         YARN_INSTALL_STATE_PATH: .yarn/ci-cache/install-state.gz
         YARN_NM_MODE: 'hardlinks-local'
