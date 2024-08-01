@@ -48,11 +48,7 @@ runs:
       with:
         path: ${{ inputs.cache-dir }}
         save-always: true
-        key: '${{ runner.os }}-nx-cache-${{ github.action }}-${{ github.run_id }}-${{ github.run_attempt }}'
-        restore-keys: |
-          ${{ runner.os }}-nx-cache-${{ github.action }}-${{ github.run_id }}-
-          ${{ runner.os }}-nx-cache-${{ github.action }}-
-          ${{ runner.os }}-nx-cache-
+        key: nx-cache
 
     - name: 'Prune cache'
       env:
