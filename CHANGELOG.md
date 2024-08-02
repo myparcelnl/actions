@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.22.1](https://github.com/myparcelnl/actions/compare/v4.22.0...v4.22.1) (2024-08-02)
+
+
+### :bug: Bug Fixes
+
+* **composer-pest:** fix reference to env file ([6ead462](https://github.com/myparcelnl/actions/commit/6ead4624ef0f64565184b58e2921110e5bb86508))
+
 ## [4.22.0](https://github.com/myparcelnl/actions/compare/v4.21.6...v4.22.0) (2024-08-02)
 
 
