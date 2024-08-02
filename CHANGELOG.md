@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.23.0](https://github.com/myparcelnl/actions/compare/v4.22.1...v4.23.0) (2024-08-02)
+
+
+### :sparkles: New Features
+
+* **codecov-action:** replace update-coverage with new codecov-action ([577d9cc](https://github.com/myparcelnl/actions/commit/577d9cc1ef9d1337bdd25290445adaf0c019624b))
+
 ## [4.22.1](https://github.com/myparcelnl/actions/compare/v4.22.0...v4.22.1) (2024-08-02)
 
 
