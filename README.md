@@ -125,11 +125,47 @@ Generate credentials for a [GitHub app].
 | Name        | Description                  | Example                                |
 | ----------- | ---------------------------- | -------------------------------------- |
 | `name`      | The name of the app.         | `my-app`                               |
-| `token`     | The GitHub token of the app. | `ghp_1234567890`                       |
+| `token`     | The GitHub token of the app. | `***`                                  |
 | `git-name`  | The name to use with git.    | `my-app[bot]`                          |
 | `git-email` | The email to use with git.   | `my-app[bot]@users.noreply.github.com` |
 
 See also [setup-git-credentials] for setting up git using a [GitHub app].
+
+#### setup-git-credentials
+
+[Source](setup-git-credentials/action.yml)
+
+Generate credentials for a [GitHub app]. Uses [setup-app-credentials], then sets authentication data in git config and environment variables `GIT_USER`, `GIT_AUTHOR_NAME`, `GIT_AUTHOR_EMAIL`, `GIT_COMMITTER_NAME` and `GIT_COMMITTER_EMAIL`.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/setup-git-credentials@v4
+  id: credentials
+  with:
+    app-id: ${{ secrets.APP_ID }}
+    private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+- uses: namespace/any-other-action
+  with:
+    token: ${{ steps.credentials.outputs.token }}
+```
+
+##### Inputs
+
+| Required | Name          | Description                 | Example                          | Default |
+| -------- | ------------- | --------------------------- | -------------------------------- | ------- |
+| Yes      | `app-id`      | The app ID of the app.      | `${{ secrets.APP_ID }}`          | –       |
+| Yes      | `private-key` | The private key of the app. | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
+
+##### Outputs
+
+| Name        | Description                  | Example                                |
+| ----------- | ---------------------------- | -------------------------------------- |
+| `name`      | The name of the app.         | `my-app`                               |
+| `token`     | The GitHub token of the app. | `***`                                  |
+| `git-name`  | The name to use with git.    | `my-app[bot]`                          |
+| `git-email` | The email to use with git.   | `my-app[bot]@users.noreply.github.com` |
 
 ### AWS
 

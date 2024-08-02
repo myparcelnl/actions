@@ -13,15 +13,15 @@ inputs:
 outputs:
   name:
     description: 'The name of the app.'
-    value: ${{ steps.create-outputs.outputs.name }}
+    value: ${{ steps.generate-token.outputs.app-slug }}
 
   token:
     description: 'The GitHub token of the app.'
-    value: ${{ steps.create-outputs.outputs.token }}
+    value: ${{ steps.generate-token.outputs.token }}
 
   git-name:
     description: 'The name to use with git.'
-    value: ${{ steps.create-outputs.outputs.git-name }}
+    value: ${{ steps.generate-token.outputs.app-slug }}
 
   git-email:
     description: 'The email to use with git.'
@@ -30,24 +30,17 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: wow-actions/use-app-token@d7957e08172ca2e8e49b35b8d266ad585885edc7
+    - uses: actions/create-github-app-token@v1
       id: generate-token
       with:
-        app_id: ${{ inputs.app-id }}
-        private_key: ${{ inputs.private-key }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
 
     - name: 'Set outputs'
       id: create-outputs
       shell: bash
       env:
-        BOT_NAME: ${{ steps.generate-token.outputs.BOT_NAME }}
-        BOT_TOKEN: ${{ steps.generate-token.outputs.BOT_TOKEN }}
+        APP_SLUG: ${{ steps.generate-token.outputs.app-slug }}
       #language=bash
       run: |
-        botGitName="$BOT_NAME[bot]"
-        botGitEmail="$BOT_NAME[bot]@users.noreply.github.com"
-
-        echo "name=$BOT_NAME" >> $GITHUB_OUTPUT
-        echo "token=$BOT_TOKEN" >> $GITHUB_OUTPUT
-        echo "git-name=$botGitName" >> $GITHUB_OUTPUT
-        echo "git-email=$botGitEmail" >> $GITHUB_OUTPUT
+        echo "git-email=$APP_SLUG@users.noreply.github.com" >> $GITHUB_OUTPUT
