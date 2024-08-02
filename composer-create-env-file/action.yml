@@ -18,7 +18,7 @@ runs:
         envFilename=".env-$timestamp.local.tmp"
 
         # Create an env file, adding fallback value for COMPOSER_CACHE_DIR
-        echo "COMPOSER_CACHE_DIR=/root/composer" > "$envFilename"
+        echo "COMPOSER_CACHE_DIR=/root/.composer" > "$envFilename"
 
         # Then add all present composer env variables
         printenv | (grep -E "^COMPOSER_" || true) >> "$envFilename"
