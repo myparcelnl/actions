@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.24.0](https://github.com/myparcelnl/actions/compare/v4.23.0...v4.24.0) (2024-08-02)
+
+
+### :sparkles: New Features
+
+* **pdk-builder:** pass -vvv when debug is enabled ([4c75c16](https://github.com/myparcelnl/actions/commit/4c75c16b8cfa838623ef94c446eda65f9fe27cbb))
+
 ## [4.23.0](https://github.com/myparcelnl/actions/compare/v4.22.1...v4.23.0) (2024-08-02)
 
 
