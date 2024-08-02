@@ -32,7 +32,7 @@ runs:
     - name: 'Run Pest'
       env:
         ARGS: ${{ inputs.args }}
-        ENV_FILE: ${{ steps.env.outputs.env_file }}
+        ENV_FILE: ${{ steps.env.outputs.filename }}
         IMAGE: ${{ inputs.image || steps.install.outputs.image }}
       shell: bash
       #language=bash
