@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.22.0](https://github.com/myparcelnl/actions/compare/v4.21.6...v4.22.0) (2024-08-02)
+
+
+### :sparkles: New Features
+
+* **setup-app-credentials:** switch to official create app token action ([6f34d1e](https://github.com/myparcelnl/actions/commit/6f34d1e5f488f71717323fa2871859506c57ba5d))
+
 ## [4.21.6](https://github.com/myparcelnl/actions/compare/v4.21.5...v4.21.6) (2024-08-01)
 
 
