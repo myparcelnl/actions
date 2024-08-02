@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.24.1](https://github.com/myparcelnl/actions/compare/v4.24.0...v4.24.1) (2024-08-02)
+
+
+### :bug: Bug Fixes
+
+* **composer:** fix incorrect cache folder ([1939f89](https://github.com/myparcelnl/actions/commit/1939f89aaf824c0a55ab527966e96e21b5b0692a))
+
 ## [4.24.0](https://github.com/myparcelnl/actions/compare/v4.23.0...v4.24.0) (2024-08-02)
 
 
