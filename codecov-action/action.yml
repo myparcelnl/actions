@@ -1,0 +1,69 @@
+name: 'Codecov'
+description: 'Upload coverage reports to Codecov, with glob support'
+
+inputs:
+  files:
+    description: 'Glob pattern or list of files to find coverage files'
+    required: false
+
+  excluded-files:
+    description: 'Excluded file patterns (optionally include `!` before the file pattern or it would be prepended)'
+    required: false
+
+  ###
+  # The following inputs are copied from the Codecov action. We've omitted many of them for brevity.
+  ###
+  token:
+    description: 'Repository Codecov token. Used to authorize report uploads'
+    required: false
+
+  flags:
+    description: 'Flag upload to group coverage metrics (e.g. unittests | integration | ui,chrome)'
+    required: false
+
+  name:
+    description: 'User defined upload name. Visible in Codecov UI'
+    required: false
+
+  plugin:
+    description: 'plugins to run. Options: xcode, gcov, pycoverage. The default behavior runs them all.'
+    required: false
+
+  plugins:
+    description: 'Comma-separated list of plugins for use during upload.'
+    required: false
+
+  verbose:
+    description: 'Specify whether the Codecov output should be verbose'
+    required: false
+
+  version:
+    description: 'Specify which version of the Codecov CLI should be used. Defaults to `latest`'
+    required: false
+
+  working-directory:
+    description: 'Directory in which to execute codecov.sh'
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: 'Glob files'
+      uses: tj-actions/glob@v22
+      id: glob
+      with:
+        excluded-files: ${{ inputs.excluded-files }}
+        separator: ','
+        files: ${{ inputs.files }}
+
+    - uses: codecov/codecov-action@v4
+      with:
+        files: ${{ steps.glob.outputs.paths }}
+        flags: ${{ inputs.flags }}
+        name: ${{ inputs.name }}
+        plugin: ${{ inputs.plugin }}
+        plugins: ${{ inputs.plugins }}
+        token: ${{ inputs.token }}
+        verbose: ${{ inputs.verbose }}
+        version: ${{ inputs.version }}
+        working-directory: ${{ inputs.working-directory }}

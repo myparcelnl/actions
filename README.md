@@ -52,6 +52,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [nx-run](#nx-run)
     - [nx-run-many](#nx-run-many)
   - [Miscellaneous](#miscellaneous)
+    - [bun-install](#bun-install)
     - [bundlewatch](#bundlewatch)
     - [create-cache-keys](#create-cache-keys)
     - [deprecated](#deprecated)
@@ -449,21 +450,50 @@ Run [PHPStan](https://phpstan.org/) through composer.
 
 ### Testing
 
-#### update-coverage
+#### codecov-action
 
-[Source](update-coverage/action.yml)
+[Source](codecov-action/action.yml)
 
-1. Runs [codecov/codecov-action]
+Replacement for [codecov/codecov-action] that supports glob input in `files`.
 
-- Needs a [Codecov] token in `token`.
+1. Runs [tj-actions/glob](https://github.com/tj-actions/glob) with the provided `files` input.
+2. Runs [codecov/codecov-action] with the resolved files.
 
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/update-coverage@v4
+- uses: myparcelnl/actions/codecov-action@v4
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
+    flags: unit,frontend
+    files: |
+      frontend/**/coverage/*.xml
+
+- uses: myparcelnl/actions/codecov-action@v4
+  with:
+    token: ${{ secrets.CODECOV_TOKEN }}
+    flags: unit,backend
+    files: |
+      backend/**/coverage/*.xml
 ```
+
+##### Inputs
+
+| Required | Name             | Description                                                                                      | Example           | Default |
+| -------- | ---------------- | ------------------------------------------------------------------------------------------------ | ----------------- | ------- |
+| No       | `files`          | Glob pattern or list of files to find coverage files                                             | `coverage/*.xml`  | –       |
+| No       | `excluded-files` | Excluded file patterns (optionally include `!` before the file pattern or it would be prepended) | `!coverage/*.xml` | –       |
+
+The following inputs are copied from the [codecov/codecov-action] action:
+
+- `token`
+- `flags`
+- `name`
+- `plugin`
+- `plugins`
+- `verbose`
+- `version`
+- `working-directory`
 
 ### Docker
 
