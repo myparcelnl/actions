@@ -40,9 +40,14 @@ runs:
 
     - shell: bash
       env:
-        COMMAND: ${{ inputs.command }}
         ARGS: ${{ inputs.args }}
+        COMMAND: ${{ inputs.command }}
+        DEBUG: ${{ runner.debug }}
         PDK_ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
       #language=bash
       run: |
+        if [ "$DEBUG" == '1' ]; then
+          ARGS="$ARGS -vvv"
+        fi
+
         npx pdk-builder "$COMMAND" $ARGS --root-command="$PDK_ROOT_COMMAND"
