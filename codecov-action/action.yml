@@ -48,7 +48,31 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: 'Prepare'
+      id: prepare
+      shell: bash
+      env:
+        FILES: ${{ inputs.files }}
+      #language=bash
+      run: |
+        disableSearch="false"
+        needsGlob="false"
+
+        # Disable search if files are provided
+        if [ -n "$FILES" ]; then
+          disableSearch="true"
+        fi
+
+        # Needs glob if files are provided and contains a "*" character
+        if [ -n "$FILES" ] && [[ "$FILES" == *"*"* ]]; then
+          needsGlob="true"
+        fi
+
+        echo "disable-search=$disableSearch" >> $GITHUB_OUTPUT
+        echo "needs-glob=$needsGlob" >> $GITHUB_OUTPUT
+
     - name: 'Glob files'
+      if: steps.prepare.outputs.needs-glob == 'true'
       uses: tj-actions/glob@v22
       id: glob
       with:
@@ -58,7 +82,8 @@ runs:
 
     - uses: codecov/codecov-action@v4
       with:
-        files: ${{ steps.glob.outputs.paths }}
+        disable_search: ${{ steps.prepare.outputs.disable-search }}
+        files: ${{ steps.glob.outputs.paths || inputs.files }}
         flags: ${{ inputs.flags }}
         name: ${{ inputs.name }}
         plugin: ${{ inputs.plugin }}
