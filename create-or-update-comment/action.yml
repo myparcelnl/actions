@@ -11,12 +11,10 @@ inputs:
   issue-number:
     required: false
     description: 'Issue number'
-    default: ''
 
   comment-id:
     required: false
     description: 'Comment ID'
-    default: ''
 
   body:
     required: true
