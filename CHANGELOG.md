@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.25.6](https://github.com/myparcelnl/actions/compare/v4.25.5...v4.25.6) (2024-08-07)
+
+
+### :bug: Bug Fixes
+
+* **codecov-action:** skip search when files are passed and skip glob if not needed ([8481e63](https://github.com/myparcelnl/actions/commit/8481e6329f07350cd0bb6ba9ddf1c30a78e563e1))
+
 ## [4.25.5](https://github.com/myparcelnl/actions/compare/v4.25.4...v4.25.5) (2024-08-07)
 
 
