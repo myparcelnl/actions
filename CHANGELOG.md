@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.25.2](https://github.com/myparcelnl/actions/compare/v4.25.1...v4.25.2) (2024-08-07)
+
+
+### :bug: Bug Fixes
+
+* **pdk-upgrade:** list js-pdk releases rather than getting the latest one ([c763adf](https://github.com/myparcelnl/actions/commit/c763adff5755e29872592258984ee51089bc41c3))
+
 ## [4.25.1](https://github.com/myparcelnl/actions/compare/v4.25.0...v4.25.1) (2024-08-07)
 
 
