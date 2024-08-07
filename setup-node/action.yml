@@ -33,8 +33,6 @@ runs:
       shell: bash
       #language=bash
       run: |
-        version=${NODE_VERSION:-20}
-
         if [[ -f "package.json" ]] && \
            [ "$(jq ".volta | has(\"node\")" "package.json")" == "true" ] && \
            [[ -z "$KEY" || "$(jq ".volta | has(\"$KEY\")" "package.json")" == "true" ]]
@@ -55,48 +53,74 @@ runs:
         cache: ${{ inputs.cache }}
         cache-dependency-path: ${{ inputs.cache-dependency-path }}
 
-    - uses: volta-cli/action@v4
+    - name: 'Handle Volta bin cache'
+      id: volta-bin-cache
+      if: steps.prepare.outputs.volta == 'true'
+      uses: actions/cache@v4
+      with:
+        key: ${{ format('{0}{1}-volta-bin', runner.os, runner.arch) }}
+        path: |
+          ~/.volta/bin
+
+    - name: 'Handle Volta cache'
+      id: volta-cache
+      if: steps.prepare.outputs.volta == 'true'
+      uses: actions/cache@v4
+      with:
+        key: ${{ format('{0}{1}-volta-cache-{2}', runner.os, runner.arch, steps.prepare.outputs.node-version) }}
+        path: |
+          ~/.volta/*.*
+          ~/.volta/cache
+          ~/.volta/tools
+
+    # Tries installing volta, node and yarn up to 5 times.
+    - name: 'Set up Volta'
       id: volta
       if: steps.prepare.outputs.volta == 'true'
-      continue-on-error: true
-      with:
-        node-version: ${{ steps.prepare.outputs.node-version }}
-
-    # Retry setting up Volta in 3 seconds in case it failed. Seen it happen in the wild...
-    - name: 'Wait 3 seconds before retrying...'
-      if: steps.prepare.outputs.volta == 'true' && steps.volta.outcome == 'failure'
+      env:
+        NODE_VERSION: ${{ steps.prepare.outputs.node-version }}
       shell: bash
       #language=bash
-      run: sleep 3
+      run: |
+        MAX_RETRIES=5
+        RETRY_COUNT=0
+        SUCCESS=false
 
-    - name: 'Retry setting up Volta'
-      if: steps.prepare.outputs.volta == 'true' && steps.volta.outcome == 'failure'
-      uses: volta-cli/action@v4
-      with:
-        node-version: ${{ steps.prepare.outputs.node-version }}
+        function install-volta() {
+          curl https://get.volta.sh | bash
 
-    # Tries getting the node version 3 times. When using volta you can sometimes get an error while downloading node,
-    # causing this command to fail.
+          export VOLTA_HOME="$HOME/.volta"
+          export PATH="$VOLTA_HOME/bin:$PATH"
+
+          if [ -n "$NODE_VERSION" ]; then
+            volta install "node@${NODE_VERSION}"
+          else
+            volta install node
+          fi
+
+          volta install yarn
+
+          echo "VOLTA_HOME=$VOLTA_HOME" >> $GITHUB_ENV
+          echo "PATH=$PATH"             >> $GITHUB_ENV
+        }
+
+        while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+          install-volta && SUCCESS=true && break
+          RETRY_COUNT=$((RETRY_COUNT+1))
+          echo "Attempt $RETRY_COUNT failed. Retrying in 5 seconds..."
+          sleep 3
+        done
+
+        if [ "$SUCCESS" != "true" ]; then
+          echo "Failed to install Volta after $MAX_RETRIES attempts."
+          exit 1
+        fi
+
     - name: 'Get node version'
       id: node-version
       shell: bash
       #language=bash
       run: |
-        MAX_RETRIES=3
-        RETRY_COUNT=0
-        SUCCESS=false
+        version=$(node --version) 
 
-        while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-          VERSION=$(node --version) && SUCCESS=true && break
-          RETRY_COUNT=$((RETRY_COUNT+1))
-          echo "Attempt $RETRY_COUNT failed. Retrying in 5 seconds..."
-          sleep 5
-        done
-
-        if [ "$SUCCESS" = true ]; then
-          TRIMMED="${VERSION:1}"
-          echo "version=$TRIMMED" >> $GITHUB_OUTPUT
-        else
-          echo "Failed to get Node.js version after $MAX_RETRIES attempts."
-          exit 1
-        fi
+        echo "version=${version:1}" >> $GITHUB_OUTPUT
