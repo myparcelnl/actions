@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.25.0](https://github.com/myparcelnl/actions/compare/v4.24.1...v4.25.0) (2024-08-07)
+
+
+### :sparkles: New Features
+
+* **pdk-upgrade:** allow omitting image input ([2f4877e](https://github.com/myparcelnl/actions/commit/2f4877eb29070fa48e28e25e8be72e72c8faeee9))
+* **pdk-upgrade:** check if upgrade is needed before trying ([877d64c](https://github.com/myparcelnl/actions/commit/877d64ced50cf5528014031efcb799a78d562ac9))
+
 ## [4.24.1](https://github.com/myparcelnl/actions/compare/v4.24.0...v4.24.1) (2024-08-02)
 
 
