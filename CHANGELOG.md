@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.26.0](https://github.com/myparcelnl/actions/compare/v4.25.6...v4.26.0) (2024-08-07)
+
+
+### :sparkles: New Features
+
+* **setup-node:** improve volta installation ([88c2ae6](https://github.com/myparcelnl/actions/commit/88c2ae6e3677817aa621f24c18303e34b000ca09))
+
 ## [4.25.6](https://github.com/myparcelnl/actions/compare/v4.25.5...v4.25.6) (2024-08-07)
 
 
