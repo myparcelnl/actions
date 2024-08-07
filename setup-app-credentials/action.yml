@@ -21,7 +21,7 @@ outputs:
 
   git-name:
     description: 'The name to use with git.'
-    value: ${{ steps.generate-token.outputs.app-slug }}
+    value: ${{ steps.create-outputs.outputs.git-name }}
 
   git-email:
     description: 'The email to use with git.'
@@ -43,4 +43,7 @@ runs:
         APP_SLUG: ${{ steps.generate-token.outputs.app-slug }}
       #language=bash
       run: |
-        echo "git-email=$APP_SLUG@users.noreply.github.com" >> $GITHUB_OUTPUT
+        GIT_NAME="$APP_SLUG[bot]"
+
+        echo "git-name=$GIT_NAME"                           >> $GITHUB_OUTPUT
+        echo "git-email=$GIT_NAME@users.noreply.github.com" >> $GITHUB_OUTPUT
