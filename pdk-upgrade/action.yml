@@ -47,6 +47,69 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: 'Check latest available versions'
+      uses: actions/github-script@v6
+      id: versions
+      with:
+        # language=javascript
+        script: |
+          const pdkRelease = await github.repos.getLatestRelease({
+            owner: 'myparcelnl',
+            repo: 'pdk'
+          });
+
+          const jsPdkReleases = await github.repos.listReleases({
+            owner: 'myparcelnl',
+            repo: 'js-pdk'
+          });
+
+          const APP_BUILDER = "@myparcel-pdk/app-builder";
+
+          const lastAppBuilderRelease = jsPdkReleases.data.find((release) => release.name.includes(APP_BUILDER));
+          const lastOtherRelease = jsPdkReleases.data.find((release) => !release.name.includes(APP_BUILDER));
+
+          core.setOutput('pdk-version', pdkRelease.data.tag_name);
+          core.setOutput('app-builder-version', lastAppBuilderRelease.data.tag_name);
+          core.setOutput('js-pdk-version', lastOtherRelease.data.tag_name);
+
+    - name: 'Check if upgrades are needed'
+      id: upgrade-check
+      shell: bash
+      env:
+        PDK_VERSION: ${{ steps.versions.outputs.pdk-version }}
+        APP_BUILDER_VERSION: ${{ steps.versions.outputs.app-builder-version }}
+        JS_PDK_VERSION: ${{ steps.versions.outputs.js-pdk-version }}
+      # language=bash
+      run: |
+        APP_BUILDER_VERSION=$(echo $APP_BUILDER_VERSION | cut -d'@' -f2)
+        JS_PDK_PACKAGE=$(echo $JS_PDK_VERSION | cut -d'@' -f1)
+        JS_PDK_VERSION=$(echo $JS_PDK_VERSION | cut -d'@' -f2)
+
+        CURRENT_PDK_VERSION=$(cat composer.lock | jq -r '.packages[] | select(.name == "myparcelnl/pdk") | .version')
+
+        function check-yarn-upgrade() {
+          package=$1
+          version=$2
+
+          yarn npm info $package --json | jq -r '.version' | grep -q "$version" && echo 'false' || echo 'true'
+        }
+
+        NEEDS_APP_BUILDER_UPGRADE=$(check-yarn-upgrade "@myparcel-pdk/app-builder" "$APP_BUILDER_VERSION")        
+        NEEDS_ALL_UPGRADE=$(check-yarn-upgrade "$JS_PDK_PACKAGE" "$JS_PDK_VERSION")
+        NEEDS_PDK_UPGRADE=$(echo $CURRENT_PDK_VERSION | grep -q "$PDK_VERSION" && echo 'false' || echo 'true')
+
+        echo "needs-app-builder-upgrade=$NEEDS_APP_BUILDER_UPGRADE" >> $GITHUB_OUTPUT
+        echo "needs-all-upgrade=$NEEDS_ALL_UPGRADE"                 >> $GITHUB_OUTPUT
+        echo "needs-pdk-upgrade=$NEEDS_PDK_UPGRADE"                 >> $GITHUB_OUTPUT
+
+    - name: 'Create empty report file'
+      if: inputs.report == 'true'
+      shell: bash
+      env:
+        REPORT_FILE: ${{ inputs.report-file }}
+      #language=bash
+      run: echo '[]' > $REPORT_FILE
+
     - name: 'Create arguments'
       id: arguments
       env:
@@ -75,17 +138,29 @@ runs:
 
         echo "args=$args" >> $GITHUB_OUTPUT
 
-    - uses: myparcelnl/actions/pdk-builder@v4
+    - name: 'Upgrade @myparcel-pdk/app-builder'
+      uses: myparcelnl/actions/pdk-builder@v4
+      if: steps.upgrade-check.outputs.needs-app-builder-upgrade == 'true'
       with:
         command: 'upgrade-self'
         image: ${{ inputs.image }}
         args: ${{ steps.arguments.outputs.args }}
 
-    - uses: myparcelnl/actions/pdk-builder@v4
+    - name: 'Upgrade myparcelnl/pdk'
+      uses: myparcelnl/actions/pdk-builder@v4
+      if: steps.upgrade-check.outputs.needs-pdk-upgrade == 'true'
       with:
-        command: 'upgrade-all'
+        command: 'upgrade'
         image: ${{ inputs.image }}
-        args: ${{ steps.arguments.outputs.args }}
+        args: 'myparcelnl/pdk ${{ steps.arguments.outputs.args }}'
+
+    - name: 'Upgrade @myparcel-pdk/*'
+      uses: myparcelnl/actions/pdk-builder@v4
+      if: steps.upgrade-check.outputs.needs-all-upgrade == 'true'
+      with:
+        command: 'upgrade'
+        image: ${{ inputs.image }}
+        args: '@myparcel-pdk/* ${{ steps.arguments.outputs.args }}'
 
     - name: 'Create report'
       if: inputs.report == 'true'
