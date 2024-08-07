@@ -87,22 +87,23 @@ runs:
         JS_PDK_VERSION: ${{ steps.versions.outputs.js-pdk-version }}
       # language=bash
       run: |
+        pdkVersion="${PDK_VERSION#v}"
         appBuilderVersion=$(echo $APP_BUILDER_VERSION | awk -F'@' '{print $NF}')
         jsPdkPackage=$(echo $JS_PDK_VERSION | awk -F'@' '{print $1 "@" $2}')
         jsPdkVersion=$(echo $JS_PDK_VERSION | awk -F'@' '{print $NF}')
 
-        currentPdkVersion=$(cat composer.lock | jq -r '.packages[] | select(.name == "myparcelnl/pdk") | .version')
+        currentPdkVersion=$(jq -r '.packages[] | select(.name == "myparcelnl/pdk") | .version' < composer.lock)
 
         function check-yarn-upgrade() {
           package=$1
           version=$2
 
-          yarn npm info $package --json | jq -r '.version' | grep -q "$version" && echo 'false' || echo 'true'
+          yarn npm info "$package" --json | jq -r '.version' | grep -q "$version" && echo 'false' || echo 'true'
         }
 
-        needsAppBuilderUpgrade=$(check-yarn-upgrade "@myparcel-pdk/app-builder" "$appBuilderVersion")        
+        needsAppBuilderUpgrade=$(check-yarn-upgrade "@myparcel-pdk/app-builder" "$appBuilderVersion")
         needsAllUpgrade=$(check-yarn-upgrade "$jsPdkPackage" "$jsPdkVersion")
-        needsPdkUpgrade=$(echo $currentPdkVersion | grep -q "$PDK_VERSION" && echo 'false' || echo 'true')
+        needsPdkUpgrade=$(echo "$currentPdkVersion" | grep -q "$pdkVersion" && echo 'false' || echo 'true')
 
         echo "needs-app-builder-upgrade=$needsAppBuilderUpgrade" >> $GITHUB_OUTPUT
         echo "needs-all-upgrade=$needsAllUpgrade"                >> $GITHUB_OUTPUT
