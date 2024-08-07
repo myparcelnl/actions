@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.25.1](https://github.com/myparcelnl/actions/compare/v4.25.0...v4.25.1) (2024-08-07)
+
+
+### :bug: Bug Fixes
+
+* **pdk-upgrade:** use github token in rest request ([b165bad](https://github.com/myparcelnl/actions/commit/b165bad1f6387cf49085ef87e7d20a521815c2a7))
+
 ## [4.25.0](https://github.com/myparcelnl/actions/compare/v4.24.1...v4.25.0) (2024-08-07)
 
 
