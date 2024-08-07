@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.25.5](https://github.com/myparcelnl/actions/compare/v4.25.4...v4.25.5) (2024-08-07)
+
+
+### :bug: Bug Fixes
+
+* **pdk-upgrade:** fix checking pdk version ([4389400](https://github.com/myparcelnl/actions/commit/4389400e05e130f7abb6c88416d6220f176f248a))
+
 ## [4.25.4](https://github.com/myparcelnl/actions/compare/v4.25.3...v4.25.4) (2024-08-07)
 
 
