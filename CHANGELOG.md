@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.26.1](https://github.com/myparcelnl/actions/compare/v4.26.0...v4.26.1) (2024-08-07)
+
+
+### :bug: Bug Fixes
+
+* **setup-app-credentials:** set correct bot name and email ([38005df](https://github.com/myparcelnl/actions/commit/38005df165999af39e361c5a65d059e9005b6dea))
+
 ## [4.26.0](https://github.com/myparcelnl/actions/compare/v4.25.6...v4.26.0) (2024-08-07)
 
 
