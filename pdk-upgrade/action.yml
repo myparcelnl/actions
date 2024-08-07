@@ -11,8 +11,8 @@ inputs:
     description: 'The private key of the app. Needed when writing a report.'
 
   image:
-    description: 'PHP Docker image to use'
-    required: true
+    description: 'PHP Docker image to use. Required to update myparcelnl/pdk.'
+    required: false
 
   no-commit:
     description: 'Do not commit changes'
@@ -42,7 +42,6 @@ inputs:
   args:
     description: 'Additional arguments to pass to the command'
     required: false
-    default: ''
 
 runs:
   using: composite
@@ -148,7 +147,7 @@ runs:
 
     - name: 'Upgrade myparcelnl/pdk'
       uses: myparcelnl/actions/pdk-builder@v4
-      if: steps.upgrade-check.outputs.needs-pdk-upgrade == 'true'
+      if: inputs.image && steps.upgrade-check.outputs.needs-pdk-upgrade == 'true'
       with:
         command: 'upgrade'
         image: ${{ inputs.image }}
