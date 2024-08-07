@@ -64,7 +64,7 @@ runs:
             repo: 'pdk'
           });
 
-          const jsPdkReleases = await github.rest.repos.getLatestRelease({
+          const jsPdkReleases = await github.rest.repos.listReleases({
             owner: 'myparcelnl',
             repo: 'js-pdk'
           });
