@@ -75,8 +75,8 @@ runs:
           const lastOtherRelease = jsPdkReleases.data.find((release) => !release.name.includes(APP_BUILDER));
 
           core.setOutput('pdk-version', pdkRelease.data.tag_name);
-          core.setOutput('app-builder-version', lastAppBuilderRelease.data.tag_name);
-          core.setOutput('js-pdk-version', lastOtherRelease.data.tag_name);
+          core.setOutput('app-builder-version', lastAppBuilderRelease?.tag_name ?? '');
+          core.setOutput('js-pdk-version', lastOtherRelease?.tag_name ?? '');
 
     - name: 'Check if upgrades are needed'
       id: upgrade-check
