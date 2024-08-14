@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.27.0](https://github.com/myparcelnl/actions/compare/v4.26.1...v4.27.0) (2024-08-14)
+
+
+### :sparkles: New Features
+
+* **semantic-release:** add working-directory input ([1324fa1](https://github.com/myparcelnl/actions/commit/1324fa193656833db1b51dd9328513fbae55c239))
+* **workflows:** add reusable notify on failure action ([77b0c8b](https://github.com/myparcelnl/actions/commit/77b0c8bf5c9f3226cbedb3ba461b0e12fe56f349))
+
 ## [4.26.1](https://github.com/myparcelnl/actions/compare/v4.26.0...v4.26.1) (2024-08-07)
 
 
