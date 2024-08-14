@@ -1,0 +1,22 @@
+name: 'Send Slack webhook on failed job'
+
+on:
+  workflow_call:
+
+jobs:
+  notify-on-failure:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: slackapi/slack-github-action@v1.26.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_WORKFLOW_MONITOR }}
+        with:
+          # language=json
+          payload: |
+            {
+              "repository": "${{ github.repository }}",
+              "workflow": "${{ github.workflow }}",
+              "url": "${{ github.run_url }}",
+            }

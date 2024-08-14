@@ -68,3 +68,11 @@ jobs:
           minor: true
         env:
           GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
+
+  notify-on-failure:
+    needs:
+      - test
+      - release
+    if: always() && contains(needs.*.result, 'failure')
+    uses: ./.github/workflows/notify-on-failure.yml
+    secrets: inherit
