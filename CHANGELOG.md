@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.27.1](https://github.com/myparcelnl/actions/compare/v4.27.0...v4.27.1) (2024-08-14)
+
+
+### :bug: Bug Fixes
+
+* **workflows:** pass correct workflow url in failure notification webhook payload ([fadbc00](https://github.com/myparcelnl/actions/commit/fadbc00b56643487dfe5590fb8ff36a5285a3e71))
+
 ## [4.27.0](https://github.com/myparcelnl/actions/compare/v4.26.1...v4.27.0) (2024-08-14)
 
 
