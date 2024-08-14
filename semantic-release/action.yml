@@ -20,6 +20,10 @@ inputs:
     description: 'Additional semantic release arguments'
     required: false
 
+  working-director:
+    description: 'The working directory to run semantic release in'
+    required: false
+
 outputs:
   version:
     description: 'The version that was just released, prefixed with "v"'
@@ -50,6 +54,7 @@ runs:
   steps:
     - name: 'Run semantic release'
       id: release
+      working-directory: ${{ inputs.working-directory }}
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
         ARGS: ${{ inputs.semantic-release-args }}
@@ -78,7 +83,7 @@ runs:
         echo "released=$( [[ -n "$RELEASE_TYPE" ]] && echo true || echo false )" >> $GITHUB_OUTPUT
 
     - name: 'Write job summary'
-      if: ${{ inputs.write-summary == 'true' }}
+      if: inputs.write-summary == 'true'
       shell: bash
       #language=bash
       run: |

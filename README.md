@@ -643,6 +643,7 @@ made (or not). Additional tokens like NPM_TOKEN can be passed via the environmen
 | No       | `write-summary`         | Write a summary to the GitHub action output | `true`                        | `false` |
 | No       | `dry-run`               | Run semantic release in dry-run mode        | `true`                        | `false` |
 | No       | `semantic-release-args` | Additional semantic release arguments       | `--debug`                     | –       |
+| No       | `working-directory`     | Directory to run semantic release in        | `./packages/my-package`       | –       |
 
 ##### Outputs
 
