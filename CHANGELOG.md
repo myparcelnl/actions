@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.28.0](https://github.com/myparcelnl/actions/compare/v4.27.1...v4.28.0) (2024-08-15)
+
+
+### :sparkles: New Features
+
+* **credentials:** add all inputs of actions/create-github-app-token ([38bc972](https://github.com/myparcelnl/actions/commit/38bc972a034bb2daa31afa7ffa95b57366488051))
+
+
+### :bug: Bug Fixes
+
+* **repository-dispatch:** create a token with the correct permissions to dispatch on another repository ([f258383](https://github.com/myparcelnl/actions/commit/f25838346aa3c36568c754753afb54a1d5f80fbf))
+
 ## [4.27.1](https://github.com/myparcelnl/actions/compare/v4.27.0...v4.27.1) (2024-08-14)
 
 
