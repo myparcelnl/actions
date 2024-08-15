@@ -31,6 +31,7 @@ runs:
         token: ${{ inputs.token }}
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
+        owner: ${{ github.repository_owner }}
 
     - uses: peter-evans/repository-dispatch@v3
       with:
