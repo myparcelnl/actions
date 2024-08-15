@@ -121,6 +121,8 @@ Generate credentials for a [GitHub app].
 | Yes      | `app-id`      | The app ID of the app.      | `${{ secrets.APP_ID }}`          | –       |
 | Yes      | `private-key` | The private key of the app. | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
 
+As well as the inputs from [actions/create-github-app-token@v1](https://github.com/actions/create-github-app-token).
+
 ##### Outputs
 
 | Name        | Description                  | Example                                |
@@ -154,19 +156,11 @@ Generate credentials for a [GitHub app]. Uses [setup-app-credentials], then sets
 
 ##### Inputs
 
-| Required | Name          | Description                 | Example                          | Default |
-| -------- | ------------- | --------------------------- | -------------------------------- | ------- |
-| Yes      | `app-id`      | The app ID of the app.      | `${{ secrets.APP_ID }}`          | –       |
-| Yes      | `private-key` | The private key of the app. | `${{ secrets.APP_PRIVATE_KEY }}` | –       |
+The same inputs as [setup-app-credentials](#setup-app-credentials).
 
 ##### Outputs
 
-| Name        | Description                  | Example                                |
-| ----------- | ---------------------------- | -------------------------------------- |
-| `name`      | The name of the app.         | `my-app`                               |
-| `token`     | The GitHub token of the app. | `***`                                  |
-| `git-name`  | The name to use with git.    | `my-app[bot]`                          |
-| `git-email` | The email to use with git.   | `my-app[bot]@users.noreply.github.com` |
+The same outputs as [setup-app-credentials](#setup-app-credentials).
 
 ### AWS
 
