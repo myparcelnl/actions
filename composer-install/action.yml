@@ -98,12 +98,18 @@ runs:
         IMAGE: ${{ steps.prepare.outputs.image }}
       #language=bash
       run: |
+        cacheFolder=/tmp/composer-cache
+        user="$(id -u):$(id -g)"
+
+        sudo mkdir -p         "$cacheFolder"
+        sudo chown -R "$user" "$cacheFolder"
+
         docker run \
           --env-file "$ENV_FILE" \
-          --volume $PWD:/app \
-          --volume /tmp/composer-cache:/root/.composer \
+          --volume "$PWD:/app" \
+          --volume "$cacheFolder:/root/.composer" \
           "$IMAGE" \
           composer $COMMAND --no-interaction --no-progress $FLAGS
 
-        sudo chown -R "$(id -u):$(id -g)" /tmp/composer-cache
-        sudo chown -R "$(id -u):$(id -g)" vendor
+        sudo chown -R "$user" "$cacheFolder"
+        sudo chown -R "$user" vendor
