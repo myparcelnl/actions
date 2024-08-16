@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.28.1](https://github.com/myparcelnl/actions/compare/v4.28.0...v4.28.1) (2024-08-16)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** fix permission error on install ([179e117](https://github.com/myparcelnl/actions/commit/179e1176c4a3476b9cd7e2b3cd515280d7bca764))
+
 ## [4.28.0](https://github.com/myparcelnl/actions/compare/v4.27.1...v4.28.0) (2024-08-15)
 
 
