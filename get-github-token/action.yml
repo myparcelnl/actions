@@ -11,6 +11,22 @@ inputs:
   private-key:
     description: 'The private key of the app.'
 
+  owner:
+    description: 'The owner of the GitHub App installation (defaults to current repository owner)'
+    required: false
+
+  repositories:
+    description: 'Repositories to install the GitHub App on (defaults to current repository if owner is unset)'
+    required: false
+
+  skip-token-revoke:
+    description: 'If truthy, the token will not be revoked when the current job is complete'
+    required: false
+
+  github-api-url:
+    description: 'The URL of the GitHub REST API.'
+    default: ${{ github.api_url }}
+
 outputs:
   token:
     description: 'The GitHub token.'
@@ -36,6 +52,10 @@ runs:
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
+        owner: ${{ inputs.owner }}
+        repositories: ${{ inputs.repositories }}
+        skip-token-revoke: ${{ inputs.skip-token-revoke }}
+        github-api-url: ${{ inputs.github-api-url }}
 
     - id: token
       if: inputs.token != ''
