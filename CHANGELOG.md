@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.28.2](https://github.com/myparcelnl/actions/compare/v4.28.1...v4.28.2) (2024-09-04)
+
+
+### :bug: Bug Fixes
+
+* **get-github-token:** add missing github credentials inputs ([ac96ed0](https://github.com/myparcelnl/actions/commit/ac96ed0c9d6f9f30b54e590cecd3ca9cd14eaf46))
+
 ## [4.28.1](https://github.com/myparcelnl/actions/compare/v4.28.0...v4.28.1) (2024-08-16)
 
 
