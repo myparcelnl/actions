@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.28.3](https://github.com/myparcelnl/actions/compare/v4.28.2...v4.28.3) (2024-09-11)
+
+
+### :bug: Bug Fixes
+
+* **setup-node:** fix folder permissions issue when using volta ([d7971d1](https://github.com/myparcelnl/actions/commit/d7971d138793fb5566276857f406846c063afca0))
+
 ## [4.28.2](https://github.com/myparcelnl/actions/compare/v4.28.1...v4.28.2) (2024-09-04)
 
 
