@@ -84,11 +84,17 @@ runs:
         vendor-files: ${{ inputs.vendor-files }}
         vendor-key: install-${{ steps.setup.outputs.composer-flags }}
 
+    - uses: myparcelnl/actions/pdk-create-root-command@v4
+      id: prepare
+      with:
+        env-file: ${{ steps.setup.outputs.env-file }}
+        image: ${{ steps.setup.outputs.image }}
+
     # The pdk-builder release step should be run through the release config
     - uses: myparcelnl/actions/semantic-release@v4
       id: release
       env:
-        PDK_ROOT_COMMAND: 'docker run -t --user $(id -u):$(id -g) --env-file="${{ steps.setup.outputs.env-file }}" -v $PWD:/app -w /app ${{ steps.setup.outputs.image }}'
+        PDK_ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
       with:
         token: ${{ steps.credentials.outputs.token }}
         write-summary: true

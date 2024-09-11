@@ -22,32 +22,22 @@ runs:
     - uses: myparcelnl/actions/composer-create-env-file@v4
       id: env
 
-    - name: 'Create root command'
+    - uses: myparcelnl/actions/pdk-create-root-command@v4
       id: prepare
-      shell: bash
-      env:
-        ENV_FILE: ${{ steps.env.outputs.filename }}
-        IMAGE: ${{ inputs.image }}
-      #language=bash
-      run: |
-        if [ -z "$IMAGE" ]; then
-          ROOT_COMMAND=''
-        else
-          ROOT_COMMAND="docker run -t --user $(id -u):$(id -g) --env-file=$ENV_FILE -v $PWD:/app -w /app $IMAGE"
-        fi
-
-        echo "root-command=$ROOT_COMMAND" >> $GITHUB_OUTPUT
+      with:
+        env-file: ${{ steps.env.outputs.filename }}
+        image: ${{ inputs.image }}
 
     - shell: bash
       env:
         ARGS: ${{ inputs.args }}
         COMMAND: ${{ inputs.command }}
         DEBUG: ${{ runner.debug }}
-        PDK_ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
+        ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
       #language=bash
       run: |
         if [ "$DEBUG" == '1' ]; then
           ARGS="$ARGS -vvv"
         fi
 
-        npx pdk-builder "$COMMAND" $ARGS --root-command="$PDK_ROOT_COMMAND"
+        npx pdk-builder "$COMMAND" $ARGS --root-command="$ROOT_COMMAND"
