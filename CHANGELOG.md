@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.28.4](https://github.com/myparcelnl/actions/compare/v4.28.3...v4.28.4) (2024-09-11)
+
+
+### :bug: Bug Fixes
+
+* **setup-node:** create .volta/tmp folder on install ([2ecd7c4](https://github.com/myparcelnl/actions/commit/2ecd7c488519f2c31bb98a8e03289a922ffff75f))
+
 ## [4.28.3](https://github.com/myparcelnl/actions/compare/v4.28.2...v4.28.3) (2024-09-11)
 
 
