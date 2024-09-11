@@ -87,6 +87,14 @@ runs:
         SUCCESS=false
 
         function install-volta() {
+          if [ ! -d ~/.volta ]; then
+            mkdir -p ~/.volta
+          fi
+
+          chown -R $USER ~/.volta
+          chmod 755      ~/.volta
+
+          # Install Volta
           curl https://get.volta.sh | bash
 
           export VOLTA_HOME="$HOME/.volta"
