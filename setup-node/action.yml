@@ -87,8 +87,8 @@ runs:
         SUCCESS=false
 
         function install-volta() {
-          if [ ! -d ~/.volta ]; then
-            mkdir -p ~/.volta
+          if [ ! -d ~/.volta/tmp ]; then
+            mkdir -p ~/.volta/tmp
           fi
 
           chown -R $USER ~/.volta
