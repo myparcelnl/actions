@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.29.0](https://github.com/myparcelnl/actions/compare/v4.28.4...v4.29.0) (2024-09-19)
+
+
+### :sparkles: New Features
+
+* **pdk:** extract root command logic to a single action ([8b99af8](https://github.com/myparcelnl/actions/commit/8b99af8c506be26e4ba2f1dc96de1a4c701f9add))
+* **pr-assign-author:** handle authors that cannot be assigned ([6349201](https://github.com/myparcelnl/actions/commit/6349201585c9989391b908de1071838e2c591a6f))
+
 ## [4.28.4](https://github.com/myparcelnl/actions/compare/v4.28.3...v4.28.4) (2024-09-11)
 
 
