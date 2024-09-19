@@ -23,20 +23,34 @@ runs:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
 
-    - name: 'Assign author if none are assigned'
+    - name: 'Assign author'
       uses: actions/github-script@v7
+      if: steps.check.outputs.assignable == 'true'
       with:
         github-token: ${{ steps.token.outputs.token }}
         #language=javascript
         script: |
           if (context.payload.pull_request.assignees.length > 0) {
+            console.log('Pull request already has assignees.');
             return;
           }
 
           const author = context.payload.pull_request.user.login;
 
-          github.rest.issues.addAssignees({
-              ...context.repo,
-              issue_number: context.payload.pull_request.number,
-              assignees: [author]
+          const permission = await github.rest.repos.getCollaboratorPermissionLevel({
+            ...context.repo,
+            username: author
           });
+
+          if (permission.permission !== 'admin' && permission.permission !== 'write') {
+            console.log(`Author "${author}" does not have the required permissions to be assigned.`);
+            return;
+          }
+
+          github.rest.issues.addAssignees({
+            ...context.repo,
+            issue_number: context.payload.pull_request.number,
+            assignees: [author]
+          });
+
+          console.log(`Assigned author "${author}" to pull request.`);
