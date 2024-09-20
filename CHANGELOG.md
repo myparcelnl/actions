@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.31.0](https://github.com/myparcelnl/actions/compare/v4.30.0...v4.31.0) (2024-09-20)
+
+
+### :sparkles: New Features
+
+* **pdk:** add update-deps option to pdk release flow ([2022dca](https://github.com/myparcelnl/actions/commit/2022dcafabbe5b474e5c1b5350e6c8fd79866b6b))
+
 ## [4.30.0](https://github.com/myparcelnl/actions/compare/v4.29.0...v4.30.0) (2024-09-20)
 
 
