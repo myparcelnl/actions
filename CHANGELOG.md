@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.30.0](https://github.com/myparcelnl/actions/compare/v4.29.0...v4.30.0) (2024-09-20)
+
+
+### :sparkles: New Features
+
+* add find-artifact ([3e710e4](https://github.com/myparcelnl/actions/commit/3e710e4b2dc7b97a9f3683c73771ee6d34f4090a))
+
 ## [4.29.0](https://github.com/myparcelnl/actions/compare/v4.28.4...v4.29.0) (2024-09-19)
 
 
