@@ -1,0 +1,121 @@
+name: 'Find artifact'
+description: 'Find an artifact by name in a repository.'
+
+inputs:
+  token:
+    description: 'GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.'
+
+  app-id:
+    description: 'The app ID of the app.'
+
+  private-key:
+    description: 'The private key of the app.'
+
+  artifact-name:
+    description: 'The name of the artifact to check for.'
+
+  repository:
+    description: 'The repository to check for the artifact in.'
+    required: false
+    default: ${{ github.repository }}
+
+  per-page:
+    description: 'The number of artifacts to fetch per page.'
+    required: false
+    default: 20
+
+  max-age:
+    description: 'The maximum age of the artifact in hours. Stops fetching artifacts if the age of the last found artifact is older than this.'
+    required: false
+    default: 24
+
+outputs:
+  id:
+    description: 'The ID of the artifact, if it exists.'
+    value: ${{ steps.find-artifact.outputs.id }}
+
+  exists:
+    description: 'Whether the artifact exists in the repository.'
+    value: ${{ steps.find-artifact.outputs.exists }}
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/get-github-token@v4
+      id: credentials
+      with:
+        token: ${{ inputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - name: 'Check if artifact exists'
+      uses: actions/github-script@v7
+      id: find-artifact
+      env:
+        ARTIFACT_NAME: ${{ inputs.artifact-name }}
+        REPO: ${{ inputs.repository }}
+        PER_PAGE: ${{ inputs.per-page }}
+        MAX_HOURS: ${{ inputs.max-age }}
+        GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
+      with:
+        #language=js
+        script: |
+          const PER_PAGE = Number(process.env.PER_PAGE);
+          const MAX_HOURS = Number(process.env.MAX_HOURS);
+          const ARTIFACT_NAME = process.env.ARTIFACT_NAME;
+
+          let totalCount = 0;
+          let found = 0;
+
+          async function searchArtifacts(page = 1) {
+            console.log(`Fetching artifacts from page ${page}...`);
+            
+            const { data: { artifacts, total_count } } = await github.rest.actions.listArtifactsForRepo({
+              ...context.repo,
+              per_page: PER_PAGE,
+              page
+            });
+            
+            totalCount = total_count;
+            found += artifacts.length;
+            
+            for (const artifact of artifacts) {
+              if (artifact.name !== ARTIFACT_NAME) {
+                continue;
+              }
+              
+              console.log(`Found artifact: ${artifact.name} with id ${artifact.id}`);
+              return artifact.id;
+            }
+            
+            if (found >= totalCount) {
+              console.log('No more artifacts found');
+              return null;
+            }
+            
+            const lastArtifact = artifacts[artifacts.length - 1];
+            const createdAt = new Date(lastArtifact.created_at);
+            const now = new Date();
+            const hours = Math.floor((now - createdAt) / 1000 / 60 / 60);
+            
+            if (hours >= MAX_HOURS) {
+              console.log('Last artifact is too old, stopping search');
+              return null;
+            }
+            
+            return searchArtifacts(page + 1);
+          }
+
+          (async() => {
+            const artifactId = await searchArtifacts();
+            
+            console.log(`Total artifacts: ${totalCount}`);
+            console.log(`Found artifacts: ${found}`);
+
+            if (artifactId) {
+              core.setOutput('exists', true);
+              core.setOutput('id', artifactId);
+            } else {
+              core.setOutput('exists', false);
+            }
+          })();

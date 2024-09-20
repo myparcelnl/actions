@@ -37,6 +37,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [update-tags](#update-tags)
     - [compare-branches](#compare-branches)
   - [GitHub](#github)
+    - [find-artifact](#find-artifact)
     - [get-github-token](#get-github-token)
     - [pr-assign-author](#pr-assign-author)
     - [pr-label-by-review](#pr-label-by-review)
@@ -825,6 +826,42 @@ Check if there are new commits in head that are not in base.
 | `compare-url` | Link to the compare view of both commits     | `https://github.com/myparcelnl/woocommerce/compare/main..develop` |
 
 ### GitHub
+
+#### find-artifact
+
+[Source](find-artifact/action.yml)
+
+Find an artifact in a repository. Returns the ID of the artifact if it exists.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/find-artifact@v4
+  id: artifact
+  with:
+    artifact-name: my-artifact
+    repository: myparcelnl/actions
+    per-page: 10
+    max-age: 12 # hours
+```
+
+##### Inputs
+
+This action uses the [App inputs](#app-inputs), as well as the following:
+
+| Required | Name            | Description                                  | Example              | Default                    |
+| -------- | --------------- | -------------------------------------------- | -------------------- | -------------------------- |
+| Yes      | `artifact-name` | The name of the artifact to check for.       | `my-artifact`        | –                          |
+| No       | `repository`    | The repository to check for the artifact in. | `myparcelnl/actions` | `${{ github.repository }}` |
+| No       | `per-page`      | The number of artifacts to fetch per page.   | `20`                 | `20`                       |
+| No       | `max-age`       | The maximum age of the artifact in hours.    | `24`                 | `24`                       |
+
+##### Outputs
+
+| Name     | Description                                    | Example |
+| -------- | ---------------------------------------------- | ------- |
+| `id`     | The ID of the artifact, if it exists.          | `1234`  |
+| `exists` | Whether the artifact exists in the repository. | `true`  |
 
 #### get-github-token
 
