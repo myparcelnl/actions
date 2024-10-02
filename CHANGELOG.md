@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.31.1](https://github.com/myparcelnl/actions/compare/v4.31.0...v4.31.1) (2024-10-02)
+
+
+### :bug: Bug Fixes
+
+* **composer:** update cache logic ([7461e2d](https://github.com/myparcelnl/actions/commit/7461e2d7b3a4c53a81ced1a716c7112911fbc98e))
+
 ## [4.31.0](https://github.com/myparcelnl/actions/compare/v4.30.0...v4.31.0) (2024-09-20)
 
 
