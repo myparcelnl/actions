@@ -37,7 +37,7 @@ runs:
       with:
         string: ${{ inputs.flags }}
 
-    - name: 'Get image name'
+    - name: 'Prepare'
       id: prepare
       shell: bash
       env:
@@ -45,6 +45,7 @@ runs:
       #language=bash
       run: |
         echo "image=ghcr.io/myparcelnl/php-xd:$VERSION-cli-alpine" >> $GITHUB_OUTPUT
+        echo "cache-dir=/tmp/cache/composer"                       >> $GITHUB_OUTPUT
 
     - uses: myparcelnl/actions/create-cache-keys@v4
       id: keys-composer
@@ -60,7 +61,7 @@ runs:
     - name: 'Handle composer cache'
       uses: actions/cache@v4
       with:
-        path: /tmp/composer-cache
+        path: ${{ steps.prepare.outputs.cache-dir }}
         key: ${{ steps.keys-composer.outputs.key }}
         restore-keys: ${{ steps.keys-composer.outputs.restore-keys }}
 
@@ -92,24 +93,19 @@ runs:
     - name: 'Install composer dependencies'
       shell: bash
       env:
+        CACHE_DIR: ${{ steps.prepare.outputs.cache-dir }}
         COMMAND: ${{ inputs.command }}
         ENV_FILE: ${{ steps.env.outputs.filename }}
         FLAGS: ${{ steps.flags.outputs.string }}
         IMAGE: ${{ steps.prepare.outputs.image }}
       #language=bash
       run: |
-        cacheFolder=/tmp/composer-cache
-        user="$(id -u):$(id -g)"
-
-        sudo mkdir -p         "$cacheFolder"
-        sudo chown -R "$user" "$cacheFolder"
+        source "$ENV_FILE"
 
         docker run \
-          --env-file "$ENV_FILE" \
           --volume "$PWD:/app" \
-          --volume "$cacheFolder:/root/.composer" \
+          --volume "$CACHE_DIR:$COMPOSER_CACHE_DIR" \
+          --user "$(id -u):$(id -g)" \
+          --env-file "$ENV_FILE" \
           "$IMAGE" \
           composer $COMMAND --no-interaction --no-progress $FLAGS
-
-        sudo chown -R "$user" "$cacheFolder"
-        sudo chown -R "$user" vendor
