@@ -28,7 +28,6 @@ runs:
     - name: 'Create variables'
       id: variables
       shell: bash
-
       #language=bash
       run: |
         version=$(yarn --version | cut -d. -f1)
