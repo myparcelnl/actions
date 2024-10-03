@@ -16,6 +16,7 @@ inputs:
     default: ${{ github.repository }}
 
   head:
+    default: '${{ github.repository_owner }}:*'
     description: >
       Filter pull requests by head user or head organization and branch name in the format user:ref-name or organization:ref-name.
       For example: github:new-script-format or octocat:test-branch.

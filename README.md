@@ -1054,6 +1054,7 @@ Wraps [`peter-evans/rebase`](https://github.com/peter-evans/rebase) with the abi
 
 - Uses [get-github-token] to get a token.
 - Passes the token and other inputs to `peter-evans/rebase`.
+- Sets `${{ github.repository_owner }}:*` as a default value for the `head` input to ignore forks.
 
 ##### Inputs
 
