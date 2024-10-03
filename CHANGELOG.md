@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.32.0](https://github.com/myparcelnl/actions/compare/v4.31.1...v4.32.0) (2024-10-03)
+
+
+### :sparkles: New Features
+
+* **rebase-prs:** ignore forks by default ([d6599b3](https://github.com/myparcelnl/actions/commit/d6599b3bdd6115b9900f908cc089fb542980d851))
+
 ## [4.31.1](https://github.com/myparcelnl/actions/compare/v4.31.0...v4.31.1) (2024-10-02)
 
 
