@@ -68,6 +68,13 @@ runs:
         node-version: ${{ inputs.node-version }}
         yarn-args: ${{ inputs.yarn-args }}
 
+    - name: 'Install yarn deps if not setting up frontend'
+      if: inputs.mode == 'backend'
+      uses: myparcelnl/actions/yarn-install@v4
+      with:
+        yarn-args: ${{ inputs.yarn-args }}
+        node-version: ${{ inputs.node-version }}
+
     - uses: myparcelnl/actions/pdk-upgrade@v4
       with:
         app-id: ${{ inputs.app-id }}
