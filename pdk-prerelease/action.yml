@@ -1,0 +1,111 @@
+name: 'Create prerelease artifacts'
+description: 'Can be used with pull requests or push events'
+
+inputs:
+  app-id:
+    required: true
+    description: 'The app ID of the GitHub app.'
+
+  private-key:
+    required: true
+    description: 'The private key of the GitHub app.'
+
+  ref:
+    description: 'The ref to check out.'
+    required: false
+    default: ${{ github.event.client_payload.ref || github.ref }}
+
+  pr-number:
+    description: 'Pull request number. Needed when mode is pull_request.'
+    required: false
+    default: ${{ github.event.client_payload.pull_request.number }}
+
+  php-version:
+    description: 'PHP version that is used'
+    required: false
+    default: '7.4'
+
+  php-scoper-version:
+    description: 'PHP Scoper Version'
+    required: false
+    default: '^0.18.0'
+
+  source-files:
+    description: 'List of source files to use for caching'
+    required: true
+
+  vendor-files:
+    description: 'List of files to use for vendor caching'
+    required: false
+    default: |
+      **/composer.json
+      **/composer.lock
+      **/scoper.inc.php
+      **/scoper.*.inc.php
+
+  mode:
+    description: 'The mode to run in. Will be inferred from github event automatically. Can be pull_request or push'
+    required: false
+    default: ${{ github.event_name }}
+
+outputs:
+  version:
+    description: 'The version that was released.'
+    value: ${{ steps.version.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Report invalid mode'
+      if: inputs.mode != 'pull_request' && inputs.mode != 'push'
+      shell: bash
+      #language=bash
+      run: |
+        echo "Mode is not pull_request or push, stopping"
+        exit 1
+
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.ref }}
+        fetch-depth: 0
+
+    - name: 'Determine version'
+      id: version
+      shell: bash
+      env:
+        MODE: ${{ inputs.mode }}
+        PR_NUMBER: ${{ inputs.pr-number }}
+      #language=bash
+      run: |
+        version=$(npm pkg get version | sed 's/"//g')
+
+        if [ "$MODE" == "push" ]; then
+          commitsSinceTag=$(git log --oneline v$version.. | wc -l)
+          releaseVersion="$version-$commitsSinceTag"
+        else
+          releaseVersion="$version-$PR_NUMBER"
+        fi
+
+        echo "version=$releaseVersion" >> $GITHUB_OUTPUT
+
+    - uses: myparcelnl/actions/pdk-setup-upgrade@v4
+      id: setup
+      with:
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+        php-version: ${{ inputs.php-version }}
+        composer-dev: 'false'
+
+    - uses: myparcelnl/actions/pdk-cache@v4
+      with:
+        php-version: ${{ inputs.php-version }}
+        php-scoper-version: ${{ inputs.php-scoper-version }}
+        source-files: ${{ inputs.source-files }}
+        vendor-files: ${{ inputs.vendor-files }}
+        vendor-key: install-${{ steps.setup.outputs.composer-flags }}
+
+    - uses: myparcelnl/actions/pdk-release@v4
+      with:
+        command: 'prerelease'
+        image: ${{ inputs.image }}
+        version: ${{ steps.version.outputs.version }}

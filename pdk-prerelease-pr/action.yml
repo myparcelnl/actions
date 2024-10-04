@@ -45,52 +45,25 @@ inputs:
 outputs:
   version:
     description: 'The version that was released.'
-    value: ${{ steps.version.outputs.version }}
+    value: ${{ steps.prerelease.outputs.version }}
 
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v4
+    - uses: myparcelnl/actions/deprecated@v4
       with:
-        ref: ${{ inputs.ref }}
-        fetch-depth: 0
+        name: 'pdk-prerelease-pr'
+        replacement: 'pdk-prerelease'
 
-    - name: 'Determine version'
-      id: version
-      shell: bash
-      env:
-        PR_NUMBER: ${{ inputs.pr-number }}
-      #language=bash
-      run: |
-        version=$(npm pkg get version | sed 's/"//g') 
-        releaseVersion="$version-$PR_NUMBER"
-
-        echo "version=$releaseVersion" >> $GITHUB_OUTPUT
-
-    - uses: myparcelnl/actions/pdk-setup@v4
-      id: setup
+    - uses: myparcelnl/actions/pdk-prerelease@v4
+      id: prerelease
       with:
-        php-version: ${{ inputs.php-version }}
-        composer-dev: 'false'
-
-    - uses: myparcelnl/actions/pdk-upgrade@v4
-      with:
+        mode: 'pull_request'
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
-        no-check: true
-        no-commit: true
-        image: ${{ steps.setup.outputs.image }}
-
-    - uses: myparcelnl/actions/pdk-cache@v4
-      with:
+        ref: ${{ inputs.ref }}
+        pr-number: ${{ inputs.pr-number }}
         php-version: ${{ inputs.php-version }}
         php-scoper-version: ${{ inputs.php-scoper-version }}
         source-files: ${{ inputs.source-files }}
         vendor-files: ${{ inputs.vendor-files }}
-        vendor-key: install-${{ steps.setup.outputs.composer-flags }}
-
-    - uses: myparcelnl/actions/pdk-release@v4
-      with:
-        command: 'prerelease'
-        image: ${{ inputs.image }}
-        version: ${{ steps.version.outputs.version }}
