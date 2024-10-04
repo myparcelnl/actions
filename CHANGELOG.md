@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.34.1](https://github.com/myparcelnl/actions/compare/v4.34.0...v4.34.1) (2024-10-04)
+
+
+### :bug: Bug Fixes
+
+* **pdk-setup-upgrade:** install yarn deps in backend mode ([ee64fc7](https://github.com/myparcelnl/actions/commit/ee64fc70ba386c30863a5816170b5f857f11882b))
+
 ## [4.34.0](https://github.com/myparcelnl/actions/compare/v4.33.0...v4.34.0) (2024-10-04)
 
 
