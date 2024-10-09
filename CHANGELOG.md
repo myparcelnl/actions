@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.36.2](https://github.com/myparcelnl/actions/compare/v4.36.1...v4.36.2) (2024-10-09)
+
+
+### :bug: Bug Fixes
+
+* **codecov:** streamline inputs ([a444621](https://github.com/myparcelnl/actions/commit/a444621b095623767befecbf2e524fca8b78160e))
+
 ## [4.36.1](https://github.com/myparcelnl/actions/compare/v4.36.0...v4.36.1) (2024-10-09)
 
 
