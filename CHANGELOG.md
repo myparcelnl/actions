@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.36.1](https://github.com/myparcelnl/actions/compare/v4.36.0...v4.36.1) (2024-10-09)
+
+
+### :bug: Bug Fixes
+
+* **nx-run-many:** fix error when running ([0f49346](https://github.com/myparcelnl/actions/commit/0f4934627c4e5b0da222fe8ce88d2d2984d7b0bc))
+
 ## [4.36.0](https://github.com/myparcelnl/actions/compare/v4.35.0...v4.36.0) (2024-10-09)
 
 
