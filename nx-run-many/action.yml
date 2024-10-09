@@ -3,7 +3,7 @@ description: 'Run multiple actions in parallel'
 
 inputs:
   target:
-    description: 'The target to run'
+    description: 'The target(s) to run'
     required: true
 
   cloud:
@@ -56,13 +56,28 @@ runs:
 
         echo "args=$ARGS"         >> $GITHUB_OUTPUT
 
-    - uses: myparcelnl/actions/nx-run@v4
+    - uses: myparcelnl/actions/nx-cache@v4
+      if: inputs.cloud == 'false'
       with:
-        command: 'run-many'
-        args: ${{ steps.prepare.outputs.args }}
         cache-dir: ${{ inputs.cache-dir }}
-        cloud: ${{ inputs.cloud }}
         max-cache-size: ${{ inputs.max-cache-size }}
-        prefix: ${{ inputs.prefix }}
-        runner: ${{ inputs.runner }}
-        target: ${{ inputs.target }}
+
+    - name: 'Run'
+      shell: bash
+      env:
+        NX_CACHE_DIRECTORY: ${{ inputs.cache-dir }}
+        NX_INTERACTIVE: 'false'
+        NX_PARALLEL: ${{ inputs.parallel }}
+        NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
+        NX_TASKS_RUNNER: ${{ inputs.runner }}
+        NX_VERBOSE_LOGGING: ${{ runner.debug }}
+        ARGS: ${{ steps.prepare.outputs.args }}
+        COMMAND: ${{ inputs.command }}
+        PREFIX: ${{ inputs.prefix }}
+        TARGET: ${{ inputs.target }}
+      #language=bash
+      run: |
+        $PREFIX nx run-many \
+          -t "$TARGET" \
+          --output-style=static \
+          $ARGS
