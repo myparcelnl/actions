@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.35.0](https://github.com/myparcelnl/actions/compare/v4.34.1...v4.35.0) (2024-10-09)
+
+
+### :bug: Bug Fixes
+
+* **nx-cache:** remove deprecated save-always input ([d5862b9](https://github.com/myparcelnl/actions/commit/d5862b95a4825ea189c2955f2d462d6689b32a78))
+
+
+### :sparkles: New Features
+
+* **nx:** improve inputs and support cloud runs properly ([ef2a259](https://github.com/myparcelnl/actions/commit/ef2a2599f74e1314a0c754c4a76062d996fb5f25))
+
 ## [4.34.1](https://github.com/myparcelnl/actions/compare/v4.34.0...v4.34.1) (2024-10-04)
 
 
