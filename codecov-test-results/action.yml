@@ -61,6 +61,7 @@ runs:
       id: glob
       with:
         files: ${{ inputs.files }}
+        read-gitignore: false
 
     - uses: codecov/test-results-action@v1
       with:

@@ -69,6 +69,7 @@ runs:
       id: glob
       with:
         files: ${{ inputs.files }}
+        read-gitignore: false
 
     - uses: codecov/codecov-action@v4
       with:
