@@ -47,7 +47,6 @@ runs:
       if: steps.prepare.outputs.cache-exists == 'false'
       with:
         path: ${{ inputs.cache-dir }}
-        save-always: true
         key: nx-cache
 
     - name: 'Prune cache'
