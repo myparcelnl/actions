@@ -3,11 +3,7 @@ description: 'Upload test results to Codecov, with glob support'
 
 inputs:
   files:
-    description: 'Glob pattern or list of files to find results files'
-    required: false
-
-  excluded-files:
-    description: 'Excluded file patterns (optionally include `!` before the file pattern or it would be prepended)'
+    description: 'Glob pattern or list of files to find coverage files, separated by newlines.'
     required: false
 
   ###
@@ -23,10 +19,6 @@ inputs:
 
   name:
     description: 'User defined upload name. Visible in Codecov UI'
-    required: false
-
-  verbose:
-    description: 'Specify whether the Codecov output should be verbose'
     required: false
 
   version:
@@ -53,11 +45,11 @@ runs:
         # Disable search if files are provided
         if [ -n "$FILES" ]; then
           disableSearch="true"
-        fi
 
-        # Needs glob if files are provided and contains a "*" character
-        if [ -n "$FILES" ] && [[ "$FILES" == *"*"* ]]; then
-          needsGlob="true"
+          # Needs glob if files contains a "*" character
+          if [[ "$FILES" == *"*"* ]]; then
+            needsGlob="true"
+          fi        
         fi
 
         echo "disable-search=$disableSearch" >> $GITHUB_OUTPUT
@@ -68,8 +60,6 @@ runs:
       uses: tj-actions/glob@v22
       id: glob
       with:
-        excluded-files: ${{ inputs.excluded-files }}
-        separator: ','
         files: ${{ inputs.files }}
 
     - uses: codecov/test-results-action@v1
@@ -79,6 +69,6 @@ runs:
         flags: ${{ inputs.flags }}
         name: ${{ inputs.name }}
         token: ${{ inputs.token }}
-        verbose: ${{ inputs.verbose }}
+        verbose: ${{ runner.debug }}
         version: ${{ inputs.version }}
         working-directory: ${{ inputs.working-directory }}

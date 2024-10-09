@@ -474,10 +474,9 @@ Replacement for [codecov/codecov-action] that supports glob input in `files`.
 
 ##### Inputs
 
-| Required | Name             | Description                                                                                      | Example           | Default |
-| -------- | ---------------- | ------------------------------------------------------------------------------------------------ | ----------------- | ------- |
-| No       | `files`          | Glob pattern or list of files to find coverage files                                             | `coverage/*.xml`  | –       |
-| No       | `excluded-files` | Excluded file patterns (optionally include `!` before the file pattern or it would be prepended) | `!coverage/*.xml` | –       |
+| Required | Name    | Description                                                                | Example          | Default |
+| -------- | ------- | -------------------------------------------------------------------------- | ---------------- | ------- |
+| No       | `files` | Glob pattern or list of files to find results files, separated by newlines | `coverage/*.xml` | –       |
 
 The following inputs are copied from the [codecov/codecov-action] action:
 
@@ -486,7 +485,6 @@ The following inputs are copied from the [codecov/codecov-action] action:
 - `name`
 - `plugin`
 - `plugins`
-- `verbose`
 - `version`
 - `working-directory`
 
@@ -519,17 +517,15 @@ Replacement for [codecov/test-results-action] that supports glob input in `files
 
 ##### Inputs
 
-| Required | Name             | Description                                                                                      | Example         | Default |
-| -------- | ---------------- | ------------------------------------------------------------------------------------------------ | --------------- | ------- |
-| No       | `files`          | Glob pattern or list of files to find results files                                              | `**/junit.xml`  | –       |
-| No       | `excluded-files` | Excluded file patterns (optionally include `!` before the file pattern or it would be prepended) | `!folder/*.xml` | –       |
+| Required | Name    | Description                                                                | Example        | Default |
+| -------- | ------- | -------------------------------------------------------------------------- | -------------- | ------- |
+| No       | `files` | Glob pattern or list of files to find results files, separated by newlines | `**/junit.xml` | –       |
 
 The following inputs are copied from the [codecov/test-results-action] action:
 
 - `token`
 - `flags`
 - `name`
-- `verbose`
 - `version`
 - `working-directory`
 
