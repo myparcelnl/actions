@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.36.0](https://github.com/myparcelnl/actions/compare/v4.35.0...v4.36.0) (2024-10-09)
+
+
+### :sparkles: New Features
+
+* **codecov:** add test results action ([a9427c6](https://github.com/myparcelnl/actions/commit/a9427c69de91ba0e15ce5bab957dc8463757e557))
+
 ## [4.35.0](https://github.com/myparcelnl/actions/compare/v4.34.1...v4.35.0) (2024-10-09)
 
 
