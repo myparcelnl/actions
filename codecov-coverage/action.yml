@@ -1,5 +1,4 @@
-# TODO: Remove this action in v5
-name: 'Codecov'
+name: 'Codecov coverage'
 description: 'Upload coverage reports to Codecov, with glob support'
 
 inputs:
@@ -49,20 +48,47 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/deprecated@v4
-      with:
-        name: 'myparcelnl/codecov-action'
-        replacement: 'myparcelnl/codecov-coverage'
+    - name: 'Prepare'
+      id: prepare
+      shell: bash
+      env:
+        FILES: ${{ inputs.files }}
+      #language=bash
+      run: |
+        disableSearch="false"
+        needsGlob="false"
 
-    - uses: myparcelnl/actions/codecov-coverage@v4
+        # Disable search if files are provided
+        if [ -n "$FILES" ]; then
+          disableSearch="true"
+        fi
+
+        # Needs glob if files are provided and contains a "*" character
+        if [ -n "$FILES" ] && [[ "$FILES" == *"*"* ]]; then
+          needsGlob="true"
+        fi
+
+        echo "disable-search=$disableSearch" >> $GITHUB_OUTPUT
+        echo "needs-glob=$needsGlob" >> $GITHUB_OUTPUT
+
+    - name: 'Glob files'
+      if: steps.prepare.outputs.needs-glob == 'true'
+      uses: tj-actions/glob@v22
+      id: glob
       with:
-        files: ${{ inputs.files }}
         excluded-files: ${{ inputs.excluded-files }}
-        token: ${{ inputs.token }}
+        separator: ','
+        files: ${{ inputs.files }}
+
+    - uses: codecov/codecov-action@v4
+      with:
+        disable_search: ${{ steps.prepare.outputs.disable-search }}
+        files: ${{ steps.glob.outputs.paths || inputs.files }}
         flags: ${{ inputs.flags }}
         name: ${{ inputs.name }}
         plugin: ${{ inputs.plugin }}
         plugins: ${{ inputs.plugins }}
+        token: ${{ inputs.token }}
         verbose: ${{ inputs.verbose }}
         version: ${{ inputs.version }}
         working-directory: ${{ inputs.working-directory }}

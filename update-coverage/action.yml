@@ -1,3 +1,4 @@
+# TODO: Remove this action in v5
 name: 'Update code coverage'
 description: 'Update code coverage using codecov'
 
@@ -12,8 +13,8 @@ runs:
     - uses: myparcelnl/actions/deprecated@v4
       with:
         name: 'myparcelnl/update-coverage'
-        replacement: 'myparcelnl/codecov-action'
+        replacement: 'myparcelnl/codecov-coverage'
 
-    - uses: myparcelnl/actions/codecov-action@v4
+    - uses: myparcelnl/actions/codecov-coverage@v4
       with:
         token: ${{ inputs.token }}

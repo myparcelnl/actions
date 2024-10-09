@@ -1,0 +1,84 @@
+name: 'Codecov test results'
+description: 'Upload test results to Codecov, with glob support'
+
+inputs:
+  files:
+    description: 'Glob pattern or list of files to find results files'
+    required: false
+
+  excluded-files:
+    description: 'Excluded file patterns (optionally include `!` before the file pattern or it would be prepended)'
+    required: false
+
+  ###
+  # The following inputs are copied from the Codecov action. We've omitted many of them for brevity.
+  ###
+  token:
+    description: 'Repository Codecov token. Used to authorize report uploads'
+    required: false
+
+  flags:
+    description: 'Flag upload to group test results (e.g. py3.10)'
+    required: false
+
+  name:
+    description: 'User defined upload name. Visible in Codecov UI'
+    required: false
+
+  verbose:
+    description: 'Specify whether the Codecov output should be verbose'
+    required: false
+
+  version:
+    description: 'Specify which version of the Codecov CLI should be used. Defaults to `latest`'
+    required: false
+
+  working-directory:
+    description: 'Directory in which to execute codecov.sh'
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: 'Prepare'
+      id: prepare
+      shell: bash
+      env:
+        FILES: ${{ inputs.files }}
+      #language=bash
+      run: |
+        disableSearch="false"
+        needsGlob="false"
+
+        # Disable search if files are provided
+        if [ -n "$FILES" ]; then
+          disableSearch="true"
+        fi
+
+        # Needs glob if files are provided and contains a "*" character
+        if [ -n "$FILES" ] && [[ "$FILES" == *"*"* ]]; then
+          needsGlob="true"
+        fi
+
+        echo "disable-search=$disableSearch" >> $GITHUB_OUTPUT
+        echo "needs-glob=$needsGlob" >> $GITHUB_OUTPUT
+
+    - name: 'Glob files'
+      if: steps.prepare.outputs.needs-glob == 'true'
+      uses: tj-actions/glob@v22
+      id: glob
+      with:
+        excluded-files: ${{ inputs.excluded-files }}
+        separator: ','
+        files: ${{ inputs.files }}
+
+    - uses: codecov/test-results-action@v1
+      with:
+        disable_search: ${{ steps.prepare.outputs.disable-search }}
+        files: ${{ steps.glob.outputs.paths || inputs.files }}
+        flags: ${{ inputs.flags }}
+        name: ${{ inputs.name }}
+        token: ${{ inputs.token }}
+        verbose: ${{ inputs.verbose }}
+        version: ${{ inputs.version }}
+        working-directory: ${{ inputs.working-directory }}

@@ -3,6 +3,8 @@
 .vscode
 coverage/
 
+junit.xml
+
 .yarn/*
 !.yarn/releases
 !.yarn/patches

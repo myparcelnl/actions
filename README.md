@@ -445,9 +445,9 @@ Run [PHPStan](https://phpstan.org/) through composer.
 
 ### Testing
 
-#### codecov-action
+#### codecov-coverage
 
-[Source](codecov-action/action.yml)
+[Source](codecov-coverage/action.yml)
 
 Replacement for [codecov/codecov-action] that supports glob input in `files`.
 
@@ -457,14 +457,14 @@ Replacement for [codecov/codecov-action] that supports glob input in `files`.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/codecov-action@v4
+- uses: myparcelnl/actions/codecov-coverage@v4
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
     flags: unit,frontend
     files: |
       frontend/**/coverage/*.xml
 
-- uses: myparcelnl/actions/codecov-action@v4
+- uses: myparcelnl/actions/codecov-coverage@v4
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
     flags: unit,backend
@@ -486,6 +486,49 @@ The following inputs are copied from the [codecov/codecov-action] action:
 - `name`
 - `plugin`
 - `plugins`
+- `verbose`
+- `version`
+- `working-directory`
+
+#### codecov-test-results
+
+[Source](codecov-coverage/action.yml)
+
+Replacement for [codecov/test-results-action] that supports glob input in `files`.
+
+1. Runs [tj-actions/glob](https://github.com/tj-actions/glob) with the provided `files` input.
+2. Runs [codecov/test-results-action] with the resolved files.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/codecov-test-results@v4
+  with:
+    token: ${{ secrets.CODECOV_TOKEN }}
+    flags: unit,frontend
+    files: |
+      frontend/**/junit.xml
+
+- uses: myparcelnl/actions/codecov-test-results@v4
+  with:
+    token: ${{ secrets.CODECOV_TOKEN }}
+    flags: unit,backend
+    files: |
+      backend/**/junit.xml
+```
+
+##### Inputs
+
+| Required | Name             | Description                                                                                      | Example         | Default |
+| -------- | ---------------- | ------------------------------------------------------------------------------------------------ | --------------- | ------- |
+| No       | `files`          | Glob pattern or list of files to find results files                                              | `**/junit.xml`  | –       |
+| No       | `excluded-files` | Excluded file patterns (optionally include `!` before the file pattern or it would be prepended) | `!folder/*.xml` | –       |
+
+The following inputs are copied from the [codecov/test-results-action] action:
+
+- `token`
+- `flags`
+- `name`
 - `verbose`
 - `version`
 - `working-directory`
@@ -1433,6 +1476,7 @@ These inputs apply on top of the other inputs of the action that allows for GitH
 [build-docker-image-reg]: #build-docker-image-reg
 [build-docker-image]: #build-docker-image
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
+[codecov/test-results-action]: https://github.com/codecov/test-results-action
 [composer-install]: #composer-install
 [composer-update]: #composer-update
 [npm-install]: #npm-install
