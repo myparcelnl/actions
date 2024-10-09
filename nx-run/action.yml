@@ -6,10 +6,18 @@ inputs:
     description: 'The target to run'
     required: true
 
+  cloud:
+    description: 'Whether this will run using nx cloud'
+    required: false
+    default: 'false'
+
+  runner:
+    description: 'The runner to use'
+    required: false
+
   args:
     description: 'The arguments to pass to the target'
     required: false
-    default: ''
 
   prefix:
     description: 'The prefix to use for the commands'
@@ -26,10 +34,16 @@ inputs:
     required: false
     default: '8192'
 
+  command:
+    description: 'The command to run'
+    required: false
+    default: 'run'
+
 runs:
   using: composite
   steps:
     - uses: myparcelnl/actions/nx-cache@v4
+      if: inputs.cloud == 'false'
       with:
         cache-dir: ${{ inputs.cache-dir }}
         max-cache-size: ${{ inputs.max-cache-size }}
@@ -38,9 +52,18 @@ runs:
       shell: bash
       env:
         NX_CACHE_DIRECTORY: ${{ inputs.cache-dir }}
+        NX_INTERACTIVE: 'false'
+        NX_PARALLEL: ${{ inputs.parallel }}
         NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
+        NX_TASKS_RUNNER: ${{ inputs.runner }}
+        NX_VERBOSE_LOGGING: ${{ runner.debug }}
+        ARGS: ${{ inputs.args }}
+        COMMAND: ${{ inputs.command }}
+        PREFIX: ${{ inputs.prefix }}
+        TARGET: ${{ inputs.target }}
       #language=bash
       run: |
-        ${{ inputs.prefix }} nx run ${{ inputs.target }} \
+        $PREFIX nx $COMMAND \
+          "$TARGET" \
           --output-style=static \
-          ${{ inputs.args }}
+          $ARGS

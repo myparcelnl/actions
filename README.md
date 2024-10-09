@@ -1208,18 +1208,23 @@ Run `nx run` with the provided arguments.
   with:
     target: 'my-project:build'
     prefix: 'yarn'
-    args: '--runner=cloud'
+    cloud: true
+    runner: 'cloud'
+    args: '--exclude=some-project'
 ```
 
 ##### Inputs
 
-| Required | Name              | Description                        | Example              | Default     |
-| -------- | ----------------- | ---------------------------------- | -------------------- | ----------- |
-| Yes      | `target`          | The target to run.                 | `my-project:build`   | -           |
-| No       | `prefix`          | The prefix to use with `nx`.       | `yarn`               | `npx`       |
-| No       | `args`            | Arguments to pass to the command.  | `--runner=cloud`     | -           |
-| No       | `cache-directory` | The nx cache directory             | `./path/to/nx/cache` | `.nx/cache` |
-| No       | `max-cache-size`  | Maximum size of the nx cache in KB | `4096`               | `8192`      |
+| Required | Name              | Description                          | Example              | Default     |
+| -------- | ----------------- | ------------------------------------ | -------------------- | ----------- |
+| Yes      | `target`          | The target to run.                   | `my-project:build`   | -           |
+| No       | `prefix`          | The prefix to use with `nx`.         | `yarn`               | `npx`       |
+| No       | `args`            | Arguments to pass to the command.    | `--runner=cloud`     | -           |
+| No       | `cache-directory` | The nx cache directory               | `./path/to/nx/cache` | `.nx/cache` |
+| No       | `max-cache-size`  | Maximum size of the nx cache in KB   | `4096`               | `8192`      |
+| No       | `cloud`           | Whether this will run using nx cloud | `true`               | `false`     |
+| No       | `command`         | The command to run                   | `run-many`           | `run`       |
+| No       | `runner`          | The runner to use                    | `cloud`              | -           |
 
 #### nx-run-many
 
@@ -1237,18 +1242,24 @@ Run `nx run-many` with the provided arguments.
   with:
     target: 'build'
     prefix: 'yarn'
-    args: '--all --runner=cloud'
+    cloud: true
+    runner: 'cloud'
+    args: '--exclude=some-project'
 ```
 
 ##### Inputs
 
-| Required | Name              | Description                        | Example                | Default     |
-| -------- | ----------------- | ---------------------------------- | ---------------------- | ----------- |
-| Yes      | `target`          | The target to run.                 | `build`                | -           |
-| No       | `prefix`          | The prefix to use with `nx`.       | `yarn`                 | `npx`       |
-| No       | `args`            | Arguments to pass to the command.  | `--all --runner=cloud` | -           |
-| No       | `cache-directory` | The nx cache directory             | `./path/to/nx/cache`   | `.nx/cache` |
-| No       | `max-cache-size`  | Maximum size of the nx cache in KB | `4096`                 | `8192`      |
+| Required | Name              | Description                           | Example                | Default     |
+| -------- | ----------------- | ------------------------------------- | ---------------------- | ----------- |
+| Yes      | `target`          | The target to run.                    | `build`                | -           |
+| No       | `prefix`          | The prefix to use with `nx`.          | `yarn`                 | `npx`       |
+| No       | `args`            | Arguments to pass to the command.     | `--all --runner=cloud` | -           |
+| No       | `cache-directory` | The nx cache directory                | `./path/to/nx/cache`   | `.nx/cache` |
+| No       | `max-cache-size`  | Maximum size of the nx cache in KB    | `4096`                 | `8192`      |
+| No       | `cloud`           | Whether this will run using nx cloud  | `true`                 | `false`     |
+| No       | `command`         | The command to run                    | `run-many`             | `run`       |
+| No       | `runner`          | The runner to use                     | `cloud`                | -           |
+| No       | `parallel`        | How many commands can run in parallel | `1`                    | -           |
 
 ### Miscellaneous
 

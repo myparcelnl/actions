@@ -6,10 +6,23 @@ inputs:
     description: 'The target to run'
     required: true
 
+  cloud:
+    description: 'Whether this will run using nx cloud'
+    required: false
+    default: 'false'
+
+  runner:
+    description: 'The runner to use'
+    required: false
+
+  parallel:
+    description: 'The number of parallel jobs to run'
+    required: false
+    default: ''
+
   args:
     description: 'The arguments to pass to the target'
     required: false
-    default: ''
 
   prefix:
     description: 'The prefix to use for the commands'
@@ -29,19 +42,27 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/nx-cache@v4
-      with:
-        cache-dir: ${{ inputs.cache-dir }}
-        max-cache-size: ${{ inputs.max-cache-size }}
-
-    - name: 'Run'
-      shell: bash
+    - name: 'Prepare arguments'
+      id: prepare
       env:
-        NX_CACHE_DIRECTORY: ${{ inputs.cache-dir }}
-        NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
+        PARALLEL: ${{ inputs.parallel }}
+        ARGS: ${{ inputs.args }}
+      shell: bash
       #language=bash
       run: |
-        ${{ inputs.prefix }} nx run-many \
-          --output-style=static \
-          --target="${{ inputs.target }}" \
-          ${{ inputs.args }}
+        if [ -n "$PARALLEL" ]; then
+          ARGS="--parallel=$PARALLEL $ARGS"
+        fi
+
+        echo "args=$ARGS"         >> $GITHUB_OUTPUT
+
+    - uses: myparcelnl/actions/nx-run@v4
+      with:
+        command: 'run-many'
+        args: ${{ steps.prepare.outputs.args }}
+        cache-dir: ${{ inputs.cache-dir }}
+        cloud: ${{ inputs.cloud }}
+        max-cache-size: ${{ inputs.max-cache-size }}
+        prefix: ${{ inputs.prefix }}
+        runner: ${{ inputs.runner }}
+        target: ${{ inputs.target }}
