@@ -24,10 +24,10 @@ jobs:
         run: |
           yarn vitest run --coverage
 
-      - uses: codecov/codecov-coverage@v4
+      - uses: ./codecov-coverage
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      - uses: codecov/codecov-test-results@v4
+      - uses: ./codecov-test-results
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
