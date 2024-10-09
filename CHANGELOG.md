@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.36.3](https://github.com/myparcelnl/actions/compare/v4.36.2...v4.36.3) (2024-10-09)
+
+
+### :bug: Bug Fixes
+
+* **codecov:** fix glob inputs not working ([7878193](https://github.com/myparcelnl/actions/commit/7878193302bcabd2dd677d61b758c1f35e475d43))
+
 ## [4.36.2](https://github.com/myparcelnl/actions/compare/v4.36.1...v4.36.2) (2024-10-09)
 
 
