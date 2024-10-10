@@ -32,6 +32,7 @@ runs:
         COVERAGE_FILE: ${{ inputs.coverage-file }}
         JUNIT_DIR: ${{ inputs.junit-dir }}
         JUNIT_FILE: ${{ inputs.junit-file }}
+        DEBUG: ${{ runner.debug }}
       #language=bash
       run: |
         # Create the directories in case they don't exist
@@ -49,3 +50,11 @@ runs:
                sed -i "s|<testsuites name=\".*\">|<testsuites name=\"$npm_package_name\">|" "'$JUNIT_FILE'"; \
                cp -f "'$JUNIT_FILE'" "'$PWD'/'$JUNIT_DIR'/$(basename $PWD).xml"; \
              fi'
+
+        if [ "$DEBUG" == "1" ]; then
+          echo "Found coverage files in $COVERAGE_DIR:"
+          tree "$COVERAGE_DIR"
+
+          echo "Found junit files in $JUNIT_DIR:"
+          tree "$JUNIT_DIR"
+        fi
