@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.36.4](https://github.com/myparcelnl/actions/compare/v4.36.3...v4.36.4) (2024-10-10)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** allow workflow_dispatch as trigger ([2d37623](https://github.com/myparcelnl/actions/commit/2d3762363132fa54f41c03cf658714397bb23d5f))
+
 ## [4.36.3](https://github.com/myparcelnl/actions/compare/v4.36.2...v4.36.3) (2024-10-09)
 
 
