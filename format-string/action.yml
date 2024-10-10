@@ -58,8 +58,9 @@ runs:
           const mode = String(process.env.MODE);
           const inputSeparator = String(process.env.INPUT_SEPARATOR);
           const outputSeparator = String(process.env.OUTPUT_SEPARATOR);
-          const deduplicate = Boolean(process.env.DEDUPLICATE) || MODE_ARGS === mode;
-          const sort = Boolean(process.env.SORT);
+          const deduplicate = MODE_ARGS === mode
+            || (process.env.DEDUPLICATE !== 'false' && Boolean(process.env.DEDUPLICATE))
+          const sort = process.env.SORT !== 'false' && Boolean(process.env.SORT);
           const inputString = process.env.STRING?.trim() ?? '';
 
           if (!inputString) {
@@ -67,6 +68,8 @@ runs:
           }
 
           let lines = inputString.split(inputSeparator).map((line) => line.trim()).filter(Boolean);
+
+          core.debug(`Split input to ${lines.length} lines: ${JSON.stringify(lines)}`);
 
           // Handle `args` mode to keep last occurrence of key-value pairs
           if (MODE_ARGS === mode) {
@@ -81,19 +84,23 @@ runs:
 
               return acc;
             }, {});
-
+            
             // Convert the result back into an array of unique arguments
             lines = Object.values(uniqueArgs);
+            core.debug(`Lines after args deduplication: ${JSON.stringify(lines)}`);
           }
 
           // Optionally deduplicate
           if (deduplicate) {
             lines = [...new Set(lines)];
+            
+            core.debug(`Lines after deduplication: ${JSON.stringify(lines)}`);
           }
 
           // Optionally sort
           if (sort) {
             lines.sort();
+            core.debug(`Lines after sorting: ${JSON.stringify(lines)}`);
           }
 
           // Join result by output separator and set output
