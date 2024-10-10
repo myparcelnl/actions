@@ -13,7 +13,7 @@ inputs:
     required: false
 
   args:
-    description: 'Arguments to pass to Behat'
+    description: 'Arguments to pass to Behat. Can be multiline string.'
     required: false
     default: ''
 
@@ -29,9 +29,15 @@ runs:
     - uses: myparcelnl/actions/composer-create-env-file@v4
       id: env
 
+    - uses: myparcelnl/actions/format-string@v4
+      id: args
+      with:
+        mode: 'args'
+        string: ${{ inputs.args }}
+
     - name: 'Run Behat'
       env:
-        ARGS: ${{ inputs.args }}
+        ARGS: ${{ steps.args.outputs.string }}
         ENV_FILE: ${{ steps.env.outputs.filename }}
         IMAGE: ${{ inputs.image || steps.install.outputs.image }}
       shell: bash
