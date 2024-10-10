@@ -36,28 +36,34 @@ runs:
     - name: 'Compare branches'
       id: compare
       shell: bash
+      env:
+        REMOTE: ${{ inputs.remote }}
+        BASE: ${{ inputs.base }}
+        HEAD: ${{ inputs.head }}
+        REPOSITORY: ${{ github.repository }}
       #language=bash
       run: |
-        RANGE="${{ inputs.remote }}/${{ inputs.base }}..${{ inputs.remote }}/${{ inputs.head }}"
+        RANGE="$REMOTE/$BASE..$REMOTE/$HEAD"
         COMMITS="$(git rev-list --count $RANGE)"
-        BASE_URL="https://github.com/${{ github.repository }}"
-        COMPARE_URL="${BASE_URL}/compare/${{ inputs.base }}...${{ inputs.head }}"
-        HEAD_URL="${BASE_URL}/tree/${{ inputs.head }}"
-        BASE_URL="${BASE_URL}/tree/${{ inputs.base }}"
+        BASE_URL="https://github.com/$REPOSITORY"
+        COMPARE_URL="${BASE_URL}/compare/$BASE...$HEAD"
+        HEAD_URL="${BASE_URL}/tree/$HEAD"
+        BASE_URL="${BASE_URL}/tree/$BASE"
 
         if [ $COMMITS -gt 0 ]; then
-          echo "diff=true" >> $GITHUB_OUTPUT
-          echo "The following commits are in [${{ inputs.head }}]($HEAD_URL), but not in [${{ inputs.base }}]($BASE_URL):" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Summary | Commit | Date |" >> $GITHUB_STEP_SUMMARY
-          echo "| --- | --- | --- |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "[Compare]($COMPARE_URL)" >> $GITHUB_STEP_SUMMARY
-          git log --pretty=format:"| %s | [%h]($REPO_URL/commit/%H) | %ar |" $RANGE >> $GITHUB_STEP_SUMMARY
-
+          echo "diff=true"                                                       >> $GITHUB_OUTPUT
           echo "commits=$(git log --pretty=format:"• %s (%ar)" $RANGE | jq -sR)" >> $GITHUB_OUTPUT
-          echo "compare-url=$COMPARE_URL" >> $GITHUB_OUTPUT
+          echo "compare-url=$COMPARE_URL"                                        >> $GITHUB_OUTPUT
+
+          echo "The following commits are in [$HEAD]($HEAD_URL), but not in [$BASE]($BASE_URL):" >> $GITHUB_STEP_SUMMARY
+          echo ""                                                                                >> $GITHUB_STEP_SUMMARY
+          echo "| Summary | Commit | Date |"                                                     >> $GITHUB_STEP_SUMMARY
+          echo "| --- | --- | --- |"                                                             >> $GITHUB_STEP_SUMMARY
+          echo ""                                                                                >> $GITHUB_STEP_SUMMARY
+          echo "[Compare]($COMPARE_URL)"                                                         >> $GITHUB_STEP_SUMMARY
+          git log --pretty=format:"| %s | [%h]($REPO_URL/commit/%H) | %ar |" $RANGE              >> $GITHUB_STEP_SUMMARY
         else
           echo "diff=false" >> $GITHUB_OUTPUT
-          echo "There are no commits in [${{ inputs.head }}]($HEAD_URL) that are not in [${{ inputs.base }}]($BASE_URL)" >> $GITHUB_STEP_SUMMARY
+
+          echo "There are no commits in [$HEAD]($HEAD_URL) that are not in [$BASE]($BASE_URL)" >> $GITHUB_STEP_SUMMARY
         fi
