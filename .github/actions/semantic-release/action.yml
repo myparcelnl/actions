@@ -1,0 +1,119 @@
+# Copy of ./semantic-release but using the actions locally.
+
+name: 'Semantic release'
+description: 'Run semantic release using the MyParcel bot'
+
+inputs:
+  token:
+    description: 'GitHub Personal access token'
+    required: true
+
+  write-summary:
+    description: 'Write a summary to the GitHub action output'
+    required: false
+    default: 'false'
+
+  dry-run:
+    description: 'Run semantic release in dry-run mode'
+    required: false
+    default: 'false'
+
+  semantic-release-args:
+    description: 'Additional semantic release arguments. Can be a multiline string.'
+    required: false
+
+  working-director:
+    description: 'The working directory to run semantic release in'
+    required: false
+
+outputs:
+  version:
+    description: 'The version that was just released, prefixed with "v"'
+    value: ${{ steps.normalize.outputs.next-version }}
+
+  previous-version:
+    description: 'The version before the release, prefixed with "v"'
+    value: ${{ steps.normalize.outputs.last-version }}
+
+  version-number:
+    description: 'The version number that was just released'
+    value: ${{ steps.normalize.outputs.next-version-number }}
+
+  previous-version-number:
+    description: 'The version number before the release'
+    value: ${{ steps.normalize.outputs.last-version-number }}
+
+  release-type:
+    description: 'The type of the new release. Can be "major", "minor", "patch" or "none"'
+    value: ${{ steps.normalize.outputs.release-type }}
+
+  released:
+    description: 'Whether a new version was released'
+    value: ${{ steps.normalize.outputs.released }}
+
+runs:
+  using: composite
+  steps:
+    - uses: ./format-string
+      id: args
+      with:
+        mode: 'args'
+        string: |
+          ${{ inputs.dry-run == 'true' && '--dry-run' || '' }}
+          ${{ inputs.semantic-release-args }}
+
+    - name: 'Run semantic release'
+      id: release
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        ARGS: ${{ steps.args.outputs.string }}
+        GITHUB_TOKEN: ${{ inputs.token }}
+      shell: bash
+      #language=bash
+      run: |
+        npx semantic-release $ARGS
+
+    - name: 'Normalize outputs'
+      id: normalize
+      shell: bash
+      env:
+        LAST_VERSION: ${{ steps.release.outputs.last-version }}
+        NEXT_VERSION: ${{ steps.release.outputs.next-version }}
+        RELEASE_TYPE: ${{ steps.release.outputs.release-type }}
+      #language=bash
+      run: |
+        echo "next-version=${NEXT_VERSION:+v$NEXT_VERSION}" >> $GITHUB_OUTPUT
+        echo "last-version=${LAST_VERSION:+v$LAST_VERSION}" >> $GITHUB_OUTPUT
+
+        echo "next-version-number=${NEXT_VERSION}" >> $GITHUB_OUTPUT
+        echo "last-version-number=${LAST_VERSION}" >> $GITHUB_OUTPUT
+
+        echo "release-type=${RELEASE_TYPE:-none}" >> $GITHUB_OUTPUT
+        echo "released=$( [[ -n "$RELEASE_TYPE" ]] && echo true || echo false )" >> $GITHUB_OUTPUT
+
+    - name: 'Write job summary'
+      if: inputs.write-summary == 'true'
+      shell: bash
+      env:
+        LAST_VERSION: ${{ steps.normalize.outputs.last-version }}
+        NEXT_VERSION: ${{ steps.normalize.outputs.next-version }}
+        RELEASED: ${{ steps.normalize.outputs.released }}
+        RELEASE_TYPE: ${{ steps.normalize.outputs.release-type }}
+        REPOSITORY: ${{ github.repository }}
+      #language=bash
+      run: |
+        REPO_URL="https://github.com/$REPOSITORY"
+
+        echo "# Release summary" >> $GITHUB_STEP_SUMMARY
+
+        if [ "$RELEASED" == "true" ]; then
+          echo "A new ${RELEASE_TYPE} version was released: [$NEXT_VERSION]($REPO_URL/releases/tag/$NEXT_VERSION)" >> $GITHUB_STEP_SUMMARY
+          echo ""                                                                                                  >> $GITHUB_STEP_SUMMARY
+          echo "## Commits in this release"                                                                        >> $GITHUB_STEP_SUMMARY
+          echo ""                                                                                                  >> $GITHUB_STEP_SUMMARY
+          echo "| Summary | Commit |"                                                                              >> $GITHUB_STEP_SUMMARY
+          echo "| --- | --- |"                                                                                     >> $GITHUB_STEP_SUMMARY
+          git log --pretty=format:"| %s | [%h]($REPO_URL/commit/%H) |" ${LAST_VERSION}..${NEXT_VERSION}            >> $GITHUB_STEP_SUMMARY
+        else
+          echo "No new version was released." >> $GITHUB_STEP_SUMMARY
+        fi

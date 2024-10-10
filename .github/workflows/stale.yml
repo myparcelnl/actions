@@ -8,7 +8,7 @@ jobs:
   stale:
     runs-on: ubuntu-22.04
     steps:
-      - uses: myparcelnl/actions/stale@v4
+      - uses: ./stale
         with:
           app-id: ${{ secrets.MYPARCEL_APP_ID }}
           private-key: ${{ secrets.MYPARCEL_APP_PRIVATE_KEY }}
