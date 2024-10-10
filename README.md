@@ -57,6 +57,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [bundlewatch](#bundlewatch)
     - [create-cache-keys](#create-cache-keys)
     - [deprecated](#deprecated)
+    - [format-string](#format-string)
     - [hash-string](#hash-string)
 
 ## General usage
@@ -1411,11 +1412,73 @@ Mark something as deprecated. This will add a warning to the workflow run.
 | No       | `replacement` | The replacement                         | `my-name/my-new-action`       | –       |
 | No       | `reason`      | The reason why it is deprecated         | `It is no longer maintained.` | –       |
 
+#### format-string
+
+[Source](format-string/action.yml)
+
+Format a string. Input should be a string separated by the `input-separator`. If input string is empty, an empty string will be returned. Lines can be sorted and deduplicated. The string that is formatted will be output as `string`.
+
+##### Example
+
+```yaml
+- uses: myparcelnl/actions/format-string@v4
+  id: format
+  with:
+    string: |
+      no longer
+      string
+      a
+      multiline
+    input-separator: '\n'
+    output-separator: ' '
+    deduplicate: true
+    sort: true
+
+- run: echo ${{ steps.format.outputs.string }} // a multiline no longer string
+```
+
+**Mode: args**
+
+```yaml
+- uses: myparcelnl/actions/format-string@v4
+  id: format
+  with:
+    mode: 'args'
+    string: |
+      --arg2=value1
+      --arg1
+      --verbose
+      --arg2=override
+    input-separator: '\n'
+    output-separator: ' '
+    deduplicate: true
+    sort: true
+
+- run: echo ${{ steps.format.outputs.string }} // --arg1 --arg2=override --verbose
+```
+
+##### Inputs
+
+| Required | Name               | Description                                                                     | Example     | Default |
+| -------- | ------------------ | ------------------------------------------------------------------------------- | ----------- | ------- |
+| Yes      | `string`           | The string to format. Can be empty or multiple lines.                           | `my string` | –       |
+| No       | `input-separator`  | The separator to use when splitting input to multiple lines.                    | `' '`       | `'\n'`  |
+| No       | `output-separator` | The separator to use for the generated output string.                           | `','`       | `' '`   |
+| No       | `deduplicate`      | Whether to deduplicate the lines before joining. Always done if mode is "args". | `true`      | `false` |
+| No       | `sort`             | Whether to sort the lines before joining.                                       | `true`      | `false` |
+| No       | `mode`             | The mode to use for formatting. Set to "args" to deduplicate key-value pairs.   | `args`      | –       |
+
+##### Outputs
+
+| Name     | Description           | Example             |
+| -------- | --------------------- | ------------------- |
+| `string` | The formatted string. | `my string to hash' |
+
 #### hash-string
 
 [Source](hash-string/action.yml)
 
-Hash a string. Input can be string, multiline string or empty. If input string is empty, an empty string will be returned. If input string is multiline, the lines will be sorted, deduplicated and hashed. The string that is hashed will be output as `string`.
+Hash a string. Input should be a string separated by the `input-separator`. If input string is empty, an empty string will be returned. If input string contains multiple lines (according to the separator) the lines will be sorted, deduplicated and hashed. The string that is hashed will be output as `string`.
 
 ##### Example
 
@@ -1424,8 +1487,7 @@ Hash a string. Input can be string, multiline string or empty. If input string i
   id: hash
   with:
     method: 'sha256sum'
-    string: 'my-string'
-    # or
+    separator: '\n' # default value
     string: |
       my
       multiline
@@ -1438,10 +1500,11 @@ Hash a string. Input can be string, multiline string or empty. If input string i
 
 ##### Inputs
 
-| Required | Name     | Description                                         | Example     | Default  |
-| -------- | -------- | --------------------------------------------------- | ----------- | -------- |
-| Yes      | `string` | The string to hash. Can be empty or multiple lines. | `my string` | –        |
-| No       | `method` | The hashing method to use.                          | `sha256sum` | `md5sum` |
+| Required | Name        | Description                                                  | Example     | Default  |
+| -------- | ----------- | ------------------------------------------------------------ | ----------- | -------- |
+| Yes      | `string`    | The string to hash. Can be empty or multiple lines.          | `my string` | –        |
+| No       | `separator` | The separator to use when splitting input to multiple lines. | `' '`       | `'\n'`   |
+| No       | `method`    | The hashing method to use.                                   | `sha256sum` | `md5sum` |
 
 ##### Outputs
 

@@ -1,0 +1,141 @@
+name: 'Format string'
+description: 'Format a string'
+
+inputs:
+  string:
+    description: 'The string to format. Can be empty or multiple lines.'
+    required: true
+
+  input-separator:
+    description: 'The separator to use when splitting input to multiple lines.'
+    required: false
+    default: '\n'
+
+  output-separator:
+    description: 'The separator to use for the generated output string.'
+    required: false
+    default: ' '
+
+  deduplicate:
+    description: 'Whether to deduplicate the lines before joining. Always done if mode is "args".'
+    required: false
+    default: 'false'
+
+  sort:
+    description: 'Whether to sort the lines before joining.'
+    required: false
+    default: 'false'
+
+  mode:
+    description: 'The mode to use for formatting. Set to "args" to deduplicate key-value pairs.'
+    required: false
+    default: 'default'
+
+outputs:
+  string:
+    description: 'The formatted string.'
+    value: ${{ steps.format.outputs.string }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Format string'
+      id: format
+      shell: bash
+      env:
+        INPUT_SEPARATOR: ${{ inputs.input-separator }}
+        OUTPUT_SEPARATOR: ${{ inputs.output-separator }}
+        DEDUPLICATE: ${{ inputs.deduplicate }}
+        SORT: ${{ inputs.sort }}
+        STRING: ${{ inputs.string }}
+      #language=bash
+      run: |
+        # Handle empty input
+        if [[ -z "$STRING" ]]; then
+          echo "string=" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        # Split the string by INPUT_SEPARATOR and store it in an array, trimming any extra spaces
+        if [[ "$INPUT_SEPARATOR" == '\n' ]]; then
+          IFS=$'\n' read -r -d '' -a array <<< "$STRING"$'\n'
+        else
+          IFS="$INPUT_SEPARATOR" read -r -a array <<< "$STRING"
+        fi
+
+        # Mode: args (handle key-value pairs like --option=value, keeping the last occurrence)
+        if [[ "$MODE" == "args" ]]; then
+          # always enable deduplication in this mode
+          DEDUPLICATE=true
+          last_seen=()
+
+          for element in "${array[@]}"; do
+            if [[ "$element" == *"="* ]]; then
+              # Split into key and value
+              key="${element%%=*}"
+              value="${element#*=}"
+
+              # Check if key exists in last_seen and update it
+              found=false
+              for i in "${!last_seen[@]}"; do
+                if [[ "${last_seen[$i]}" == "$key="* ]]; then
+                  last_seen[$i]="$key=$value"
+                  found=true
+                  break
+                fi
+              done
+
+              # If the key wasn't found, add it
+              if [[ "$found" == false ]]; then
+                last_seen+=("$key=$value")
+              fi
+            else
+              # If no '=' (just a flag like --verbose), keep it as is
+              last_seen+=("$element")
+            fi
+          done
+
+          # Replace the original array with the processed key-value pairs
+          array=("${last_seen[@]}")
+        fi
+
+        # Optionally sort the array
+        if [[ "$SORT" == true ]]; then
+          # And optionally deduplicate the array
+          if [[ "$DEDUPLICATE" == true ]]; then
+            array=($(printf '%s\n' "${array[@]}" | sort -u))
+          else
+            array=($(printf '%s\n' "${array[@]}" | sort))
+          fi
+        fi
+
+        # Deduplicate manually if deduplication is enabled but sorting is disabled
+        if [[ "$DEDUPLICATE" == true && "$SORT" == false ]]; then
+          deduplicated=()
+
+          for element in "${array[@]}"; do
+            found=false
+
+            for deduped in "${deduplicated[@]}"; do
+              if [[ "$element" == "$deduped" ]]; then
+                found=true
+                break
+              fi
+            done
+
+            if [[ "$found" == false ]]; then
+              deduplicated+=("$element")
+            fi
+          done
+
+          array=("${deduplicated[@]}")
+        fi
+
+        # Join the array elements with OUTPUT_SEPARATOR
+        if [[ "$OUTPUT_SEPARATOR" == '\n' ]]; then
+          result=$(printf "%s\n" "${array[@]}")
+        else
+          result=$(IFS="$OUTPUT_SEPARATOR"; echo "${array[*]}")
+        fi
+
+        echo "string=$result" >> "$GITHUB_OUTPUT"

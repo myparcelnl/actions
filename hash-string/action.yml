@@ -3,8 +3,13 @@ description: 'Hash a string'
 
 inputs:
   string:
-    description: 'The string to hash. Can be empty or multiple lines.'
+    description: 'The string to hash.'
     required: true
+
+  separator:
+    description: 'The separator that is used to join the lines.'
+    required: false
+    default: '\n'
 
   method:
     description: 'The hashing method to use.'
@@ -18,31 +23,33 @@ outputs:
 
   string:
     description: 'The string that was hashed.'
-    value: ${{ steps.hash.outputs.string }}
+    value: ${{ steps.format.outputs.string }}
 
 runs:
   using: composite
   steps:
+    - uses: myparcelnl/actions/format-string@v4
+      id: format
+      with:
+        string: ${{ inputs.string }}
+        sort: true
+        deduplicate: true
+        input-separator: ${{ inputs.separator }}
+        output-separator: ' '
+
     - name: 'Hash string'
       id: hash
       shell: bash
       env:
-        STRING: ${{ inputs.string }}
+        STRING: ${{ steps.format.outputs.string }}
         HASH_METHOD: ${{ inputs.method }}
       #language=bash
       run: |
         if [ -z "$STRING" ]; then
-          echo "hash="   >> $GITHUB_OUTPUT
-          echo "string=" >> $GITHUB_OUTPUT
+          echo "hash=" >> $GITHUB_OUTPUT
           exit 0
-        fi
-
-        # if multiline string, sort, deduplicate, concatenate and trim before hashing
-        if [ $(echo "$STRING" | wc -l) -gt 1 ]; then
-          STRING=$(echo "$STRING" | sort | uniq | tr '\n' ' ' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
         fi
 
         HASH=$(echo -n "$STRING" | $(echo "$HASH_METHOD") | cut -d ' ' -f 1)
 
-        echo "hash=$HASH"     >> $GITHUB_OUTPUT
-        echo "string=$STRING" >> $GITHUB_OUTPUT
+        echo "hash=$HASH" >> $GITHUB_OUTPUT
