@@ -7,16 +7,11 @@ jobs:
   notify-on-failure:
     runs-on: ubuntu-22.04
     steps:
-      # if debug mode is enabled, don't send the notification
-      - if: runner.debug == '1'
-        #language=bash
-        run: |
-          echo "Debug mode enabled, skipping slack notification"
-          exit 0
-
       - uses: actions/checkout@v4
+        if: runner.debug != '1'
 
       - uses: slackapi/slack-github-action@v1.26.0
+        if: runner.debug != '1'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_WORKFLOW_MONITOR }}
         with:
