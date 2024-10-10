@@ -34,111 +34,67 @@ inputs:
 outputs:
   string:
     description: 'The formatted string.'
-    value: ${{ steps.format.outputs.string }}
+    value: ${{ steps.format.outputs.result }}
 
 runs:
   using: composite
   steps:
     - name: 'Format string'
       id: format
-      shell: bash
+      uses: actions/github-script@v7
       env:
         INPUT_SEPARATOR: ${{ inputs.input-separator }}
         OUTPUT_SEPARATOR: ${{ inputs.output-separator }}
         DEDUPLICATE: ${{ inputs.deduplicate }}
         SORT: ${{ inputs.sort }}
+        MODE: ${{ inputs.mode }}
         STRING: ${{ inputs.string }}
-      #language=bash
-      run: |
-        # trim all leading and trailing whitespace
-        STRING=$(echo "$STRING" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+      with:
+        result-encoding: 'string'
+        #language=javascript
+        script: |
+          const MODE_ARGS = 'args';
 
-        # Handle empty input
-        if [[ -z "$STRING" ]]; then
-          echo "string=" >> "$GITHUB_OUTPUT"
-          exit 0
-        fi
+          const mode = String(process.env.MODE);
+          const inputSeparator = String(process.env.INPUT_SEPARATOR);
+          const outputSeparator = String(process.env.OUTPUT_SEPARATOR);
+          const deduplicate = Boolean(process.env.DEDUPLICATE) || MODE_ARGS === mode;
+          const sort = Boolean(process.env.SORT);
+          const inputString = process.env.STRING?.trim() ?? '';
 
-        # Split the string by INPUT_SEPARATOR and store it in an array, trimming any extra spaces
-        if [[ "$INPUT_SEPARATOR" == '\n' ]]; then
-          IFS=$'\n' read -r -d '' -a array <<< "$STRING"$'\n'
-        else
-          IFS="$INPUT_SEPARATOR" read -r -a array <<< "$STRING"
-        fi
+          if (!inputString) {
+            return '';
+          }
 
-        # Mode: args (handle key-value pairs like --option=value, keeping the last occurrence)
-        if [[ "$MODE" == "args" ]]; then
-          # always enable deduplication in this mode
-          DEDUPLICATE=true
-          last_seen=()
+          let lines = inputString.split(inputSeparator).map((line) => line.trim()).filter(Boolean);
 
-          for element in "${array[@]}"; do
-            if [[ "$element" == *"="* ]]; then
-              # Split into key and value
-              key="${element%%=*}"
-              value="${element#*=}"
+          // Handle `args` mode to keep last occurrence of key-value pairs
+          if (MODE_ARGS === mode) {
+            const uniqueArgs = lines.reduce((acc, arg) => {
+              // Check if it's a key-value pair
+              const [key, value] = arg.includes('=')
+                ? arg.split('=')
+                : [arg, null];
 
-              # Check if key exists in last_seen and update it
-              found=false
-              for i in "${!last_seen[@]}"; do
-                if [[ "${last_seen[$i]}" == "$key="* ]]; then
-                  last_seen[$i]="$key=$value"
-                  found=true
-                  break
-                fi
-              done
+              // Store or overwrite the key with its latest occurrence
+              acc[key] = value ? `${key}=${value}` : key;
 
-              # If the key wasn't found, add it
-              if [[ "$found" == false ]]; then
-                last_seen+=("$key=$value")
-              fi
-            else
-              # If no '=' (just a flag like --verbose), keep it as is
-              last_seen+=("$element")
-            fi
-          done
+              return acc;
+            }, {});
 
-          # Replace the original array with the processed key-value pairs
-          array=("${last_seen[@]}")
-        fi
+            // Convert the result back into an array of unique arguments
+            lines = Object.values(uniqueArgs);
+          }
 
-        # Optionally sort the array
-        if [[ "$SORT" == true ]]; then
-          # And optionally deduplicate the array
-          if [[ "$DEDUPLICATE" == true ]]; then
-            array=($(printf '%s\n' "${array[@]}" | sort -u))
-          else
-            array=($(printf '%s\n' "${array[@]}" | sort))
-          fi
-        fi
+          // Optionally deduplicate
+          if (deduplicate) {
+            lines = [...new Set(lines)];
+          }
 
-        # Deduplicate manually if deduplication is enabled but sorting is disabled
-        if [[ "$DEDUPLICATE" == true && "$SORT" == false ]]; then
-          deduplicated=()
+          // Optionally sort
+          if (sort) {
+            lines.sort();
+          }
 
-          for element in "${array[@]}"; do
-            found=false
-
-            for deduped in "${deduplicated[@]}"; do
-              if [[ "$element" == "$deduped" ]]; then
-                found=true
-                break
-              fi
-            done
-
-            if [[ "$found" == false ]]; then
-              deduplicated+=("$element")
-            fi
-          done
-
-          array=("${deduplicated[@]}")
-        fi
-
-        # Join the array elements with OUTPUT_SEPARATOR
-        if [[ "$OUTPUT_SEPARATOR" == '\n' ]]; then
-          result=$(printf "%s\n" "${array[@]}")
-        else
-          result=$(IFS="$OUTPUT_SEPARATOR"; echo "${array[*]}")
-        fi
-
-        echo "string=$result" >> "$GITHUB_OUTPUT"
+          // Join result by output separator and set output
+          return lines.join(outputSeparator);
