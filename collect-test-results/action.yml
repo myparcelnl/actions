@@ -1,0 +1,51 @@
+name: 'Collect test results'
+description: 'Collect test results in a monorepo. Currently only supports Yarn workspaces.'
+
+inputs:
+  coverage-file:
+    description: 'The coverage file to collect'
+    required: false
+    default: 'coverage/clover.xml'
+
+  junit-file:
+    description: 'The JUnit file to collect'
+    required: false
+    default: 'junit.xml'
+
+  coverage-dir:
+    description: 'The directory to store the coverage files in'
+    required: false
+    default: 'coverage'
+
+  junit-dir:
+    description: 'The directory to store the JUnit files in'
+    required: false
+    default: 'junit'
+
+runs:
+  using: composite
+  steps:
+    - name: 'Collect test results'
+      shell: bash
+      env:
+        COVERAGE_DIR: ${{ inputs.coverage-dir }}
+        COVERAGE_FILE: ${{ inputs.coverage-file }}
+        JUNIT_DIR: ${{ inputs.junit-dir }}
+        JUNIT_FILE: ${{ inputs.junit-file }}
+      #language=bash
+      run: |
+        # Create the directories in case they don't exist
+        mkdir -p "$COVERAGE_DIR" "$JUNIT_DIR"
+
+        yarn workspaces foreach -Apv --exclude . exec \
+          bash -c \
+            'if [ -f "'$COVERAGE_FILE'" ]; then \
+               # Make file paths relative
+               sed -i "s|'$PWD'/||g" "'$COVERAGE_FILE'"; \
+               cp -f "'$COVERAGE_FILE'" "'$PWD'/'$COVERAGE_DIR'/$(basename $PWD).xml"; \
+             fi; \
+             if [[ -f "'$JUNIT_FILE'" && -s "'$JUNIT_FILE'" ]]; then \
+               # Set the testsuites name to the package name
+               sed -i "s|<testsuites name=\".*\">|<testsuites name=\"$npm_package_name\">|" "'$JUNIT_FILE'"; \
+               cp -f "'$JUNIT_FILE'" "'$PWD'/'$JUNIT_DIR'/$(basename $PWD).xml"; \
+             fi'
