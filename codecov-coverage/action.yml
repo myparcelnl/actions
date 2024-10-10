@@ -69,7 +69,12 @@ runs:
       id: glob
       with:
         files: ${{ inputs.files }}
+        # Do not read .gitignore as coverage files are never checked in
         read-gitignore: false
+        # Separator for the files input
+        files-separator: '\n'
+        # Separator for the output
+        separator: ','
 
     - uses: codecov/codecov-action@v4
       with:
