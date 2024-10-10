@@ -13,7 +13,7 @@ inputs:
     required: false
 
   args:
-    description: 'Arguments to pass to Pest'
+    description: 'Arguments to pass to Pest. Should be a multiline string.'
     required: false
     default: ''
 
@@ -29,9 +29,19 @@ runs:
     - uses: myparcelnl/actions/composer-create-env-file@v4
       id: env
 
+    - uses: myparcelnl/actions/format-string@v4
+      id: format-args
+      with:
+        mode: 'args'
+        string: |
+          --colors="always"
+          --coverage-clover="clover.xml"
+          --no-interaction
+          ${{ inputs.args }}
+
     - name: 'Run Pest'
       env:
-        ARGS: ${{ inputs.args }}
+        ARGS: ${{ steps.format-args.outputs.string }}
         ENV_FILE: ${{ steps.env.outputs.filename }}
         IMAGE: ${{ inputs.image || steps.install.outputs.image }}
       shell: bash
@@ -43,7 +53,4 @@ runs:
           --volume $PWD:/app \
           "$IMAGE" \
           php -dpcov.enabled=1 \
-          vendor/bin/pest $ARGS \
-            --colors=always \
-            --coverage-clover=clover.xml \
-            --no-interaction
+          vendor/bin/pest $ARGS
