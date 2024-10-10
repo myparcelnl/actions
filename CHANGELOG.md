@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.36.6](https://github.com/myparcelnl/actions/compare/v4.36.5...v4.36.6) (2024-10-10)
+
+
+### :bug: Bug Fixes
+
+* **codecov:** use correct output separator ([c87be94](https://github.com/myparcelnl/actions/commit/c87be94ec8900f6ae87119dfe07f7b29d18cc6f8))
+* **pdk:** generate proper version name in workflow_dispatch mode ([9dbfe17](https://github.com/myparcelnl/actions/commit/9dbfe17e8525a0b00b43dbbd1dd47cfe15119096))
+
 ## [4.36.5](https://github.com/myparcelnl/actions/compare/v4.36.4...v4.36.5) (2024-10-10)
 
 
