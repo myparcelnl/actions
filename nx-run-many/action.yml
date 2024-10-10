@@ -66,11 +66,13 @@ runs:
       shell: bash
       env:
         NX_CACHE_DIRECTORY: ${{ inputs.cache-dir }}
+        NX_DAEMON: 'false'
         NX_INTERACTIVE: 'false'
         NX_PARALLEL: ${{ inputs.parallel }}
         NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
         NX_TASKS_RUNNER: ${{ inputs.runner }}
         NX_VERBOSE_LOGGING: ${{ runner.debug }}
+        NX_WATCH: 'false'
         ARGS: ${{ steps.prepare.outputs.args }}
         COMMAND: ${{ inputs.command }}
         PREFIX: ${{ inputs.prefix }}
