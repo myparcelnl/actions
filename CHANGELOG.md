@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.38.2](https://github.com/myparcelnl/actions/compare/v4.38.1...v4.38.2) (2024-10-10)
+
+
+### :bug: Bug Fixes
+
+* **format-string:** treat 'false' input as boolean ([10b5cbc](https://github.com/myparcelnl/actions/commit/10b5cbcc596da759f09aa32d1715d13b78ef4c5e))
+
 ## [4.38.1](https://github.com/myparcelnl/actions/compare/v4.38.0...v4.38.1) (2024-10-10)
 
 
