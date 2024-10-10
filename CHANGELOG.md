@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.37.1](https://github.com/myparcelnl/actions/compare/v4.37.0...v4.37.1) (2024-10-10)
+
+
+### :bug: Bug Fixes
+
+* **nx:** disable heartbeat process ([988166b](https://github.com/myparcelnl/actions/commit/988166b62ea93341e565cf7edfc26ff1b6f4aab5))
+
 ## [4.37.0](https://github.com/myparcelnl/actions/compare/v4.36.6...v4.37.0) (2024-10-10)
 
 
