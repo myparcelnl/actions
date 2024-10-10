@@ -17,6 +17,7 @@ runs:
       id: args
       uses: myparcelnl/actions/hash-string@v4
       with:
+        mode: 'args'
         string: ${{ inputs.yarn-args }}
 
     - uses: myparcelnl/actions/setup-node@v4
@@ -77,8 +78,9 @@ runs:
       shell: bash
       #language=bash
       run: |
-        yarn install ${{ inputs.yarn-args }}
+        yarn install $ARGS
       env:
+        ARGS: ${{ steps.args.outputs.string }}
         HUSKY: '0'
         YARN_ENABLE_GLOBAL_CACHE: 'false'
         YARN_INSTALL_STATE_PATH: .yarn/ci-cache/install-state.gz
