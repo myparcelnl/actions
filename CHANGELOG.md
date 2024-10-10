@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.38.0](https://github.com/myparcelnl/actions/compare/v4.37.1...v4.38.0) (2024-10-10)
+
+
+### :sparkles: New Features
+
+* **collect-test-results:** add debug output ([cf10e48](https://github.com/myparcelnl/actions/commit/cf10e486f5c676496772225ac90fffd598115752))
+
+
+### :bug: Bug Fixes
+
+* **format-string:** use js instead of bash ([0bab5d9](https://github.com/myparcelnl/actions/commit/0bab5d9cdd00382285d4d7b6c7430bc8a726ceb7))
+
 ## [4.37.1](https://github.com/myparcelnl/actions/compare/v4.37.0...v4.37.1) (2024-10-10)
 
 
