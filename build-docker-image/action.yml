@@ -48,15 +48,22 @@ outputs:
 runs:
   using: composite
   steps:
+    - uses: myparcelnl/actions/format-string@v4
+      id: args
+      with:
+        mode: 'args'
+        string: ${{ inputs.docker-args }}
+
     - name: 'Prepare'
       id: prep
       shell: bash
+      env:
+        IMAGE: ${{ inputs.image }}
+        ARGS: ${{ steps.docker-args.outputs.string }}}
       #language=bash
       run: |
-        IMAGE=$(echo ${{ inputs.image }})
-        ARGS=$(echo ${{ inputs.docker-args }} | shasum | head -c 40)
         TAG=$(echo $GITHUB_SHA | head -c7)
-        echo "args=${ARGS}" >> $GITHUB_OUTPUT
+
         echo "tag=${TAG}" >> $GITHUB_OUTPUT
         echo "tagged-image=${IMAGE}:${TAG}" >> $GITHUB_OUTPUT
 
@@ -68,33 +75,43 @@ runs:
 
     - name: 'Build image'
       shell: bash
-      #language=bash
-      run: >
-        docker build ${{ inputs.docker-args }} \
-          --label args=${{ steps.prep.outputs.args }} \
-          --label ref=${{ github.ref }} \
-          --label tag=${{ steps.prep.outputs.tag }} \
-          --tag ${{ steps.prep.outputs.tagged-image }} \
-          --file ${{ inputs.dockerfile }} \
-          ${{ inputs.context }}
       env:
-        DOCKER_BUILDKIT: ${{ inputs.buildkit == 'false' && '0' || '1' }}
+        ARGS: ${{ steps.args.outputs.string }}
+        TAG: ${{ steps.prep.outputs.tag }}
+        REF: ${{ github.ref }}
+        FILE: ${{ inputs.dockerfile }}
+        CONTEXT: ${{ inputs.context }}
+        DOCKER_BUILDKIT: ${{ inputs.buildkit == 'true' && '1' || '0' }}
+      #language=bash
+      run: |
+        docker build $ARGS \
+          --label "ref=$REF" \
+          --label "tag=$TAG" \
+          --tag "$TAGGED_IMAGE" \
+          --file "$FILE" \
+          "$CONTEXT"
 
     - name: 'Prune previous images'
       shell: bash
+      env:
+        TAG: ${{ steps.prep.outputs.tag }}
+        ARGS: ${{ steps.args.outputs.string }}
+        REF: ${{ github.ref }}
       #language=bash
-      run: >
+      run: |
         docker image prune \
           --all \
           --force \
-          --filter "label=ref=${{ github.ref }}" \
-          --filter "label=args=${{ steps.prep.outputs.args }}" \
-          --filter "label!=tag=${{ steps.prep.outputs.tag }}"
+          --filter "label=ref=$REF" \
+          --filter "label=args=$ARGS" \
+          --filter "label!=tag=$TAG"
 
     - name: 'Prune stale images'
       shell: bash
+      env:
+        PRUNE_AFTER: ${{ inputs.prune-after }}
       #language=bash
-      run: >
+      run: |
         docker image prune \
           --force \
-          --filter "until=${{ inputs.prune-after }}"
+          --filter "until=$PRUNE_AFTER"
