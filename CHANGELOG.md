@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.37.0](https://github.com/myparcelnl/actions/compare/v4.36.6...v4.37.0) (2024-10-10)
+
+
+### :sparkles: New Features
+
+* add collect-test-results ([8303d32](https://github.com/myparcelnl/actions/commit/8303d327ab058ecd723c04d9e380f5b3af70a6a2))
+* add format-string ([10e6b8f](https://github.com/myparcelnl/actions/commit/10e6b8fa7a480751d047d41f332fca73dc84c611))
+* **build-docker-image:** improve args handling ([3d068a0](https://github.com/myparcelnl/actions/commit/3d068a0f00c4a52d95413c33fcfae11bef7ee4b4))
+* **bun-install:** improve args handling ([532cc96](https://github.com/myparcelnl/actions/commit/532cc96dcfc743692ccf20285514add2f5a818fd))
+* **composer-behat:** improve args handling ([1e1a606](https://github.com/myparcelnl/actions/commit/1e1a6064af4c37e444af6dc4a9cc4809f9c31dad))
+* **composer-pest:** improve arguments handling ([7e39356](https://github.com/myparcelnl/actions/commit/7e39356dd7f200c78090c68af30041511df64aa8))
+* **hash-string:** support improved command argument handling ([a52efdb](https://github.com/myparcelnl/actions/commit/a52efdbe6dd3b4a985d2444702db0ad3570536e6))
+* **pdk-builder:** improve args handling ([6e28b47](https://github.com/myparcelnl/actions/commit/6e28b4709cd43975fe009b15e76a2b0163f19d77))
+* **pnpm-install:** improve args handling ([d129328](https://github.com/myparcelnl/actions/commit/d129328492b0ba171b9b8b32e032ba3fc24ed76e))
+* **semantic-release:** improve args handling ([fa03db2](https://github.com/myparcelnl/actions/commit/fa03db24d2e8316de624c20029a951e14712ed36))
+* **yarn-install:** improve args handling ([749b543](https://github.com/myparcelnl/actions/commit/749b543255a039e1fa40dd66bf4e7a73f902b966))
+
+
+### :bug: Bug Fixes
+
+* **codecov-test-results:** add missing files input ([cb77d27](https://github.com/myparcelnl/actions/commit/cb77d277af5e87d555cf5a68a88f3c42e7e07c0b))
+* handle empty string inputs properly ([d8acde1](https://github.com/myparcelnl/actions/commit/d8acde1509bf9eb270ec323c5667f8c5825e29b3))
+
 ## [4.36.6](https://github.com/myparcelnl/actions/compare/v4.36.5...v4.36.6) (2024-10-10)
 
 
