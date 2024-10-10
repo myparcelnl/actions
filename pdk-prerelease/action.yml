@@ -44,7 +44,7 @@ inputs:
       **/scoper.*.inc.php
 
   mode:
-    description: 'The mode to run in. Will be inferred from github event automatically. Can be pull_request or push'
+    description: 'The mode to run in. Will be inferred from github event automatically. Can be pull_request, push or workflow_dispatch.'
     required: false
     default: ${{ github.event_name }}
 
@@ -61,7 +61,7 @@ runs:
       shell: bash
       #language=bash
       run: |
-        echo "Mode is not pull_request or push, stopping"
+        echo "Mode is not pull_request, push or workflow_dispatch, stopping"
         exit 1
 
     - uses: actions/checkout@v4
