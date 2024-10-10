@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       # if debug mode is enabled, don't send the notification
-      - if: runner.debug == 'true'
+      - if: runner.debug == '1'
         #language=bash
         run: |
           echo "Debug mode enabled, skipping slack notification"
