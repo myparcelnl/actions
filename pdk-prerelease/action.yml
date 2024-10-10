@@ -57,7 +57,7 @@ runs:
   using: composite
   steps:
     - name: 'Report invalid mode'
-      if: inputs.mode != 'pull_request' && inputs.mode != 'push'
+      if: inputs.mode != 'pull_request' && inputs.mode != 'push' && inputs.mode != 'workflow_dispatch'
       shell: bash
       #language=bash
       run: |
