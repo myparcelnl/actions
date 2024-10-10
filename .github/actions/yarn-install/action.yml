@@ -17,7 +17,7 @@ runs:
   steps:
     - name: 'Hash yarn args'
       id: args
-      uses: ./hash-string
+      uses: ./.github/actions/hash-string
       with:
         mode: 'args'
         string: ${{ inputs.yarn-args }}
