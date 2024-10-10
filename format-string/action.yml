@@ -50,6 +50,9 @@ runs:
         STRING: ${{ inputs.string }}
       #language=bash
       run: |
+        # trim all leading and trailing whitespace
+        STRING=$(echo "$STRING" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+
         # Handle empty input
         if [[ -z "$STRING" ]]; then
           echo "string=" >> "$GITHUB_OUTPUT"
