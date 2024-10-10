@@ -8,7 +8,7 @@ inputs:
     required: false
 
   bun-args:
-    description: 'Arguments to use with bun install'
+    description: 'Arguments to use with bun install. Can be multiline string.'
     default: '--frozen-lockfile'
     required: false
 
@@ -46,10 +46,16 @@ runs:
         key: ${{ steps.keys-bun.outputs.key }}
         restore-keys: ${{ steps.keys-bun.outputs.restore-keys }}
 
+    - uses: myparcelnl/actions/format-string@v4
+      id: args
+      with:
+        mode: 'args'
+        string: ${{ inputs.bun-args }}
+
     - name: 'Install bun dependencies'
       env:
-        BUN_ARGS: ${{ inputs.bun-args }}
+        ARGS: ${{ steps.args.outputs.string }}
       shell: bash
       #language=bash
       run: |
-        bun install $BUN_ARGS
+        bun install $ARGS
