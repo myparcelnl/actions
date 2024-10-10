@@ -60,6 +60,7 @@ runs:
       uses: tj-actions/glob@v22
       id: glob
       with:
+        files: ${{ inputs.files }}
         # Do not read .gitignore as coverage files are never checked in
         read-gitignore: false
         # Separator for the files input
