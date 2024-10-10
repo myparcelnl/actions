@@ -16,6 +16,11 @@ inputs:
     required: false
     default: 'md5sum'
 
+  mode:
+    description: 'The mode to use for formatting. Set to "args" to deduplicate key-value pairs.'
+    required: false
+    default: ''
+
 outputs:
   hash:
     description: 'The hashed string, empty if no string was provided.'
@@ -32,6 +37,7 @@ runs:
       id: format
       with:
         string: ${{ inputs.string }}
+        mode: ${{ inputs.mode }}
         sort: true
         deduplicate: true
         input-separator: ${{ inputs.separator }}

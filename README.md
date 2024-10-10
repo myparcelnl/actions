@@ -1500,11 +1500,12 @@ Hash a string. Input should be a string separated by the `input-separator`. If i
 
 ##### Inputs
 
-| Required | Name        | Description                                                  | Example     | Default  |
-| -------- | ----------- | ------------------------------------------------------------ | ----------- | -------- |
-| Yes      | `string`    | The string to hash. Can be empty or multiple lines.          | `my string` | –        |
-| No       | `separator` | The separator to use when splitting input to multiple lines. | `' '`       | `'\n'`   |
-| No       | `method`    | The hashing method to use.                                   | `sha256sum` | `md5sum` |
+| Required | Name        | Description                                                                   | Example     | Default  |
+| -------- | ----------- | ----------------------------------------------------------------------------- | ----------- | -------- |
+| Yes      | `string`    | The string to hash. Can be empty or multiple lines.                           | `my string` | –        |
+| No       | `separator` | The separator to use when splitting input to multiple lines.                  | `' '`       | `'\n'`   |
+| No       | `method`    | The hashing method to use.                                                    | `sha256sum` | `md5sum` |
+| No       | `mode`      | The mode to use for formatting. Set to "args" to deduplicate key-value pairs. | `args`      | –        |
 
 ##### Outputs
 
