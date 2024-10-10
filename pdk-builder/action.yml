@@ -12,7 +12,7 @@ inputs:
     default: ''
 
   args:
-    description: 'Additional arguments to pass to the command'
+    description: 'Additional arguments to pass to the command. Can be multiline string.'
     required: false
     default: '-v'
 
@@ -28,9 +28,15 @@ runs:
         env-file: ${{ steps.env.outputs.filename }}
         image: ${{ inputs.image }}
 
+    - uses: myparcelnl/actions/format-string@v4
+      id: args
+      with:
+        mode: 'args'
+        string: ${{ inputs.args }}
+
     - shell: bash
       env:
-        ARGS: ${{ inputs.args }}
+        ARGS: ${{ steps.args.outputs.string }}
         COMMAND: ${{ inputs.command }}
         DEBUG: ${{ runner.debug }}
         ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
