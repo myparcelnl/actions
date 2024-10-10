@@ -79,11 +79,11 @@ runs:
       run: |
         version=$(npm pkg get version | sed 's/"//g')
 
-        if [ "$MODE" == "push" ]; then
+        if [ "$MODE" == "pull_request" ]; then
+          releaseVersion="$version-$PR_NUMBER"
+        else
           commitsSinceTag=$(git log --oneline v$version.. | wc -l)
           releaseVersion="$version-$commitsSinceTag"
-        else
-          releaseVersion="$version-$PR_NUMBER"
         fi
 
         echo "version=$releaseVersion" >> $GITHUB_OUTPUT
