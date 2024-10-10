@@ -309,7 +309,7 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 1. Runs [setup-node]
 2. Installs pnpm
 3. Handles pnpm cache
-4. Runs `pnpm install --frozen-lockfile`
+4. Runs `pnpm install` with the provided arguments and `--frozen-lockfile` by default.
 
 ##### Example
 
@@ -318,16 +318,18 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
   with:
     node-version: 20
     pnpm-version: 8.15.1
-    pnpm-args: --ignore-scripts --frozen-lockfile
+    pnpm-args: |
+      --ignore-scripts
+      --store-dir /tmp/pnpm-store
 ```
 
 ##### Inputs
 
-| Required | Name           | Description                        | Example                              | Default             |
-| -------- | -------------- | ---------------------------------- | ------------------------------------ | ------------------- |
-| No       | `node-version` | The Node.js version to use         | `18`                                 | –                   |
-| No       | `pnpm-version` | The pnpm version to use            | `7.4.0`                              | `8.15.1`            |
-| No       | `pnpm-args`    | Arguments to use with pnpm install | `--ignore-scripts --frozen-lockfile` | `--frozen-lockfile` |
+| Required | Name           | Description                                                  | Example            | Default  |
+| -------- | -------------- | ------------------------------------------------------------ | ------------------ | -------- |
+| No       | `node-version` | The Node.js version to use                                   | `18`               | –        |
+| No       | `pnpm-version` | The pnpm version to use                                      | `7.4.0`            | `8.15.1` |
+| No       | `pnpm-args`    | Arguments to use with pnpm install. Can be multiline string. | `--ignore-scripts` | –        |
 
 ### PHP
 

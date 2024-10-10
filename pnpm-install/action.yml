@@ -12,8 +12,7 @@ inputs:
     required: false
 
   pnpm-args:
-    description: 'Arguments to use with pnpm install'
-    default: '--frozen-lockfile'
+    description: 'Arguments to use with pnpm install. Can be multiline string.'
     required: false
 
 runs:
@@ -34,7 +33,17 @@ runs:
         key: 'pnpm'
         node-version: ${{ inputs.node-version }}
 
+    - uses: myparcelnl/actions/format-string@v4
+      id: args
+      with:
+        mode: 'args'
+        string: |
+          --frozen-lockfile
+          ${{ inputs.pnpm-args }}
+
     - name: 'Install pnpm dependencies'
       shell: bash
+      env:
+        ARGS: ${{ steps.args.outputs.string }}
       #language=bash
-      run: pnpm install ${{ inputs.pnpm-args }}
+      run: pnpm install $ARGS
