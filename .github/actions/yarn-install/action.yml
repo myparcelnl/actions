@@ -19,6 +19,7 @@ runs:
       id: args
       uses: ./hash-string
       with:
+        mode: 'args'
         string: ${{ inputs.yarn-args }}
 
     - uses: ./setup-node
@@ -32,35 +33,56 @@ runs:
       shell: bash
       #language=bash
       run: |
-        echo "cache-folder=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+        version=$(yarn --version | cut -d. -f1)
+
+        if [ "$version" -ge "2" ]; then
+          echo "cache-folder=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+        fi
+
+        echo "version=$version" >> $GITHUB_OUTPUT
+
+    - uses: ./create-cache-keys
+      id: keys-yarn-download
+      with:
+        key: 'yarn-download'
+        input: |
+          ${{ steps.setup.outputs.node-version }}
+          ${{ hashFiles('yarn.lock') }}
 
     - name: 'Cache yarn downloads'
+      if: steps.variables.outputs.version >= 2
       uses: actions/cache@v4
       id: yarn-download-cache
       with:
         path: ${{ steps.variables.outputs.cache-folder }}
-        key: ${{ format('{0}{1}-yarn-download-{2}-{3}', runner.os, runner.arch, steps.setup.outputs.node-version, hashFiles('yarn.lock')) }}
-        restore-keys: |
-          ${{ format('{0}{1}-yarn-download-{2}-', runner.os, runner.arch, steps.setup.outputs.node-version) }}
-          ${{ format('{0}{1}-yarn-download-', runner.os, runner.arch) }}
+        key: ${{ steps.keys-yarn-download.outputs.key }}
+        restore-keys: ${{ steps.keys-yarn-download.outputs.restore-keys }}
+
+    - uses: ./create-cache-keys
+      id: keys-yarn-install-state
+      with:
+        key: ${{ format('{0}{1}-yarn-install-state-', runner.os, runner.arch) }}
+        input: |
+          ${{ steps.setup.outputs.node-version }}
+          ${{ steps.args.outputs.hash }}
+          ${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
 
     - name: 'Cache yarn install state'
+      if: steps.variables.outputs.version >= 2
       uses: actions/cache@v4
       id: yarn-install-state-cache
       with:
         path: .yarn/ci-cache/
-        key: ${{ format('{0}{1}-yarn-install-state-{2}-{3}-{4}', runner.os, runner.arch, steps.setup.outputs.node-version, steps.args.outputs.hash, hashFiles('yarn.lock', '.yarnrc.yml')) }}
-        restore-keys: |
-          ${{ format('{0}{1}-yarn-install-state-{2}-{3}-', runner.os, runner.arch, steps.setup.outputs.node-version, steps.args.outputs.hash) }}
-          ${{ format('{0}{1}-yarn-install-state-{2}-', runner.os, runner.arch, steps.setup.outputs.node-version) }}
-          ${{ format('{0}{1}-yarn-install-state-', runner.os, runner.arch) }}
+        key: ${{ steps.keys-yarn-install-state.outputs.key }}
+        restore-keys: ${{ steps.keys-yarn-install-state.outputs.restore-keys }}
 
     - name: 'Install yarn dependencies'
       shell: bash
       #language=bash
       run: |
-        yarn install ${{ inputs.yarn-args }}
+        yarn install $ARGS
       env:
+        ARGS: ${{ steps.args.outputs.string }}
         HUSKY: '0'
         YARN_ENABLE_GLOBAL_CACHE: 'false'
         YARN_INSTALL_STATE_PATH: .yarn/ci-cache/install-state.gz
