@@ -398,16 +398,18 @@ Same as [composer-install].
 
 Run [Behat](https://docs.behat.org/en/latest/) through composer.
 
-1. Runs [composer-install].
+1. Runs [composer-install] or uses the provided image.
 2. Runs `vendor/bin/behat` in container.
 
 ##### Inputs
 
-| Required | Name          | Description                                                | Example      | Default |
-| -------- | ------------- | ---------------------------------------------------------- | ------------ | ------- |
-| No       | `image`       | PHP Docker image to use                                    | `8.1`        | `7.4`   |
-| No       | `php-version` | PHP version to use. If image is set, this will be ignored. | `php:8.1`    | `''`    |
-| No       | `flags`       | Additional flags to pass to Behat                          | `--no-paths` | `''`    |
+| Required | Name          | Description                                                | Example             | Default |
+| -------- | ------------- | ---------------------------------------------------------- | ------------------- | ------- |
+| No       | `image`       | PHP Docker image to use                                    | `8.1`               | `7.4`   |
+| No       | `php-version` | PHP version to use. If image is set, this will be ignored. | `php:8.1`           | –       |
+| No       | `flags`       | Additional flags to pass to Behat                          | `--no-paths`        | –       |
+| No       | `php-args`    | Arguments to pass to PHP. Should be a multiline string.    | `-dmemory_limit=2G` | –       |
+| No       | `behat-args`  | Arguments to pass to Behat. Should be a multiline string.  | `--tags=@api`       | –       |
 
 #### composer-pest
 

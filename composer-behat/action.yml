@@ -5,24 +5,39 @@ inputs:
   image:
     description: 'PHP Docker image to use'
     required: false
-    default: ''
 
   php-version:
     description: 'PHP version to use. If image is set, this will be ignored.'
     default: '7.4'
     required: false
 
-  args:
-    description: 'Arguments to pass to Behat. Can be multiline string.'
+  php-args:
+    description: 'Arguments to pass to PHP. Should be a multiline string.'
     required: false
-    default: ''
+
+  behat-args:
+    description: 'Arguments to pass to Behat. Should be a multiline string.'
+    required: false
+
+  # deprecated, use behat-args
+  # TODO: Remove in v5
+  args:
+    description: 'Arguments to pass to Behat. Should be a multiline string.'
+    required: false
 
 runs:
   using: composite
   steps:
+    - uses: myparcelnl/actions/deprecated@v4
+      if: inputs.args != ''
+      with:
+        name: 'inputs.args'
+        replacement: 'inputs.behat-args'
+        reason: 'To prevent confusion with inputs.php-args.'
+
     - uses: myparcelnl/actions/composer-install@v4
       id: install
-      if: ${{ inputs.image == '' }}
+      if: inputs.image == ''
       with:
         php-version: ${{ inputs.php-version }}
 
@@ -30,25 +45,36 @@ runs:
       id: env
 
     - uses: myparcelnl/actions/format-string@v4
-      id: args
+      id: php-args
       with:
         mode: 'args'
-        string: ${{ inputs.args }}
+        string: |
+          -dpcov.enabled=1
+          ${{ inputs.php-args }}
+
+    - uses: myparcelnl/actions/format-string@v4
+      id: behat-args
+      with:
+        mode: 'args'
+        string: |
+          --colors
+          --format=progress
+          --no-interaction
+          ${{ inputs.behat-args || inputs.args }}
 
     - name: 'Run Behat'
       env:
-        ARGS: ${{ steps.args.outputs.string }}
+        BEHAT_ARGS: ${{ steps.behat-args.outputs.string }}
         ENV_FILE: ${{ steps.env.outputs.filename }}
         IMAGE: ${{ inputs.image || steps.install.outputs.image }}
+        PHP_ARGS: ${{ steps.php-args.outputs.string }}
+        TERM: xterm-256color
       shell: bash
       #language=bash
       run: |
         docker run -t \
           --env-file="$ENV_FILE" \
           --user $(id -u):$(id -g) \
-          --volume $PWD:/app \
+          --volume "$PWD:/app" \
           "$IMAGE" \
-          php \
-            vendor/bin/behat $ARGS \
-            --colors \
-            --no-interaction
+          php $PHP_ARGS vendor/bin/behat $BEHAT_ARGS
