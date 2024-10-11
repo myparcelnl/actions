@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.39.0](https://github.com/myparcelnl/actions/compare/v4.38.3...v4.39.0) (2024-10-11)
+
+
+### :sparkles: New Features
+
+* **composer-behat:** add php-args and behat-args ([277ea64](https://github.com/myparcelnl/actions/commit/277ea641f4ba4cbc017c46fd330623797127ff5b))
+* **composer-pest:** add php-args input ([f1f2594](https://github.com/myparcelnl/actions/commit/f1f259499a55f33de3fdda152c740a6956e1b3ae))
+* **composer-phpstan:** add php-args and phpstan-args ([7825bff](https://github.com/myparcelnl/actions/commit/7825bffffe18f3aca820176fa4ac835f986cb5f2))
+
+
+### :bug: Bug Fixes
+
+* **composer:** rename flags arg to composer-args for install and update ([a2fc137](https://github.com/myparcelnl/actions/commit/a2fc13793469ae2064f04c92739c988efbcded7e))
+* **deprecated:** output message as warning ([c5920fd](https://github.com/myparcelnl/actions/commit/c5920fd2585562e259df461c05e90a65754f65fb))
+
 ## [4.38.3](https://github.com/myparcelnl/actions/compare/v4.38.2...v4.38.3) (2024-10-10)
 
 
