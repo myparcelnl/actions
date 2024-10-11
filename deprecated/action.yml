@@ -17,16 +17,22 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: 'Mark as deprecated'
+    - name: 'Report deprecation'
       shell: bash
+      env:
+        NAME: ${{ inputs.name }}
+        REPLACEMENT: ${{ inputs.replacement }}
+        REASON: ${{ inputs.reason }}
       #language=bash
       run: |
-        msg="${{ inputs.name }} is deprecated and will be removed in the future."
+        message="$NAME is deprecated and will be removed in the next major version."
 
-        if [ -n "${{ inputs.replacement }}" ]; then
-          msg="${msg} Use ${{ inputs.replacement }} instead."
+        if [ -n "$REPLACEMENT" ]; then
+          message="${message} Use $REPLACEMENT instead."
         fi
 
-        if [ -n "${{ inputs.reason }}" ]; then
-          msg="${msg} Reason: ${{ inputs.reason }}"
+        if [ -n "$REASON" ]; then
+          message="${message} Reason: $REASON"
         fi
+
+        echo "::warning::$message"
