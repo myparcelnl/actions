@@ -5,21 +5,36 @@ inputs:
   image:
     description: 'PHP Docker image to use'
     required: false
-    default: ''
 
   php-version:
     description: 'PHP version to use. If image is set, this will be ignored.'
     default: '7.4'
     required: false
 
+  php-args:
+    description: 'Arguments to pass to PHP. Should be a multiline string.'
+    required: false
+
+  pest-args:
+    description: 'Arguments to pass to Pest. Should be a multiline string.'
+    required: false
+
+  # deprecated, use pest-args
+  # TODO: Remove in v5
   args:
     description: 'Arguments to pass to Pest. Should be a multiline string.'
     required: false
-    default: ''
 
 runs:
   using: composite
   steps:
+    - uses: myparcelnl/actions/deprecated@v4
+      if: inputs.args != ''
+      with:
+        name: 'inputs.args'
+        replacement: 'inputs.pest-args'
+        reason: 'To prevent confusion with inputs.php-args.'
+
     - uses: myparcelnl/actions/composer-install@v4
       id: install
       if: inputs.image == ''
@@ -30,27 +45,37 @@ runs:
       id: env
 
     - uses: myparcelnl/actions/format-string@v4
-      id: format-args
+      id: php-args
       with:
         mode: 'args'
         string: |
-          --colors="always"
-          --coverage-clover="clover.xml"
+          -dpcov.enabled=1
+          ${{ inputs.php-args }}
+
+    - uses: myparcelnl/actions/format-string@v4
+      id: pest-args
+      with:
+        mode: 'args'
+        string: |
+          --colors=always
           --no-interaction
-          ${{ inputs.args }}
+          --coverage
+          --coverage-clover=clover.xml
+          ${{ inputs.pest-args || inputs.args }}
 
     - name: 'Run Pest'
       env:
-        ARGS: ${{ steps.format-args.outputs.string }}
         ENV_FILE: ${{ steps.env.outputs.filename }}
         IMAGE: ${{ inputs.image || steps.install.outputs.image }}
+        PEST_ARGS: ${{ steps.pest-args.outputs.string }}
+        PHP_ARGS: ${{ steps.php-args.outputs.string }}
+        TERM: xterm-256color
       shell: bash
       #language=bash
       run: |
         docker run -t \
           --env-file="$ENV_FILE" \
           --user $(id -u):$(id -g) \
-          --volume $PWD:/app \
+          --volume "$PWD:/app" \
           "$IMAGE" \
-          php -dpcov.enabled=1 \
-          vendor/bin/pest $ARGS
+          php $PHP_ARGS vendor/bin/pest $PEST_ARGS

@@ -420,11 +420,12 @@ Run [Pest](https://pestphp.com/) through composer.
 
 ##### Inputs
 
-| Required | Name          | Description                                                | Example   | Default |
-| -------- | ------------- | ---------------------------------------------------------- | --------- | ------- |
-| No       | `image`       | PHP Docker image to use                                    | `8.1`     | `7.4`   |
-| No       | `php-version` | PHP version to use. If image is set, this will be ignored. | `php:8.1` | `''`    |
-| No       | `flags`       | Additional flags to pass to Pest                           | `--retry` | `''`    |
+| Required | Name          | Description                                                | Example            | Default |
+| -------- | ------------- | ---------------------------------------------------------- | ------------------ | ------- |
+| No       | `image`       | PHP Docker image to use                                    | `8.1`              | `7.4`   |
+| No       | `php-version` | PHP version to use. If image is set, this will be ignored. | `php:8.1`          | –       |
+| No       | `php-args`    | Arguments to pass to PHP. Should be a multiline string.    | `-dpcov.enabled=0` | –       |
+| No       | `pest-args`   | Arguments to pass to Pest. Should be a multiline string.   | `--retry`          | –       |
 
 #### composer-phpstan
 
