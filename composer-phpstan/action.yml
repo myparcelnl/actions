@@ -10,7 +10,6 @@ inputs:
   config-file:
     description: 'PHPStan configuration file'
     required: false
-    default: ''
 
   cache-dir:
     description: 'PHPStan cache directory'
@@ -25,31 +24,23 @@ inputs:
   image:
     description: 'PHP Docker image to use'
     required: false
-    default: ''
 
   php-version:
     description: 'PHP version to use. If image is set, this will be ignored.'
     default: '7.4'
     required: false
 
+  php-args:
+    description: 'Arguments to pass to PHP. Should be a multiline string.'
+    required: false
+
+  phpstan-args:
+    description: 'Arguments to pass to PhpStan. Should be a multiline string.'
+    required: false
+
 runs:
   using: composite
   steps:
-    - name: 'Prepare variables'
-      id: prepare
-      shell: bash
-      env:
-        CONFIG_FILE: ${{ inputs.config-file }}
-      #language=bash
-      run: |
-        ARGS=""
-
-        if [ -n "$CONFIG_FILE" ]; then
-          ARGS="$ARGS --configuration $CONFIG_FILE"
-        fi
-
-        echo "args=$ARGS" >> $GITHUB_OUTPUT
-
     - uses: myparcelnl/actions/create-cache-keys@v4
       id: keys-phpstan
       with:
@@ -60,7 +51,6 @@ runs:
 
     - name: 'Handle PHPStan cache'
       uses: actions/cache@v4
-      id: phpstan-cache
       with:
         path: ${{ inputs.cache-dir }}
         key: ${{ steps.keys-phpstan.outputs.key }}
@@ -68,28 +58,48 @@ runs:
 
     - uses: myparcelnl/actions/composer-install@v4
       id: setup
-      if: steps.phpstan-cache.outputs.cache-hit != 'true'
+      if: inputs.image == ''
       with:
-        php-version: ${{ vars.PHP_VERSION }}
+        php-version: ${{ inputs.php-version }}
 
     - uses: myparcelnl/actions/composer-create-env-file@v4
       id: env
 
-    - name: 'Run PHPStan analysis'
-      if: steps.phpstan-cache.outputs.cache-hit != 'true'
+    - uses: myparcelnl/actions/format-string@v4
+      id: php-args
+      with:
+        mode: 'args'
+        string: |
+          -dmemory_limit=-1
+          ${{ inputs.php-args }}
+
+    - uses: myparcelnl/actions/format-string@v4
+      id: phpstan-args
+      with:
+        mode: 'args'
+        string: |
+          --error-format=github
+          --memory-limit=2G
+          --no-interaction
+          --no-progress
+          ${{ runner.debug == '1' && '--debug' || '' }}
+          ${{ inputs.config-file && '--configuration=$CONFIG_FILE' || '' }}
+          ${{ inputs.phpstan-args }}
+
+    - name: 'Run PhpStan'
       env:
-        ARGS: ${{ inputs.args }}
+        COMMAND: ${{ inputs.command }}
         ENV_FILE: ${{ steps.env.outputs.filename }}
-        IMAGE: ${{ steps.setup.outputs.image }}
+        IMAGE: ${{ inputs.image || steps.install.outputs.image }}
+        PHPSTAN_ARGS: ${{ steps.phpstan-args.outputs.string }}
+        PHP_ARGS: ${{ steps.php-args.outputs.string }}
+        TERM: xterm-256color
       shell: bash
       #language=bash
       run: |
         docker run -t \
-          --env-file "$ENV_FILE" \
+          --env-file="$ENV_FILE" \
           --user $(id -u):$(id -g) \
-          --volume $PWD:/app \
+          --volume "$PWD:/app" \
           "$IMAGE" \
-          php -dmemory_limit=-1 vendor/bin/phpstan \
-            analyse \
-            --no-progress \
-            --no-interaction
+          php $PHP_ARGS vendor/bin/phpstan "$COMMAND" $PHPSTAN_ARGS

@@ -435,19 +435,21 @@ Run [Pest](https://pestphp.com/) through composer.
 
 Run [PHPStan](https://phpstan.org/) through composer.
 
-1. Runs [composer-install].
+1. Runs [composer-install] or uses the provided image.
 2. Runs `vendor/bin/phpstan` in container.
 
 ##### Inputs
 
-| Required | Name          | Description                                                | Example                        | Default                        |
-| -------- | ------------- | ---------------------------------------------------------- | ------------------------------ | ------------------------------ |
-| No       | `command`     | The PHPStan command to run.                                | `analyse`                      | `analyse`                      |
-| No       | `config-file` | PHPStan configuration file                                 | `phpstan.neon`                 | `''`                           |
-| No       | `cache-dir`   | PHPStan cache directory                                    | `./tmp/phpstan`                | `/tmp/phpstan`                 |
-| No       | `cache-hash`  | Hash to use for caching                                    | `${{ hashFiles('src/**/*') }}` | `${{ hashFiles('**/*.php') }}` |
-| No       | `image`       | PHP Docker image to use                                    | `php:8.1`                      | `''`                           |
-| No       | `php-version` | PHP version to use. If image is set, this will be ignored. | `8.1`                          | `7.4`                          |
+| Required | Name           | Description                                                 | Example                        | Default                        |
+| -------- | -------------- | ----------------------------------------------------------- | ------------------------------ | ------------------------------ |
+| No       | `command`      | The PHPStan command to run.                                 | `analyse`                      | `analyse`                      |
+| No       | `config-file`  | PHPStan configuration file                                  | `phpstan.neon`                 | –                              |
+| No       | `cache-dir`    | PHPStan cache directory                                     | `./tmp/phpstan`                | `/tmp/phpstan`                 |
+| No       | `cache-hash`   | Hash to use for caching                                     | `${{ hashFiles('src/**/*') }}` | `${{ hashFiles('**/*.php') }}` |
+| No       | `image`        | PHP Docker image to use                                     | `php:8.1`                      | –                              |
+| No       | `php-version`  | PHP version to use. If image is set, this will be ignored.  | `8.1`                          | `7.4`                          |
+| No       | `php-args`     | Arguments to pass to PHP. Should be a multiline string.     | `-dpcov.enabled=0`             | –                              |
+| No       | `phpstan-args` | Arguments to pass to PHPStan. Should be a multiline string. | `--level=7`                    | –                              |
 
 ### Testing
 
