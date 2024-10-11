@@ -7,17 +7,23 @@ inputs:
     required: false
     default: 'install'
 
+  php-version:
+    description: 'The php version to use.'
+    default: '7.2'
+    required: false
+
+  composer-args:
+    description: 'Arguments to pass to Composer. Should be a multiline string.'
+    required: false
+
+  # Deprecated, use composer-args
+  # TODO: Remove in v5
   flags:
     description: 'Flags to use when installing composer dependencies.'
     required: false
     default: |
       --no-plugins
       --no-scripts
-
-  php-version:
-    description: 'The php version to use.'
-    default: '7.2'
-    required: false
 
 outputs:
   image:
@@ -31,6 +37,12 @@ outputs:
 runs:
   using: composite
   steps:
+    - uses: myparcelnl/actions/deprecated@v4
+      if: inputs.flags != ''
+      with:
+        name: 'inputs.flags'
+        replacement: 'inputs.composer-args'
+
     - name: 'Hash composer flags'
       id: flags
       uses: myparcelnl/actions/hash-string@v4
@@ -90,13 +102,24 @@ runs:
     - uses: myparcelnl/actions/composer-create-env-file@v4
       id: env
 
+    - uses: myparcelnl/actions/format-string@v4
+      id: composer-args
+      with:
+        mode: 'args'
+        string: |
+          --no-interaction
+          --no-progress
+          --optimize-autoloader
+          ${{ runner.debug == '1' && '--verbose' || '' }}
+          ${{ inputs.composer-args || inputs.flags }}
+
     - name: 'Install composer dependencies'
       shell: bash
       env:
         CACHE_DIR: ${{ steps.prepare.outputs.cache-dir }}
         COMMAND: ${{ inputs.command }}
+        COMPOSER_ARGS: ${{ steps.composer-args.outputs.string }}
         ENV_FILE: ${{ steps.env.outputs.filename }}
-        FLAGS: ${{ steps.flags.outputs.string }}
         IMAGE: ${{ steps.prepare.outputs.image }}
       #language=bash
       run: |
@@ -108,4 +131,4 @@ runs:
           --user "$(id -u):$(id -g)" \
           --env-file "$ENV_FILE" \
           "$IMAGE" \
-          composer $COMMAND --no-interaction --no-progress $FLAGS
+          composer $COMMAND $COMPOSER_ARGS

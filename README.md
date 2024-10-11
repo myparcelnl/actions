@@ -342,9 +342,9 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 - You can change the php version by passing `php-version`.
 
 2. Handles composer cache
-3. Runs `composer install --no-interaction --no-progress`
+3. Runs `composer install` with passed arguments
 
-- You can add additional flags by passing the `flags` option.
+- You can add additional flags by passing the `composer-args` option.
 
 ##### Example
 
@@ -352,16 +352,18 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 - uses: myparcelnl/actions/composer-install@v4
   with:
     php-version: '8.0'
-    flags: --no-dev --no-plugins
+    composer-args: |
+      --no-dev
+      --no-plugins
 ```
 
 ##### Inputs
 
-| Required | Name          | Description                                    | Example        | Default                     |
-| -------- | ------------- | ---------------------------------------------- | -------------- | --------------------------- |
-| No       | `command`     | The command to run                             | `update`       | `install`                   |
-| No       | `flags`       | Additional flags to pass to `composer install` | `--no-scripts` | `--no-scripts --no-plugins` |
-| No       | `php-version` | The PHP version to use                         | `8.0`          | `7.2`                       |
+| Required | Name            | Description                                    | Example        | Default                     |
+| -------- | --------------- | ---------------------------------------------- | -------------- | --------------------------- |
+| No       | `command`       | The command to run                             | `update`       | `install`                   |
+| No       | `composer-args` | Additional flags to pass to `composer install` | `--no-scripts` | `--no-scripts --no-plugins` |
+| No       | `php-version`   | The PHP version to use                         | `8.0`          | `7.2`                       |
 
 #### Outputs
 
@@ -381,7 +383,9 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 - uses: myparcelnl/actions/composer-update@v4
   with:
     php-version: '8.0'
-    flags: --no-dev --no-plugins
+    composer-args: |
+      --no-dev
+      --no-plugins
 ```
 
 ##### Inputs
