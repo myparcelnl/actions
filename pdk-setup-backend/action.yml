@@ -4,13 +4,13 @@ description: 'Setup PDK backend dependencies'
 inputs:
   php-version:
     description: 'PHP version to use'
-    default: '7.4'
     required: false
+    default: '7.4'
 
   composer-command:
     description: 'The composer command to run.'
-    default: 'install'
     required: false
+    default: 'install'
 
   composer-dev:
     description: 'Whether to install composer dev dependencies.'
@@ -20,48 +20,24 @@ inputs:
 outputs:
   image:
     description: 'The image name that was used to setup composer dependencies. Can be used in subsequent jobs.'
-    value: ${{ steps.setup-install.outputs.image || steps.setup-update.outputs.image }}
+    value: ${{ steps.install.outputs.image }}
 
   env-file:
     description: 'The filename of the env file that was created.'
-    value: ${{ steps.setup-install.outputs.env-file || steps.setup-update.outputs.env-file }}
-
-  flags:
-    description: 'The flags that were used to install composer dependencies.'
-    value: ${{ steps.composer-args.outputs.args }}
+    value: ${{ steps.install.outputs.env-file }}
 
 runs:
   using: composite
   steps:
-    - name: 'Create composer args'
-      id: composer-args
-      env:
-        DEV: ${{ inputs.composer-dev }}
-      shell: bash
-      #language=bash
-      run: |
-        composerArgs="--ignore-platform-req=ext-* --no-scripts --no-plugins"
-
-        if [ "$DEV" == 'false' ]; then
-          composerArgs="$composerArgs --no-dev"
-
-          echo "COMPOSER_NO_DEV=1" >> $GITHUB_ENV
-        else
-          echo "COMPOSER_NO_DEV=0" >> $GITHUB_ENV
-        fi
-
-        echo "args=$composerArgs" >> $GITHUB_OUTPUT
-
     - uses: myparcelnl/actions/composer-install@v4
-      if: inputs.composer-command == 'install'
-      id: setup-install
+      id: install
+      env:
+        COMPOSER_NO_DEV: ${{ inputs.composer-dev == 'false' && '1' || '0' }}
       with:
+        command: ${{ inputs.composer-command == 'update' && 'update' || 'install' }}
         php-version: ${{ inputs.php-version }}
-        composer-args: ${{ steps.composer-args.outputs.args }}
-
-    - uses: myparcelnl/actions/composer-update@v4
-      if: inputs.composer-command == 'update'
-      id: setup-update
-      with:
-        php-version: ${{ inputs.php-version }}
-        composer-args: ${{ steps.composer-args.outputs.args }}
+        composer-args: |
+          --ignore-platform-req=ext-*,lib-*
+          --no-scripts
+          --no-plugins
+          ${{ inputs.composer-dev == 'false' && '--no-dev' || '' }}
