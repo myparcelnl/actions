@@ -28,40 +28,40 @@ outputs:
 
   flags:
     description: 'The flags that were used to install composer dependencies.'
-    value: ${{ steps.composer-flags.outputs.flags }}
+    value: ${{ steps.composer-args.outputs.args }}
 
 runs:
   using: composite
   steps:
-    - name: 'Create composer flags'
-      id: composer-flags
+    - name: 'Create composer args'
+      id: composer-args
       env:
         DEV: ${{ inputs.composer-dev }}
       shell: bash
       #language=bash
       run: |
-        composerFlags="--ignore-platform-req=ext-* --no-scripts --no-plugins"
+        composerArgs="--ignore-platform-req=ext-* --no-scripts --no-plugins"
 
         if [ "$DEV" == 'false' ]; then
-          composerFlags="$composerFlags --no-dev"
+          composerArgs="$composerArgs --no-dev"
 
           echo "COMPOSER_NO_DEV=1" >> $GITHUB_ENV
         else
           echo "COMPOSER_NO_DEV=0" >> $GITHUB_ENV
         fi
 
-        echo "flags=$composerFlags" >> $GITHUB_OUTPUT
+        echo "args=$composerArgs" >> $GITHUB_OUTPUT
 
     - uses: myparcelnl/actions/composer-install@v4
       if: inputs.composer-command == 'install'
       id: setup-install
       with:
         php-version: ${{ inputs.php-version }}
-        flags: ${{ steps.composer-flags.outputs.flags }}
+        composer-args: ${{ steps.composer-args.outputs.args }}
 
     - uses: myparcelnl/actions/composer-update@v4
       if: inputs.composer-command == 'update'
       id: setup-update
       with:
         php-version: ${{ inputs.php-version }}
-        flags: ${{ steps.composer-flags.outputs.flags }}
+        composer-args: ${{ steps.composer-args.outputs.args }}
