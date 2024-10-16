@@ -57,10 +57,10 @@ runs:
       with:
         mode: 'args'
         string: |
-          --colors=always
           --no-interaction
-          --coverage
+          --colors=always
           --coverage-clover=clover.xml
+          --log-junit=junit.xml
           ${{ inputs.pest-args || inputs.args }}
 
     - name: 'Run Pest'
