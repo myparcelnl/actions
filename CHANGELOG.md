@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.39.2](https://github.com/myparcelnl/actions/compare/v4.39.1...v4.39.2) (2024-10-16)
+
+
+### :bug: Bug Fixes
+
+* **composer-pest:** remove ambiguous default argument ([f5a5d20](https://github.com/myparcelnl/actions/commit/f5a5d203b0556b4740cb1851a42356151e316bb9))
+
 ## [4.39.1](https://github.com/myparcelnl/actions/compare/v4.39.0...v4.39.1) (2024-10-16)
 
 
