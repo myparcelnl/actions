@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.39.3](https://github.com/myparcelnl/actions/compare/v4.39.2...v4.39.3) (2024-10-16)
+
+
+### :bug: Bug Fixes
+
+* **composer:** move default args ([ff3eb6a](https://github.com/myparcelnl/actions/commit/ff3eb6a75681e92c3f1a9463d3860afac863bdba))
+* **pdk:** clean up composer arguments ([ed67bcd](https://github.com/myparcelnl/actions/commit/ed67bcd268bf399e813422f0fe0a2bc1ce9eddcc))
+
 ## [4.39.2](https://github.com/myparcelnl/actions/compare/v4.39.1...v4.39.2) (2024-10-16)
 
 
