@@ -44,7 +44,7 @@ inputs:
       **/scoper.*.inc.php
 
   mode:
-    description: 'The mode to run in. Will be inferred from github event automatically. Can be pull_request, push or workflow_dispatch.'
+    description: 'The mode to run in. Will be inferred from github event automatically. Can be pull_request, push, workflow_dispatch or repository_dispatch.'
     required: false
     default: ${{ github.event_name }}
 
@@ -57,11 +57,11 @@ runs:
   using: composite
   steps:
     - name: 'Report invalid mode'
-      if: inputs.mode != 'pull_request' && inputs.mode != 'push' && inputs.mode != 'workflow_dispatch'
+      if: inputs.mode != 'pull_request' && inputs.mode != 'push' && inputs.mode != 'workflow_dispatch' && inputs.mode != 'repository_dispatch'
       shell: bash
       #language=bash
       run: |
-        echo "Mode is not pull_request, push or workflow_dispatch, stopping"
+        echo "Mode is not pull_request, push, workflow_dispatch or repository_dispatch, stopping"
         exit 1
 
     - uses: actions/checkout@v4
