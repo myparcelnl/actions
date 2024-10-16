@@ -16,9 +16,6 @@ inputs:
   flags:
     description: 'Flags to use when installing composer dependencies.'
     required: false
-    default: |
-      --no-plugins
-      --no-scripts
 
 outputs:
   image:

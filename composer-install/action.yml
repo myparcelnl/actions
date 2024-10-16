@@ -21,9 +21,6 @@ inputs:
   flags:
     description: 'Flags to use when installing composer dependencies.'
     required: false
-    default: |
-      --no-plugins
-      --no-scripts
 
 outputs:
   image:
@@ -108,7 +105,9 @@ runs:
         mode: 'args'
         string: |
           --no-interaction
+          --no-plugins
           --no-progress
+          --no-scripts
           --optimize-autoloader
           ${{ runner.debug == '1' && '--verbose' || '' }}
           ${{ inputs.composer-args || inputs.flags }}
