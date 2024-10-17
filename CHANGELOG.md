@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.40.3](https://github.com/myparcelnl/actions/compare/v4.40.2...v4.40.3) (2024-10-17)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** use rc for prerelease versions ([8749dcd](https://github.com/myparcelnl/actions/commit/8749dcdea67a62b2bd37edaa662c2acd35dc749b))
+
 ## [4.40.2](https://github.com/myparcelnl/actions/compare/v4.40.1...v4.40.2) (2024-10-17)
 
 
