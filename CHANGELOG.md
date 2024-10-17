@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.40.0](https://github.com/myparcelnl/actions/compare/v4.39.5...v4.40.0) (2024-10-17)
+
+
+### :sparkles: New Features
+
+* **pdk:** add caching to upgrade ([edc6c06](https://github.com/myparcelnl/actions/commit/edc6c06f4c7e03d93cca90e3ad3bf383cf11d4a4))
+
 ## [4.39.5](https://github.com/myparcelnl/actions/compare/v4.39.4...v4.39.5) (2024-10-17)
 
 
