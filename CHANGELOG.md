@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.40.1](https://github.com/myparcelnl/actions/compare/v4.40.0...v4.40.1) (2024-10-17)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** fix root command being chopped up ([1ce72e7](https://github.com/myparcelnl/actions/commit/1ce72e73a30529948e75c6082e9b53b119611ed1))
+
 ## [4.40.0](https://github.com/myparcelnl/actions/compare/v4.39.5...v4.40.0) (2024-10-17)
 
 
