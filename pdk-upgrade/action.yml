@@ -57,6 +57,17 @@ runs:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
 
+    - uses: actions/cache@v4
+      id: upgrade-cache
+      with:
+        key: ${{ format('upgrade-{0}-{1}', github.run_id, github.run_attempt) }}
+        path: |
+          vendor
+          node_modules
+          composer.lock
+          yarn.lock
+          pdk-upgrade.lock
+
     - name: 'Check latest available versions'
       uses: actions/github-script@v7
       id: versions
@@ -66,25 +77,69 @@ runs:
         github-token: ${{ steps.credentials.outputs.token }}
         # language=javascript
         script: |
+          const fs = require('fs');
           const mode = process.env.MODE;
+          const lockfileName = process.env.LOCKFILE_NAME;
 
-          if (mode === 'all' || mode === 'backend') {
-            const pdkRelease = await github.rest.repos.getLatestRelease({ owner: 'myparcelnl', repo: 'pdk' });
+          /**
+           * Key -> value pairs of the outputs to set
+           */
+          const outputs = {
+            'app-builder-version': '',
+            'js-pdk-version': '',
+            'pdk-version': '',
+            'from-cache': false,
+          };
 
-            core.setOutput('pdk-version', pdkRelease.data.tag_name);
+          if (fs.existsSync(lockfileName)) {
+            core.debug(`Reading lockfile from ${lockfileName}`);
+            const lockfile = fs.readFileSync(lockfileName, 'utf8');
+            const lock = JSON.parse(lockfile);
+
+            Object.assign(outputs, { ...lock, 'from-cache': true });
           }
 
-          if (mode === 'all' || mode === 'frontend') {
-            const jsPdkReleases = await github.rest.repos.listReleases({ owner: 'myparcelnl', repo: 'js-pdk' });
+          core.debug(`Current outputs: ${JSON.stringify(outputs)}`);
 
-            const APP_BUILDER = "@myparcel-pdk/app-builder";
+          const hasBackendLock = Boolean(outputs['pdk-version']);
+          const hasFrontendLock = Boolean(outputs['app-builder-version']) && Boolean(outputs['js-pdk-version']);
+
+          const hasBackendMode = (mode === 'all' || mode === 'backend');
+          const hasFrontendMode = (mode === 'all' || mode === 'frontend');
+
+          if (!hasBackendLock && hasBackendMode) {
+            core.debug('Fetching latest PDK release');
+            const pdkRelease = await github.rest.repos.getLatestRelease({
+              owner: 'myparcelnl',
+              repo: 'pdk',
+            });
+
+            outputs['pdk-version'] = pdkRelease.data.tag_name;
+          }
+
+          if (!hasFrontendLock && hasFrontendMode) {
+            core.debug('Fetching latest JS-PDK release');
+            const jsPdkReleases = await github.rest.repos.listReleases({
+              owner: 'myparcelnl',
+              repo: 'js-pdk',
+            });
+
+            const APP_BUILDER = '@myparcel-pdk/app-builder';
 
             const lastAppBuilderRelease = jsPdkReleases.data.find((release) => release.name.includes(APP_BUILDER));
             const lastJsPdkRelease = jsPdkReleases.data.find((release) => !release.name.includes(APP_BUILDER));
 
-            core.setOutput('app-builder-version', lastAppBuilderRelease?.tag_name ?? '');
-            core.setOutput('js-pdk-version', lastJsPdkRelease?.tag_name ?? '');
+            outputs['app-builder-version'] = lastAppBuilderRelease?.tag_name ?? '';
+            outputs['js-pdk-version'] = lastJsPdkRelease?.tag_name ?? '';
           }
+
+          Object.entries(outputs).forEach(([key, value]) => {
+            core.debug(`Setting output "${key}" to "${value}"`);
+            core.setOutput(key, value);
+          });
+
+          core.debug(`Writing lockfile to ${lockfileName} with contents ${JSON.stringify(outputs)}`);
+          fs.writeFileSync(lockfileName, JSON.stringify(outputs));
 
     - name: 'Check if upgrades are needed'
       id: upgrade-check
@@ -191,6 +246,7 @@ runs:
       shell: bash
       env:
         REPORT_FILE: ${{ inputs.report-file }}
+        FROM_CACHE: ${{ steps.versions.outputs.from-cache }}
       # language=bash
       run: |
         if [ ! -f $REPORT_FILE ]; then
@@ -202,6 +258,12 @@ runs:
 
         echo "## PDK upgrade summary" >> $GITHUB_STEP_SUMMARY
         echo ""                       >> $GITHUB_STEP_SUMMARY
+
+        if [ "$FROM_CACHE" == 'true' ]; then
+          echo "Upgrades were restored from cache from another step in this job." >> $GITHUB_STEP_SUMMARY
+          exit 0
+        fi
+
 
         if [ $(echo "${JSON}" | jq '. | length') -eq 0 ]; then
             echo "No packages were upgraded." >> $GITHUB_STEP_SUMMARY
