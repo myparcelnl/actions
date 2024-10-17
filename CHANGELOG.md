@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.39.5](https://github.com/myparcelnl/actions/compare/v4.39.4...v4.39.5) (2024-10-17)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** fix image reference ([52462c2](https://github.com/myparcelnl/actions/commit/52462c2bbeda68f8d9b3a66ec63fa6f184daa962))
+
 ## [4.39.4](https://github.com/myparcelnl/actions/compare/v4.39.3...v4.39.4) (2024-10-17)
 
 
