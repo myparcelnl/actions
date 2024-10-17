@@ -9,12 +9,10 @@ inputs:
   image:
     description: 'PHP Docker image to use'
     required: false
-    default: ''
 
   args:
     description: 'Additional arguments to pass to the command. Can be multiline string.'
     required: false
-    default: '-v'
 
 runs:
   using: composite
@@ -32,18 +30,15 @@ runs:
       id: args
       with:
         mode: 'args'
-        string: ${{ inputs.args }}
+        string: |
+          ${{ inputs.args }}
+          ${{ runner.debug == '1' && '-vvv' || '' }}
+          --root-command="${{ steps.prepare.outputs.root-command }}"
 
     - shell: bash
       env:
         ARGS: ${{ steps.args.outputs.string }}
         COMMAND: ${{ inputs.command }}
-        DEBUG: ${{ runner.debug }}
-        ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
       #language=bash
       run: |
-        if [ "$DEBUG" == '1' ]; then
-          ARGS="$ARGS -vvv"
-        fi
-
-        npx pdk-builder "$COMMAND" $ARGS --root-command="$ROOT_COMMAND"
+        npx pdk-builder "$COMMAND" $ARGS

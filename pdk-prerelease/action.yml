@@ -80,10 +80,10 @@ runs:
         version=$(npm pkg get version | sed 's/"//g')
 
         if [ "$MODE" == "pull_request" ]; then
-          releaseVersion="$version-$PR_NUMBER"
+          releaseVersion="$version+$PR_NUMBER"
         else
           commitsSinceTag=$(git log --oneline v$version.. | wc -l)
-          releaseVersion="$version-$commitsSinceTag"
+          releaseVersion="$version+$commitsSinceTag"
         fi
 
         echo "version=$releaseVersion" >> $GITHUB_OUTPUT
