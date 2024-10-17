@@ -107,5 +107,5 @@ runs:
     - uses: myparcelnl/actions/pdk-release@v4
       with:
         command: 'prerelease'
-        image: ${{ inputs.image }}
+        image: ${{ steps.setup.outputs.image }}
         version: ${{ steps.version.outputs.version }}
