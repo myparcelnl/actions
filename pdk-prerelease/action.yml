@@ -78,12 +78,19 @@ runs:
       #language=bash
       run: |
         version=$(npm pkg get version | sed 's/"//g')
+        isPreRelease=$(echo "$version" | grep -E -- '-[a-z]+\.[0-9]+$' || true)
 
         if [ "$MODE" == "pull_request" ]; then
-          releaseVersion="$version-rc.$PR_NUMBER"
+          branch=$(git branch --show-current)
+          releaseVersion="dev-$PR_NUMBER-$branch"
         else
-          commitsSinceTag=$(git log --oneline v$version.. | wc -l)
-          releaseVersion="$version-rc.$commitsSinceTag"
+          commitsSinceTag=$(git log --oneline "v$version.." | wc -l)
+
+          if [ -n "$isPreRelease" ]; then
+            releaseVersion="$version-$commitsSinceTag"
+          else
+            releaseVersion="$version-rc.$commitsSinceTag"
+          fi
         fi
 
         echo "version=$releaseVersion" >> $GITHUB_OUTPUT
