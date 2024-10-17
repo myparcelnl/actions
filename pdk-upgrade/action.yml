@@ -73,6 +73,7 @@ runs:
       id: versions
       env:
         MODE: ${{ inputs.mode }}
+        LOCKFILE_NAME: 'pdk-upgrade.lock'
       with:
         github-token: ${{ steps.credentials.outputs.token }}
         # language=javascript
