@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.40.2](https://github.com/myparcelnl/actions/compare/v4.40.1...v4.40.2) (2024-10-17)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** add missing env variable ([64a672a](https://github.com/myparcelnl/actions/commit/64a672ad1e66a7a72ddea1901228e94b4bfe63c8))
+
 ## [4.40.1](https://github.com/myparcelnl/actions/compare/v4.40.0...v4.40.1) (2024-10-17)
 
 
