@@ -33,12 +33,12 @@ runs:
         string: |
           ${{ inputs.args }}
           ${{ runner.debug == '1' && '-vvv' || '' }}
-          --root-command="${{ steps.prepare.outputs.root-command }}"
 
     - shell: bash
       env:
         ARGS: ${{ steps.args.outputs.string }}
         COMMAND: ${{ inputs.command }}
+        ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
       #language=bash
       run: |
-        npx pdk-builder "$COMMAND" $ARGS
+        npx pdk-builder "$COMMAND" $ARGS --root-command="$ROOT_COMMAND"
