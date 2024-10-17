@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.39.4](https://github.com/myparcelnl/actions/compare/v4.39.3...v4.39.4) (2024-10-17)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** change version argument to use metadata for composer ([f54987e](https://github.com/myparcelnl/actions/commit/f54987e4d85fe2a144cf7dd617f31225a4080850))
+
 ## [4.39.3](https://github.com/myparcelnl/actions/compare/v4.39.2...v4.39.3) (2024-10-16)
 
 
