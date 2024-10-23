@@ -93,16 +93,15 @@ runs:
           if (MODE_ARGS === mode) {
             const uniqueArgs = lines.reduce((acc, arg) => {
               // Check if it's a key-value pair
-              const [
-                key, value,
-              ] = arg.includes('=')
+              const [key, value] = arg.includes('=')
                 ? arg.split('=')
-                : [
-                  arg, null
-                ];
-              
+                : [arg, null];
+
+              // Unwrap quotes from value
+              const unwrappedValue = value?.replace(/^"(.*)"$/, '$1');
+
               // Store or overwrite the key with its latest occurrence
-              acc[key] = value ? `${key}=${value}` : key;
+              acc[key] = unwrappedValue ? `${key}=${unwrappedValue}` : key;
               
               return acc;
             }, {});
@@ -114,9 +113,7 @@ runs:
 
           // Optionally deduplicate
           if (deduplicate) {
-            lines = [
-              ...new Set(lines),
-            ];
+            lines = [...new Set(lines)];
             
             core.debug(`Lines after deduplication: ${JSON.stringify(lines)}`);
           }
