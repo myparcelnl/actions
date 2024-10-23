@@ -75,14 +75,26 @@ runs:
       env:
         MODE: ${{ inputs.mode }}
         PR_NUMBER: ${{ inputs.pr-number }}
+        DEBUG: ${{ runner.debug }}
       #language=bash
       run: |
         version=$(npm pkg get version | sed 's/"//g')
         isPreRelease=$(echo "$version" | grep -E -- '-[a-z]+\.[0-9]+$' || true)
 
+        if [ "$DEBUG" == "1" ]; then
+          echo "MODE=$MODE"
+          echo "PR_NUMBER=$PR_NUMBER"
+          echo "version=$version"
+          echo "isPreRelease=$isPreRelease"
+        fi
+
         if [ "$MODE" == "pull_request" ]; then
           branch=$(git branch --show-current)
           releaseVersion="dev-$PR_NUMBER-$branch"
+
+          if [ "$DEBUG" == "1" ]; then
+            echo "branch=$branch" 
+          fi
         else
           commitsSinceTag=$(git log --oneline "v$version.." | wc -l)
 
@@ -91,6 +103,14 @@ runs:
           else
             releaseVersion="$version-rc.$commitsSinceTag"
           fi
+
+          if [ "$DEBUG" == "1" ]; then
+            echo "commitsSinceTag=$commitsSinceTag"
+          fi
+        fi
+
+        if [ $DEBUG == "1" ]; then
+          echo "releaseVersion=$releaseVersion" >> $GITHUB_OUTPUT
         fi
 
         echo "version=$releaseVersion" >> $GITHUB_OUTPUT
