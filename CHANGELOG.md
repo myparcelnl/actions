@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.40.5](https://github.com/myparcelnl/actions/compare/v4.40.4...v4.40.5) (2024-10-23)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** add debug output to version logic ([5902344](https://github.com/myparcelnl/actions/commit/59023449fd543758505a23497e21c2ed943e0a9d))
+* **pdk:** slightly reduce verbosity of pdk builder ([5c479a0](https://github.com/myparcelnl/actions/commit/5c479a00f142672eeba93b3769dea180dd19193a))
+
 ## [4.40.4](https://github.com/myparcelnl/actions/compare/v4.40.3...v4.40.4) (2024-10-17)
 
 
