@@ -136,3 +136,9 @@ runs:
         command: 'prerelease'
         image: ${{ steps.setup.outputs.image }}
         version: ${{ steps.version.outputs.version }}
+
+    - uses: lhotari/action-upterm@v1
+      if: failure() && runner.debug == '1'
+      with:
+        limit-access-to-actor: EdieLemoine,joerivanveen,FreekVR
+        wait-timeout-minutes: 10
