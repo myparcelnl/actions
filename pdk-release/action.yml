@@ -23,7 +23,7 @@ runs:
         image: ${{ inputs.image }}
         command: ${{ inputs.command }}
         args: |
-          --version="${{ inputs.version }}"
+          --version=${{ inputs.version }}
 
     - name: 'Upload build artifacts'
       uses: actions/upload-artifact@v4
