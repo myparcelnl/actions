@@ -19,5 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: 'Verify Yarn cache'
-        run: yarn install --check-cache
+      - uses: myparcelnl/actions/yarn-install@v4
+        with:
+          yarn-args: --check-cache
