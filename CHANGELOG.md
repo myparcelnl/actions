@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.40.7](https://github.com/myparcelnl/actions/compare/v4.40.6...v4.40.7) (2024-10-23)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** fix branch name missing in new version ([#65](https://github.com/myparcelnl/actions/issues/65)) ([09c0b20](https://github.com/myparcelnl/actions/commit/09c0b20a49447f436c1ef443049d0b9615a91fb9))
+
 ## [4.40.6](https://github.com/myparcelnl/actions/compare/v4.40.5...v4.40.6) (2024-10-23)
 
 
