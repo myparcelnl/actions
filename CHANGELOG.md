@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.40.6](https://github.com/myparcelnl/actions/compare/v4.40.5...v4.40.6) (2024-10-23)
+
+
+### :bug: Bug Fixes
+
+* **format-string:** handle quoted args better ([e2d84f6](https://github.com/myparcelnl/actions/commit/e2d84f663faddb9ad07b780a055def96272fd25d))
+* **pdk:** pass version without literal quotes ([9122d8d](https://github.com/myparcelnl/actions/commit/9122d8df6509c1c8b3e9bd13efe2415c1de5d255))
+
 ## [4.40.5](https://github.com/myparcelnl/actions/compare/v4.40.4...v4.40.5) (2024-10-23)
 
 
