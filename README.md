@@ -27,7 +27,6 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [update-coverage](#update-coverage)
   - [Docker](#docker)
     - [build-docker-image](#build-docker-image)
-    - [build-docker-image-reg](#build-docker-image-reg)
   - [Releasing](#releasing)
     - [semantic-release](#semantic-release)
   - [Git](#git)
@@ -547,46 +546,6 @@ The following inputs are copied from the [codecov/test-results-action] action:
 
 [Source](build-docker-image/action.yml)
 
-Builds a docker image from a Dockerfile. Layers are cached and pruned between jobs based on git ref and tag.
-
-##### Inputs
-
-| Required | Name          | Description                                  | Example                                   | Default                    |
-| -------- | ------------- | -------------------------------------------- | ----------------------------------------- | -------------------------- |
-| No       | `image`       | Image name                                   | `my-name/my-image`                        | `${{ github.repository }}` |
-| Yes      | `key`         | Cache key                                    | `my-image-${{ hashFiles('Dockerfile') }}` | `${{ github.workflow }}`   |
-| No       | `dockerfile`  | Path to dockerfile                           | `./docker/prod.Dockerfile`                | `Dockerfile`               |
-| No       | `context`     | Directory to build from                      | `./docker`                                | `.`                        |
-| No       | `docker-args` | Arguments to pass to docker build            | `--target prod`                           |                            |
-| No       | `prune-after` | Amount of time until which images get pruned | `24h`                                     | `260h` (2 weeks)           |
-| No       | `buildkit`    | Whether to use Docker BuildKit               | `true`                                    | `false`                    |
-
-##### Outputs
-
-| Name           | Description                 | Example                       |
-| -------------- | --------------------------- | ----------------------------- |
-| `tagged-image` | Created image name with tag | `my-name/my-image:1639002200` |
-| `tag`          | Tag of the created image    | `1639002200`                  |
-
-##### Example
-
-```yaml
-- uses: myparcelnl/actions/build-docker-image@v4
-  id: docker
-  with:
-    image: myparcel/php-sdk
-    dockerfile: Dockerfile
-    context: .
-    docker-args: --target test
-    buildkit: true
-
-- run: docker run ${{ steps.docker.outputs.tagged-image }}
-```
-
-#### build-docker-image-reg
-
-[Source](build-docker-image-reg/action.yml)
-
 Builds a docker image from a Dockerfile. Layers are cached and pruned between jobs using a registry.
 
 ##### Inputs
@@ -599,14 +558,13 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
 | No       | `target`            | Target stage to build              | `prod`                                | –                          |
 | No       | `registry`          | Packages registry to use           | `docker.io`                           | `ghcr.io`                  |
 | No       | `registry-username` | Username to log into registry with | `${{ secrets.DOCKER_REGISTRY_USER }}` | `${{ github.actor }}`      |
-| Yes      | `registry-password` | Password to log into registry with | `${{ secrets.DOCKER_REGISTRY_PASS }}` | –                          |
+| Yes      | `registry-password` | Password to log into registry with | `${{ secrets.DOCKER_REGISTRY_PASS }}` | `${{ github.token }}`      |
 
 ##### Outputs
 
-| Name           | Description                 | Example                       |
-| -------------- | --------------------------- | ----------------------------- |
-| `tagged-image` | Created image name with tag | `my-name/my-image:1639002200` |
-| `tag`          | Tag of the created image    | `1639002200`                  |
+| Name           | Description                 | Example                                 |
+| -------------- | --------------------------- | --------------------------------------- |
+| `tagged-image` | Created image name with tag | `docker.io/my-name/my-image:1639002200` |
 
 ##### Example
 
@@ -1544,8 +1502,6 @@ These inputs apply on top of the other inputs of the action that allows for GitH
 [Github app]: https://docs.github.com/en/developers/apps
 [actions/checkout]: https://github.com/actions/checkout
 [actions/setup-node]: https://github.com/actions/setup-node
-[build-docker-image-reg]: #build-docker-image-reg
-[build-docker-image]: #build-docker-image
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
 [codecov/test-results-action]: https://github.com/codecov/test-results-action
 [composer-install]: #composer-install

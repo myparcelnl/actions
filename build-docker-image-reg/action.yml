@@ -38,41 +38,23 @@ inputs:
 outputs:
   tagged-image:
     description: 'Created image name with tag'
-    value: ${{ steps.meta.outputs.tags }}
+    value: ${{ steps.build.outputs.tagged-image }}
 
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v4
-
-    - uses: docker/login-action@v3
+    - uses: myparcelnl/actions/deprecated@v4
       with:
+        name: myparcelnl/actions/build-docker-image-reg
+        replacement: myparcelnl/actions/build-docker-image
+
+    - uses: myparcelnl/actions/build-docker-image@v4
+      id: build
+      with:
+        image: ${{ inputs.image }}
+        dockerfile: ${{ inputs.dockerfile }}
+        context: ${{ inputs.context }}
+        target: ${{ inputs.target }}
         registry: ${{ inputs.registry }}
-        username: ${{ inputs.registry-user }}
-        password: ${{ inputs.registry-password }}
-
-    - uses: docker/metadata-action@v5
-      id: meta
-      with:
-        images: ${{ inputs.registry }}/${{ inputs.image }}
-
-    - uses: docker/setup-buildx-action@v3
-
-    - uses: docker/build-push-action@v5
-      with:
-        context: ${{ inputs.context }}
-        load: true
-        target: ${{ inputs.target }}
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=gha,mode=max
-
-    - uses: docker/build-push-action@v5
-      with:
-        context: ${{ inputs.context }}
-        push: true
-        target: ${{ inputs.target }}
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+        registry-user: ${{ inputs.registry-user }}
+        registry-password: ${{ inputs.registry-password }}

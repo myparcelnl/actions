@@ -1,5 +1,5 @@
-name: Build Docker image
-description: Build Docker image from cache
+name: 'Build Docker image'
+description: 'Build Docker image from cache using a registry'
 
 inputs:
   image:
@@ -7,111 +7,73 @@ inputs:
     required: false
     default: ${{ github.repository }}
 
-  key:
-    description: 'Cache key'
-    required: false
-    default: ${{ github.workflow }}
-
   dockerfile:
     description: 'Path to dockerfile'
     required: false
-    default: Dockerfile
+    default: 'Dockerfile'
 
   context:
     description: 'Directory to build from'
     required: false
-    default: .
+    default: '.'
 
-  docker-args:
-    description: 'Arguments to pass to docker build'
+  target:
+    description: 'Target stage to build'
     required: false
-    default: ''
 
-  prune-after:
-    description: 'Amount of time after which images get pruned'
+  registry:
+    description: 'Packages registry to use'
     required: false
-    default: '260h'
+    default: 'ghcr.io'
 
-  buildkit:
-    description: 'Whether to use Docker BuildKit'
+  registry-user:
+    description: 'Username to log into registry with'
     required: false
-    default: 'false'
+    default: ${{ github.actor }}
+
+  registry-password:
+    description: 'Password to log into registry with'
+    required: false
+    default: ${{ github.token }}
 
 outputs:
   tagged-image:
     description: 'Created image name with tag'
-    value: ${{ steps.prep.outputs.tagged-image }}
-  tag:
-    description: 'Tag of the created image'
-    value: ${{ steps.prep.outputs.tag }}
+    value: ${{ steps.meta.outputs.tags }}
 
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/format-string@v4
-      id: args
+    - uses: actions/checkout@v4
+
+    - uses: docker/login-action@v3
       with:
-        mode: 'args'
-        string: ${{ inputs.docker-args }}
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.registry-user }}
+        password: ${{ inputs.registry-password }}
 
-    - name: 'Prepare'
-      id: prep
-      shell: bash
-      env:
-        IMAGE: ${{ inputs.image }}
-        ARGS: ${{ steps.docker-args.outputs.string }}}
-      #language=bash
-      run: |
-        TAG=$(echo $GITHUB_SHA | head -c7)
-
-        echo "tag=${TAG}" >> $GITHUB_OUTPUT
-        echo "tagged-image=${IMAGE}:${TAG}" >> $GITHUB_OUTPUT
-
-    - uses: satackey/action-docker-layer-caching@v0.0.11
+    - uses: docker/metadata-action@v5
+      id: meta
       with:
-        key: ${{ inputs.key }}-{hash}
-        restore-keys: |
-          ${{ inputs.key }}-
+        images: ${{ inputs.registry }}/${{ inputs.image }}
 
-    - name: 'Build image'
-      shell: bash
-      env:
-        ARGS: ${{ steps.args.outputs.string }}
-        TAG: ${{ steps.prep.outputs.tag }}
-        REF: ${{ github.ref }}
-        FILE: ${{ inputs.dockerfile }}
-        CONTEXT: ${{ inputs.context }}
-        DOCKER_BUILDKIT: ${{ inputs.buildkit == 'true' && '1' || '0' }}
-      #language=bash
-      run: |
-        docker build $ARGS \
-          --label "ref=$REF" \
-          --label "tag=$TAG" \
-          --tag "$TAGGED_IMAGE" \
-          --file "$FILE" \
-          "$CONTEXT"
+    - uses: docker/setup-buildx-action@v3
 
-    - name: 'Prune previous images'
-      shell: bash
-      env:
-        TAG: ${{ steps.prep.outputs.tag }}
-        ARGS: ${{ steps.args.outputs.string }}
-        REF: ${{ github.ref }}
-      #language=bash
-      run: |
-        docker image prune \
-          --all \
-          --force \
-          --filter "label=ref=$REF" \
-          --filter "label=args=$ARGS" \
-          --filter "label!=tag=$TAG"
+    - uses: docker/build-push-action@v5
+      with:
+        context: ${{ inputs.context }}
+        load: true
+        target: ${{ inputs.target }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha,mode=max
 
-    - name: 'Prune stale images'
-      shell: bash
-      env:
-        PRUNE_AFTER: ${{ inputs.prune-after }}
-      #language=bash
-      run: |
-        docker image prune \
-          --force \
-          --filter "until=$PRUNE_AFTER"
+    - uses: docker/build-push-action@v5
+      with:
+        context: ${{ inputs.context }}
+        push: true
+        target: ${{ inputs.target }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
