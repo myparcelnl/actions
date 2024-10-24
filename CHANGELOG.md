@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.41.0](https://github.com/myparcelnl/actions/compare/v4.40.7...v4.41.0) (2024-10-24)
+
+
+### :sparkles: New Features
+
+* **build-docker-image:** deprecate build-docker-image-reg ([b8e474e](https://github.com/myparcelnl/actions/commit/b8e474e2f8f0395e52ac026d7a5ce86f1471cf83))
+
+
+### :bug: Bug Fixes
+
+* **build-docker-image:** output first tag if multiple tags were created ([a0980fb](https://github.com/myparcelnl/actions/commit/a0980fb969a8a38d8b6cc11ada52066959836a85))
+
 ## [4.40.7](https://github.com/myparcelnl/actions/compare/v4.40.6...v4.40.7) (2024-10-23)
 
 
