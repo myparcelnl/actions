@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.41.1](https://github.com/myparcelnl/actions/compare/v4.41.0...v4.41.1) (2024-10-24)
+
+
+### :bug: Bug Fixes
+
+* **build-docker-image:** fix syntax error ([a0a1431](https://github.com/myparcelnl/actions/commit/a0a143169fb7d2c21f8e0efb552831b1f8b7c5aa))
+
 ## [4.41.0](https://github.com/myparcelnl/actions/compare/v4.40.7...v4.41.0) (2024-10-24)
 
 
