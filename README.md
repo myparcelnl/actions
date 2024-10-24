@@ -27,6 +27,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [update-coverage](#update-coverage)
   - [Docker](#docker)
     - [build-docker-image](#build-docker-image)
+    - [pull-docker-image](#pull-docker-image)
   - [Releasing](#releasing)
     - [semantic-release](#semantic-release)
   - [Git](#git)
@@ -546,7 +547,7 @@ The following inputs are copied from the [codecov/test-results-action] action:
 
 [Source](build-docker-image/action.yml)
 
-Builds a docker image from a Dockerfile. Layers are cached and pruned between jobs using a registry.
+Builds a docker image from a Dockerfile. Build results are cached between jobs using `mode=gha`.
 
 ##### Inputs
 
@@ -558,13 +559,15 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
 | No       | `target`            | Target stage to build              | `prod`                                | –                          |
 | No       | `registry`          | Packages registry to use           | `docker.io`                           | `ghcr.io`                  |
 | No       | `registry-username` | Username to log into registry with | `${{ secrets.DOCKER_REGISTRY_USER }}` | `${{ github.actor }}`      |
-| Yes      | `registry-password` | Password to log into registry with | `${{ secrets.DOCKER_REGISTRY_PASS }}` | `${{ github.token }}`      |
+| Yes      | `registry-password` | Password to log into registry with | `${{ secrets.DOCKER_REGISTRY_PASS }}` | –                          |
 
 ##### Outputs
 
-| Name           | Description                 | Example                                 |
-| -------------- | --------------------------- | --------------------------------------- |
-| `tagged-image` | Created image name with tag | `docker.io/my-name/my-image:1639002200` |
+Also outputs `version`, `tags`, `labels`, `annotations`, `json` from [docker/metadata-action].
+
+| Name           | Description                 | Example                 |
+| -------------- | --------------------------- | ----------------------- |
+| `tagged-image` | Created image name with tag | `my-name/my-image:main` |
 
 ##### Example
 
@@ -572,7 +575,7 @@ Builds a docker image from a Dockerfile. Layers are cached and pruned between jo
 - uses: myparcelnl/actions/build-docker-image@v4
   id: docker
   with:
-    image: myparcel/php-sdk
+    image: myparcelnl/php-sdk
     registry-username: ${{ github.actor }}
     registry-password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -1500,16 +1503,17 @@ These inputs apply on top of the other inputs of the action that allows for GitH
 [BundleWatch]: https://bundlewatch.io/
 [Codecov]: https://codecov.io
 [Github app]: https://docs.github.com/en/developers/apps
+[`myparcelnl/php-xd`]: https://github.com/myparcelnl/docker-images/pkgs/container/php-xd
 [actions/checkout]: https://github.com/actions/checkout
 [actions/setup-node]: https://github.com/actions/setup-node
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
 [codecov/test-results-action]: https://github.com/codecov/test-results-action
 [composer-install]: #composer-install
 [composer-update]: #composer-update
+[docker/metadata-action]: https://github.com/docker/metadata-action
 [npm-install]: #npm-install
 [pnpm-install]: #pnpm-install
 [semantic-release]: #semantic-release
 [setup-git-credentials]: #setup-git-credentials
 [setup-node]: #setup-node
 [yarn-install]: #yarn-install
-[`myparcelnl/php-xd`]: https://github.com/myparcelnl/docker-images/pkgs/container/php-xd
