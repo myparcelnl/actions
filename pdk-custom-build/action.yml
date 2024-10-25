@@ -40,11 +40,25 @@ runs:
       id: version
       shell: bash
       env:
+        DEBUG: ${{ runner.debug }}
         RUN_ID: ${{ github.run_id }}
       #language=bash
       run: |
         version=$(npm pkg get version | sed 's/"//g')
-        releaseVersion="$version-$RUN_ID"
+        isPreRelease=$(echo "$version" | grep -E -- '-[a-z]+\.[0-9]+$' || true)
+
+        if [ -n "$isPreRelease" ]; then
+          releaseVersion="$version-$RUN_ID"
+        else
+          releaseVersion="$version-rc.$RUN_ID"
+        fi
+
+        if [ $DEBUG == "1" ]; then
+          echo "RUN_ID=$RUN_ID"
+          echo "isPreRelease=$isPreRelease"
+          echo "releaseVersion=$releaseVersion"
+          echo "version=$version"
+        fi
 
         echo "version=$releaseVersion" >> $GITHUB_OUTPUT
 
