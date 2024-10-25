@@ -81,13 +81,6 @@ runs:
         version=$(npm pkg get version | sed 's/"//g')
         isPreRelease=$(echo "$version" | grep -E -- '-[a-z]+\.[0-9]+$' || true)
 
-        if [ "$DEBUG" == "1" ]; then
-          echo "MODE=$MODE"
-          echo "PR_NUMBER=$PR_NUMBER"
-          echo "version=$version"
-          echo "isPreRelease=$isPreRelease"
-        fi
-
         if [ "$MODE" == "pull_request" ]; then
           branch=$(git branch --show-current)
           releaseVersion="dev-$PR_NUMBER-$GITHUB_HEAD_REF"
@@ -110,7 +103,11 @@ runs:
         fi
 
         if [ $DEBUG == "1" ]; then
-          echo "releaseVersion=$releaseVersion" >> $GITHUB_OUTPUT
+          echo "MODE=$MODE"
+          echo "PR_NUMBER=$PR_NUMBER"
+          echo "isPreRelease=$isPreRelease"
+          echo "releaseVersion=$releaseVersion"
+          echo "version=$version"
         fi
 
         echo "version=$releaseVersion" >> $GITHUB_OUTPUT
