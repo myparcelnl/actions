@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.41.2](https://github.com/myparcelnl/actions/compare/v4.41.1...v4.41.2) (2024-10-25)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** support non-prerelease versions in custom build ([f85e2e0](https://github.com/myparcelnl/actions/commit/f85e2e044a7bc3867f249c2bff036dd199baded5))
+
 ## [4.41.1](https://github.com/myparcelnl/actions/compare/v4.41.0...v4.41.1) (2024-10-24)
 
 
