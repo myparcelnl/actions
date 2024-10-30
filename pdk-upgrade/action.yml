@@ -45,7 +45,7 @@ inputs:
     default: 'upgrade-report.json'
 
   args:
-    description: 'Additional arguments to pass to the command'
+    description: 'Additional arguments to pass to the command. Should be multiline string.'
     required: false
 
 runs:
@@ -189,33 +189,17 @@ runs:
       #language=bash
       run: echo '[]' > $REPORT_FILE
 
-    - name: 'Create arguments'
-      id: arguments
-      env:
-        ARGS: ${{ inputs.args }}
-        COMMIT_TYPE: ${{ inputs.commit-type }}
-        NO_CHECK: ${{ inputs.no-check }}
-        NO_COMMIT: ${{ inputs.no-commit }}
-        REPORT: ${{ inputs.report }}
-        REPORT_FILE: ${{ inputs.report-file }}
-      shell: bash
-      #language=bash
-      run: |
-        args="$ARGS --commit-type=$COMMIT_TYPE --report-file=$REPORT_FILE"
-
-        if [ "$REPORT" == 'true' ]; then
-          args="$args --report"
-        fi
-
-        if [ "$NO_CHECK" == 'true' ]; then
-          args="$args --no-check"
-        fi
-
-        if [ "$NO_COMMIT" == 'true' ]; then
-          args="$args --no-commit"
-        fi
-
-        echo "args=$args" >> $GITHUB_OUTPUT
+    - uses: myparcelnl/actions/format-string@v4
+      id: args
+      with:
+        mode: 'args'
+        string: |
+          ${{ inputs.args }}
+          ${{ inputs.commit-type && format('--commit-type={0}', inputs.commit-type) }}
+          ${{ inputs.no-check == 'true' && '--no-check' }}
+          ${{ inputs.no-commit == 'true' && '--no-commit' }}
+          ${{ inputs.report == 'true' && '--report' }}
+          ${{ inputs.report-file && format('--report-file={0}', inputs.report-file) }}
 
     - name: 'Upgrade app-builder'
       uses: myparcelnl/actions/pdk-builder@v4
@@ -223,7 +207,7 @@ runs:
       with:
         command: 'upgrade-self'
         image: ${{ inputs.image }}
-        args: ${{ steps.arguments.outputs.args }}
+        args: ${{ steps.args.outputs.string }}
 
     - name: 'Upgrade php'
       uses: myparcelnl/actions/pdk-builder@v4
@@ -231,7 +215,7 @@ runs:
       with:
         command: 'upgrade-php'
         image: ${{ inputs.image }}
-        args: '${{ steps.arguments.outputs.args }}'
+        args: ${{ steps.args.outputs.string }}
 
     - name: 'Upgrade js'
       uses: myparcelnl/actions/pdk-builder@v4
@@ -239,7 +223,7 @@ runs:
       with:
         command: 'upgrade-js'
         image: ${{ inputs.image }}
-        args: '${{ steps.arguments.outputs.args }}'
+        args: ${{ steps.args.outputs.string }}
 
     - name: 'Create report'
       if: inputs.report == 'true'

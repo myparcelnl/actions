@@ -11,7 +11,7 @@ inputs:
     required: false
 
   args:
-    description: 'Additional arguments to pass to the command. Can be multiline string.'
+    description: 'Additional arguments to pass to the command. Should be multiline string.'
     required: false
 
 runs:
