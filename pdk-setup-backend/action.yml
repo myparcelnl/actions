@@ -32,12 +32,12 @@ runs:
     - uses: myparcelnl/actions/composer-install@v4
       id: install
       env:
+        COMPOSER_IGNORE_PLATFORM_REQ: 'ext-*,lib-*'
         COMPOSER_NO_DEV: ${{ inputs.composer-dev == 'false' && '1' || '0' }}
       with:
         command: ${{ inputs.composer-command == 'update' && 'update' || 'install' }}
         php-version: ${{ inputs.php-version }}
         composer-args: |
-          --ignore-platform-req=ext-*,lib-*
-          --no-scripts
           --no-plugins
+          --no-scripts
           ${{ inputs.composer-dev == 'false' && '--no-dev' || '' }}
