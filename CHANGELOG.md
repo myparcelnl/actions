@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.41.3](https://github.com/myparcelnl/actions/compare/v4.41.2...v4.41.3) (2024-10-30)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** fix artifacts not being saved when branch contains slashes ([#66](https://github.com/myparcelnl/actions/issues/66)) ([8f447ab](https://github.com/myparcelnl/actions/commit/8f447abfb7a662254dbb307873d8b4cc85f222ef))
+
 ## [4.41.2](https://github.com/myparcelnl/actions/compare/v4.41.1...v4.41.2) (2024-10-25)
 
 
