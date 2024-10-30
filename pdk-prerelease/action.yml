@@ -82,8 +82,8 @@ runs:
         isPreRelease=$(echo "$version" | grep -E -- '-[a-z]+\.[0-9]+$' || true)
 
         if [ "$MODE" == "pull_request" ]; then
-          branch=$(git branch --show-current)
-          releaseVersion="dev-$PR_NUMBER-$GITHUB_HEAD_REF"
+          branch=$(echo $GITHUB_HEAD_REF | sed -e 's/\//-/g')
+          releaseVersion="dev-$PR_NUMBER-$branch"
 
           if [ "$DEBUG" == "1" ]; then
             echo "branch=$branch" 
