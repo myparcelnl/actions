@@ -41,4 +41,6 @@ runs:
         ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
       #language=bash
       run: |
-        npx pdk-builder "$COMMAND" $ARGS --root-command="$ROOT_COMMAND"
+        npx pdk-builder "$COMMAND" \
+          --root-command="$ROOT_COMMAND" \
+          $ARGS
