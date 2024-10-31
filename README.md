@@ -647,7 +647,7 @@ made (or not). Additional tokens like NPM_TOKEN can be passed via the environmen
 | Required | Name                    | Description                                 | Example                       | Default |
 | -------- | ----------------------- | ------------------------------------------- | ----------------------------- | ------- |
 | Yes      | `token`                 | GitHub Personal access token                | `${{ secrets.GITHUB_TOKEN }}` | –       |
-| No       | `write-summary`         | Write a summary to the GitHub action output | `true`                        | `false` |
+| No       | `write-summary`         | Write a summary to the GitHub action output | `false`                       | `true`  |
 | No       | `dry-run`               | Run semantic release in dry-run mode        | `true`                        | `false` |
 | No       | `semantic-release-args` | Additional semantic release arguments       | `--debug`                     | –       |
 | No       | `working-directory`     | Directory to run semantic release in        | `./packages/my-package`       | –       |
@@ -672,7 +672,7 @@ made (or not). Additional tokens like NPM_TOKEN can be passed via the environmen
   id: release
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
-    write-summary: true
+    write-summary: false
     semantic-release-args: --branches=my-branch
   env:
     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

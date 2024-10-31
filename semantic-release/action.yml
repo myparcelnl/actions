@@ -9,7 +9,7 @@ inputs:
   write-summary:
     description: 'Write a summary to the GitHub action output'
     required: false
-    default: 'false'
+    default: 'true'
 
   dry-run:
     description: 'Run semantic release in dry-run mode'
