@@ -193,6 +193,7 @@ runs:
       id: args
       with:
         mode: 'args'
+        output-separator: '\n'
         string: |
           ${{ inputs.args }}
           ${{ inputs.commit-type && format('--commit-type={0}', inputs.commit-type) }}
