@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.41.6](https://github.com/myparcelnl/actions/compare/v4.41.5...v4.41.6) (2024-10-31)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** output args for pdk builder to multiple lines ([37f8b09](https://github.com/myparcelnl/actions/commit/37f8b092cea1f5c307a7e26861ea7befe1753645))
+
 ## [4.41.5](https://github.com/myparcelnl/actions/compare/v4.41.4...v4.41.5) (2024-10-30)
 
 
