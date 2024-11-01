@@ -55,18 +55,24 @@ runs:
 
     - name: 'Cache php-scoper'
       uses: actions/cache@v4
+      env:
+        RUNNER_DEBUG: 0
       with:
         path: .tmp/php-scoper
         key: php-scoper-${{ inputs.php-version }}-${{ inputs.php-scoper-version }}
 
     - name: 'Cache scoped source php'
       uses: actions/cache@v4
+      env:
+        RUNNER_DEBUG: 0
       with:
         path: .tmp/scoped/source
         key: scoped-php-src-${{ inputs.php-version }}-${{ steps.hashes.outputs.source-hash }}
 
     - name: 'Cache scoped vendor php'
       uses: actions/cache@v4
+      env:
+        RUNNER_DEBUG: 0
       with:
         path: .tmp/scoped/vendor
         key: scoped-php-vendor-${{ inputs.php-version }}-${{ steps.hashes.outputs.vendor-hash }}
