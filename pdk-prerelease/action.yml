@@ -119,6 +119,8 @@ runs:
         private-key: ${{ inputs.private-key }}
         php-version: ${{ inputs.php-version }}
         composer-dev: 'false'
+        no-check: 'true'
+        no-commit: 'true'
 
     - uses: myparcelnl/actions/pdk-cache@v4
       with:

@@ -10,11 +10,6 @@ inputs:
     required: true
     description: 'The private key of the GitHub app.'
 
-  mode:
-    description: 'The mode to run in.'
-    required: false
-    default: 'all'
-
   node-version:
     description: 'Node version to use'
     required: false
@@ -35,6 +30,21 @@ inputs:
 
   composer-dev:
     description: 'Whether to install composer dev dependencies.'
+    required: false
+    default: 'true'
+
+  mode:
+    description: 'Determines which parts of the PDK to setup and upgrade. Can be "frontend", "backend" or "all" for both.'
+    required: false
+    default: 'all'
+
+  no-check:
+    description: 'Skip checking whether the lockfile is modified.'
+    required: false
+    default: 'true'
+
+  no-commit:
+    description: 'Skip creating a commit for the changes.'
     required: false
     default: 'true'
 
@@ -77,5 +87,5 @@ runs:
         private-key: ${{ inputs.private-key }}
         image: ${{ steps.setup-backend.outputs.image }}
         mode: ${{ inputs.mode }}
-        no-check: true
-        no-commit: true
+        no-check: ${{ inputs.no-check }}
+        no-commit: ${{ inputs.no-commit }}

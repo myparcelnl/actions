@@ -15,37 +15,41 @@ inputs:
     required: false
 
   mode:
-    description: 'The mode to run the command in. Can be "all", "backend" or "frontend".'
+    description: 'Determines which parts of the PDK to setup and upgrade. Can be "frontend", "backend" or "all" for both.'
     required: false
     default: 'all'
 
-  no-commit:
-    description: 'Do not commit changes'
+  ###
+  # @myparcel/pdk-builder arguments
+  ###
+
+  commit-type:
+    description: 'Commit type. Set to "auto" to infer from the version increase of the upgraded dependency. If set manually, should be a conventional commit type.'
     required: false
-    default: 'false'
+    default: 'auto'
 
   no-check:
     description: 'Skip checking whether the lockfile is modified.'
     required: false
     default: 'false'
 
-  commit-type:
-    description: 'Commit type'
+  no-commit:
+    description: 'Skip creating a commit for the changes.'
     required: false
-    default: 'auto'
+    default: 'false'
 
   report:
-    description: 'Report the changes made by the command'
+    description: 'Output a JSON report of the changes.'
     required: false
     default: 'true'
 
   report-file:
-    description: 'Filename of the report file'
+    description: 'Filename for the JSON report.'
     required: false
     default: 'upgrade-report.json'
 
   args:
-    description: 'Additional arguments to pass to the command. Should be multiline string.'
+    description: 'Additional arguments to pass to @myparcel/app-builder. Should be multiline string.'
     required: false
 
 runs:
