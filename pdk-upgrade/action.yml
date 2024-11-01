@@ -64,6 +64,8 @@ runs:
     - name: 'Check if upgrade is needed'
       shell: bash
       id: vars-check
+      env:
+        GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
       # language=bash
       run: |
         updateTimestamp=$(gh variable get PDK_LAST_UPDATE_TIMESTAMP || echo '')
