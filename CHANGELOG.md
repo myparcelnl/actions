@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.0](https://github.com/myparcelnl/actions/compare/v4.42.0...v4.43.0) (2024-11-01)
+
+
+### :sparkles: New Features
+
+* **pdk:** save upgrade state using gh variables ([c8df263](https://github.com/myparcelnl/actions/commit/c8df2633e89a3406f9e2f10c922e3676f3f711a1))
+
 ## [4.42.0](https://github.com/myparcelnl/actions/compare/v4.41.6...v4.42.0) (2024-11-01)
 
 
