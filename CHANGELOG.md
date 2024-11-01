@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.42.0](https://github.com/myparcelnl/actions/compare/v4.41.6...v4.42.0) (2024-11-01)
+
+
+### :sparkles: New Features
+
+* **pdk:** allow changing no-commit and no-check arguments ([c247002](https://github.com/myparcelnl/actions/commit/c2470020c291df48317ae0b159fc2a233df9603a))
+* **semantic-release:** write summary by default ([ddd2931](https://github.com/myparcelnl/actions/commit/ddd29316cebccc6d9d7115e71e2343a25c2fc0b9))
+
 ## [4.41.6](https://github.com/myparcelnl/actions/compare/v4.41.5...v4.41.6) (2024-10-31)
 
 
