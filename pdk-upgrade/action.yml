@@ -61,18 +61,53 @@ runs:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
 
+    - name: 'Check if upgrade is needed'
+      shell: bash
+      id: vars-check
+      # language=bash
+      run: |
+        updateTimestamp=$(gh variable get PDK_LAST_UPDATE_TIMESTAMP || echo '')
+        upgradedTimestamp=$(gh variable get PDK_UPGRADED_TIMESTAMP || echo '')
+
+        echo "update-timestamp=$updateTimestamp"     >> $GITHUB_OUTPUT
+        echo "upgraded-timestamp=$upgradedTimestamp" >> $GITHUB_OUTPUT
+
+        # if both are set, check if the upgrade is older than the last update
+        if [ -n "$updateTimestamp" ] && [ -n "$upgradedTimestamp" ]; then
+          if [ "$upgradedTimestamp" -lt "$updateTimestamp" ]; then
+            echo "PDK was updated since the last upgrade, needs upgrade."
+            echo "needs-update=true" >> $GITHUB_OUTPUT
+          else
+            echo "PDK was not updated since the last upgrade, no upgrade needed."
+            echo "needs-update=false" >> $GITHUB_OUTPUT
+          fi
+        fi
+
+    - uses: myparcelnl/actions/create-cache-keys@v4
+      id: cache-keys
+      with:
+        key: 'upgrade'
+        input: |
+          ${{ steps.vars-check.outputs.update-timestamp }}
+          ${{ github.run_id }}
+          ${{ github.run_attempt }}
+
     - uses: actions/cache@v4
       id: upgrade-cache
       with:
-        key: ${{ format('upgrade-{0}-{1}', github.run_id, github.run_attempt) }}
+        key: ${{ steps.cache-keys.outputs.key }}
+        restore-keys: ${{ steps.cache-keys.outputs.restore-keys }}
         path: |
-          vendor
-          node_modules
-          composer.lock
-          yarn.lock
-          pdk-upgrade.lock
+          ./node_modules
+          ./vendor
+          ./composer.json
+          ./composer.lock
+          ./package.json
+          ./yarn.lock
+          ./pdk-upgrade.lock
 
     - name: 'Check latest available versions'
+      if: steps.vars-check.outputs.needs-update == '' || steps.vars-check.outputs.needs-update == 'true'
       uses: actions/github-script@v7
       id: versions
       env:
@@ -146,7 +181,8 @@ runs:
           core.debug(`Writing lockfile to ${lockfileName} with contents ${JSON.stringify(outputs)}`);
           fs.writeFileSync(lockfileName, JSON.stringify(outputs));
 
-    - name: 'Check if upgrades are needed'
+    - name: 'Check if upgrades are needed (old)'
+      if: steps.vars-check.outputs.need-update == '' || steps.vars-check.outputs.need-update == 'true'
       id: upgrade-check
       shell: bash
       env:
@@ -185,8 +221,14 @@ runs:
         echo "needs-js-pdk-upgrade=${needsJsPdkUpgrade:-false}"           >> $GITHUB_OUTPUT
         echo "needs-pdk-upgrade=${needsPdkUpgrade:-false}"                >> $GITHUB_OUTPUT
 
+        if [ "$needsAppBuilderUpgrade" == 'true' ] || [ "$needsJsPdkUpgrade" == 'true' ] || [ "$needsPdkUpgrade" == 'true' ]; then
+          echo "needs-upgrade=true" >> $GITHUB_OUTPUT
+        else
+          echo "needs-upgrade=false" >> $GITHUB_OUTPUT
+        fi
+
     - name: 'Create empty report file'
-      if: inputs.report == 'true'
+      if: inputs.report == 'true' && steps.upgrade-check.outputs.needs-upgrade == 'true'
       shell: bash
       env:
         REPORT_FILE: ${{ inputs.report-file }}
@@ -288,3 +330,11 @@ runs:
         issue-number: ${{ github.event.pull_request.number }}
         body: |-
           ${{ steps.report.outputs.summary }}
+
+    - name: 'Update variables'
+      env:
+        GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
+      shell: bash
+      # language=bash
+      run: |
+        gh variable set PDK_UPGRADED_TIMESTAMP --body "$(date +%s)"
