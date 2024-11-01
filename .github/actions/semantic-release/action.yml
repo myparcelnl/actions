@@ -99,11 +99,9 @@ runs:
         NEXT_VERSION: ${{ steps.normalize.outputs.next-version }}
         RELEASED: ${{ steps.normalize.outputs.released }}
         RELEASE_TYPE: ${{ steps.normalize.outputs.release-type }}
-        REPOSITORY: ${{ github.repository }}
+        REPO_URL: '${{ github.server_url }}/${{ github.repository }}'
       #language=bash
       run: |
-        REPO_URL="https://github.com/$REPOSITORY"
-
         echo "# Release summary" >> $GITHUB_STEP_SUMMARY
 
         if [ "$RELEASED" == "true" ]; then

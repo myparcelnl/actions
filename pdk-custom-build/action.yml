@@ -135,10 +135,11 @@ runs:
         JS_PDK_REF: ${{ inputs.js-pdk-ref }}
         PHP_PDK_REF: ${{ inputs.php-pdk-ref }}
         VERSION: ${{ steps.version.outputs.version }}
+        SERVER_URL: ${{ github.server_url }}
       #language=bash
       run: |
-        echo "# Build summary" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "- **Generated version**: $VERSION" >> $GITHUB_STEP_SUMMARY
-        echo "- **myparcelnl/pdk**: [$PHP_PDK_REF](https://github.com/myparcelnl/pdk/commits/$PHP_PDK_REF/)" >> $GITHUB_STEP_SUMMARY
-        echo "- **myparcelnl/js-pdk**: [$JS_PDK_REF](https://github.com/myparcelnl/js-pdk/commits/$JS_PDK_REF/)" >> $GITHUB_STEP_SUMMARY
+        echo "# Build summary"                                                                            >> $GITHUB_STEP_SUMMARY
+        echo ""                                                                                           >> $GITHUB_STEP_SUMMARY
+        echo "- **Generated version**: $VERSION"                                                          >> $GITHUB_STEP_SUMMARY
+        echo "- **myparcelnl/pdk**: [$PHP_PDK_REF]($SERVER_URL/myparcelnl/pdk/commits/$PHP_PDK_REF/)"     >> $GITHUB_STEP_SUMMARY
+        echo "- **myparcelnl/js-pdk**: [$JS_PDK_REF]($SERVER_URL/myparcelnl/js-pdk/commits/$JS_PDK_REF/)" >> $GITHUB_STEP_SUMMARY
