@@ -102,8 +102,6 @@ runs:
         key: ${{ steps.cache-keys.outputs.key }}
         restore-keys: ${{ steps.cache-keys.outputs.restore-keys }}
         path: |
-          ./node_modules
-          ./vendor
           ./composer.json
           ./composer.lock
           ./package.json
