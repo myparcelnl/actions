@@ -232,7 +232,7 @@ runs:
         fi
 
     - name: 'Create empty report file'
-      if: inputs.report == 'true' && steps.upgrade-check.outputs.needs-upgrade == 'true'
+      if: inputs.report == 'true' && steps.upgrade-check.outputs.needs-upgrade == 'true' && steps.upgrade-cache.outputs.cache-hit != 'true'
       shell: bash
       env:
         REPORT_FILE: ${{ inputs.report-file }}
@@ -277,7 +277,7 @@ runs:
         args: ${{ steps.args.outputs.string }}
 
     - name: 'Create report'
-      if: inputs.report == 'true'
+      if: inputs.report == 'true' && steps.upgrade-cache.outputs.cache-hit != 'true'
       id: report
       shell: bash
       env:
