@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.3](https://github.com/myparcelnl/actions/compare/v4.43.2...v4.43.3) (2024-11-07)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** do not output update report if cache was hit ([a1d17a5](https://github.com/myparcelnl/actions/commit/a1d17a547f589d1d7d4888da05e9364d6ff7c3f3))
+* **pdk:** remove node_modules and vendor from upgrade cache ([ef1c7b0](https://github.com/myparcelnl/actions/commit/ef1c7b0ecc78b62e4d16c4c032cdb8bd4ec9ce97))
+
 ## [4.43.2](https://github.com/myparcelnl/actions/compare/v4.43.1...v4.43.2) (2024-11-01)
 
 
