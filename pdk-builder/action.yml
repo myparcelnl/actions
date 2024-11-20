@@ -32,7 +32,7 @@ runs:
         mode: 'args'
         string: |
           ${{ inputs.args }}
-          ${{ runner.debug == '1' && '-vv' || '' }}
+          ${{ runner.debug == '1' && '-vvv' || '' }}
 
     - shell: bash
       env:
