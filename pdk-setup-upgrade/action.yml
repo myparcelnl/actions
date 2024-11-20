@@ -60,6 +60,58 @@ outputs:
 runs:
   using: composite
   steps:
+    - uses: myparcelnl/actions/setup-git-credentials@v4
+      id: credentials
+      with:
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - name: 'Check if upgrade is needed'
+      shell: bash
+      id: prepare
+      env:
+        GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
+      # language=bash
+      run: |
+        updateTimestamp=$(gh variable get PDK_LAST_UPDATE_TIMESTAMP || echo '')
+        upgradedTimestamp=$(gh variable get PDK_UPGRADED_TIMESTAMP || echo '')
+
+        echo "update-timestamp=$updateTimestamp"     >> $GITHUB_OUTPUT
+        echo "upgraded-timestamp=$upgradedTimestamp" >> $GITHUB_OUTPUT
+
+        # if both are set, check if the upgrade is older than the last update
+        if [ -n "$updateTimestamp" ] && [ -n "$upgradedTimestamp" ]; then
+          if [ "$upgradedTimestamp" -lt "$updateTimestamp" ]; then
+            echo "PDK was updated since the last upgrade, needs upgrade."
+            echo "needs-update=true" >> $GITHUB_OUTPUT
+          else
+            echo "PDK was not updated since the last upgrade, no upgrade needed."
+            echo "needs-update=false" >> $GITHUB_OUTPUT
+          fi
+        else
+          echo "PDK was never upgraded or updated, needs upgrade."
+          echo "needs-update=true" >> $GITHUB_OUTPUT
+        fi
+
+    - uses: myparcelnl/actions/create-cache-keys@v4
+      id: cache-keys
+      with:
+        key: 'upgrade'
+        input: |
+          ${{ steps.prepare.outputs.update-timestamp }}
+
+    - uses: actions/cache@v4
+      id: upgrade-cache
+      with:
+        key: ${{ steps.cache-keys.outputs.key }}
+        restore-keys: ${{ steps.cache-keys.outputs.restore-keys }}
+        path: |
+          composer.json
+          composer.lock
+          package.json
+          yarn.lock
+          upgrade-report.json
+
     - uses: myparcelnl/actions/pdk-setup-backend@v4
       if: inputs.mode == 'all' || inputs.mode == 'backend'
       id: setup-backend
@@ -81,11 +133,109 @@ runs:
         yarn-args: ${{ inputs.yarn-args }}
         node-version: ${{ inputs.node-version }}
 
-    - uses: myparcelnl/actions/pdk-upgrade@v4
+    - name: 'Create empty report file'
+      if: steps.prepare.outputs.needs-update == 'true'
+      shell: bash
+      #language=bash
+      run: echo '[]' > upgrade-report.json
+
+    - uses: myparcelnl/actions/format-string@v4
+      id: args
+      with:
+        mode: 'args'
+        output-separator: '\n'
+        string: |
+          ${{ inputs.args }}
+          ${{ inputs.no-check == 'true' && '--no-check' }}
+          ${{ inputs.no-commit == 'true' && '--no-commit' }}
+          --report
+          --report-file=upgrade-report.json
+
+    - name: 'Upgrade app-builder'
+      uses: myparcelnl/actions/pdk-builder@v4
+      if: steps.prepare.outputs.needs-update == 'true'
+      with:
+        command: 'upgrade-self'
+        image: ${{ inputs.image }}
+        args: ${{ steps.args.outputs.string }}
+
+    - name: 'Upgrade php'
+      uses: myparcelnl/actions/pdk-builder@v4
+      if: steps.prepare.outputs.needs-update == 'true' && (inputs.mode == 'all' || inputs.mode == 'backend')
+      with:
+        command: 'upgrade-php'
+        image: ${{ steps.setup-backend.outputs.image }}
+        args: ${{ steps.args.outputs.string }}
+
+    - name: 'Upgrade js'
+      uses: myparcelnl/actions/pdk-builder@v4
+      if: steps.prepare.outputs.needs-update == 'true' && (inputs.mode == 'all' || inputs.mode == 'frontend')
+      with:
+        command: 'upgrade-js'
+        image: ${{ inputs.image }}
+        args: ${{ steps.args.outputs.string }}
+
+    - name: 'Create report'
+      id: report
+      shell: bash
+      env:
+        FROM_CACHE: ${{ steps.upgrade-cache.outputs.cache-hit == 'true' && 'true' || 'false' }}
+      # language=bash
+      run: |
+        if [ ! -f upgrade-report.json ]; then
+          echo 'has-report=false' >> $GITHUB_OUTPUT
+          exit 0
+        fi
+
+        JSON=$(cat upgrade-report.json | jq -c 'sort_by(.name)')
+
+        echo "## PDK upgrade summary" >> $GITHUB_STEP_SUMMARY
+        echo ""                       >> $GITHUB_STEP_SUMMARY
+
+        if [ "$FROM_CACHE" == 'true' ]; then
+          echo "Upgrades were restored from cache." >> $GITHUB_STEP_SUMMARY
+          exit 0
+        fi
+
+        if [ $(echo "${JSON}" | jq '. | length') -eq 0 ]; then
+            echo "No packages were upgraded." >> $GITHUB_STEP_SUMMARY
+            exit 0
+        fi
+
+        echo "The following packages were upgraded:"   >> $GITHUB_STEP_SUMMARY
+        echo ""                                        >> $GITHUB_STEP_SUMMARY
+        echo "| Package | Old version | New version |" >> $GITHUB_STEP_SUMMARY
+        echo "| ------- | ----------- | ----------- |" >> $GITHUB_STEP_SUMMARY
+
+        for row in $(echo "${JSON}" | jq -cr '.[]'); do
+            NAME=$(echo $row | jq -r '.name')
+            OLD_VERSION=$(echo $row | jq -r '.oldVersion')
+            NEW_VERSION=$(echo $row | jq -r '.version')
+            REPOSITORY=$(echo $row | jq -r '.repository')
+
+            echo "| [\`$NAME\`]($REPOSITORY) | ~~$OLD_VERSION~~ | **$NEW_VERSION** |" >> $GITHUB_STEP_SUMMARY
+        done
+
+        echo 'has-report=true'   >> $GITHUB_OUTPUT
+        echo 'summary<<EOF'      >> $GITHUB_OUTPUT
+        cat $GITHUB_STEP_SUMMARY >> $GITHUB_OUTPUT
+        echo 'EOF'               >> $GITHUB_OUTPUT
+
+    - uses: myparcelnl/actions/create-or-update-comment@v4
+      if: github.event_name == 'pull_request' && steps.report.outputs.has-report == 'true'
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
-        image: ${{ steps.setup-backend.outputs.image }}
-        mode: ${{ inputs.mode }}
-        no-check: ${{ inputs.no-check }}
-        no-commit: ${{ inputs.no-commit }}
+        identifier: 'pdk-upgrade-report'
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |-
+          ${{ steps.report.outputs.summary }}
+
+    - name: 'Update variables'
+      if: steps.prepare.outputs.needs-update == 'true'
+      env:
+        GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
+      shell: bash
+      # language=bash
+      run: |
+        gh variable set PDK_UPGRADED_TIMESTAMP --body "$(date +%s)"

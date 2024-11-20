@@ -73,6 +73,7 @@ runs:
         token: ${{ steps.credentials.outputs.token }}
 
     - uses: myparcelnl/actions/pdk-setup@v4
+      if: inputs.update-deps == 'false'
       id: setup
       with:
         php-version: ${{ inputs.php-version }}
@@ -80,12 +81,11 @@ runs:
         yarn-args: ${{ inputs.yarn-args }}
         composer-dev: false
 
-    - uses: myparcelnl/actions/pdk-upgrade@v4
+    - uses: myparcelnl/actions/pdk-setup-upgrade@v4
       if: inputs.update-deps == 'true'
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
-        image: ${{ steps.setup.outputs.image }}
 
     - uses: myparcelnl/actions/pdk-cache@v4
       with:
