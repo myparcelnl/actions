@@ -109,56 +109,9 @@ runs:
           ./composer.lock
           ./package.json
           ./yarn.lock
-          ./pdk-upgrade.lock
-
-    - name: 'Check if upgrades are needed'
-      if: steps.vars-check.outputs.needs-update == 'true'
-      id: upgrade-check
-      shell: bash
-      env:
-        MODE: ${{ inputs.mode }}
-        PDK_VERSION: ${{ steps.versions.outputs.pdk-version }}
-        APP_BUILDER_VERSION: ${{ steps.versions.outputs.app-builder-version }}
-        JS_PDK_VERSION: ${{ steps.versions.outputs.js-pdk-version }}
-      # language=bash
-      run: |
-        # Check if PDK needs to be upgraded
-        if [ "$MODE" == 'all' ] || [ "$MODE" == 'backend' ]; then
-          pdkVersion="${PDK_VERSION#v}"
-          currentPdkVersion=$(jq -r '.packages[] | select(.name == "myparcelnl/pdk") | .version' < composer.lock)
-
-          needsPdkUpgrade=$(echo "$currentPdkVersion" | grep -q "$pdkVersion" && echo 'false' || echo 'true')
-        fi
-
-        # Check if JS-PDK needs to be upgraded
-        if [ "$MODE" == 'all' ] || [ "$MODE" == 'frontend' ]; then
-          appBuilderVersion=$(echo $APP_BUILDER_VERSION | awk -F'@' '{print $NF}')
-          jsPdkPackage=$(echo $JS_PDK_VERSION | awk -F'@' '{print $1 "@" $2}')
-          jsPdkVersion=$(echo $JS_PDK_VERSION | awk -F'@' '{print $NF}')
-
-          function check-yarn-upgrade() {
-            package=$1
-            version=$2
-
-            yarn npm info "$package" --json | jq -r '.version' | grep -q "$version" && echo 'false' || echo 'true'
-          }
-
-          needsAppBuilderUpgrade=$(check-yarn-upgrade "@myparcel-pdk/app-builder" "$appBuilderVersion")
-          needsJsPdkUpgrade=$(check-yarn-upgrade "$jsPdkPackage" "$jsPdkVersion")
-        fi
-
-        echo "needs-app-builder-upgrade=${needsAppBuilderUpgrade:-false}" >> $GITHUB_OUTPUT
-        echo "needs-js-pdk-upgrade=${needsJsPdkUpgrade:-false}"           >> $GITHUB_OUTPUT
-        echo "needs-pdk-upgrade=${needsPdkUpgrade:-false}"                >> $GITHUB_OUTPUT
-
-        if [ "$needsAppBuilderUpgrade" == 'true' ] || [ "$needsJsPdkUpgrade" == 'true' ] || [ "$needsPdkUpgrade" == 'true' ]; then
-          echo "needs-upgrade=true" >> $GITHUB_OUTPUT
-        else
-          echo "needs-upgrade=false" >> $GITHUB_OUTPUT
-        fi
 
     - name: 'Create empty report file'
-      if: inputs.report == 'true' && steps.upgrade-check.outputs.needs-upgrade == 'true' && steps.upgrade-cache.outputs.cache-hit != 'true'
+      if: inputs.report == 'true' && steps.vars-check.outputs.needs-update == 'true' && steps.upgrade-cache.outputs.cache-hit != 'true'
       shell: bash
       env:
         REPORT_FILE: ${{ inputs.report-file }}
@@ -180,7 +133,7 @@ runs:
 
     - name: 'Upgrade app-builder'
       uses: myparcelnl/actions/pdk-builder@v4
-      if: steps.upgrade-check.outputs.needs-app-builder-upgrade == 'true'
+      if: steps.vars-check.outputs.needs-update == 'true'
       with:
         command: 'upgrade-self'
         image: ${{ inputs.image }}
@@ -188,7 +141,7 @@ runs:
 
     - name: 'Upgrade php'
       uses: myparcelnl/actions/pdk-builder@v4
-      if: inputs.image && steps.upgrade-check.outputs.needs-pdk-upgrade == 'true'
+      if: inputs.image && steps.vars-check.outputs.needs-update == 'true'
       with:
         command: 'upgrade-php'
         image: ${{ inputs.image }}
@@ -196,7 +149,7 @@ runs:
 
     - name: 'Upgrade js'
       uses: myparcelnl/actions/pdk-builder@v4
-      if: steps.upgrade-check.outputs.needs-js-pdk-upgrade == 'true'
+      if: steps.vars-check.outputs.needs-update == 'true'
       with:
         command: 'upgrade-js'
         image: ${{ inputs.image }}
