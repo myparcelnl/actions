@@ -74,39 +74,21 @@ runs:
       # language=bash
       run: |
         updateTimestamp=$(gh variable get PDK_LAST_UPDATE_TIMESTAMP || echo '')
-        upgradedTimestamp=$(gh variable get PDK_UPGRADED_TIMESTAMP || echo '')
 
-        echo "update-timestamp=$updateTimestamp"     >> $GITHUB_OUTPUT
-        echo "upgraded-timestamp=$upgradedTimestamp" >> $GITHUB_OUTPUT
-
-        # if both are set, check if the upgrade is older than the last update
-        if [ -n "$updateTimestamp" ] && [ -n "$upgradedTimestamp" ]; then
-          if [ "$upgradedTimestamp" -lt "$updateTimestamp" ]; then
-            echo "PDK was updated since the last upgrade, needs upgrade."
-            echo "needs-update=true" >> $GITHUB_OUTPUT
-          else
-            echo "PDK was not updated since the last upgrade, no upgrade needed."
-            echo "needs-update=false" >> $GITHUB_OUTPUT
-          fi
-        else
-          echo "PDK was never upgraded or updated, needs upgrade."
-          echo "needs-update=true" >> $GITHUB_OUTPUT
-        fi
+        echo "update-timestamp=$updateTimestamp" >> $GITHUB_OUTPUT
 
     - uses: myparcelnl/actions/create-cache-keys@v4
       id: cache-keys
       with:
         key: 'upgrade'
-        restore-keys: '1'
         input: |
           ${{ hashFiles('composer.json', 'composer.lock', 'package.json', 'yarn.lock') }}
           ${{ steps.prepare.outputs.update-timestamp }}
 
     - uses: actions/cache@v4
-      id: upgrade-cache
+      id: cache
       with:
         key: ${{ steps.cache-keys.outputs.key }}
-        restore-keys: ${{ steps.cache-keys.outputs.restore-keys }}
         path: |
           composer.json
           composer.lock
@@ -155,21 +137,21 @@ runs:
 
     - name: 'Upgrade app-builder'
       uses: myparcelnl/actions/pdk-builder@v4
-      if: steps.prepare.outputs.needs-update == 'true'
+      if: steps.cache.outputs.cache-hit == 'false'
       with:
         command: 'upgrade-self'
         args: ${{ steps.args.outputs.string }}
 
     - name: 'Upgrade js'
       uses: myparcelnl/actions/pdk-builder@v4
-      if: steps.prepare.outputs.needs-update == 'true' && (inputs.mode == 'all' || inputs.mode == 'frontend')
+      if: steps.cache.outputs.cache-hit == 'false' && (inputs.mode == 'all' || inputs.mode == 'frontend')
       with:
         command: 'upgrade-js'
         args: ${{ steps.args.outputs.string }}
 
     - name: 'Upgrade php'
       uses: myparcelnl/actions/pdk-builder@v4
-      if: steps.prepare.outputs.needs-update == 'true' && (inputs.mode == 'all' || inputs.mode == 'backend')
+      if: steps.cache.outputs.cache-hit == 'false' && (inputs.mode == 'all' || inputs.mode == 'backend')
       with:
         command: 'upgrade-php'
         image: ${{ steps.setup-backend.outputs.image }}
@@ -180,7 +162,7 @@ runs:
       id: report
       shell: bash
       env:
-        FROM_CACHE: ${{ steps.upgrade-cache.outputs.cache-hit == 'true' && 'true' || 'false' }}
+        FROM_CACHE: ${{ steps.cache.outputs.cache-hit == 'true' && 'true' || 'false' }}
       # language=bash
       run: |
         if [ ! -f upgrade-report.json ]; then
@@ -193,17 +175,18 @@ runs:
         echo "## PDK upgrade summary" >> $GITHUB_STEP_SUMMARY
         echo ""                       >> $GITHUB_STEP_SUMMARY
 
-        if [ "$FROM_CACHE" == 'true' ]; then
-          echo "Upgrades were restored from cache." >> $GITHUB_STEP_SUMMARY
-          exit 0
-        fi
 
         if [ $(echo "${JSON}" | jq '. | length') -eq 0 ]; then
             echo "No packages were upgraded." >> $GITHUB_STEP_SUMMARY
             exit 0
         fi
 
-        echo "The following packages were upgraded:"   >> $GITHUB_STEP_SUMMARY
+        if [ "$FROM_CACHE" == 'true' ]; then
+          echo "♻️ The following packages were upgraded (from cache):" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "🚀 The following packages were upgraded:"   >> $GITHUB_STEP_SUMMARY
+        fi
+
         echo ""                                        >> $GITHUB_STEP_SUMMARY
         echo "| Package | Old version | New version |" >> $GITHUB_STEP_SUMMARY
         echo "| ------- | ----------- | ----------- |" >> $GITHUB_STEP_SUMMARY
@@ -231,12 +214,3 @@ runs:
         issue-number: ${{ github.event.pull_request.number }}
         body: |-
           ${{ steps.report.outputs.summary }}
-
-    - name: 'Update variables'
-      if: steps.prepare.outputs.needs-update == 'true'
-      env:
-        GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
-      shell: bash
-      # language=bash
-      run: |
-        gh variable set PDK_UPGRADED_TIMESTAMP --body "$(date +%s)"
