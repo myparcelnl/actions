@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.21](https://github.com/myparcelnl/actions/compare/v4.43.20...v4.43.21) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** don't empty the report file if cache was hit ([8fecde4](https://github.com/myparcelnl/actions/commit/8fecde4b6713d7ddefee5e229a23605b297097b2))
+* **pdk:** update upgrade report logic ([25f5e01](https://github.com/myparcelnl/actions/commit/25f5e01fd07b86000494718427e8aaedc2bd324c))
+
 ## [4.43.20](https://github.com/myparcelnl/actions/compare/v4.43.19...v4.43.20) (2024-11-21)
 
 
