@@ -156,7 +156,6 @@ runs:
       if: steps.prepare.outputs.needs-update == 'true'
       with:
         command: 'upgrade-self'
-        image: ${{ inputs.image }}
         args: ${{ steps.args.outputs.string }}
 
     - name: 'Upgrade php'
@@ -172,7 +171,6 @@ runs:
       if: steps.prepare.outputs.needs-update == 'true' && (inputs.mode == 'all' || inputs.mode == 'frontend')
       with:
         command: 'upgrade-js'
-        image: ${{ inputs.image }}
         args: ${{ steps.args.outputs.string }}
 
     - name: 'Create report'
