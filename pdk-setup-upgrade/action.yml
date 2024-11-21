@@ -125,6 +125,7 @@ runs:
 
     - uses: myparcelnl/actions/format-string@v4
       id: args
+      if: steps.cache.outputs.cache-hit == 'false'
       with:
         mode: 'args'
         output-separator: '\n'
@@ -166,6 +167,7 @@ runs:
       # language=bash
       run: |
         if [ ! -f upgrade-report.json ]; then
+          echo '::warning::No report file found.'
           echo 'has-report=false' >> $GITHUB_OUTPUT
           exit 0
         fi
@@ -174,7 +176,6 @@ runs:
 
         echo "## PDK upgrade summary" >> $GITHUB_STEP_SUMMARY
         echo ""                       >> $GITHUB_STEP_SUMMARY
-
 
         if [ $(echo "${JSON}" | jq '. | length') -eq 0 ]; then
             echo "No packages were upgraded." >> $GITHUB_STEP_SUMMARY
