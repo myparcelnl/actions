@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.18](https://github.com/myparcelnl/actions/compare/v4.43.17...v4.43.18) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** include package manager files in upgrade cache keys ([79a57a5](https://github.com/myparcelnl/actions/commit/79a57a54d61779c2c9effc4321b5f3ec974c3214))
+
 ## [4.43.17](https://github.com/myparcelnl/actions/compare/v4.43.16...v4.43.17) (2024-11-21)
 
 
