@@ -97,7 +97,9 @@ runs:
       id: cache-keys
       with:
         key: 'upgrade'
+        restore-keys: '1'
         input: |
+          ${{ hashFiles('composer.json', 'composer.lock', 'package.json', 'yarn.lock') }}
           ${{ steps.prepare.outputs.update-timestamp }}
 
     - uses: actions/cache@v4
