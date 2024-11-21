@@ -18,9 +18,11 @@ runs:
   using: composite
   steps:
     - uses: myparcelnl/actions/composer-create-env-file@v4
+      if: inputs.image != ''
       id: env
 
     - uses: myparcelnl/actions/pdk-create-root-command@v4
+      if: inputs.image != ''
       id: prepare
       with:
         env-file: ${{ steps.env.outputs.filename }}
