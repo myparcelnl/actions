@@ -68,7 +68,8 @@ runs:
 
         if [ $EXISTS -eq 0 ]; then
           echo "Image not found, pulling from registry"
-          docker pull "$IMAGE"
+          # Fallback to not using cache if pull fails 
+          docker pull "$IMAGE" || docker pull --no-cache "$IMAGE"
         else
           echo "Image found, skipping pull"
         fi
