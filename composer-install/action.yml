@@ -96,7 +96,6 @@ runs:
           --optimize-autoloader
           ${{ runner.debug == '1' && '--verbose' || '' }}
           ${{ inputs.composer-args || inputs.flags }}
-          --cache-dir=${{ env.COMPOSER_CACHE_DIR }}
 
     - name: 'Install composer dependencies'
       shell: bash
