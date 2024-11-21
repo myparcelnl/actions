@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.16](https://github.com/myparcelnl/actions/compare/v4.43.15...v4.43.16) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **composer:** remove space in command name ([04bd174](https://github.com/myparcelnl/actions/commit/04bd1748876da65ae565bb19fba0647dfc7ea59b))
+
 ## [4.43.15](https://github.com/myparcelnl/actions/compare/v4.43.14...v4.43.15) (2024-11-21)
 
 
