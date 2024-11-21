@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.11](https://github.com/myparcelnl/actions/compare/v4.43.10...v4.43.11) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **pull-docker-image:** handle failure in docker save ([4123f02](https://github.com/myparcelnl/actions/commit/4123f02719655826b9056618eec23c6c64480f46))
+
 ## [4.43.10](https://github.com/myparcelnl/actions/compare/v4.43.9...v4.43.10) (2024-11-21)
 
 
