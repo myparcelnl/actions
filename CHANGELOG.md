@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.14](https://github.com/myparcelnl/actions/compare/v4.43.13...v4.43.14) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **pull-docker-image:** improve image caching and loading logic ([7deddb6](https://github.com/myparcelnl/actions/commit/7deddb6294b1661829f1f594ce3c71e728c8ae5e))
+
 ## [4.43.13](https://github.com/myparcelnl/actions/compare/v4.43.12...v4.43.13) (2024-11-21)
 
 
