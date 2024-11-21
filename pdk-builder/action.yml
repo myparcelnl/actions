@@ -50,7 +50,9 @@ runs:
         ENV_FILE: ${{ inputs.env-file || steps.env.outputs.filename }}
       #language=bash
       run: |
-        source "$ENV_FILE"
+        if [[ -n "$ENV_FILE" ]]; then
+          source "$ENV_FILE" || echo "::warning::Failed to source env file"
+        fi
 
         npx pdk-builder "$COMMAND" \
           --root-command="$ROOT_COMMAND" \
