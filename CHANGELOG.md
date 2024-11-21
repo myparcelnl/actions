@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.7](https://github.com/myparcelnl/actions/compare/v4.43.6...v4.43.7) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** increase app builder verbosity in debug mode ([4ace901](https://github.com/myparcelnl/actions/commit/4ace9018a5db557787b7732c65697dafe6a8b895))
+
 ## [4.43.6](https://github.com/myparcelnl/actions/compare/v4.43.5...v4.43.6) (2024-11-20)
 
 
