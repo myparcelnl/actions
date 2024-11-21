@@ -118,7 +118,7 @@ runs:
         node-version: ${{ inputs.node-version }}
 
     - name: 'Create empty report file'
-      if: steps.prepare.outputs.needs-update == 'true'
+      if: steps.cache.outputs.cache-hit == 'false'
       shell: bash
       #language=bash
       run: echo '[]' > upgrade-report.json
