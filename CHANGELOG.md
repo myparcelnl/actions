@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.12](https://github.com/myparcelnl/actions/compare/v4.43.11...v4.43.12) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** remove invalid command argument ([05a4279](https://github.com/myparcelnl/actions/commit/05a42795532f6392feecf38e0af9255667823ade))
+
 ## [4.43.11](https://github.com/myparcelnl/actions/compare/v4.43.10...v4.43.11) (2024-11-21)
 
 
