@@ -60,6 +60,7 @@ runs:
         CACHE_DIR: ${{ inputs.cache-directory }}
         FILENAME: ${{ steps.prepare.outputs.filenameh }}
         IMAGE: ${{ inputs.image }}
+        DEBUG: ${{ runner.debug }}
       shell: bash
       #language=bash
       run: |
@@ -76,7 +77,25 @@ runs:
 
         # Save image to disk for caching
         mkdir -p "$CACHE_DIR"
-        docker save -o "$CACHE_DIR/$FILENAME" "$IMAGE"
 
-        echo "Image $IMAGE saved as $FILENAME to $CACHE_DIR:"
-        ls -lh "$CACHE_DIR"
+        if [[ -z "$DEBUG" ]]; then
+          echo "Cache directory $CACHE_DIR:"
+          ls -lah "$CACHE_DIR"
+        fi
+
+        if [ -f "$CACHE_DIR/$FILENAME" ]; then
+          echo "Removing old cache file"
+          rm "$CACHE_DIR/$FILENAME"
+        fi
+
+        for attempt in {1..3}; do
+          docker save -o "$CACHE_DIR/$FILENAME" "$IMAGE" && break
+          echo "docker save failed. Retrying... ($attempt/3)"
+          sleep 1
+        done
+
+        echo "Image $IMAGE saved as $FILENAME to $CACHE_DIR."
+
+        if [[ -z "$DEBUG" ]]; then
+          ls -lah "$CACHE_DIR"
+        fi
