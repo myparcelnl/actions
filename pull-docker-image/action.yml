@@ -52,6 +52,13 @@ runs:
       #language=bash
       run: |
         echo "::group::Get Docker image"
+        saveCache=$CACHE_HIT
+
+        if [[ "$DEBUG" == 'true' ]]; then
+          echo "::debug::Cache directory contents:"
+          ls -lah "$CACHE_DIR"
+        fi
+
 
         if ! docker image inspect "$IMAGE" > /dev/null 2>&1; then
           if [[ "$CACHE_HIT" == 'true' ]]; then
@@ -59,6 +66,7 @@ runs:
 
             if ! docker load -i "$CACHE_DIR/$FILENAME"; then
               echo "::warning::Failed to load image from cache, falling back to registry pull."
+              saveCache='true' 
             fi
           fi
 
@@ -74,18 +82,13 @@ runs:
           echo "Image $IMAGE is already present locally."
         fi
 
-        if [[ "$CACHE_HIT" == 'true' ]]; then
+        if [[ "$saveCache" == 'false' ]]; then
           echo "::endgroup::"
           exit 0
         fi
 
         echo "Saving image to cache..."
         mkdir -p "$CACHE_DIR"
-
-        if [[ "$DEBUG" == 'true' ]]; then
-          echo "::debug::Cache directory contents:"
-          ls -lah "$CACHE_DIR"
-        fi
 
         if [ -f "$CACHE_DIR/$FILENAME" ]; then
           echo "Removing existing cached file: $CACHE_DIR/$FILENAME"
