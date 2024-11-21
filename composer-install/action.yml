@@ -53,7 +53,7 @@ runs:
         VERSION: ${{ inputs.php-version }}
       #language=bash
       run: |
-        echo "image=ghcr.io/myparcelnl/php-xd:$VERSION-cli-alpine" >> $GITHUB_OUTPUT
+        echo "image=ghcr.io/myparcelnl/php-xd:$VERSION" >> $GITHUB_OUTPUT
 
         echo COMPOSER_CACHE_DIR=/tmp/cache/composer >> $GITHUB_ENV
 
