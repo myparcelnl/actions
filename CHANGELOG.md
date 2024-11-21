@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.9](https://github.com/myparcelnl/actions/compare/v4.43.8...v4.43.9) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **composer-install:** stop caching vendor folder ([91c13b7](https://github.com/myparcelnl/actions/commit/91c13b7546e2b04fc8006f690bd2e1f0db826887))
+* **composer-install:** switch to simpler image tag ([8c57d6a](https://github.com/myparcelnl/actions/commit/8c57d6ade23c1a312f8476f2cb2998e183f1b764))
+* **composer:** improve cache folder and environment handling ([b84deeb](https://github.com/myparcelnl/actions/commit/b84deeb24a2924536aa16137d2bd2649968d526f))
+* **pull-docker-image:** improve cache logic ([99aa9ee](https://github.com/myparcelnl/actions/commit/99aa9ee062a5c73c5639298acf6bd63de3e11820))
+
 ## [4.43.8](https://github.com/myparcelnl/actions/compare/v4.43.7...v4.43.8) (2024-11-21)
 
 
