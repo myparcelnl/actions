@@ -106,12 +106,10 @@ runs:
         IMAGE: ${{ steps.prepare.outputs.image }}
       #language=bash
       run: |
-        source "$ENV_FILE"
-
         docker run \
           --volume "$PWD:/app" \
           --volume "$COMPOSER_CACHE_DIR:$COMPOSER_CACHE_DIR" \
           --user "$(id -u):$(id -g)" \
           --env-file "$ENV_FILE" \
           "$IMAGE" \
-          composer $COMMAND $COMPOSER_ARGS
+          composer "$COMMAND " $COMPOSER_ARGS
