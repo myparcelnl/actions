@@ -54,6 +54,11 @@ runs:
         echo "::group::Get Docker image"
         saveCache=$CACHE_HIT
 
+        if [ ! -d "$CACHE_DIR" ]; then
+          echo "Creating cache directory: $CACHE_DIR"
+          mkdir -p "$CACHE_DIR"
+        fi
+
         if [[ "$DEBUG" == 'true' ]]; then
           echo "::debug::Cache directory contents:"
           ls -lah "$CACHE_DIR"
@@ -88,7 +93,6 @@ runs:
         fi
 
         echo "Saving image to cache..."
-        mkdir -p "$CACHE_DIR"
 
         if [ -f "$CACHE_DIR/$FILENAME" ]; then
           echo "Removing existing cached file: $CACHE_DIR/$FILENAME"
