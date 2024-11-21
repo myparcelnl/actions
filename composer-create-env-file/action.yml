@@ -12,15 +12,20 @@ runs:
     - name: 'Create env file'
       id: create
       shell: bash
+      env:
+        RUN_ID: ${{ github.run_id }}
       #language=bash
       run: |
         timestamp=$(date +%s)
-        envFilename=".env-$timestamp.local.tmp"
+        envFilename=".env-$RUN_ID-$timestamp.local.tmp"
 
-        # Create an env file, adding fallback value for COMPOSER_CACHE_DIR
-        echo "COMPOSER_CACHE_DIR=/tmp/cache/composer" > "$envFilename"
+        # Set fallback for COMPOSER_CACHE_DIR
+        COMPOSER_CACHE_DIR=${COMPOSER_CACHE_DIR:-/tmp/cache/composer}
 
-        # Then add all present composer env variables
-        printenv | (grep -E "^COMPOSER_" || true) >> "$envFilename"
+        # Add all present composer env variables to the env file
+        printenv | (grep -E "^COMPOSER_" || true) > "$envFilename"
 
         echo "filename=$envFilename" >> $GITHUB_OUTPUT
+
+        # Create the cache dir
+        mkdir -p "$COMPOSER_CACHE_DIR"
