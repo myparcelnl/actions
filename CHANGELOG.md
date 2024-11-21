@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.22](https://github.com/myparcelnl/actions/compare/v4.43.21...v4.43.22) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **pull-docker-image:** create cache dir if it doesn't exist ([11814ab](https://github.com/myparcelnl/actions/commit/11814ab52736e84f5e657b4f563f1c148df698fa))
+
 ## [4.43.21](https://github.com/myparcelnl/actions/compare/v4.43.20...v4.43.21) (2024-11-21)
 
 
