@@ -9,7 +9,7 @@ inputs:
   cache-directory:
     description: 'Directory to store cache in'
     required: false
-    default: '~/.docker-cache'
+    default: '/tmp/cache/docker'
 
 outputs:
   image:
@@ -19,34 +19,46 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: actions/cache@v4
-      id: docker-cache
-      with:
-        path: ${{ inputs.cache-directory }}
-        key: ${{ format('{0}{1}-cache-docker-{2}', runner.os, runner.arch, inputs.image) }}
-
-    - name: 'Generate image name'
-      id: hash
+    - name: 'Prepare'
+      id: prepare
       env:
         IMAGE: ${{ inputs.image }}
+        CACHE_DIR: ${{ inputs.cache-directory }}
       shell: bash
       #language=bash
       run: |
-        echo "filename=$(echo "$IMAGE" | md5sum | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
+        mkdir -p "$CACHE_DIR"
+
+        echo "tag=$(echo "$IMAGE" | cut -d ':' -f 2)" >> $GITHUB_OUTPUT
+        echo "image-name=$(echo "$IMAGE" | cut -d ':' -f 1)" >> $GITHUB_OUTPUT
+
+        hash=$(echo "$IMAGE" | md5sum | cut -d ' ' -f 1)
+
+        echo "filename=image-$hash.tar" >> $GITHUB_OUTPUT
+
+    - uses: actions/cache@v4
+      id: cache
+      with:
+        path: ${{ inputs.cache-directory }}
+        key: ${{ format('{0}{1}-docker-image-{2}-{3}', runner.os, runner.arch, steps.prepare.outputs.image-name, steps.prepare.outputs.tag) }}
+        restore-keys: |
+          ${{ format('{0}{1}-docker-image-{2}', runner.os, runner.arch, steps.prepare.outputs.image-name) }}
 
     - name: 'Load cached Docker image'
-      if: steps.docker-cache.outputs.cache-hit == 'true'
+      if: steps.cache.outputs.cache-hit == 'true'
       env:
         CACHE_DIR: ${{ inputs.cache-directory }}
-        FILENAME: ${{ steps.hash.outputs.filename }}
+        FILENAME: ${{ steps.prepare.outputs.filename }}
       shell: bash
       #language=bash
       run: |
-        docker load -i "$CACHE_DIR/image-$FILENAME.tar"
+        docker load -i "$CACHE_DIR/$FILENAME"
 
     - name: 'Pull Docker image'
-      if: steps.docker-cache.outputs.cache-hit != 'true'
+      if: steps.cache.outputs.cache-hit != 'true'
       env:
+        CACHE_DIR: ${{ inputs.cache-directory }}
+        FILENAME: ${{ steps.prepare.outputs.filenameh }}
         IMAGE: ${{ inputs.image }}
       shell: bash
       #language=bash
@@ -61,14 +73,9 @@ runs:
           echo "Image found, skipping pull"
         fi
 
-    - name: 'Save image to disk'
-      if: steps.docker-cache.outputs.cache-hit != 'true'
-      env:
-        CACHE_DIR: ${{ inputs.cache-directory }}
-        FILENAME: ${{ steps.hash.outputs.filename }}
-        IMAGE: ${{ inputs.image }}
-      shell: bash
-      #language=bash
-      run: |
+        # Save image to disk for caching
         mkdir -p "$CACHE_DIR"
-        docker save -o "$CACHE_DIR/image-$FILENAME.tar" "$IMAGE"
+        docker save -o "$CACHE_DIR/$FILENAME" "$IMAGE"
+
+        echo "Image $IMAGE saved as $FILENAME to $CACHE_DIR:"
+        ls -lh "$CACHE_DIR"
