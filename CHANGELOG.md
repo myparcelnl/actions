@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.13](https://github.com/myparcelnl/actions/compare/v4.43.12...v4.43.13) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** reuse composer variables to fix wrong pdk version being installed ([4fa756e](https://github.com/myparcelnl/actions/commit/4fa756e5493cc62f1e7cbf107267d914b6e2d0ab))
+
 ## [4.43.12](https://github.com/myparcelnl/actions/compare/v4.43.11...v4.43.12) (2024-11-21)
 
 
