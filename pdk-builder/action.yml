@@ -14,18 +14,22 @@ inputs:
     description: 'Additional arguments to pass to the command. Should be multiline string.'
     required: false
 
+  env-file:
+    description: 'The filename of the env file to use. Will be created if not passed and image is set.'
+    required: false
+
 runs:
   using: composite
   steps:
     - uses: myparcelnl/actions/composer-create-env-file@v4
-      if: inputs.image != ''
+      if: inputs.image != '' && inputs.env-file == ''
       id: env
 
     - uses: myparcelnl/actions/pdk-create-root-command@v4
       if: inputs.image != ''
       id: prepare
       with:
-        env-file: ${{ steps.env.outputs.filename }}
+        env-file: ${{ inputs.env-file || steps.env.outputs.filename }}
         image: ${{ inputs.image }}
 
     - uses: myparcelnl/actions/format-string@v4
@@ -43,8 +47,11 @@ runs:
         ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
         FORCE_COLOR: true
         DEBUG_COLORS: true
+        ENV_FILE: ${{ inputs.env-file || steps.env.outputs.filename }}
       #language=bash
       run: |
+        source "$ENV_FILE"
+
         npx pdk-builder "$COMMAND" \
           --root-command="$ROOT_COMMAND" \
           $ARGS

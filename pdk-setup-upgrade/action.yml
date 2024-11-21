@@ -165,20 +165,13 @@ runs:
         command: 'upgrade-js'
         args: ${{ steps.args.outputs.string }}
 
-    - name: 'Source composer env file'
-      if: steps.prepare.outputs.needs-update == 'true' && (inputs.mode == 'all' || inputs.mode == 'backend')
-      env:
-        ENV_FILE: ${{ steps.setup-backend.outputs.env-file }}
-      shell: bash
-      # language=bash
-      run: source "$ENV_FILE"
-
     - name: 'Upgrade php'
       uses: myparcelnl/actions/pdk-builder@v4
       if: steps.prepare.outputs.needs-update == 'true' && (inputs.mode == 'all' || inputs.mode == 'backend')
       with:
         command: 'upgrade-php'
         image: ${{ steps.setup-backend.outputs.image }}
+        env-file: ${{ steps.setup-backend.outputs.env-file }}
         args: ${{ steps.args.outputs.string }}
 
     - name: 'Create report'
