@@ -112,4 +112,4 @@ runs:
           --user "$(id -u):$(id -g)" \
           --env-file "$ENV_FILE" \
           "$IMAGE" \
-          composer "$COMMAND " $COMPOSER_ARGS
+          composer "$COMMAND" $COMPOSER_ARGS
