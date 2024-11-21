@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.8](https://github.com/myparcelnl/actions/compare/v4.43.7...v4.43.8) (2024-11-21)
+
+
+### :zap: Performance Improvements
+
+* **pdk-builder:** skip steps that are not necessary when no image is passed ([e278dd5](https://github.com/myparcelnl/actions/commit/e278dd58175eeff557948da8ebb5aaa73cd22304))
+* **pdk:** don't pass image when not needed ([742cf90](https://github.com/myparcelnl/actions/commit/742cf9007b7d8259775e5d5411d29bc17aa641d0))
+
+
+### :bug: Bug Fixes
+
+* **pdk:** force colored output ([7a0a969](https://github.com/myparcelnl/actions/commit/7a0a9695e0b24f5c46c776ae35199e57ea90d549))
+
 ## [4.43.7](https://github.com/myparcelnl/actions/compare/v4.43.6...v4.43.7) (2024-11-21)
 
 
