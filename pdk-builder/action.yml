@@ -41,6 +41,8 @@ runs:
         ARGS: ${{ steps.args.outputs.string }}
         COMMAND: ${{ inputs.command }}
         ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
+        FORCE_COLOR: true
+        DEBUG_COLORS: true
       #language=bash
       run: |
         npx pdk-builder "$COMMAND" \
