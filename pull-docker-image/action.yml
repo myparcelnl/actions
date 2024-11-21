@@ -27,13 +27,10 @@ runs:
       shell: bash
       #language=bash
       run: |
-        mkdir -p "$CACHE_DIR"
+        hash=$(echo "$IMAGE" | md5sum | cut -d ' ' -f 1)
 
         echo "tag=$(echo "$IMAGE" | cut -d ':' -f 2)" >> $GITHUB_OUTPUT
         echo "image-name=$(echo "$IMAGE" | cut -d ':' -f 1)" >> $GITHUB_OUTPUT
-
-        hash=$(echo "$IMAGE" | md5sum | cut -d ' ' -f 1)
-
         echo "filename=image-$hash.tar" >> $GITHUB_OUTPUT
 
     - uses: actions/cache@v4
@@ -44,58 +41,67 @@ runs:
         restore-keys: |
           ${{ format('{0}{1}-docker-image-{2}', runner.os, runner.arch, steps.prepare.outputs.image-name) }}
 
-    - name: 'Load cached Docker image'
-      if: steps.cache.outputs.cache-hit == 'true'
+    - name: 'Get Docker image'
       env:
+        CACHE_HIT: ${{ steps.cache.outputs.cache-hit }}
         CACHE_DIR: ${{ inputs.cache-directory }}
         FILENAME: ${{ steps.prepare.outputs.filename }}
-      shell: bash
-      #language=bash
-      run: |
-        docker load -i "$CACHE_DIR/$FILENAME"
-
-    - name: 'Pull Docker image'
-      if: steps.cache.outputs.cache-hit != 'true'
-      env:
-        CACHE_DIR: ${{ inputs.cache-directory }}
-        FILENAME: ${{ steps.prepare.outputs.filenameh }}
         IMAGE: ${{ inputs.image }}
-        DEBUG: ${{ runner.debug }}
+        DEBUG: ${{ runner.debug == '1' && 'true' || '' }}
       shell: bash
       #language=bash
       run: |
-        # if not present, pull from registry
-        EXISTS=$(docker image inspect "$IMAGE" > /dev/null 2>&1 || echo 0)
+        echo "::group::Get Docker image"
 
-        if [ $EXISTS -eq 0 ]; then
-          echo "Image not found, pulling from registry"
-          # Fallback to not using cache if pull fails 
-          docker pull "$IMAGE" || docker pull --no-cache "$IMAGE"
+        if ! docker image inspect "$IMAGE" > /dev/null 2>&1; then
+          if [[ "$CACHE_HIT" == 'true' ]]; then
+            echo "Loading image from cache..."
+
+            if ! docker load -i "$CACHE_DIR/$FILENAME"; then
+              echo "::warning::Failed to load image from cache, falling back to registry pull."
+            fi
+          fi
+
+          if ! docker image inspect "$IMAGE" > /dev/null 2>&1; then
+            echo "Image not found locally, pulling from registry..."
+
+            if ! docker pull "$IMAGE"; then
+              echo "::warning::Pull failed. Attempting without cache..."
+              docker pull --no-cache "$IMAGE" || { echo "::error::Failed to pull image. Exiting."; exit 1; }
+            fi
+          fi
         else
-          echo "Image found, skipping pull"
+          echo "Image $IMAGE is already present locally."
         fi
 
-        # Save image to disk for caching
+        if [[ "$CACHE_HIT" == 'true' ]]; then
+          echo "::endgroup::"
+          exit 0
+        fi
+
+        echo "Saving image to cache..."
         mkdir -p "$CACHE_DIR"
 
-        if [[ -z "$DEBUG" ]]; then
-          echo "Cache directory $CACHE_DIR:"
+        if [[ "$DEBUG" == 'true' ]]; then
+          echo "::debug::Cache directory contents:"
           ls -lah "$CACHE_DIR"
         fi
 
         if [ -f "$CACHE_DIR/$FILENAME" ]; then
-          echo "Removing old cache file"
-          rm "$CACHE_DIR/$FILENAME"
+          echo "Removing existing cached file: $CACHE_DIR/$FILENAME"
+          rm -f "$CACHE_DIR/$FILENAME"
         fi
 
-        for attempt in {1..3}; do
-          docker save -o "$CACHE_DIR/$FILENAME" "$IMAGE" && break
-          echo "docker save failed. Retrying... ($attempt/3)"
-          sleep 1
-        done
+        if ! docker save -o "$CACHE_DIR/$FILENAME" "$IMAGE"; then
+          echo "::warning::Saving image failed. Retrying..."
+          docker save -o "$CACHE_DIR/$FILENAME" "$IMAGE" || { echo "::error::Failed to save image. Exiting."; exit 1; }
+        fi
 
         echo "Image $IMAGE saved as $FILENAME to $CACHE_DIR."
 
-        if [[ -z "$DEBUG" ]]; then
+        if [[ "$DEBUG" == 'true' ]]; then
+          echo "::debug::New cache directory contents:"
           ls -lah "$CACHE_DIR"
         fi
+
+        echo "::endgroup::"
