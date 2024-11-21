@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.17](https://github.com/myparcelnl/actions/compare/v4.43.16...v4.43.17) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** only source env file if passed ([d3699c6](https://github.com/myparcelnl/actions/commit/d3699c6bd8a6f6311a34b350004c84dc336cf43e))
+
 ## [4.43.16](https://github.com/myparcelnl/actions/compare/v4.43.15...v4.43.16) (2024-11-21)
 
 
