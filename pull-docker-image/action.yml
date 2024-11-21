@@ -29,9 +29,9 @@ runs:
       run: |
         hash=$(echo "$IMAGE" | md5sum | cut -d ' ' -f 1)
 
-        echo "tag=$(echo "$IMAGE" | cut -d ':' -f 2)" >> $GITHUB_OUTPUT
+        echo "tag=$(echo "$IMAGE" | cut -d ':' -f 2)"        >> $GITHUB_OUTPUT
         echo "image-name=$(echo "$IMAGE" | cut -d ':' -f 1)" >> $GITHUB_OUTPUT
-        echo "filename=image-$hash.tar" >> $GITHUB_OUTPUT
+        echo "filename=image-$hash.tar"                      >> $GITHUB_OUTPUT
 
     - uses: actions/cache@v4
       id: cache
