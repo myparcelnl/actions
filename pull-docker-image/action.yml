@@ -52,7 +52,7 @@ runs:
       #language=bash
       run: |
         echo "::group::Get Docker image"
-        saveCache=$CACHE_HIT
+        saveCache=$([[ "$CACHE_HIT" == 'true' ]] && echo 'false' || echo 'true')
 
         if [ ! -d "$CACHE_DIR" ]; then
           echo "Creating cache directory: $CACHE_DIR"
@@ -63,7 +63,6 @@ runs:
           echo "::debug::Cache directory contents:"
           ls -lah "$CACHE_DIR"
         fi
-
 
         if ! docker image inspect "$IMAGE" > /dev/null 2>&1; then
           if [[ "$CACHE_HIT" == 'true' ]]; then
