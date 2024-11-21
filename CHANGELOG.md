@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.15](https://github.com/myparcelnl/actions/compare/v4.43.14...v4.43.15) (2024-11-21)
+
+
+### :bug: Bug Fixes
+
+* **composer:** improve env file logic ([6246da7](https://github.com/myparcelnl/actions/commit/6246da7fc360b41511b1d0e9e8fe5cad940753cc))
+* **pdk:** allow passing env file that was created earlier ([5383365](https://github.com/myparcelnl/actions/commit/53833659a0b6beaf427cb97cca6a36e38eb83e96))
+
 ## [4.43.14](https://github.com/myparcelnl/actions/compare/v4.43.13...v4.43.14) (2024-11-21)
 
 
