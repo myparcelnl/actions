@@ -66,7 +66,7 @@ runs:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
 
-    - name: 'Check if upgrade is needed'
+    - name: 'Get last PDK update timestamp'
       shell: bash
       id: prepare
       env:
@@ -118,14 +118,14 @@ runs:
         node-version: ${{ inputs.node-version }}
 
     - name: 'Create empty report file'
-      if: steps.cache.outputs.cache-hit == 'false'
+      if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
       #language=bash
       run: echo '[]' > upgrade-report.json
 
     - uses: myparcelnl/actions/format-string@v4
       id: args
-      if: steps.cache.outputs.cache-hit == 'false'
+      if: steps.cache.outputs.cache-hit != 'true'
       with:
         mode: 'args'
         output-separator: '\n'
@@ -138,21 +138,21 @@ runs:
 
     - name: 'Upgrade app-builder'
       uses: myparcelnl/actions/pdk-builder@v4
-      if: steps.cache.outputs.cache-hit == 'false'
+      if: steps.cache.outputs.cache-hit != 'true'
       with:
         command: 'upgrade-self'
         args: ${{ steps.args.outputs.string }}
 
     - name: 'Upgrade js'
       uses: myparcelnl/actions/pdk-builder@v4
-      if: steps.cache.outputs.cache-hit == 'false' && (inputs.mode == 'all' || inputs.mode == 'frontend')
+      if: steps.cache.outputs.cache-hit != 'true' && (inputs.mode == 'all' || inputs.mode == 'frontend')
       with:
         command: 'upgrade-js'
         args: ${{ steps.args.outputs.string }}
 
     - name: 'Upgrade php'
       uses: myparcelnl/actions/pdk-builder@v4
-      if: steps.cache.outputs.cache-hit == 'false' && (inputs.mode == 'all' || inputs.mode == 'backend')
+      if: steps.cache.outputs.cache-hit != 'true' && (inputs.mode == 'all' || inputs.mode == 'backend')
       with:
         command: 'upgrade-php'
         image: ${{ steps.setup-backend.outputs.image }}
@@ -163,7 +163,7 @@ runs:
       id: report
       shell: bash
       env:
-        FROM_CACHE: ${{ steps.cache.outputs.cache-hit == 'true' && 'true' || 'false' }}
+        FROM_CACHE: ${{ steps.cache.outputs.cache-hit }}
       # language=bash
       run: |
         if [ ! -f upgrade-report.json ]; then
