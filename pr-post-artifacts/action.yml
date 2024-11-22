@@ -31,7 +31,7 @@ runs:
         PREVIOUS_JOB_ID=$(jq -r '.id' <<< "$WORKFLOW_RUN_EVENT_OBJ")
         PR_NUMBER=$(jq -r '.pull_requests[0].number' <<< "$WORKFLOW_RUN_EVENT_OBJ")
         SUITE_ID=$(jq -r '.check_suite_id' <<< "$WORKFLOW_RUN_EVENT_OBJ")
-        ARTIFACT_ID=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" --jq ".artifacts.[] | select(.workflow_run.id==${PREVIOUS_JOB_ID}) | select(.expired==false) | .id")
+        ARTIFACT_ID=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" --jq ".artifacts | map(select(.workflow_run.id == ${PREVIOUS_JOB_ID} and .expired == false)) | sort_by(.updated_at)[-1] | .id")
 
         echo "artifact-id=$ARTIFACT_ID"         >> $GITHUB_OUTPUT
         echo "head-sha=$HEAD_SHA"               >> $GITHUB_OUTPUT
