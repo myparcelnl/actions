@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.24](https://github.com/myparcelnl/actions/compare/v4.43.23...v4.43.24) (2024-11-22)
+
+
+### :bug: Bug Fixes
+
+* **pr-post-artifacts:** get correct artifact url in the case of reruns ([a6c2edd](https://github.com/myparcelnl/actions/commit/a6c2eddc99ec6db43f26cd056aae1c2ab9ae8ea7))
+
 ## [4.43.23](https://github.com/myparcelnl/actions/compare/v4.43.22...v4.43.23) (2024-11-21)
 
 
