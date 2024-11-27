@@ -73,7 +73,7 @@ runs:
         token: ${{ steps.credentials.outputs.token }}
 
     - uses: myparcelnl/actions/pdk-setup@v4
-      if: inputs.update-deps == 'false'
+      if: inputs.update-deps != 'true'
       id: setup
       with:
         php-version: ${{ inputs.php-version }}
