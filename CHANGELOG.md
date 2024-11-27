@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.43.25](https://github.com/myparcelnl/actions/compare/v4.43.24...v4.43.25) (2024-11-27)
+
+
+### :bug: Bug Fixes
+
+* **pdk:** fix `pdk-setup` being skipped if `update-deps` argument was not passed ([#67](https://github.com/myparcelnl/actions/issues/67)) ([afed77d](https://github.com/myparcelnl/actions/commit/afed77df0d75b255273d3ba97690287270aabfd7))
+
 ## [4.43.24](https://github.com/myparcelnl/actions/compare/v4.43.23...v4.43.24) (2024-11-22)
 
 
