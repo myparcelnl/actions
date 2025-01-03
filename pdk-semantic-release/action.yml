@@ -86,6 +86,10 @@ runs:
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
+        php-version: ${{ inputs.php-version }}
+        node-version: ${{ inputs.node-version }}
+        yarn-args: ${{ inputs.yarn-args }}
+        composer-dev: false
 
     - uses: myparcelnl/actions/pdk-cache@v4
       with:
