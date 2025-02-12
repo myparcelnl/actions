@@ -43,6 +43,11 @@ inputs:
       **/scoper.inc.php
       **/scoper.*.inc.php
 
+  upgrade-pdk-deps:
+    description: 'Whether to upgrade all the PDK packages. Defaults to true, but will be default false in v5'
+    required: false
+    default: 'true'
+
   mode:
     description: 'The mode to run in. Will be inferred from github event automatically. Can be pull_request, push, workflow_dispatch or repository_dispatch.'
     required: false
@@ -86,7 +91,7 @@ runs:
           releaseVersion="dev-$PR_NUMBER-$branch"
 
           if [ "$DEBUG" == "1" ]; then
-            echo "branch=$branch" 
+            echo "branch=$branch"
           fi
         else
           commitsSinceTag=$(git log --oneline "v$version.." | wc -l)
@@ -114,6 +119,7 @@ runs:
 
     - uses: myparcelnl/actions/pdk-setup-upgrade@v4
       id: setup
+      if: inputs.upgrade-pdk-deps == 'true'
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
@@ -121,6 +127,13 @@ runs:
         composer-dev: 'false'
         no-check: 'true'
         no-commit: 'true'
+
+    - uses: myparcelnl/actions/pdk-setup@v4
+      id: setup
+      if: inputs.upgrade-pdk-deps != 'true'
+      with:
+        php-version: ${{ inputs.php-version }}
+        composer-dev: 'false'
 
     - uses: myparcelnl/actions/pdk-cache@v4
       with:
