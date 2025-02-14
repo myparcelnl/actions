@@ -118,7 +118,7 @@ runs:
         echo "version=$releaseVersion" >> $GITHUB_OUTPUT
 
     - uses: myparcelnl/actions/pdk-setup-upgrade@v4
-      id: setup
+      id: setup-upgrade
       if: inputs.upgrade-pdk-deps == 'true'
       with:
         app-id: ${{ inputs.app-id }}
