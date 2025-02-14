@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.44.1](https://github.com/myparcelnl/actions/compare/v4.44.0...v4.44.1) (2025-02-14)
+
+
+### :bug: Bug Fixes
+
+* duplicate ids for setup actions ([7dab01c](https://github.com/myparcelnl/actions/commit/7dab01cbdcfb11409dcc0875cf0772d648748c04))
+
 ## [4.44.0](https://github.com/myparcelnl/actions/compare/v4.43.26...v4.44.0) (2025-02-14)
 
 
