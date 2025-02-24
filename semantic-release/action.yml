@@ -20,7 +20,7 @@ inputs:
     description: 'Additional semantic release arguments. Can be a multiline string.'
     required: false
 
-  working-director:
+  working-directory:
     description: 'The working directory to run semantic release in'
     required: false
 
