@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.44.2](https://github.com/myparcelnl/actions/compare/v4.44.1...v4.44.2) (2025-02-24)
+
+
+### :bug: Bug Fixes
+
+* **semantic-release:** fix working-directory input not working for semantic-release ([7e595b2](https://github.com/myparcelnl/actions/commit/7e595b2b9d569bf4aab6b1bfe89498bd124b9ad0))
+
 ## [4.44.1](https://github.com/myparcelnl/actions/compare/v4.44.0...v4.44.1) (2025-02-14)
 
 
