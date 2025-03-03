@@ -84,32 +84,23 @@ runs:
       #language=bash
       run: |
         version=$(npm pkg get version | sed 's/"//g')
-        isPreRelease=$(echo "$version" | grep -E -- '-[a-z]+\.[0-9]+$' || true)
+        commitsSinceTag=$(git log --oneline "v$version.." | wc -l)
+
+        releaseVersion="$version-$commitsSinceTag"
 
         if [ "$MODE" == "pull_request" ]; then
           branch=$(echo $GITHUB_HEAD_REF | sed -e 's/\//-/g')
-          releaseVersion="dev-$PR_NUMBER-$branch"
+          releaseVersion="$releaseVersion-$PR_NUMBER-$branch"
 
           if [ "$DEBUG" == "1" ]; then
             echo "branch=$branch"
-          fi
-        else
-          commitsSinceTag=$(git log --oneline "v$version.." | wc -l)
-
-          if [ -n "$isPreRelease" ]; then
-            releaseVersion="$version-$commitsSinceTag"
-          else
-            releaseVersion="$version-rc.$commitsSinceTag"
-          fi
-
-          if [ "$DEBUG" == "1" ]; then
-            echo "commitsSinceTag=$commitsSinceTag"
           fi
         fi
 
         if [ $DEBUG == "1" ]; then
           echo "MODE=$MODE"
           echo "PR_NUMBER=$PR_NUMBER"
+          echo "commitsSinceTag=$commitsSinceTag"
           echo "isPreRelease=$isPreRelease"
           echo "releaseVersion=$releaseVersion"
           echo "version=$version"
