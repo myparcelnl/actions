@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.44.3](https://github.com/myparcelnl/actions/compare/v4.44.2...v4.44.3) (2025-03-03)
+
+
+### :bug: Bug Fixes
+
+* prerelease generated version strings that could not be compared ([#72](https://github.com/myparcelnl/actions/issues/72)) ([17371e2](https://github.com/myparcelnl/actions/commit/17371e2dae778cf493f00bb7b598f5d4ff979d92))
+
 ## [4.44.2](https://github.com/myparcelnl/actions/compare/v4.44.1...v4.44.2) (2025-02-24)
 
 
