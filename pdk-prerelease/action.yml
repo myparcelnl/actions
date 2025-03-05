@@ -86,7 +86,7 @@ runs:
         version=$(npm pkg get version | sed 's/"//g')
         commitsSinceTag=$(git log --oneline "v$version.." | wc -l)
 
-        releaseVersion="$version-$commitsSinceTag"
+        releaseVersion="$version.$commitsSinceTag"
 
         if [ "$MODE" == "pull_request" ]; then
           branch=$(echo $GITHUB_HEAD_REF | sed -e 's/\//-/g')
