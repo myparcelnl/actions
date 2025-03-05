@@ -90,7 +90,7 @@ runs:
 
         if [ "$MODE" == "pull_request" ]; then
           branch=$(echo $GITHUB_HEAD_REF | sed -e 's/\//-/g')
-          releaseVersion="$releaseVersion-$PR_NUMBER-$branch"
+          releaseVersion="$releaseVersion-dev+$PR_NUMBER-$branch"
 
           if [ "$DEBUG" == "1" ]; then
             echo "branch=$branch"
