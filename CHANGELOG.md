@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.44.5](https://github.com/myparcelnl/actions/compare/v4.44.4...v4.44.5) (2025-03-05)
+
+
+### :bug: Bug Fixes
+
+* **pdk-prerelease:** fix composer not allowing dash before stability ([476fd7b](https://github.com/myparcelnl/actions/commit/476fd7b8a918684bcc9d8f1941d47b2288a645bf))
+
 ## [4.44.4](https://github.com/myparcelnl/actions/compare/v4.44.3...v4.44.4) (2025-03-05)
 
 
