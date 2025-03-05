@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.44.4](https://github.com/myparcelnl/actions/compare/v4.44.3...v4.44.4) (2025-03-05)
+
+
+### :bug: Bug Fixes
+
+* **pdk-prerelease:** generated version string was not a valid composer.json version ([578ad19](https://github.com/myparcelnl/actions/commit/578ad191cf26686fd72b77b5b5d30626b0829d25))
+
 ## [4.44.3](https://github.com/myparcelnl/actions/compare/v4.44.2...v4.44.3) (2025-03-03)
 
 
