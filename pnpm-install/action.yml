@@ -6,11 +6,6 @@ inputs:
     description: 'The Node.js version to use'
     required: false
 
-  pnpm-version:
-    description: 'The pnpm version to use'
-    default: '8.15.1'
-    required: false
-
   pnpm-args:
     description: 'Arguments to use with pnpm install. Can be multiline string.'
     required: false
@@ -18,9 +13,6 @@ inputs:
 runs:
   using: composite
   steps:
-    # TODO: REMOVE THIS!
-    - uses: actions/checkout@v4
-
     - name: 'Enable corepack'
       shell: bash
       #language=bash
