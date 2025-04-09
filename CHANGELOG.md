@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.44.6](https://github.com/myparcelnl/actions/compare/v4.44.5...v4.44.6) (2025-04-09)
+
+
+### :bug: Bug Fixes
+
+* **pnpm-install:** fix clearing credentials when using actions/pnpm-install ([#74](https://github.com/myparcelnl/actions/issues/74)) ([198236c](https://github.com/myparcelnl/actions/commit/198236c0f4f908d6130eaa874aaffa30c99fe14b))
+
 ## [4.44.5](https://github.com/myparcelnl/actions/compare/v4.44.4...v4.44.5) (2025-03-05)
 
 
