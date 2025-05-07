@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
         if: runner.debug != '1'
 
-      - uses: slackapi/slack-github-action@v1.26.0
+      - uses: slackapi/slack-github-action@v2.1.0
         if: runner.debug != '1'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_WORKFLOW_MONITOR }}
