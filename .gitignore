@@ -16,15 +16,17 @@ junit.xml
 node_modules/*
 !node_modules/@actions/
 !node_modules/@actions/core/
+!node_modules/@actions/exec/
 !node_modules/@actions/glob/
 !node_modules/@actions/http-client/
+!node_modules/@actions/io/
 !node_modules/@fastify/
 !node_modules/@fastify/busboy/
-!node_modules/balanced-match/
-!node_modules/brace-expansion/
+!node_modules/@isaacs/
+!node_modules/@isaacs/balanced-match/
+!node_modules/@isaacs/brace-expansion/
 !node_modules/minimatch/
 !node_modules/semver/
 !node_modules/tunnel/
 !node_modules/undici/
-!node_modules/uuid/
 # <!-- end automatically generated entries -->
