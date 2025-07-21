@@ -1,0 +1,35 @@
+name: 'Create PDK docker command'
+description: 'Create the PDK docker command for use with the app builder'
+
+inputs:
+  env-file:
+    description: 'The env file to use'
+    required: true
+
+  image:
+    description: 'PHP Docker image to use'
+    required: false
+
+outputs:
+  docker-command:
+    description: 'The docker command to use with the pdk builder'
+    value: ${{ steps.create.outputs.docker-command }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Create docker command'
+      id: create
+      shell: bash
+      env:
+        ENV_FILE: ${{ inputs.env-file }}
+        IMAGE: ${{ inputs.image }}
+      #language=bash
+      run: |
+        if [ -z "$IMAGE" ]; then
+          DOCKER_COMMAND=''
+        else
+          DOCKER_COMMAND="docker run -t --user $(id -u):$(id -g) --env-file=$ENV_FILE -v $PWD:/app -w /app $IMAGE"
+        fi
+
+        echo "docker-command=$DOCKER_COMMAND" >> $GITHUB_OUTPUT

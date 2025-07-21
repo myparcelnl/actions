@@ -21,18 +21,18 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/composer-create-env-file@v4
+    - uses: myparcelnl/actions/composer-create-env-file@v5
       if: inputs.image != '' && inputs.env-file == ''
       id: env
 
-    - uses: myparcelnl/actions/pdk-create-root-command@v4
+    - uses: myparcelnl/actions/pdk-create-docker-command@v5
       if: inputs.image != ''
       id: prepare
       with:
         env-file: ${{ inputs.env-file || steps.env.outputs.filename }}
         image: ${{ inputs.image }}
 
-    - uses: myparcelnl/actions/format-string@v4
+    - uses: myparcelnl/actions/format-string@v5
       id: args
       with:
         mode: 'args'
@@ -44,7 +44,7 @@ runs:
       env:
         ARGS: ${{ steps.args.outputs.string }}
         COMMAND: ${{ inputs.command }}
-        ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}
+        DOCKER_COMMAND: ${{ steps.prepare.outputs.docker-command }}
         FORCE_COLOR: true
         DEBUG_COLORS: true
         ENV_FILE: ${{ inputs.env-file || steps.env.outputs.filename }}
@@ -55,5 +55,5 @@ runs:
         fi
 
         npx pdk-builder "$COMMAND" \
-          --root-command="$ROOT_COMMAND" \
+          --docker-command="$ROOT_COMMAND" \
           $ARGS
