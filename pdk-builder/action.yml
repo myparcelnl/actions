@@ -55,5 +55,5 @@ runs:
         fi
 
         npx pdk-builder "$COMMAND" \
-          --docker-command="$ROOT_COMMAND" \
+          --docker-command="$DOCKER_COMMAND" \
           $ARGS
