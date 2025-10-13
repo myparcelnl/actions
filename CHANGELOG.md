@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1](https://github.com/myparcelnl/actions/compare/v5.0.0...v5.0.1) (2025-10-13)
+
 ## [5.0.0](https://github.com/myparcelnl/actions/compare/v4.44.6...v5.0.0) (2025-10-13)
 
 
