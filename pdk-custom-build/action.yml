@@ -64,7 +64,7 @@ runs:
 
     - name: 'Checkout myparcelnl/js-pdk'
       if: inputs.js-pdk-ref != 'main'
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         path: js-pdk
         repository: myparcelnl/js-pdk
@@ -101,7 +101,7 @@ runs:
         jq '.require["myparcelnl/pdk"] = "dev-'$REF'" | ."minimum-stability" = "dev"' composer.json > composer.json.tmp
         mv composer.json.tmp composer.json
 
-    - uses: myparcelnl/actions/pdk-setup@v4
+    - uses: myparcelnl/actions/pdk-setup@v5
       id: setup
       with:
         composer-command: 'update'
@@ -109,7 +109,7 @@ runs:
         php-version: ${{ inputs.php-version }}
         yarn-args: '--no-immutable'
 
-    - uses: myparcelnl/actions/pdk-cache@v4
+    - uses: myparcelnl/actions/pdk-cache@v5
       with:
         php-version: ${{ inputs.php-version }}
         php-scoper-version: ${{ inputs.php-scoper-version }}
@@ -118,12 +118,12 @@ runs:
         vendor-key: update-${{ steps.setup.outputs.composer-flags }}
 
     - name: 'Run pdk-builder update-self'
-      uses: myparcelnl/actions/pdk-builder@v4
+      uses: myparcelnl/actions/pdk-builder@v5
       with:
         command: 'upgrade-self'
         args: '--no-check --no-commit'
 
-    - uses: myparcelnl/actions/pdk-release@v4
+    - uses: myparcelnl/actions/pdk-release@v5
       with:
         command: 'prerelease'
         image: ${{ steps.setup.outputs.image }}

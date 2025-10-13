@@ -18,7 +18,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/pdk-builder@v4
+    - uses: myparcelnl/actions/pdk-builder@v5
       with:
         image: ${{ inputs.image }}
         command: ${{ inputs.command }}

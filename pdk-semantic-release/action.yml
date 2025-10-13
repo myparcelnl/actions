@@ -45,10 +45,6 @@ inputs:
       scoper.inc.php
       scoper.*.inc.php
 
-  update-deps:
-    description: 'Update PDK dependencies before releasing.'
-    required: false
-
 outputs:
   released:
     description: 'Whether a release was made.'
@@ -61,7 +57,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/setup-git-credentials@v4
+    - uses: myparcelnl/actions/setup-git-credentials@v5
       id: credentials
       with:
         app-id: ${{ inputs.app-id }}
@@ -72,8 +68,7 @@ runs:
         fetch-depth: 0
         token: ${{ steps.credentials.outputs.token }}
 
-    - uses: myparcelnl/actions/pdk-setup@v4
-      if: inputs.update-deps != 'true'
+    - uses: myparcelnl/actions/pdk-setup@v5
       id: setup
       with:
         php-version: ${{ inputs.php-version }}
@@ -81,17 +76,7 @@ runs:
         yarn-args: ${{ inputs.yarn-args }}
         composer-dev: false
 
-    - uses: myparcelnl/actions/pdk-setup-upgrade@v4
-      if: inputs.update-deps == 'true'
-      with:
-        app-id: ${{ inputs.app-id }}
-        private-key: ${{ inputs.private-key }}
-        php-version: ${{ inputs.php-version }}
-        node-version: ${{ inputs.node-version }}
-        yarn-args: ${{ inputs.yarn-args }}
-        composer-dev: false
-
-    - uses: myparcelnl/actions/pdk-cache@v4
+    - uses: myparcelnl/actions/pdk-cache@v5
       with:
         php-version: ${{ inputs.php-version }}
         php-scoper-version: ${{ inputs.php-scoper-version }}
@@ -99,14 +84,14 @@ runs:
         vendor-files: ${{ inputs.vendor-files }}
         vendor-key: install-${{ steps.setup.outputs.composer-flags }}
 
-    - uses: myparcelnl/actions/pdk-create-root-command@v4
+    - uses: myparcelnl/actions/pdk-create-docker-command@v5
       id: prepare
       with:
         env-file: ${{ steps.setup.outputs.env-file }}
         image: ${{ steps.setup.outputs.image }}
 
     # The pdk-builder release step should be run through the release config
-    - uses: myparcelnl/actions/semantic-release@v4
+    - uses: myparcelnl/actions/semantic-release@v5
       id: release
       env:
         PDK_ROOT_COMMAND: ${{ steps.prepare.outputs.root-command }}

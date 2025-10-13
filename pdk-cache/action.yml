@@ -32,7 +32,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/hash-string@v4
+    - uses: myparcelnl/actions/hash-string@v5
       id: vendor-key
       with:
         string: ${{ inputs.vendor-key }}
