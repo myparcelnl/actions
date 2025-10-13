@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0](https://github.com/myparcelnl/actions/compare/v4.44.6...v5.0.0) (2025-10-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* **pdk-builder:** remove all per-platform building functionality (#80)
+
+### :sparkles: New Features
+
+* **pdk-builder:** remove all per-platform building functionality ([#80](https://github.com/myparcelnl/actions/issues/80)) ([745e2eb](https://github.com/myparcelnl/actions/commit/745e2eb30c01ccb3ccdbed6fbb2023f46d18a1aa))
+
+
+### :bug: Bug Fixes
+
+* **deps:** bump actions/checkout from 4 to 5 ([#81](https://github.com/myparcelnl/actions/issues/81)) ([4f1a4cf](https://github.com/myparcelnl/actions/commit/4f1a4cfbd47655c03d06c212241127f84b596088)), closes [actions/checkout#2226](https://github.com/actions/checkout/issues/2226) [actions/checkout#2238](https://github.com/actions/checkout/issues/2238) [actions/checkout#1971](https://github.com/actions/checkout/issues/1971) [actions/checkout#1977](https://github.com/actions/checkout/issues/1977) [actions/checkout#2043](https://github.com/actions/checkout/issues/2043) [actions/checkout#2044](https://github.com/actions/checkout/issues/2044) [actions/checkout#2194](https://github.com/actions/checkout/issues/2194) [actions/checkout#2224](https://github.com/actions/checkout/issues/2224) [actions/checkout#2236](https://github.com/actions/checkout/issues/2236) [actions/checkout#2237](https://github.com/actions/checkout/issues/2237) [actions/checkout#1971](https://github.com/actions/checkout/issues/1971) [actions/checkout#1977](https://github.com/actions/checkout/issues/1977) [actions/checkout#2043](https://github.com/actions/checkout/issues/2043) [actions/checkout#2194](https://github.com/actions/checkout/issues/2194) [actions/checkout#2236](https://github.com/actions/checkout/issues/2236) [actions/checkout#1941](https://github.com/actions/checkout/issues/1941) [actions/checkout#1946](https://github.com/actions/checkout/issues/1946) [actions/checkout#1924](https://github.com/actions/checkout/issues/1924) [actions/checkout#1919](https://github.com/actions/checkout/issues/1919) [actions/checkout#2226](https://github.com/actions/checkout/issues/2226) [actions/checkout#1971](https://github.com/actions/checkout/issues/1971) [actions/checkout#1977](https://github.com/actions/checkout/issues/1977) [actions/checkout#2043](https://github.com/actions/checkout/issues/2043) [actions/checkout#2044](https://github.com/actions/checkout/issues/2044) [actions/checkout#2194](https://github.com/actions/checkout/issues/2194) [actions/checkout#2224](https://github.com/actions/checkout/issues/2224) [actions/checkout#2236](https://github.com/actions/checkout/issues/2236) [actions/checkout#1941](https://github.com/actions/checkout/issues/1941) [actions/checkout#1946](https://github.com/actions/checkout/issues/1946) [actions/checkout#1924](https://github.com/actions/checkout/issues/1924) [actions/checkout#1180](https://github.com/actions/checkout/issues/1180) [actions/checkout#1777](https://github.com/actions/checkout/issues/1777) [actions/checkout#1872](https://github.com/actions/checkout/issues/1872) [actions/checkout#1739](https://github.com/actions/checkout/issues/1739) [actions/checkout#1697](https://github.com/actions/checkout/issues/1697) [actions/checkout#1774](https://github.com/actions/checkout/issues/1774) [actions/checkout#1776](https://github.com/actions/checkout/issues/1776) [actions/checkout#1732](https://github.com/actions/checkout/issues/1732) [actions/checkout#1703](https://github.com/actions/checkout/issues/1703) [actions/checkout#1694](https://github.com/actions/checkout/issues/1694) [actions/checkout#1696](https://github.com/actions/checkout/issues/1696) [actions/checkout#1695](https://github.com/actions/checkout/issues/1695) [actions/checkout#1707](https://github.com/actions/checkout/issues/1707) [actions/checkout#1692](https://github.com/actions/checkout/issues/1692) [actions/checkout#1688](https://github.com/actions/checkout/issues/1688) [actions/checkout#1693](https://github.com/actions/checkout/issues/1693) [actions/checkout#1643](https://github.com/actions/checkout/issues/1643) [#2238](https://github.com/myparcelnl/actions/issues/2238) [#2226](https://github.com/myparcelnl/actions/issues/2226)
+
 ## [4.44.6](https://github.com/myparcelnl/actions/compare/v4.44.5...v4.44.6) (2025-04-09)
 
 
