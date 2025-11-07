@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.2](https://github.com/myparcelnl/actions/compare/v5.0.1...v5.0.2) (2025-11-07)
+
+
+### :bug: Bug Fixes
+
+* **pdk-builder:** remove upgrade-self command ([ace16a9](https://github.com/myparcelnl/actions/commit/ace16a93e1a1d1c8c60ed31d5e3db683b2137122))
+
 ## [5.0.1](https://github.com/myparcelnl/actions/compare/v5.0.0...v5.0.1) (2025-10-13)
 
 ## [5.0.0](https://github.com/myparcelnl/actions/compare/v4.44.6...v5.0.0) (2025-10-13)
