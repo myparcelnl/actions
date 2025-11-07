@@ -117,12 +117,6 @@ runs:
         vendor-files: ${{ inputs.vendor-files }}
         vendor-key: update-${{ steps.setup.outputs.composer-flags }}
 
-    - name: 'Run pdk-builder update-self'
-      uses: myparcelnl/actions/pdk-builder@v5
-      with:
-        command: 'upgrade-self'
-        args: '--no-check --no-commit'
-
     - uses: myparcelnl/actions/pdk-release@v5
       with:
         command: 'prerelease'
