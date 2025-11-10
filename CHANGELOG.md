@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.3](https://github.com/myparcelnl/actions/compare/v5.0.2...v5.0.3) (2025-11-10)
+
+
+### :bug: Bug Fixes
+
+* do not nest a generated zip in a github artifact ([#86](https://github.com/myparcelnl/actions/issues/86)) ([a320e8f](https://github.com/myparcelnl/actions/commit/a320e8f02e6920e6612fe25236220bd79ef2f5e2))
+
 ## [5.0.2](https://github.com/myparcelnl/actions/compare/v5.0.1...v5.0.2) (2025-11-07)
 
 
