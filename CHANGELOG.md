@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0](https://github.com/myparcelnl/actions/compare/v5.0.3...v5.1.0) (2026-02-06)
+
+
+### :sparkles: New Features
+
+* update custom pdk build to correct resolutions ([#92](https://github.com/myparcelnl/actions/issues/92)) ([e6085de](https://github.com/myparcelnl/actions/commit/e6085de33321802112a11881e9737b00ad4a5694))
+
 ## [5.0.3](https://github.com/myparcelnl/actions/compare/v5.0.2...v5.0.3) (2025-11-10)
 
 
