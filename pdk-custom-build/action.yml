@@ -76,20 +76,20 @@ runs:
       #language=bash
       run: |
         npm pkg set \
-          "resolutions.@myparcel-pdk/admin=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin" \
-          "resolutions.@myparcel-pdk/admin-component-tests=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-component-tests" \
-          "resolutions.@myparcel-pdk/admin-js=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-js" \
-          "resolutions.@myparcel-pdk/admin-preset-bootstrap4=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-bootstrap4" \
-          "resolutions.@myparcel-pdk/admin-preset-dashicons=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-dashicons" \
-          "resolutions.@myparcel-pdk/admin-preset-default=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-default" \
-          "resolutions.@myparcel-pdk/admin-preset-fontawesome=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-fontawesome" \
-          "resolutions.@myparcel-pdk/checkout=portal:$GITHUB_WORKSPACE/js-pdk/apps/checkout" \
-          "resolutions.@myparcel-pdk/checkout-js=portal:$GITHUB_WORKSPACE/js-pdk/apps/checkout-js" \
-          "resolutions.@myparcel-pdk/checkout-common=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-common" \
-          "resolutions.@myparcel-pdk/checkout-delivery-options=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-delivery-options" \
-          "resolutions.@myparcel-pdk/checkout-separate-address-fields=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-separate-address-fields" \
-          "resolutions.@myparcel-pdk/checkout-tax-fields=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-tax-fields" \
-          "resolutions.@myparcel-pdk/common=portal:$GITHUB_WORKSPACE/js-pdk/libs/common"
+          "resolutions.@myparcel-dev/pdk-admin=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin" \
+          "resolutions.@myparcel-dev/pdk-admin-component-tests=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-component-tests" \
+          "resolutions.@myparcel-dev/pdk-admin-js=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-js" \
+          "resolutions.@myparcel-dev/pdk-admin-preset-bootstrap4=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-bootstrap4" \
+          "resolutions.@myparcel-dev/pdk-admin-preset-dashicons=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-dashicons" \
+          "resolutions.@myparcel-dev/pdk-admin-preset-default=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-default" \
+          "resolutions.@myparcel-dev/pdk-admin-preset-fontawesome=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-fontawesome" \
+          "resolutions.@myparcel-dev/pdk-checkout=portal:$GITHUB_WORKSPACE/js-pdk/apps/checkout" \
+          "resolutions.@myparcel-dev/pdk-checkout-js=portal:$GITHUB_WORKSPACE/js-pdk/apps/checkout-js" \
+          "resolutions.@myparcel-dev/pdk-checkout-common=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-common" \
+          "resolutions.@myparcel-dev/pdk-checkout-delivery-options=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-delivery-options" \
+          "resolutions.@myparcel-dev/pdk-checkout-separate-address-fields=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-separate-address-fields" \
+          "resolutions.@myparcel-dev/pdk-checkout-tax-fields=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-tax-fields" \
+          "resolutions.@myparcel-dev/pdk-common=portal:$GITHUB_WORKSPACE/js-pdk/libs/common"
 
     - name: 'Link myparcelnl/pdk'
       if: inputs.php-pdk-ref != 'main'
