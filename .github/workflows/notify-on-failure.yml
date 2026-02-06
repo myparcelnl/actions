@@ -7,7 +7,7 @@ jobs:
   notify-on-failure:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         if: runner.debug != '1'
 
       - uses: slackapi/slack-github-action@v1.26.0
