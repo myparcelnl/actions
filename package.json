@@ -59,6 +59,9 @@
     ],
     "root": true
   },
+  "resolutions": {
+    "tar": "^7.5.11"
+  },
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/glob": "^0.4.0",
