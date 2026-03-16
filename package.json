@@ -59,6 +59,9 @@
     ],
     "root": true
   },
+  "resolutions": {
+    "tar": "7.5.11"
+  },
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/glob": "^0.4.0",
@@ -87,12 +90,12 @@
     "typescript": "^5.8.3",
     "vitest": "^2.1.9"
   },
-  "packageManager": "yarn@4.9.2",
+  "packageManager": "yarn@4.12.0",
   "engines": {
-    "node": "^20.19.4"
+    "node": "24.14.0"
   },
   "volta": {
-    "node": "20.19.4",
-    "yarn": "4.9.2"
+    "node": "24.14.0",
+    "yarn": "4.12.0"
   }
 }
