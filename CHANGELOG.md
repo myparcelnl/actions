@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.2](https://github.com/myparcelnl/actions/compare/v5.1.1...v5.1.2) (2026-05-15)
+
+
+### :bug: Bug Fixes
+
+* remove condition preventing assign author action from ever running ([#105](https://github.com/myparcelnl/actions/issues/105)) ([d111fe2](https://github.com/myparcelnl/actions/commit/d111fe2df7614af9d035633be089426f101dc13a))
+
 ## [5.1.1](https://github.com/myparcelnl/actions/compare/v5.1.0...v5.1.1) (2026-02-06)
 
 
