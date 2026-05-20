@@ -25,7 +25,7 @@ void (async (): Promise<void> => {
       await build({
         entry: [path.resolve(actionDir, 'index.ts')],
         outDir: distDir,
-        target: 'node20',
+        target: 'node24',
         format: 'esm',
         minify: true,
         outExtension() {
