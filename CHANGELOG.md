@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0](https://github.com/myparcelnl/actions/compare/v5.1.2...v5.2.0) (2026-05-27)
+
+
+### :sparkles: New Features
+
+* default to node 24 ([#106](https://github.com/myparcelnl/actions/issues/106)) ([e376743](https://github.com/myparcelnl/actions/commit/e376743f83b1f7f5a54f879c904769815cb476fd))
+
 ## [5.1.2](https://github.com/myparcelnl/actions/compare/v5.1.1...v5.1.2) (2026-05-15)
 
 
