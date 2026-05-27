@@ -36,7 +36,7 @@ void (async () => {
     await (0, import_tsup.build)({
       entry: [import_node_path.default.resolve(actionDir, "index.ts")],
       outDir: distDir,
-      target: "node20",
+      target: "node24",
       format: "esm",
       minify: true,
       outExtension() {
