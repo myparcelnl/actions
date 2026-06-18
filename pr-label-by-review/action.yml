@@ -26,6 +26,14 @@ inputs:
     description: 'Type of protection to check for. Can be either "branch-protection" or "rulesets".'
     default: 'branch-protection'
 
+  ignore-bots:
+    description: 'Ignore reviews from bot accounts (e.g. Copilot) when counting approvals.'
+    default: 'true'
+
+  ignore-reviewers:
+    description: 'Comma-separated list of reviewer logins to ignore when counting approvals.'
+    default: ''
+
 runs:
   using: composite
   steps:
@@ -102,18 +110,32 @@ runs:
             pull_number: context.payload.pull_request.number
           });
 
+          const ignoreBots = '${{ inputs.ignore-bots }}' === 'true';
+          const ignoredLogins = new Set(
+            '${{ inputs.ignore-reviewers }}'
+              .split(',')
+              .map(login => login.trim().toLowerCase())
+              .filter(Boolean)
+          );
+
+          const isIgnored = (review) =>
+            (ignoreBots && review.user.type === 'Bot') ||
+            ignoredLogins.has(review.user.login.toLowerCase());
+
           // Filter out duplicate reviews from the same user and keep only the last review from each user
           const userReviews = new Map();
 
-          reviews.data.forEach(review => {
-            const { login } = review.user;
+          reviews.data
+            .filter(review => !isIgnored(review))
+            .forEach(review => {
+              const { login } = review.user;
 
-            if (!userReviews.has(login)) {
-              userReviews.set(login, review);
-            } else if (userReviews.get(login).submitted_at < review.submitted_at) {
-              userReviews.set(login, review);
-            }
-          });
+              if (!userReviews.has(login)) {
+                userReviews.set(login, review);
+              } else if (userReviews.get(login).submitted_at < review.submitted_at) {
+                userReviews.set(login, review);
+              }
+            });
 
           const userReviewsArray = Array.from(userReviews.values());
 
