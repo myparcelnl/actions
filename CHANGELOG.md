@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.0](https://github.com/myparcelnl/actions/compare/v5.2.0...v5.3.0) (2026-06-19)
+
+
+### :sparkles: New Features
+
+* **pr-label-by-review:** exclude bot reviews from approval count ([#108](https://github.com/myparcelnl/actions/issues/108)) ([2bdedc7](https://github.com/myparcelnl/actions/commit/2bdedc73e7ea070fe6d8298c009c20ec4d823fdd))
+
 ## [5.2.0](https://github.com/myparcelnl/actions/compare/v5.1.2...v5.2.0) (2026-05-27)
 
 
