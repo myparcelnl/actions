@@ -20,6 +20,7 @@ inputs:
 
   skip-token-revoke:
     description: 'If truthy, the token will not be revoked when the current job is complete'
+    default: 'false'
     required: false
 
   github-api-url:
@@ -46,7 +47,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/setup-app-credentials@v4
+    - uses: myparcelnl/actions/setup-app-credentials@v5
       id: credentials
       with:
         app-id: ${{ inputs.app-id }}

@@ -37,9 +37,9 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
-    - uses: myparcelnl/actions/get-github-token@v4
+    - uses: myparcelnl/actions/get-github-token@v5
       id: token
       with:
         token: ${{ inputs.token }}
@@ -49,7 +49,7 @@ runs:
     - name: 'Get required approvals from branch protection'
       id: branch-protection
       if: inputs.required-approvals == '' && inputs.protection-type == 'branch-protection'
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       with:
         github-token: ${{ steps.token.outputs.token }}
         #language=javascript
@@ -67,7 +67,7 @@ runs:
     - name: 'Get required approvals from rule sets'
       id: rulesets
       if: inputs.required-approvals == '' && inputs.protection-type == 'rulesets'
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       with:
         github-token: ${{ steps.token.outputs.token }}
         #language=javascript
@@ -99,7 +99,7 @@ runs:
 
     - name: 'Collect pull request reviews'
       id: check
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       with:
         github-token: ${{ steps.token.outputs.token }}
         #language=javascript
@@ -149,7 +149,7 @@ runs:
           core.setOutput('changes-requested', changesRequested ? 'true' : 'false');
 
     - name: 'Add "approved" label'
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       if: steps.check.outputs.approved == 'true' && !contains(github.event.pull_request.labels.*.name, inputs.label-approved)
       with:
         github-token: ${{ steps.token.outputs.token }}
@@ -163,7 +163,7 @@ runs:
           });
 
     - name: 'Add "changes requested" label'
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       if: steps.check.outputs.changes-requested == 'true' && !contains(github.event.pull_request.labels.*.name, inputs.label-changes-requested)
       with:
         github-token: ${{ steps.token.outputs.token }}
@@ -177,7 +177,7 @@ runs:
           });
 
     - name: 'Remove "approved" label'
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       if: contains(github.event.pull_request.labels.*.name, inputs.label-approved) && (steps.check.outputs.approved == 'false')
       with:
         github-token: ${{ steps.token.outputs.token }}
@@ -191,7 +191,7 @@ runs:
           });
 
     - name: 'Remove "changes requested" label'
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       if: contains(github.event.pull_request.labels.*.name, inputs.label-changes-requested) && (steps.check.outputs.changes-requested == 'false')
       with:
         github-token: ${{ steps.token.outputs.token }}

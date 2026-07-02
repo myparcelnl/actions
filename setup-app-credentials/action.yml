@@ -20,6 +20,7 @@ inputs:
 
   skip-token-revoke:
     description: 'If truthy, the token will not be revoked when the current job is complete'
+    default: 'false'
     required: false
 
   github-api-url:
@@ -46,10 +47,10 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: actions/create-github-app-token@v1
+    - uses: actions/create-github-app-token@v3
       id: generate-token
       with:
-        app-id: ${{ inputs.app-id }}
+        client-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
         owner: ${{ inputs.owner }}
         repositories: ${{ inputs.repositories }}
