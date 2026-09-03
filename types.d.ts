@@ -1,5 +1,5 @@
-import * as CORE from '@actions/core';
-import * as GLOB from '@actions/glob';
+import type * as CORE from '@actions/core';
+import type * as GLOB from '@actions/glob';
 
 declare const core: typeof CORE;
 
