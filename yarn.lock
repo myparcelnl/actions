@@ -735,6 +735,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@myparcel-dev/prettier-config@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@myparcel-dev/prettier-config@npm:2.0.1"
+  checksum: 10c0/04952affe76ff080c883c92e511004365bdb47956882616f275e48318dcd36029bd80de75bd812ec7bb4615dcfc0f41a48e64a19868b1570f4556354af9f0190
+  languageName: node
+  linkType: hard
+
 "@myparcel/actions@workspace:.":
   version: 0.0.0-use.local
   resolution: "@myparcel/actions@workspace:."
@@ -745,7 +752,7 @@ __metadata:
     "@myparcel-dev/eslint-config-esnext": "npm:^1.4.0"
     "@myparcel-dev/eslint-config-node": "npm:^1.4.0"
     "@myparcel-dev/eslint-config-prettier-typescript": "npm:^1.4.0"
-    "@myparcel/prettier-config": "npm:^1.1.0"
+    "@myparcel-dev/prettier-config": "npm:^2.0.1"
     "@myparcel/semantic-release-config": "npm:^5.1.0"
     "@semantic-release/exec": "npm:^6.0.3"
     "@semantic-release/git": "npm:^10.0.1"
@@ -766,7 +773,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@myparcel/prettier-config@npm:>= 1, @myparcel/prettier-config@npm:^1.1.0":
+"@myparcel/prettier-config@npm:>= 1":
   version: 1.1.0
   resolution: "@myparcel/prettier-config@npm:1.1.0"
   checksum: 10c0/3253c037b7cb0fc0bd622b7be579e5ff1056fdf7fce86fc0ffba614cc4cad464deebe62928890b78baa749353cd7535caece717e50809ab428e2565c7c6fd02f

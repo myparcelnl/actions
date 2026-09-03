@@ -29,7 +29,7 @@
     "!(node_modules/**/*)*.{ts,js}": "npx -q eslint --fix",
     "./package.json": "npx -q sort-package-json"
   },
-  "prettier": "@myparcel/prettier-config",
+  "prettier": "@myparcel-dev/prettier-config",
   "eslintConfig": {
     "parserOptions": {
       "ecmaVersion": "latest"
@@ -69,7 +69,7 @@
     "@myparcel-dev/eslint-config-esnext": "^1.4.0",
     "@myparcel-dev/eslint-config-node": "^1.4.0",
     "@myparcel-dev/eslint-config-prettier-typescript": "^1.4.0",
-    "@myparcel/prettier-config": "^1.1.0",
+    "@myparcel-dev/prettier-config": "^2.0.1",
     "@myparcel/semantic-release-config": "^5.1.0",
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
