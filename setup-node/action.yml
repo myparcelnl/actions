@@ -46,7 +46,7 @@ runs:
           echo "node-version=${NODE_VERSION:-24}" >> $GITHUB_OUTPUT
         fi
 
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v7
       if: steps.prepare.outputs.volta != 'true'
       with:
         node-version: ${{ steps.prepare.outputs.node-version }}
@@ -56,7 +56,7 @@ runs:
     - name: 'Handle Volta bin cache'
       id: volta-bin-cache
       if: steps.prepare.outputs.volta == 'true'
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         key: ${{ format('{0}{1}-volta-bin', runner.os, runner.arch) }}
         path: |
@@ -65,7 +65,7 @@ runs:
     - name: 'Handle Volta cache'
       id: volta-cache
       if: steps.prepare.outputs.volta == 'true'
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         key: ${{ format('{0}{1}-volta-cache-{2}', runner.os, runner.arch, steps.prepare.outputs.node-version) }}
         path: |

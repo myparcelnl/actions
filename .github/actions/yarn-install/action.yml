@@ -51,7 +51,7 @@ runs:
 
     - name: 'Cache yarn downloads'
       if: steps.variables.outputs.version >= 2
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       id: yarn-download-cache
       with:
         path: ${{ steps.variables.outputs.cache-folder }}
@@ -69,7 +69,7 @@ runs:
 
     - name: 'Cache yarn install state'
       if: steps.variables.outputs.version >= 2
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       id: yarn-install-state-cache
       with:
         path: .yarn/ci-cache/

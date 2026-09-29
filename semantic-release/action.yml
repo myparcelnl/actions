@@ -52,7 +52,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/format-string@v4
+    - uses: myparcelnl/actions/format-string@v5
       id: args
       with:
         mode: 'args'

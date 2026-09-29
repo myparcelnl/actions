@@ -34,7 +34,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/deprecated@v4
+    - uses: myparcelnl/actions/deprecated@v5
       if: inputs.flags != ''
       with:
         name: 'inputs.flags'
@@ -42,7 +42,7 @@ runs:
 
     - name: 'Hash composer args'
       id: args
-      uses: myparcelnl/actions/hash-string@v4
+      uses: myparcelnl/actions/hash-string@v5
       with:
         string: ${{ inputs.composer-args || inputs.flags }}
 
@@ -57,7 +57,7 @@ runs:
 
         echo COMPOSER_CACHE_DIR=/tmp/cache/composer >> $GITHUB_ENV
 
-    - uses: myparcelnl/actions/create-cache-keys@v4
+    - uses: myparcelnl/actions/create-cache-keys@v5
       id: keys-composer
       with:
         key: 'composer'
@@ -69,7 +69,7 @@ runs:
           ${{ hashFiles('**/composer.json', '**/composer.lock') }}
 
     - name: 'Handle composer cache'
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       env:
         RUNNER_DEBUG: 0
       with:
@@ -77,14 +77,14 @@ runs:
         key: ${{ steps.keys-composer.outputs.key }}
         restore-keys: ${{ steps.keys-composer.outputs.restore-keys }}
 
-    - uses: myparcelnl/actions/pull-docker-image@v4
+    - uses: myparcelnl/actions/pull-docker-image@v5
       with:
         image: ${{ steps.prepare.outputs.image }}
 
-    - uses: myparcelnl/actions/composer-create-env-file@v4
+    - uses: myparcelnl/actions/composer-create-env-file@v5
       id: env
 
-    - uses: myparcelnl/actions/format-string@v4
+    - uses: myparcelnl/actions/format-string@v5
       id: composer-args
       with:
         mode: 'args'

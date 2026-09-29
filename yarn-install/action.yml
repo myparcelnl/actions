@@ -15,12 +15,12 @@ runs:
   steps:
     - name: 'Hash yarn args'
       id: args
-      uses: myparcelnl/actions/hash-string@v4
+      uses: myparcelnl/actions/hash-string@v5
       with:
         mode: 'args'
         string: ${{ inputs.yarn-args }}
 
-    - uses: myparcelnl/actions/setup-node@v4
+    - uses: myparcelnl/actions/setup-node@v5
       id: setup
       with:
         key: 'yarn'
@@ -39,7 +39,7 @@ runs:
 
         echo "version=$version" >> $GITHUB_OUTPUT
 
-    - uses: myparcelnl/actions/create-cache-keys@v4
+    - uses: myparcelnl/actions/create-cache-keys@v5
       id: keys-yarn-download
       with:
         key: 'yarn-download'
@@ -49,7 +49,7 @@ runs:
 
     - name: 'Cache yarn downloads'
       if: steps.variables.outputs.version >= 2
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       id: yarn-download-cache
       env:
         RUNNER_DEBUG: 0
@@ -58,7 +58,7 @@ runs:
         key: ${{ steps.keys-yarn-download.outputs.key }}
         restore-keys: ${{ steps.keys-yarn-download.outputs.restore-keys }}
 
-    - uses: myparcelnl/actions/create-cache-keys@v4
+    - uses: myparcelnl/actions/create-cache-keys@v5
       id: keys-yarn-install-state
       with:
         key: ${{ format('{0}{1}-yarn-install-state-', runner.os, runner.arch) }}
@@ -69,7 +69,7 @@ runs:
 
     - name: 'Cache yarn install state'
       if: steps.variables.outputs.version >= 2
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       id: yarn-install-state-cache
       env:
         RUNNER_DEBUG: 0

@@ -41,7 +41,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/get-github-token@v4
+    - uses: myparcelnl/actions/get-github-token@v5
       id: credentials
       with:
         token: ${{ inputs.token }}
@@ -49,7 +49,7 @@ runs:
         private-key: ${{ inputs.private-key }}
 
     - name: 'Check if artifact exists'
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       id: find-artifact
       env:
         ARTIFACT_NAME: ${{ inputs.artifact-name }}

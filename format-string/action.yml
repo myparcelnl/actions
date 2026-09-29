@@ -41,7 +41,7 @@ runs:
   steps:
     - name: 'Format string'
       id: format
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       env:
         INPUT_SEPARATOR: ${{ inputs.input-separator }}
         OUTPUT_SEPARATOR: ${{ inputs.output-separator }}

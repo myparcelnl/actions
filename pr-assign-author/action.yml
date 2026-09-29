@@ -14,9 +14,9 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
-    - uses: myparcelnl/actions/get-github-token@v4
+    - uses: myparcelnl/actions/get-github-token@v5
       id: token
       with:
         token: ${{ inputs.token }}
