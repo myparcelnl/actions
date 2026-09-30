@@ -69,7 +69,7 @@ runs:
         echo "Mode is not pull_request, push, workflow_dispatch or repository_dispatch, stopping"
         exit 1
 
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v7
       with:
         ref: ${{ inputs.ref }}
         fetch-depth: 0

@@ -76,7 +76,7 @@ runs:
         # Separator for the output
         separator: ','
 
-    - uses: codecov/codecov-action@v4
+    - uses: codecov/codecov-action@v7
       with:
         disable_search: ${{ steps.prepare.outputs.disable-search }}
         files: ${{ steps.glob.outputs.paths || inputs.files }}
