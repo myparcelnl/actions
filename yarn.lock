@@ -791,7 +791,7 @@ __metadata:
     semantic-release: "npm:^23.1.1"
     semver: "npm:^7.7.2"
     sort-package-json: "npm:^2.15.1"
-    supports-color: "npm:^9.4.0"
+    supports-color: "npm:^11.0.0"
     tsup: "npm:^8.5.0"
     typescript: "npm:^5.8.3"
     vitest: "npm:^2.1.9"
@@ -9141,6 +9141,13 @@ __metadata:
     function-timeout: "npm:^1.0.1"
     time-span: "npm:^5.1.0"
   checksum: 10c0/9727b57702308af74be90ed92d4612eed6c8b03fdf25efe1a3455e40d7145246516638bcabf3538e9e9c706d8ecb233e4888e0223283543fb2836d4d7acb6200
+  languageName: node
+  linkType: hard
+
+"supports-color@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "supports-color@npm:11.0.0"
+  checksum: 10c0/f89d815d18d5508da54db73d762fa6d6418bced383694a4e05a56331075069010d9f501e6755b14617a00317553a498f07281933be72428eff136dbfe6a80128
   languageName: node
   linkType: hard
 
