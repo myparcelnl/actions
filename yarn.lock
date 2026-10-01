@@ -560,10 +560,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/busboy@npm:^2.0.0, @fastify/busboy@npm:^2.1.1":
+"@fastify/busboy@npm:^2.0.0":
   version: 2.1.1
   resolution: "@fastify/busboy@npm:2.1.1"
   checksum: 10c0/6f8027a8cba7f8f7b736718b013f5a38c0476eea67034c94a0d3c375e2b114366ad4419e6a6fa7ffc2ef9c6d3e0435d76dd584a7a1cbac23962fda7650b579e3
+  languageName: node
+  linkType: hard
+
+"@fastify/busboy@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "@fastify/busboy@npm:3.2.2"
+  checksum: 10c0/d19f67952b7e2b3305606444d3e9da8dc20e18537e52ec2f367429d4b4846fcbbd1b5b6b4e79c00dbf59c1734af2b2135a2dedb5b28eaa7f21b72eef40ca8f2f
   languageName: node
   linkType: hard
 
@@ -773,7 +780,7 @@ __metadata:
   dependencies:
     "@actions/core": "npm:^1.11.1"
     "@actions/glob": "npm:^0.7.0"
-    "@fastify/busboy": "npm:^2.1.1"
+    "@fastify/busboy": "npm:^3.2.2"
     "@myparcel-dev/eslint-config-esnext": "npm:^1.4.0"
     "@myparcel-dev/eslint-config-node": "npm:^1.4.0"
     "@myparcel-dev/eslint-config-prettier-typescript": "npm:^1.4.0"
