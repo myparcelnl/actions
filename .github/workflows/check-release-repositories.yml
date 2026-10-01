@@ -31,6 +31,7 @@ jobs:
       - uses: slackapi/slack-github-action@v4.0.0
         if: steps.compare.outputs.diff == 'true'
         with:
+          webhook-type: webhook-trigger
           payload: |
             {
               "repository": "${{ matrix.repository }}",

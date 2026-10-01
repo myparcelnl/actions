@@ -15,6 +15,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_WORKFLOW_MONITOR }}
         with:
+          webhook-type: webhook-trigger
           # language=json
           payload: |
             {
