@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "@actions/glob": "^0.4.0",
+    "@actions/glob": "^0.7.0",
     "@fastify/busboy": "^2.1.1",
     "semver": "^7.7.2"
   },
