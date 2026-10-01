@@ -22,10 +22,6 @@ inputs:
     description: 'User defined upload name. Visible in Codecov UI'
     required: false
 
-  plugin:
-    description: 'plugins to run. Options: xcode, gcov, pycoverage. The default behavior runs them all.'
-    required: false
-
   plugins:
     description: 'Comma-separated list of plugins for use during upload.'
     required: false
@@ -52,7 +48,6 @@ runs:
         token: ${{ inputs.token }}
         flags: ${{ inputs.flags }}
         name: ${{ inputs.name }}
-        plugin: ${{ inputs.plugin }}
         plugins: ${{ inputs.plugins }}
         version: ${{ inputs.version }}
         working-directory: ${{ inputs.working-directory }}
