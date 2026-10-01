@@ -60,7 +60,7 @@
     "root": true
   },
   "dependencies": {
-    "@actions/core": "^1.11.1",
+    "@actions/core": "^3.0.1",
     "@actions/glob": "^0.7.0",
     "@fastify/busboy": "^3.2.2",
     "semver": "^7.7.2"
