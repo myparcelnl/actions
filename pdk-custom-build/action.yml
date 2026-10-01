@@ -64,7 +64,7 @@ runs:
 
     - name: 'Checkout myparcelnl/js-pdk'
       if: inputs.js-pdk-ref != 'main'
-      uses: actions/checkout@v5
+      uses: actions/checkout@v7
       with:
         path: js-pdk
         repository: myparcelnl/js-pdk

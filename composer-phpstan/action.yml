@@ -50,7 +50,7 @@ runs:
           ${{ inputs.cache-hash }}
 
     - name: 'Handle PHPStan cache'
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: ${{ inputs.cache-dir }}
         key: ${{ steps.keys-phpstan.outputs.key }}

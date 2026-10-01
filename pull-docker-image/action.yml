@@ -33,7 +33,7 @@ runs:
         echo "image-name=$(echo "$IMAGE" | cut -d ':' -f 1)" >> $GITHUB_OUTPUT
         echo "filename=image-$hash.tar"                      >> $GITHUB_OUTPUT
 
-    - uses: actions/cache@v4
+    - uses: actions/cache@v6
       id: cache
       with:
         path: ${{ inputs.cache-directory }}

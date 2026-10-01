@@ -53,7 +53,7 @@ runs:
 
         echo "identifier=$identifier" >> $GITHUB_OUTPUT
 
-    - uses: peter-evans/find-comment@v3
+    - uses: peter-evans/find-comment@v4
       if: inputs.comment-id == ''
       id: find-comment
       with:
@@ -61,7 +61,7 @@ runs:
         comment-author: ${{ steps.credentials.outputs.git-name }}
         issue-number: ${{ inputs.issue-number }}
 
-    - uses: peter-evans/create-or-update-comment@v4
+    - uses: peter-evans/create-or-update-comment@v5
       with:
         token: ${{ steps.credentials.outputs.token }}
         comment-id: ${{ inputs.comment-id || steps.find-comment.outputs.comment-id }}

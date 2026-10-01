@@ -39,7 +39,7 @@ runs:
 
     - name: 'Create hashes'
       id: hashes
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       env:
         SOURCE_FILES: ${{ inputs.source-files }}
         VENDOR_FILES: ${{ inputs.vendor-files }}
@@ -54,7 +54,7 @@ runs:
           core.setOutput('vendor-hash', [vendorHash, process.env.VENDOR_KEY_HASH].filter(Boolean).join('-'));
 
     - name: 'Cache php-scoper'
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       env:
         RUNNER_DEBUG: 0
       with:
@@ -62,7 +62,7 @@ runs:
         key: php-scoper-${{ inputs.php-version }}-${{ inputs.php-scoper-version }}
 
     - name: 'Cache scoped source php'
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       env:
         RUNNER_DEBUG: 0
       with:
@@ -70,7 +70,7 @@ runs:
         key: scoped-php-src-${{ inputs.php-version }}-${{ steps.hashes.outputs.source-hash }}
 
     - name: 'Cache scoped vendor php'
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       env:
         RUNNER_DEBUG: 0
       with:
