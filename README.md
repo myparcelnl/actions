@@ -495,7 +495,6 @@ The following inputs are copied from the [codecov/codecov-action] action:
 - `token`
 - `flags`
 - `name`
-- `plugin`
 - `plugins`
 - `version`
 - `working-directory`
