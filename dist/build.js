@@ -39,6 +39,10 @@ void (async () => {
       target: "node24",
       format: "esm",
       minify: true,
+      // Bundle all dependencies, so the action runs without node_modules.
+      noExternal: [/.*/],
+      // Bundled CommonJS dependencies call require() for Node built-ins.
+      banner: { js: "import {createRequire} from 'node:module';const require=createRequire(import.meta.url);" },
       outExtension() {
         return { js: ".mjs" };
       }
