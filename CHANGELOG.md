@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.0](https://github.com/myparcelnl/actions/compare/v5.3.2...v5.4.0) (2026-10-01)
+
+
+### :sparkles: New Features
+
+* bump action versions ([#109](https://github.com/myparcelnl/actions/issues/109)) ([21450e4](https://github.com/myparcelnl/actions/commit/21450e4b3ea1004623ba87088a814b249a593787))
+
 ## [5.3.2](https://github.com/myparcelnl/actions/compare/v5.3.1...v5.3.2) (2026-09-29)
 
 ## [5.3.1](https://github.com/myparcelnl/actions/compare/v5.3.0...v5.3.1) (2026-09-10)
