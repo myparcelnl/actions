@@ -85,7 +85,7 @@
     "supports-color": "^11.0.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
-    "vitest": "^2.1.9"
+    "vitest": "^5.0.3"
   },
   "packageManager": "yarn@4.9.2",
   "engines": {
