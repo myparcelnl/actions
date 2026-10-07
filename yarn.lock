@@ -768,9 +768,9 @@ __metadata:
   linkType: hard
 
 "@myparcel-dev/prettier-config@npm:^2.0.1":
-  version: 2.0.2
-  resolution: "@myparcel-dev/prettier-config@npm:2.0.2"
-  checksum: 10c0/87a0864d327fa8f3ebe67de2f6c5b7d35bba1649d4aa3c66fcd5384aac10a99734245a686ea86acf63547e66b2c96e14185301cc6d2aa487301c1b6755435bac
+  version: 2.0.3
+  resolution: "@myparcel-dev/prettier-config@npm:2.0.3"
+  checksum: 10c0/e8600fdc7aef57b50c8fbd16dd0844f634e9d54a5fba5d823353680536dcb0adc08293b4d128b0bf0d85f56efce0fe2a3b19f470e719c09600ef67173dc5cebf
   languageName: node
   linkType: hard
 
