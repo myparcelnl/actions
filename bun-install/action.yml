@@ -31,7 +31,7 @@ runs:
         echo "cache-dir=$(bun pm cache)" >> $GITHUB_OUTPUT
         echo "hash=$hash" >> $GITHUB_OUTPUT
 
-    - uses: myparcelnl/actions/create-cache-keys@v4
+    - uses: myparcelnl/actions/create-cache-keys@v5
       id: keys-bun
       with:
         key: ${{ format('{0}{1}-bun', runner.os, runner.arch) }}
@@ -46,7 +46,7 @@ runs:
         key: ${{ steps.keys-bun.outputs.key }}
         restore-keys: ${{ steps.keys-bun.outputs.restore-keys }}
 
-    - uses: myparcelnl/actions/format-string@v4
+    - uses: myparcelnl/actions/format-string@v5
       id: args
       with:
         mode: 'args'

@@ -42,7 +42,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/nx-cache@v4
+    - uses: myparcelnl/actions/nx-cache@v5
       if: inputs.cloud == 'false'
       with:
         cache-dir: ${{ inputs.cache-dir }}

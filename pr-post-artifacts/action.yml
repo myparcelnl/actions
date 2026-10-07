@@ -11,7 +11,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/setup-app-credentials@v4
+    - uses: myparcelnl/actions/setup-app-credentials@v5
       id: credentials
       with:
         app-id: ${{ inputs.app-id }}
@@ -62,7 +62,7 @@ runs:
 
     - name: 'Create or update comment with success state'
       if: github.event.workflow_run.conclusion == 'success'
-      uses: myparcelnl/actions/create-or-update-comment@v4
+      uses: myparcelnl/actions/create-or-update-comment@v5
       env:
         JOB_PATH: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ steps.info.outputs.previous-job-id }}
         ARTIFACT_URL: ${{ github.server_url }}/${{ github.repository }}/suites/${{ steps.info.outputs.suite-id }}/artifacts/${{ steps.info.outputs.artifact-id }}
@@ -85,7 +85,7 @@ runs:
 
     - name: 'Create or update comment with failure state'
       if: github.event.workflow_run.conclusion == 'failure'
-      uses: myparcelnl/actions/create-or-update-comment@v4
+      uses: myparcelnl/actions/create-or-update-comment@v5
       env:
         JOB_PATH: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ steps.info.outputs.previous-job-id }}
         HEAD_SHA: ${{ steps.info.outputs.head-sha }}

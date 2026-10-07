@@ -19,13 +19,13 @@ runs:
       run: |
         corepack enable
 
-    - uses: myparcelnl/actions/setup-node@v4
+    - uses: myparcelnl/actions/setup-node@v5
       with:
         cache: 'pnpm'
         key: 'pnpm'
         node-version: ${{ inputs.node-version }}
 
-    - uses: myparcelnl/actions/format-string@v4
+    - uses: myparcelnl/actions/format-string@v5
       id: args
       with:
         mode: 'args'

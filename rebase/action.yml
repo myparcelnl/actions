@@ -37,7 +37,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/get-github-token@v4
+    - uses: myparcelnl/actions/get-github-token@v5
       id: token
       with:
         token: ${{ inputs.token }}
