@@ -41,7 +41,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/create-cache-keys@v4
+    - uses: myparcelnl/actions/create-cache-keys@v5
       id: keys-phpstan
       with:
         key: 'phpstan-cache'
@@ -56,16 +56,16 @@ runs:
         key: ${{ steps.keys-phpstan.outputs.key }}
         restore-keys: ${{ steps.keys-phpstan.outputs.restore-keys }}
 
-    - uses: myparcelnl/actions/composer-install@v4
+    - uses: myparcelnl/actions/composer-install@v5
       id: setup
       if: inputs.image == ''
       with:
         php-version: ${{ inputs.php-version }}
 
-    - uses: myparcelnl/actions/composer-create-env-file@v4
+    - uses: myparcelnl/actions/composer-create-env-file@v5
       id: env
 
-    - uses: myparcelnl/actions/format-string@v4
+    - uses: myparcelnl/actions/format-string@v5
       id: php-args
       with:
         mode: 'args'
@@ -73,7 +73,7 @@ runs:
           -dmemory_limit=-1
           ${{ inputs.php-args }}
 
-    - uses: myparcelnl/actions/format-string@v4
+    - uses: myparcelnl/actions/format-string@v5
       id: phpstan-args
       with:
         mode: 'args'
