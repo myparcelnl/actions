@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.11](https://github.com/myparcelnl/actions/compare/v5.4.10...v5.4.11) (2026-10-14)
+
+
+### :bug: Bug Fixes
+
+* **semantic-release:** run the installed semantic-release binary instead of npx ([#155](https://github.com/myparcelnl/actions/issues/155)) ([521a426](https://github.com/myparcelnl/actions/commit/521a426362f92858afbdf1b5f7dd75db5ae00762))
+
 ## [5.4.10](https://github.com/myparcelnl/actions/compare/v5.4.9...v5.4.10) (2026-10-07)
 
 ## [5.4.9](https://github.com/myparcelnl/actions/compare/v5.4.8...v5.4.9) (2026-10-07)
