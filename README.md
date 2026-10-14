@@ -618,8 +618,10 @@ image name in the rest of your workflow.
 
 [Source](semantic-release/action.yml)
 
-Run [semantic-release]. Requires npm dependencies to be installed. Outputs information on the release that was just
-made (or not). Additional tokens like NPM_TOKEN can be passed via the environment.
+Run [semantic-release]. Requires npm dependencies to be installed, with a `semantic-release` binary in
+`node_modules/.bin` of the working directory or the repository root. With pnpm, add `semantic-release` as a direct
+dependency. Outputs information on the release that was just made (or not). Additional tokens like NPM_TOKEN can be
+passed via the environment.
 
 ##### Example
 

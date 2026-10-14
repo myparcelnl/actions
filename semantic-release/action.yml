@@ -69,7 +69,10 @@ runs:
       shell: bash
       #language=bash
       run: |
-        npx semantic-release $ARGS
+        # Not npx: it refuses to run when package.json devEngines names another package manager.
+        # A workspace has the binary in node_modules/.bin of the repository root.
+        export PATH="$PWD/node_modules/.bin:$(git rev-parse --show-toplevel)/node_modules/.bin:$PATH"
+        semantic-release $ARGS
 
     - name: 'Normalize outputs'
       id: normalize
