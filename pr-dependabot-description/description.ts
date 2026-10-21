@@ -35,13 +35,11 @@ export const buildDescription = (commitMessage: string): string => {
 export const buildNotesComment = (originalDescription: string, pullRequestUrl: string): string => {
   const suffix = `\n\n</details>\n${COMMENT_MARKER}`;
   const cutNotice = `\n\n_Release notes cut. The description of [the pull request](${pullRequestUrl}) links to the full release notes of each package._`;
-  const fits = COMMENT_PREFIX.length + originalDescription.length + suffix.length <= COMMENT_LIMIT;
-  const notes = fits
-    ? originalDescription
-    : `${originalDescription.slice(
-        0,
-        COMMENT_LIMIT - COMMENT_PREFIX.length - cutNotice.length - suffix.length,
-      )}${cutNotice}`;
+  const room = COMMENT_LIMIT - COMMENT_PREFIX.length - suffix.length;
+  const notes =
+    originalDescription.length <= room
+      ? originalDescription
+      : `${originalDescription.slice(0, room - cutNotice.length)}${cutNotice}`;
 
   return `${COMMENT_PREFIX}${notes}${suffix}`;
 };

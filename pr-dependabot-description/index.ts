@@ -64,8 +64,12 @@ const run = async (): Promise<void> => {
 
   const repo = `/repos/${event.repository.full_name}`;
 
+  const [commits, comments] = await Promise.all([
+    request<PullRequestCommit[]>(token, 'GET', `${repo}/pulls/${number}/commits?per_page=100`),
+    request<IssueComment[]>(token, 'GET', `${repo}/issues/${number}/comments?per_page=100`),
+  ]);
+
   // The list is oldest first, so the last Dependabot commit is the newest.
-  const commits = await request<PullRequestCommit[]>(token, 'GET', `${repo}/pulls/${number}/commits?per_page=100`);
   const latest = commits.filter(({author}) => author?.login === DEPENDABOT).pop();
 
   if (!latest) {
@@ -73,7 +77,6 @@ const run = async (): Promise<void> => {
   }
 
   // Save the notes first, so they are not lost when the description call fails.
-  const comments = await request<IssueComment[]>(token, 'GET', `${repo}/issues/${number}/comments?per_page=100`);
   const existing = comments.find((comment) => comment.body?.includes(COMMENT_MARKER));
   const notes = {body: buildNotesComment(original, url)};
 

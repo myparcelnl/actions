@@ -948,7 +948,7 @@ Replace the description of a Dependabot pull request with the body of Dependabot
 
 A repository that squashes with the pull request description as the commit message (`squash_merge_commit_message=PR_BODY`) otherwise copies the upstream release notes into the commit. A line like `BREAKING CHANGE:` in those notes then gives a false breaking change in the changelog.
 
-The action only changes a pull request that Dependabot opened, and only on an event that Dependabot sent. An edit by a person is never overwritten.
+The action only changes a pull request that Dependabot opened, and only on an event that Dependabot sent. An edit by a person does not start a rewrite.
 
 When Dependabot rebases or recreates the pull request, after `@dependabot rebase`, `@dependabot recreate` or a change to the base branch, it writes its full description again just before it force-pushes. The release notes are then back until the action has run again. A merge in that window puts the release notes in the commit.
 
@@ -965,6 +965,8 @@ jobs:
   dependabot-description:
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     runs-on: ubuntu-24.04
+    concurrency:
+      group: dependabot-description-${{ github.event.pull_request.number }}
     permissions:
       pull-requests: write
       contents: read
@@ -972,7 +974,7 @@ jobs:
       - uses: myparcelnl/actions/pr-dependabot-description@v5
 ```
 
-The job checks out no code of the pull request, so `pull_request_target` is safe here.
+The job checks out no code of the pull request, so `pull_request_target` is safe here. The `concurrency` group makes one run wait for the other when Dependabot edits the description and pushes within seconds, so the notes comment is not posted twice.
 
 ##### Inputs
 
