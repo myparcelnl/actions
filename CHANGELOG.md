@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.0](https://github.com/myparcelnl/actions/compare/v5.4.11...v5.5.0) (2026-10-21)
+
+
+### :sparkles: New Features
+
+* add pr-dependabot-description ([#158](https://github.com/myparcelnl/actions/issues/158)) ([fe511c2](https://github.com/myparcelnl/actions/commit/fe511c24a1312a98b1c20b72521044c90ebc2605)), closes [myparcelnl/prestashop#736](https://github.com/myparcelnl/prestashop/issues/736)
+
 ## [5.4.11](https://github.com/myparcelnl/actions/compare/v5.4.10...v5.4.11) (2026-10-14)
 
 
