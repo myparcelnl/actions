@@ -40,6 +40,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [find-artifact](#find-artifact)
     - [get-github-token](#get-github-token)
     - [pr-assign-author](#pr-assign-author)
+    - [pr-dependabot-description](#pr-dependabot-description)
     - [pr-label-by-review](#pr-label-by-review)
     - [pr-post-artifacts](#pr-post-artifacts)
     - [pr-validate-title-conventional](#pr-validate-title-conventional)
@@ -938,6 +939,54 @@ Assign the author of a pull request to the pull request. For use with the `pull_
 ##### Inputs
 
 See [App inputs](#app-inputs)
+
+#### pr-dependabot-description
+
+[Source](pr-dependabot-description/action.yml)
+
+Replace the description of a Dependabot pull request with the body of Dependabot's commit message, and move the original description into a folded comment. For use with the `pull_request_target` event.
+
+A repository that squashes with the pull request description as the commit message (`squash_merge_commit_message=PR_BODY`) otherwise copies the upstream release notes into the commit. A line like `BREAKING CHANGE:` in those notes then gives a false breaking change in the changelog.
+
+The action only changes a pull request that Dependabot opened, and only on an event that Dependabot sent. An edit by a person does not start a rewrite.
+
+When Dependabot rebases or recreates the pull request, after `@dependabot rebase`, `@dependabot recreate` or a change to the base branch, it writes its full description again just before it force-pushes. The release notes are then back until the action has run again. A merge in that window puts the release notes in the commit.
+
+The action skips an edit while Dependabot's "rebasing" banner is in the description, and rewrites the description after Dependabot's next edit removes it.
+
+##### Example
+
+```yaml
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize]
+
+jobs:
+  dependabot-description:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: dependabot-description-${{ github.event.pull_request.number }}
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: myparcelnl/actions/pr-dependabot-description@v5
+```
+
+The job checks out no code of the pull request, so `pull_request_target` is safe here. The `concurrency` group makes one run wait for the other when Dependabot edits the description and pushes within seconds, so the notes comment is not posted twice.
+
+##### Inputs
+
+| Required | Name    | Description                                                    | Example                       | Default               |
+| -------- | ------- | -------------------------------------------------------------- | ----------------------------- | --------------------- |
+| No       | `token` | GitHub token with `pull-requests: write` and `contents: read`. | `${{ secrets.GITHUB_TOKEN }}` | `${{ github.token }}` |
+
+##### Outputs
+
+| Name        | Description                                                      | Example |
+| ----------- | ---------------------------------------------------------------- | ------- |
+| `rewritten` | `'true'` when the description was replaced, `'false'` otherwise. | `true`  |
 
 #### pr-label-by-review
 
