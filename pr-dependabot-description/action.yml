@@ -1,0 +1,16 @@
+name: 'PR Dependabot description'
+description: 'Replace the description of a Dependabot pull request with its commit message and move the original description to a folded comment'
+
+inputs:
+  token:
+    description: 'GitHub token with pull-requests: write and contents: read. Defaults to the token of the job.'
+    required: false
+    default: '${{ github.token }}'
+
+outputs:
+  rewritten:
+    description: "'true' when the description was replaced, 'false' otherwise"
+
+runs:
+  using: 'node24'
+  main: 'dist/index.mjs'
