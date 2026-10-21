@@ -5,12 +5,20 @@ export const COMMENT_MARKER = '<!-- myparcelnl/actions/pr-dependabot-description
 // GitHub rejects comments longer than this many characters.
 const COMMENT_LIMIT = 65_536;
 
+// Dependabot wraps its "Dependabot is rebasing this PR" banner in this marker, also on a recreate.
+const REBASING_MARKER = '[//]: # (dependabot-start)';
+
 const COMMENT_PREFIX = '<details><summary>Release notes from Dependabot</summary>\n\n';
 
 /**
  * Check if the description already is the short description this action writes.
  */
 export const isRewritten = (description: string): boolean => description.includes(DESCRIPTION_MARKER);
+
+/**
+ * Check if Dependabot is busy rebasing or recreating the pull request.
+ */
+export const isRebasing = (description: string): boolean => description.includes(REBASING_MARKER);
 
 /**
  * Build the short description from a Dependabot commit message: the body without the subject line, plus the marker.

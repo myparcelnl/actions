@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import {COMMENT_MARKER, buildDescription, buildNotesComment, isRewritten} from './description';
+import {COMMENT_MARKER, buildDescription, buildNotesComment, isRebasing, isRewritten} from './description';
 import {readFileSync} from 'node:fs';
 
 const DEPENDABOT = 'dependabot[bot]';
@@ -58,7 +58,7 @@ const run = async (): Promise<void> => {
 
   core.setOutput('rewritten', 'false');
 
-  if (user.login !== DEPENDABOT || event.sender.login !== DEPENDABOT || isRewritten(original)) {
+  if (user.login !== DEPENDABOT || event.sender.login !== DEPENDABOT || isRewritten(original) || isRebasing(original)) {
     return;
   }
 

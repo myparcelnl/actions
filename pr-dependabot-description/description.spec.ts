@@ -1,4 +1,11 @@
-import {COMMENT_MARKER, DESCRIPTION_MARKER, buildDescription, buildNotesComment, isRewritten} from './description';
+import {
+  COMMENT_MARKER,
+  DESCRIPTION_MARKER,
+  buildDescription,
+  buildNotesComment,
+  isRebasing,
+  isRewritten,
+} from './description';
 import {describe, expect, it} from 'vitest';
 
 const COMMENT_LIMIT = 65_536;
@@ -19,6 +26,33 @@ describe('pr-dependabot-description', () => {
         expect(isRewritten(description)).toBe(false);
       },
     );
+  });
+
+  describe('isRebasing', () => {
+    it('is true while Dependabot shows its rebasing banner', () => {
+      expect.assertions(1);
+
+      const banner = [
+        '[//]: # (dependabot-start)',
+        '⚠️  **Dependabot is rebasing this PR** ⚠️ ',
+        '',
+        "Rebasing might not happen immediately, so don't worry if this takes some time.",
+        '',
+        '---',
+        '',
+        '[//]: # (dependabot-end)',
+        '',
+        'Bumps [vite](https://github.com/vitejs/vite) from 5.4.21 to 6.4.3.',
+      ].join('\n');
+
+      expect(isRebasing(banner)).toBe(true);
+    });
+
+    it('is false for a normal Dependabot description', () => {
+      expect.assertions(1);
+
+      expect(isRebasing('Bumps [vite](https://github.com/vitejs/vite) from 5.4.21 to 6.4.3.')).toBe(false);
+    });
   });
 
   describe('buildDescription', () => {

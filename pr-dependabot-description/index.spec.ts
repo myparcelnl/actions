@@ -151,6 +151,20 @@ describe('pr-dependabot-description', () => {
     expect(getOutput('rewritten')).toBe('false');
   });
 
+  it('does nothing while Dependabot rebases the PR', async () => {
+    expect.assertions(2);
+
+    writeEvent({
+      body: `[//]: # (dependabot-start)\n⚠️  **Dependabot is rebasing this PR** ⚠️\n\n[//]: # (dependabot-end)\n\n${ORIGINAL_BODY}`,
+    });
+    const calls = mockApi();
+
+    await runAction();
+
+    expect(calls).toHaveLength(0);
+    expect(getOutput('rewritten')).toBe('false');
+  });
+
   it('rewrites a new Dependabot PR', async () => {
     expect.assertions(6);
 
