@@ -1,0 +1,95 @@
+name: 'Dismiss stale reviews'
+description: 'Dismiss an outdated "changes requested" review when a re-review is requested from the same reviewer.'
+
+inputs:
+  token:
+    description: 'GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.'
+
+  app-id:
+    description: 'The app ID of the app.'
+
+  private-key:
+    description: 'The private key of the app.'
+
+  message:
+    description: 'Message to post when dismissing a review. The `{reviewer}` placeholder is replaced with the reviewer.'
+    default: 'A re-review was requested from {reviewer}, so this outdated "changes requested" review was dismissed automatically.'
+
+  dry-run:
+    description: 'Only log which reviews would be dismissed, without dismissing them.'
+    default: 'false'
+
+outputs:
+  dismissed:
+    description: 'The amount of reviews that were dismissed. Always 0 in dry-run mode.'
+    value: ${{ steps.dismiss.outputs.dismissed }}
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/get-github-token@v4
+      id: token
+      with:
+        token: ${{ inputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - name: 'Dismiss stale reviews'
+      id: dismiss
+      uses: actions/github-script@v9
+      env:
+        DRY_RUN: ${{ inputs.dry-run }}
+        MESSAGE: ${{ inputs.message }}
+      with:
+        github-token: ${{ steps.token.outputs.token }}
+        #language=javascript
+        script: |
+          const reviewer = context.payload.requested_reviewer?.login;
+
+          if (!reviewer) {
+            console.log('No individual reviewer in the payload (team request). Nothing to do.');
+            core.setOutput('dismissed', 0);
+            return;
+          }
+
+          const pullNumber = context.payload.pull_request.number;
+
+          const reviews = await github.paginate(github.rest.pulls.listReviews, {
+            ...context.repo,
+            pull_number: pullNumber,
+            per_page: 100
+          });
+
+          const stale = reviews.filter(
+            review => review.state === 'CHANGES_REQUESTED' && review.user.login === reviewer
+          );
+
+          if (stale.length === 0) {
+            console.log(`No "changes requested" review found for "${reviewer}".`);
+            core.setOutput('dismissed', 0);
+            return;
+          }
+
+          const dryRun = process.env.DRY_RUN === 'true';
+          const message = process.env.MESSAGE.replaceAll('{reviewer}', `@${reviewer}`);
+          let dismissed = 0;
+
+          for (const review of stale) {
+            if (dryRun) {
+              console.log(`[dry-run] Would dismiss review ${review.id} by "${reviewer}".`);
+              continue;
+            }
+
+            await github.rest.pulls.dismissReview({
+              ...context.repo,
+              pull_number: pullNumber,
+              review_id: review.id,
+              message
+            });
+
+            dismissed++;
+
+            console.log(`Dismissed review ${review.id} by "${reviewer}".`);
+          }
+
+          core.setOutput('dismissed', dismissed);
