@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.1](https://github.com/myparcelnl/actions/compare/v5.5.0...v5.5.1) (2026-10-26)
+
+
+### :bug: Bug Fixes
+
+* **pull-docker-image:** key the cache on the image digest ([#160](https://github.com/myparcelnl/actions/issues/160)) ([22b9ff9](https://github.com/myparcelnl/actions/commit/22b9ff97c2dac24f8c76040e099f8c555025143a))
+
 ## [5.5.0](https://github.com/myparcelnl/actions/compare/v5.4.11...v5.5.0) (2026-10-21)
 
 
