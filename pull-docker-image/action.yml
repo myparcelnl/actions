@@ -29,17 +29,20 @@ runs:
       run: |
         hash=$(echo "$IMAGE" | md5sum | cut -d ' ' -f 1)
 
+        # The digest of the tag in the registry, so a tag that was rebuilt gets a new cache key.
+        # Reads the manifest only, no pull. When the registry does not answer, the key falls back to the tag.
+        digest=$({ docker buildx imagetools inspect "$IMAGE" --format '{{.Manifest.Digest}}' 2>/dev/null || true; } | sed 's/^sha256://' | cut -c 1-12)
+
         echo "tag=$(echo "$IMAGE" | cut -d ':' -f 2)"        >> $GITHUB_OUTPUT
         echo "image-name=$(echo "$IMAGE" | cut -d ':' -f 1)" >> $GITHUB_OUTPUT
+        echo "digest=${digest:-unknown}"                     >> $GITHUB_OUTPUT
         echo "filename=image-$hash.tar"                      >> $GITHUB_OUTPUT
 
     - uses: actions/cache@v6
       id: cache
       with:
         path: ${{ inputs.cache-directory }}
-        key: ${{ format('{0}{1}-docker-image-{2}-{3}', runner.os, runner.arch, steps.prepare.outputs.image-name, steps.prepare.outputs.tag) }}
-        restore-keys: |
-          ${{ format('{0}{1}-docker-image-{2}', runner.os, runner.arch, steps.prepare.outputs.image-name) }}
+        key: ${{ format('{0}{1}-docker-image-{2}-{3}-{4}', runner.os, runner.arch, steps.prepare.outputs.image-name, steps.prepare.outputs.tag, steps.prepare.outputs.digest) }}
 
     - name: 'Get Docker image'
       env:

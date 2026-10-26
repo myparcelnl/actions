@@ -586,8 +586,9 @@ Also outputs `version`, `tags`, `labels`, `annotations`, `json` from [docker/met
 
 [Source](pull-docker-image/action.yml)
 
-Pulls and caches a docker image. Outputs the image name that was input to provide an easy way to not have to repeat the
-image name in the rest of your workflow.
+Pulls and caches a docker image. The cache key holds the digest of the tag in the registry, so a tag that was rebuilt
+(for example the weekly `php-xd` build) is pulled again instead of loaded from the cache. Outputs the image name that
+was input to provide an easy way to not have to repeat the image name in the rest of your workflow.
 
 ##### Inputs
 
