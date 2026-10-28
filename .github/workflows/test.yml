@@ -14,17 +14,20 @@ jobs:
           path: |
             ./coverage
             junit.xml
-          key: ${{ format('test-{0}', hashFiles('package.json', 'yarn.lock', 'vitest.config.ts', 'private/test/**/*.ts', '**/*.spec.*')) }}
+          key: ${{ format('test-{0}', hashFiles('package.json', 'pnpm-lock.yaml', 'vitest.config.ts', 'private/test/**/*.ts', '**/*.spec.*')) }}
 
-      - uses: ./.github/actions/yarn-install
+      - uses: pnpm/setup@v3
         if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          cache: true
+          require-lockfile: true
 
       - name: 'Run tests'
         if: steps.cache.outputs.cache-hit != 'true'
         shell: bash
         #language=bash
         run: |
-          yarn vitest run --coverage
+          pnpm vitest run --coverage
 
       - uses: ./codecov-coverage
         with:

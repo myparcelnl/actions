@@ -38,7 +38,7 @@ runs:
         # Create the directories in case they don't exist
         mkdir -p "$COVERAGE_DIR" "$JUNIT_DIR"
 
-        yarn workspaces foreach -Apv --exclude . exec \
+        pnpm -r --parallel exec \
           bash -c \
             'if [ -f "'$COVERAGE_FILE'" ]; then \
                # Make file paths relative
@@ -47,7 +47,7 @@ runs:
              fi; \
              if [[ -f "'$JUNIT_FILE'" && -s "'$JUNIT_FILE'" ]]; then \
                # Set the testsuites name to the package name
-               sed -i "s|<testsuites name=\".*\">|<testsuites name=\"$npm_package_name\">|" "'$JUNIT_FILE'"; \
+               sed -i "s|<testsuites name=\".*\">|<testsuites name=\"$PNPM_PACKAGE_NAME\">|" "'$JUNIT_FILE'"; \
                cp -f "'$JUNIT_FILE'" "'$PWD'/'$JUNIT_DIR'/$(basename $PWD).xml"; \
              fi'
 

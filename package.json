@@ -24,10 +24,10 @@
     "test:update-tags": "INPUT_MAJOR=true INPUT_MINOR=true bun update-tags/dist/index.js"
   },
   "lint-staged": {
-    "!(node_modules/**/*)*.ts": "yarn compile && yarn build",
-    "!(node_modules/**/*)*.{json,md,yml}": "npx -q prettier --write",
-    "!(node_modules/**/*)*.{ts,js}": "npx -q eslint --fix",
-    "./package.json": "npx -q sort-package-json"
+    "!(node_modules/**/*)*.ts": "pnpm compile && pnpm build",
+    "!(node_modules/**/*)*.{json,md,yml}": "prettier --write",
+    "!(node_modules/**/*)*.{ts,js}": "eslint --fix",
+    "./package.json": "sort-package-json"
   },
   "prettier": "@myparcel-dev/prettier-config",
   "eslintConfig": {
@@ -87,12 +87,20 @@
     "typescript": "^5.8.3",
     "vitest": "^2.1.9"
   },
-  "packageManager": "yarn@4.9.2",
+  "packageManager": "pnpm@12.14.0",
   "engines": {
-    "node": "^24.15.0"
+    "node": ">=24.21.0"
   },
-  "volta": {
-    "node": "24.15.0",
-    "yarn": "4.9.2"
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^24.21",
+      "onFail": "download"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^12.6",
+      "onFail": "download"
+    }
   }
 }

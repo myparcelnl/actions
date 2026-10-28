@@ -39,7 +39,7 @@ runs:
   steps:
     - uses: actions/checkout@v7
 
-    - uses: myparcelnl/actions/get-github-token@v5
+    - uses: myparcelnl/actions/get-github-token@v6
       id: token
       with:
         token: ${{ inputs.token }}
