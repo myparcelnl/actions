@@ -39,6 +39,6 @@ runs:
       shell: bash
       #language=bash
       run: |
-        npx bundlewatch $(if [ -n "${{ inputs.config }}" ]; then echo "--config ${{ inputs.config }}"; fi)
+        pnpm exec bundlewatch $(if [ -n "${{ inputs.config }}" ]; then echo "--config ${{ inputs.config }}"; fi)
       env:
         BUNDLEWATCH_GITHUB_TOKEN: ${{ inputs.token }}

@@ -21,18 +21,18 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/composer-create-env-file@v5
+    - uses: myparcelnl/actions/composer-create-env-file@v6
       if: inputs.image != '' && inputs.env-file == ''
       id: env
 
-    - uses: myparcelnl/actions/pdk-create-docker-command@v5
+    - uses: myparcelnl/actions/pdk-create-docker-command@v6
       if: inputs.image != ''
       id: prepare
       with:
         env-file: ${{ inputs.env-file || steps.env.outputs.filename }}
         image: ${{ inputs.image }}
 
-    - uses: myparcelnl/actions/format-string@v5
+    - uses: myparcelnl/actions/format-string@v6
       id: args
       with:
         mode: 'args'
@@ -54,6 +54,6 @@ runs:
           source "$ENV_FILE" || echo "::warning::Failed to source env file"
         fi
 
-        npx pdk-builder "$COMMAND" \
+        pnpm exec pdk-builder "$COMMAND" \
           --docker-command="$DOCKER_COMMAND" \
           $ARGS

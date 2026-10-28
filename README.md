@@ -13,11 +13,6 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
   - [AWS](#aws)
     - [aws-setup](#aws-setup)
     - [aws-s3-sync](#aws-s3-sync)
-  - [Node](#node)
-    - [setup-node](#setup-node)
-    - [npm-install](#npm-install)
-    - [yarn-install](#yarn-install)
-    - [pnpm-install](#pnpm-install)
   - [PHP](#php)
     - [composer-install](#composer-install)
     - [composer-update](#composer-update)
@@ -71,9 +66,9 @@ bug fixes. **We recommend using a major version.**
 
 | Version | Constraint              |
 | ------- | :---------------------- |
-| v4      | `>= v4.0.0 && < v5.0.0` |
-| v4.0    | `>= v4.0.0 && < v4.1.0` |
-| v4.0.0  | `v4.0.0`                |
+| v6      | `>= v6.0.0 && < v7.0.0` |
+| v6.0    | `>= v6.0.0 && < v6.1.0` |
+| v6.0.0  | `v6.0.0`                |
 
 You can also use `main` to always use the latest actions, but this is not
 recommended as this will also include breaking changes.
@@ -81,18 +76,18 @@ recommended as this will also include breaking changes.
 #### Major example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v4
+- uses: myparcelnl/actions/semantic-release@v6
 ```
 
-Will use every minor and patch update within `v2.x.x`.
+Will use every minor and patch update within `v6.x.x`.
 
 #### Minor example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v4
+- uses: myparcelnl/actions/semantic-release@v6.0
 ```
 
-Will use every patch update within `v2.1.x`.
+Will use every patch update within `v6.0.x`.
 
 ## Actions
 
@@ -220,117 +215,6 @@ Sync a directory to an S3 bucket. Must be run after [aws-setup].
 | Yes      | `source` | The directory to sync.                                                        | `dist`                      | –       |
 | Yes      | `bucket` | Name of the S3 bucket to sync to.                                             | `${{ secrets.AWS_BUCKET }}` | –       |
 | No       | `delete` | Delete files that exist in the destination but not in the source during sync. | `true`                      | `false` |
-
-### Node
-
-#### setup-node
-
-[Source](setup-node/action.yml)
-
-Uses [Volta] or [actions/setup-node] to set up Node.js. If Volta is present in the project, it will use the version from
-`volta.node` in `package.json`. If Volta is not present, it will use the fallback version with [actions/setup-node].
-
-If `node-version` is passed, it will use that version instead of Volta or the fallback version.
-
-##### Example
-
-```yaml
-- uses: myparcelnl/actions/setup-node@v4
-  with:
-    # Omit to use Volta or fallback version.
-    node-version: 21
-```
-
-Includes the `cache` and `cache-dependency-path` inputs from [actions/setup-node], which only apply when not using Volta.
-
-##### Inputs
-
-| Required | Name           | Description                                                                                    | Example | Default |
-| -------- | -------------- | ---------------------------------------------------------------------------------------------- | ------- | ------- |
-| No       | `node-version` | The Node.js version to use. Leave empty to use Volta version or fallback default version. (20) | `21`    | –       |
-
-##### Outputs
-
-| Name           | Description                    | Example  |
-| -------------- | ------------------------------ | -------- |
-| `node-version` | The node version that is used. | `20.3.1` |
-
-#### npm-install
-
-[Source](npm-install/action.yml)
-
-1. Runs [setup-node]
-2. Handles `node_modules` cache
-3. Runs `npm ci`
-
-##### Example
-
-```yaml
-- uses: myparcelnl/actions/npm-install@v4
-  with:
-    node-version: 20
-```
-
-##### Inputs
-
-| Required | Name           | Description                | Example | Default |
-| -------- | -------------- | -------------------------- | ------- | ------- |
-| No       | `node-version` | The Node.js version to use | `19`    | –       |
-
-#### yarn-install
-
-Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
-
-[Source](yarn-install/action.yml)
-
-1. Runs [setup-node]
-2. Determines yarn arguments based on yarn version
-3. Runs `yarn install <your-args>`
-
-##### Example
-
-```yaml
-- uses: myparcelnl/actions/yarn-install@v4
-  with:
-    node-version: 20
-    yarn-args: --ignore-scripts
-```
-
-##### Inputs
-
-| Required | Name           | Description                        | Example            | Default |
-| -------- | -------------- | ---------------------------------- | ------------------ | ------- |
-| No       | `node-version` | The Node.js version to use         | `19`               | –       |
-| No       | `yarn-args`    | Arguments to use with yarn install | `--ignore-scripts` | ` `     |
-
-#### pnpm-install
-
-[Source](pnpm-install/action.yml)
-
-1. Runs [setup-node]
-2. Installs pnpm
-3. Handles pnpm cache
-4. Runs `pnpm install` with the provided arguments and `--frozen-lockfile` by default.
-
-##### Example
-
-```yaml
-- uses: myparcelnl/actions/pnpm-install@v4
-  with:
-    node-version: 20
-    pnpm-version: 8.15.1
-    pnpm-args: |
-      --ignore-scripts
-      --store-dir /tmp/pnpm-store
-```
-
-##### Inputs
-
-| Required | Name           | Description                                                  | Example            | Default  |
-| -------- | -------------- | ------------------------------------------------------------ | ------------------ | -------- |
-| No       | `node-version` | The Node.js version to use                                   | `18`               | –        |
-| No       | `pnpm-version` | The pnpm version to use                                      | `7.4.0`            | `8.15.1` |
-| No       | `pnpm-args`    | Arguments to use with pnpm install. Can be multiline string. | `--ignore-scripts` | –        |
 
 ### PHP
 
@@ -669,7 +553,7 @@ passed via the environment.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v4
+- uses: pnpm/setup@v3
 
 - uses: myparcelnl/actions/semantic-release@v4
   id: release
@@ -1270,7 +1154,7 @@ Run `nx run` with the provided arguments.
 - uses: myparcelnl/actions/nx-run@v4
   with:
     target: 'my-project:build'
-    prefix: 'yarn'
+    prefix: 'pnpm'
     cloud: true
     runner: 'cloud'
     args: '--exclude=some-project'
@@ -1281,7 +1165,7 @@ Run `nx run` with the provided arguments.
 | Required | Name              | Description                          | Example              | Default     |
 | -------- | ----------------- | ------------------------------------ | -------------------- | ----------- |
 | Yes      | `target`          | The target to run.                   | `my-project:build`   | -           |
-| No       | `prefix`          | The prefix to use with `nx`.         | `yarn`               | `npx`       |
+| No       | `prefix`          | The prefix to use with `nx`.         | `pnpm`               | `pnpm exec` |
 | No       | `args`            | Arguments to pass to the command.    | `--runner=cloud`     | -           |
 | No       | `cache-directory` | The nx cache directory               | `./path/to/nx/cache` | `.nx/cache` |
 | No       | `max-cache-size`  | Maximum size of the nx cache in KB   | `4096`               | `8192`      |
@@ -1304,7 +1188,7 @@ Run `nx run-many` with the provided arguments.
 - uses: myparcelnl/actions/nx-run-many@v4
   with:
     target: 'build'
-    prefix: 'yarn'
+    prefix: 'pnpm'
     cloud: true
     runner: 'cloud'
     args: '--exclude=some-project'
@@ -1315,7 +1199,7 @@ Run `nx run-many` with the provided arguments.
 | Required | Name              | Description                           | Example                | Default     |
 | -------- | ----------------- | ------------------------------------- | ---------------------- | ----------- |
 | Yes      | `target`          | The target to run.                    | `build`                | -           |
-| No       | `prefix`          | The prefix to use with `nx`.          | `yarn`                 | `npx`       |
+| No       | `prefix`          | The prefix to use with `nx`.          | `pnpm`                 | `pnpm exec` |
 | No       | `args`            | Arguments to pass to the command.     | `--all --runner=cloud` | -           |
 | No       | `cache-directory` | The nx cache directory                | `./path/to/nx/cache`   | `.nx/cache` |
 | No       | `max-cache-size`  | Maximum size of the nx cache in KB    | `4096`                 | `8192`      |
@@ -1556,15 +1440,10 @@ These inputs apply on top of the other inputs of the action that allows for GitH
 [Github app]: https://docs.github.com/en/developers/apps
 [`myparcelnl/php-xd`]: https://github.com/myparcelnl/docker-images/pkgs/container/php-xd
 [actions/checkout]: https://github.com/actions/checkout
-[actions/setup-node]: https://github.com/actions/setup-node
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
 [codecov/test-results-action]: https://github.com/codecov/test-results-action
 [composer-install]: #composer-install
 [composer-update]: #composer-update
 [docker/metadata-action]: https://github.com/docker/metadata-action
-[npm-install]: #npm-install
-[pnpm-install]: #pnpm-install
 [semantic-release]: #semantic-release
 [setup-git-credentials]: #setup-git-credentials
-[setup-node]: #setup-node
-[yarn-install]: #yarn-install

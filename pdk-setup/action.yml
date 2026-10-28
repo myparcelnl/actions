@@ -2,14 +2,6 @@ name: 'Setup PDK'
 description: 'Setup @myparcel-pdk/app-builder'
 
 inputs:
-  node-version:
-    description: 'Node version to use'
-    required: false
-
-  yarn-args:
-    description: 'Arguments to use with yarn install'
-    required: false
-
   php-version:
     description: 'PHP version to use'
     default: '7.4'
@@ -37,14 +29,11 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/pdk-setup-backend@v5
+    - uses: myparcelnl/actions/pdk-setup-backend@v6
       id: setup-backend
       with:
         composer-command: ${{ inputs.composer-command }}
         composer-dev: ${{ inputs.composer-dev }}
         php-version: ${{ inputs.php-version }}
 
-    - uses: myparcelnl/actions/pdk-setup-frontend@v5
-      with:
-        node-version: ${{ inputs.node-version }}
-        yarn-args: ${{ inputs.yarn-args }}
+    - uses: myparcelnl/actions/pdk-setup-frontend@v6
