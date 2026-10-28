@@ -1,34 +1,25 @@
 name: 'Setup PDK'
 description: 'Setup @myparcel-pdk/app-builder'
 
-inputs:
-  node-version:
-    description: 'Node version to use'
-    required: false
-
-  yarn-args:
-    description: 'Arguments to use with yarn install'
-    required: false
-
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/yarn-install@v5
+    - uses: pnpm/setup@v3
       with:
-        yarn-args: ${{ inputs.yarn-args }}
-        node-version: ${{ inputs.node-version }}
+        cache: true
+        require-lockfile: true
 
     - name: 'Check if nx is present'
       id: nx
       shell: bash
       #language=bash
-      run: yarn nx --version
+      run: pnpm exec nx --version
       continue-on-error: true
 
     - name: 'Set up nx cache'
-      uses: myparcelnl/actions/nx-cache@v5
+      uses: myparcelnl/actions/nx-cache@v6
       if: steps.nx.outcome == 'success'
 
-    - uses: myparcelnl/actions/pdk-builder@v5
+    - uses: myparcelnl/actions/pdk-builder@v6
       with:
         command: 'translations'

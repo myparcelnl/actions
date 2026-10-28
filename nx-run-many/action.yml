@@ -27,7 +27,7 @@ inputs:
   prefix:
     description: 'The prefix to use for the commands'
     required: false
-    default: 'npx'
+    default: 'pnpm exec'
 
   cache-dir:
     description: 'The nx cache directory'
@@ -56,7 +56,7 @@ runs:
 
         echo "args=$ARGS"         >> $GITHUB_OUTPUT
 
-    - uses: myparcelnl/actions/nx-cache@v5
+    - uses: myparcelnl/actions/nx-cache@v6
       if: inputs.cloud == 'false'
       with:
         cache-dir: ${{ inputs.cache-dir }}

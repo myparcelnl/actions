@@ -44,7 +44,7 @@ runs:
         RUN_ID: ${{ github.run_id }}
       #language=bash
       run: |
-        version=$(npm pkg get version | sed 's/"//g')
+        version=$(jq -r .version package.json)
         isPreRelease=$(echo "$version" | grep -E -- '-[a-z]+\.[0-9]+$' || true)
 
         if [ -n "$isPreRelease" ]; then
@@ -62,35 +62,6 @@ runs:
 
         echo "version=$releaseVersion" >> $GITHUB_OUTPUT
 
-    - name: 'Checkout myparcelnl/js-pdk'
-      if: inputs.js-pdk-ref != 'main'
-      uses: actions/checkout@v7
-      with:
-        path: js-pdk
-        repository: myparcelnl/js-pdk
-        ref: ${{ inputs.js-pdk-ref }}
-
-    - name: 'Link myparcelnl/js-pdk'
-      if: inputs.js-pdk-ref != 'main'
-      shell: bash
-      #language=bash
-      run: |
-        npm pkg set \
-          "resolutions.@myparcel-dev/pdk-admin=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin" \
-          "resolutions.@myparcel-dev/pdk-admin-component-tests=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-component-tests" \
-          "resolutions.@myparcel-dev/pdk-admin-js=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-js" \
-          "resolutions.@myparcel-dev/pdk-admin-preset-bootstrap4=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-bootstrap4" \
-          "resolutions.@myparcel-dev/pdk-admin-preset-dashicons=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-dashicons" \
-          "resolutions.@myparcel-dev/pdk-admin-preset-default=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-default" \
-          "resolutions.@myparcel-dev/pdk-admin-preset-fontawesome=portal:$GITHUB_WORKSPACE/js-pdk/apps/admin-preset-fontawesome" \
-          "resolutions.@myparcel-dev/pdk-checkout=portal:$GITHUB_WORKSPACE/js-pdk/apps/checkout" \
-          "resolutions.@myparcel-dev/pdk-checkout-js=portal:$GITHUB_WORKSPACE/js-pdk/apps/checkout-js" \
-          "resolutions.@myparcel-dev/pdk-checkout-common=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-common" \
-          "resolutions.@myparcel-dev/pdk-checkout-delivery-options=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-delivery-options" \
-          "resolutions.@myparcel-dev/pdk-checkout-separate-address-fields=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-separate-address-fields" \
-          "resolutions.@myparcel-dev/pdk-checkout-tax-fields=portal:$GITHUB_WORKSPACE/js-pdk/libs/checkout-tax-fields" \
-          "resolutions.@myparcel-dev/pdk-common=portal:$GITHUB_WORKSPACE/js-pdk/libs/common"
-
     - name: 'Link myparcelnl/pdk'
       if: inputs.php-pdk-ref != 'main'
       env:
@@ -101,15 +72,55 @@ runs:
         jq '.require["myparcelnl/pdk"] = "dev-'$REF'" | ."minimum-stability" = "dev"' composer.json > composer.json.tmp
         mv composer.json.tmp composer.json
 
-    - uses: myparcelnl/actions/pdk-setup@v5
+    - uses: myparcelnl/actions/pdk-setup@v6
       id: setup
       with:
         composer-command: 'update'
         composer-dev: false
         php-version: ${{ inputs.php-version }}
-        yarn-args: '--no-immutable'
 
-    - uses: myparcelnl/actions/pdk-cache@v5
+    - name: 'Checkout myparcelnl/js-pdk'
+      if: inputs.js-pdk-ref != 'main'
+      uses: actions/checkout@v7
+      with:
+        path: js-pdk
+        repository: myparcelnl/js-pdk
+        ref: ${{ inputs.js-pdk-ref }}
+
+    # A link: override does not install the dependencies of the linked package, so install them in js-pdk first.
+    - name: 'Link myparcelnl/js-pdk'
+      if: inputs.js-pdk-ref != 'main'
+      shell: bash
+      #language=bash
+      run: |
+        pnpm install --dir js-pdk --frozen-lockfile
+
+        # pnpm config set replaces the whole object, so merge the overrides the project already has.
+        overrides=$(jq -n \
+          --argjson current "$(pnpm config get --location project overrides --json)" \
+          --arg dir "$GITHUB_WORKSPACE/js-pdk" \
+          '($current // {}) + ([
+            "apps/admin",
+            "apps/admin-component-tests",
+            "apps/admin-js",
+            "apps/admin-preset-bootstrap4",
+            "apps/admin-preset-dashicons",
+            "apps/admin-preset-default",
+            "apps/admin-preset-fontawesome",
+            "apps/checkout",
+            "apps/checkout-js",
+            "libs/checkout-common",
+            "libs/checkout-delivery-options",
+            "libs/checkout-separate-address-fields",
+            "libs/checkout-tax-fields",
+            "libs/common"
+          ] | map({key: "@myparcel-dev/pdk-\(split("/")[1])", value: "link:\($dir)/\(.)"}) | from_entries)')
+
+        pnpm config set --location project overrides "$overrides" --json
+
+        pnpm install --no-frozen-lockfile
+
+    - uses: myparcelnl/actions/pdk-cache@v6
       with:
         php-version: ${{ inputs.php-version }}
         php-scoper-version: ${{ inputs.php-scoper-version }}
@@ -117,7 +128,7 @@ runs:
         vendor-files: ${{ inputs.vendor-files }}
         vendor-key: update-${{ steps.setup.outputs.composer-flags }}
 
-    - uses: myparcelnl/actions/pdk-release@v5
+    - uses: myparcelnl/actions/pdk-release@v6
       with:
         command: 'prerelease'
         image: ${{ steps.setup.outputs.image }}

@@ -16,7 +16,7 @@ runs:
   steps:
     - uses: actions/checkout@v7
 
-    - uses: myparcelnl/actions/get-github-token@v5
+    - uses: myparcelnl/actions/get-github-token@v6
       id: token
       with:
         token: ${{ inputs.token }}
@@ -40,9 +40,9 @@ runs:
             ...context.repo,
             username: author
           });
-          
+
           const permission = response.permission ?? response.data.permission;
-          
+
           const allowedPermissions = [ 'admin', 'write', 'push', 'maintain' ];
 
           if (!allowedPermissions.includes(permission)) {

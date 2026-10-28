@@ -32,7 +32,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/setup-app-credentials@v5
+    - uses: myparcelnl/actions/setup-app-credentials@v6
       id: credentials
       with:
         app-id: ${{ inputs.app-id }}

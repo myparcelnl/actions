@@ -10,11 +10,11 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/deprecated@v5
+    - uses: myparcelnl/actions/deprecated@v6
       with:
         name: 'myparcelnl/update-coverage'
         replacement: 'myparcelnl/codecov-coverage'
 
-    - uses: myparcelnl/actions/codecov-coverage@v5
+    - uses: myparcelnl/actions/codecov-coverage@v6
       with:
         token: ${{ inputs.token }}
