@@ -5,9 +5,9 @@ export default defineConfig({
     reporters: ['default', ['junit', {outputFile: './junit.xml'}]],
     setupFiles: ['./private/test/test-setup.ts'],
     coverage: {
-      all: true,
       reporter: ['text', 'clover'],
-      include: ['**/*', '!**/dist/**', '!**/node_modules/**', '!**/private/**', '!*.*'],
+      include: ['**/*.ts'],
+      exclude: ['**/dist/**', '**/node_modules/**', 'private/**', '*.*'],
     },
   },
 });

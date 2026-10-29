@@ -74,7 +74,7 @@
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/node": "^24.12.4",
-    "@vitest/coverage-v8": "^2.1.9",
+    "@vitest/coverage-v8": "^5.0.5",
     "eslint": "^8.57.1",
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
@@ -85,7 +85,8 @@
     "supports-color": "^11.0.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
-    "vitest": "^2.1.9"
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
   },
   "packageManager": "yarn@4.9.2",
   "engines": {
