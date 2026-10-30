@@ -354,9 +354,9 @@ __metadata:
   linkType: hard
 
 "@fastify/busboy@npm:^3.2.2":
-  version: 3.2.2
-  resolution: "@fastify/busboy@npm:3.2.2"
-  checksum: 10c0/d19f67952b7e2b3305606444d3e9da8dc20e18537e52ec2f367429d4b4846fcbbd1b5b6b4e79c00dbf59c1734af2b2135a2dedb5b28eaa7f21b72eef40ca8f2f
+  version: 3.2.4
+  resolution: "@fastify/busboy@npm:3.2.4"
+  checksum: 10c0/c36a677bea3cfec55b8063ae9ae2f246f6faf0125aee2c7a2cfbbcf980e5341a76b4b044a4d68d6cfe3cd8e65c43436ea33c47411fa9d7f63a481481f79a3fd0
   languageName: node
   linkType: hard
 
@@ -564,9 +564,9 @@ __metadata:
   linkType: hard
 
 "@myparcel-dev/prettier-config@npm:^2.0.1":
-  version: 2.0.3
-  resolution: "@myparcel-dev/prettier-config@npm:2.0.3"
-  checksum: 10c0/e8600fdc7aef57b50c8fbd16dd0844f634e9d54a5fba5d823353680536dcb0adc08293b4d128b0bf0d85f56efce0fe2a3b19f470e719c09600ef67173dc5cebf
+  version: 2.0.4
+  resolution: "@myparcel-dev/prettier-config@npm:2.0.4"
+  checksum: 10c0/9a49d0b0fe1e9883f781a1fcf19716d1389455d55455ad463431e8a2262f9dad6ff806821288c69e90878e2a440fb3d6ab69d68197a9785f9c999de41b2f2559
   languageName: node
   linkType: hard
 
