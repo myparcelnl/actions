@@ -39,6 +39,7 @@ runs:
       shell: bash
       #language=bash
       run: |
-        pnpm exec bundlewatch $(if [ -n "${{ inputs.config }}" ]; then echo "--config ${{ inputs.config }}"; fi)
+        pnpm exec bundlewatch ${CONFIG:+--config "$CONFIG"}
       env:
+        CONFIG: ${{ inputs.config }}
         BUNDLEWATCH_GITHUB_TOKEN: ${{ inputs.token }}
