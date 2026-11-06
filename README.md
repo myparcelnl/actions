@@ -13,11 +13,6 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
   - [AWS](#aws)
     - [aws-setup](#aws-setup)
     - [aws-s3-sync](#aws-s3-sync)
-  - [Node](#node)
-    - [setup-node](#setup-node)
-    - [npm-install](#npm-install)
-    - [yarn-install](#yarn-install)
-    - [pnpm-install](#pnpm-install)
   - [PHP](#php)
     - [composer-install](#composer-install)
     - [composer-update](#composer-update)
@@ -71,9 +66,9 @@ bug fixes. **We recommend using a major version.**
 
 | Version | Constraint              |
 | ------- | :---------------------- |
-| v4      | `>= v4.0.0 && < v5.0.0` |
-| v4.0    | `>= v4.0.0 && < v4.1.0` |
-| v4.0.0  | `v4.0.0`                |
+| v6      | `>= v6.0.0 && < v7.0.0` |
+| v6.0    | `>= v6.0.0 && < v6.1.0` |
+| v6.0.0  | `v6.0.0`                |
 
 You can also use `main` to always use the latest actions, but this is not
 recommended as this will also include breaking changes.
@@ -81,18 +76,18 @@ recommended as this will also include breaking changes.
 #### Major example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v4
+- uses: myparcelnl/actions/semantic-release@v6
 ```
 
-Will use every minor and patch update within `v2.x.x`.
+Will use every minor and patch update within `v6.x.x`.
 
 #### Minor example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v4
+- uses: myparcelnl/actions/semantic-release@v6.0
 ```
 
-Will use every patch update within `v2.1.x`.
+Will use every patch update within `v6.0.x`.
 
 ## Actions
 
@@ -107,7 +102,7 @@ Generate credentials for a [GitHub app].
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/setup-app-credentials@v4
+- uses: myparcelnl/actions/setup-app-credentials@v6
   with:
     app-id: ${{ secrets.APP_ID }}
     private-key: ${{ secrets.APP_PRIVATE_KEY }}
@@ -146,7 +141,7 @@ Generate credentials for a [GitHub app]. Uses [setup-app-credentials], then sets
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/setup-git-credentials@v4
+- uses: myparcelnl/actions/setup-git-credentials@v6
   id: credentials
   with:
     app-id: ${{ secrets.APP_ID }}
@@ -176,7 +171,7 @@ Setup AWS credentials for use with other AWS actions.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/aws-setup@v4
+- uses: myparcelnl/actions/aws-setup@v6
   with:
     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -200,13 +195,13 @@ Sync a directory to an S3 bucket. Must be run after [aws-setup].
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/aws-setup@v4
+- uses: myparcelnl/actions/aws-setup@v6
   with:
     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     aws-region: eu-west-1
 
-- uses: myparcelnl/actions/aws-s3-sync@v4
+- uses: myparcelnl/actions/aws-s3-sync@v6
   with:
     source: dist
     bucket: my-bucket
@@ -220,117 +215,6 @@ Sync a directory to an S3 bucket. Must be run after [aws-setup].
 | Yes      | `source` | The directory to sync.                                                        | `dist`                      | –       |
 | Yes      | `bucket` | Name of the S3 bucket to sync to.                                             | `${{ secrets.AWS_BUCKET }}` | –       |
 | No       | `delete` | Delete files that exist in the destination but not in the source during sync. | `true`                      | `false` |
-
-### Node
-
-#### setup-node
-
-[Source](setup-node/action.yml)
-
-Uses [Volta] or [actions/setup-node] to set up Node.js. If Volta is present in the project, it will use the version from
-`volta.node` in `package.json`. If Volta is not present, it will use the fallback version with [actions/setup-node].
-
-If `node-version` is passed, it will use that version instead of Volta or the fallback version.
-
-##### Example
-
-```yaml
-- uses: myparcelnl/actions/setup-node@v4
-  with:
-    # Omit to use Volta or fallback version.
-    node-version: 21
-```
-
-Includes the `cache` and `cache-dependency-path` inputs from [actions/setup-node], which only apply when not using Volta.
-
-##### Inputs
-
-| Required | Name           | Description                                                                                    | Example | Default |
-| -------- | -------------- | ---------------------------------------------------------------------------------------------- | ------- | ------- |
-| No       | `node-version` | The Node.js version to use. Leave empty to use Volta version or fallback default version. (20) | `21`    | –       |
-
-##### Outputs
-
-| Name           | Description                    | Example  |
-| -------------- | ------------------------------ | -------- |
-| `node-version` | The node version that is used. | `20.3.1` |
-
-#### npm-install
-
-[Source](npm-install/action.yml)
-
-1. Runs [setup-node]
-2. Handles `node_modules` cache
-3. Runs `npm ci`
-
-##### Example
-
-```yaml
-- uses: myparcelnl/actions/npm-install@v4
-  with:
-    node-version: 20
-```
-
-##### Inputs
-
-| Required | Name           | Description                | Example | Default |
-| -------- | -------------- | -------------------------- | ------- | ------- |
-| No       | `node-version` | The Node.js version to use | `19`    | –       |
-
-#### yarn-install
-
-Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
-
-[Source](yarn-install/action.yml)
-
-1. Runs [setup-node]
-2. Determines yarn arguments based on yarn version
-3. Runs `yarn install <your-args>`
-
-##### Example
-
-```yaml
-- uses: myparcelnl/actions/yarn-install@v4
-  with:
-    node-version: 20
-    yarn-args: --ignore-scripts
-```
-
-##### Inputs
-
-| Required | Name           | Description                        | Example            | Default |
-| -------- | -------------- | ---------------------------------- | ------------------ | ------- |
-| No       | `node-version` | The Node.js version to use         | `19`               | –       |
-| No       | `yarn-args`    | Arguments to use with yarn install | `--ignore-scripts` | ` `     |
-
-#### pnpm-install
-
-[Source](pnpm-install/action.yml)
-
-1. Runs [setup-node]
-2. Installs pnpm
-3. Handles pnpm cache
-4. Runs `pnpm install` with the provided arguments and `--frozen-lockfile` by default.
-
-##### Example
-
-```yaml
-- uses: myparcelnl/actions/pnpm-install@v4
-  with:
-    node-version: 20
-    pnpm-version: 8.15.1
-    pnpm-args: |
-      --ignore-scripts
-      --store-dir /tmp/pnpm-store
-```
-
-##### Inputs
-
-| Required | Name           | Description                                                  | Example            | Default  |
-| -------- | -------------- | ------------------------------------------------------------ | ------------------ | -------- |
-| No       | `node-version` | The Node.js version to use                                   | `18`               | –        |
-| No       | `pnpm-version` | The pnpm version to use                                      | `7.4.0`            | `8.15.1` |
-| No       | `pnpm-args`    | Arguments to use with pnpm install. Can be multiline string. | `--ignore-scripts` | –        |
 
 ### PHP
 
@@ -350,7 +234,7 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/composer-install@v4
+- uses: myparcelnl/actions/composer-install@v6
   with:
     php-version: '8.0'
     composer-args: |
@@ -381,7 +265,7 @@ Can be used with Yarn 1 as well as Yarn 2, 3 and 4 (berry).
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/composer-update@v4
+- uses: myparcelnl/actions/composer-update@v6
   with:
     php-version: '8.0'
     composer-args: |
@@ -470,14 +354,14 @@ Replacement for [codecov/codecov-action] that supports glob input in `files`.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/codecov-coverage@v4
+- uses: myparcelnl/actions/codecov-coverage@v6
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
     flags: unit,frontend
     files: |
       frontend/**/coverage/*.xml
 
-- uses: myparcelnl/actions/codecov-coverage@v4
+- uses: myparcelnl/actions/codecov-coverage@v6
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
     flags: unit,backend
@@ -512,14 +396,14 @@ Replacement for [codecov/test-results-action] that supports glob input in `files
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/codecov-test-results@v4
+- uses: myparcelnl/actions/codecov-test-results@v6
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
     flags: unit,frontend
     files: |
       frontend/**/junit.xml
 
-- uses: myparcelnl/actions/codecov-test-results@v4
+- uses: myparcelnl/actions/codecov-test-results@v6
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
     flags: unit,backend
@@ -572,7 +456,7 @@ Also outputs `version`, `tags`, `labels`, `annotations`, `json` from [docker/met
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/build-docker-image@v4
+- uses: myparcelnl/actions/build-docker-image@v6
   id: docker
   with:
     image: myparcelnl/php-sdk
@@ -606,7 +490,7 @@ was input to provide an easy way to not have to repeat the image name in the res
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/pull-docker-image@v4
+- uses: myparcelnl/actions/pull-docker-image@v6
   id: pull
   with:
     image: ghcr.io/myparcelnl/php-xd:7.4
@@ -628,7 +512,7 @@ passed via the environment.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/semantic-release@v4
+- uses: myparcelnl/actions/semantic-release@v6
   id: release
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
@@ -669,9 +553,12 @@ passed via the environment.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/yarn-install@v4
+- uses: pnpm/setup@v3
+  with:
+    cache: true
+    require-lockfile: true
 
-- uses: myparcelnl/actions/semantic-release@v4
+- uses: myparcelnl/actions/semantic-release@v6
   id: release
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
@@ -700,7 +587,7 @@ This can be used to check if a new release needs to be done, for example.
   with:
     fetch-depth: 0
 
-- uses: myparcelnl/actions/has-refs-between@v4
+- uses: myparcelnl/actions/has-refs-between@v6
   with:
     ref-a: 'v2.0.0'
     ref-b: 'main'
@@ -728,7 +615,7 @@ Set up git credentials and authenticate as a [GitHub app].
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/setup-git-credentials@v4
+- uses: myparcelnl/actions/setup-git-credentials@v6
   with:
     app-id: ${{ secrets.GITHUB_APP_ID }}
     private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
@@ -771,7 +658,7 @@ This action uses the [App inputs](#app-inputs), as well as the following:
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/rebase@v4
+- uses: myparcelnl/actions/rebase@v6
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
     base: main
@@ -798,7 +685,7 @@ GitHub actions.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/update-tags@v4
+- uses: myparcelnl/actions/update-tags@v6
   with:
     minor: true
   env:
@@ -851,7 +738,7 @@ Find an artifact in a repository. Returns the ID of the artifact if it exists.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/find-artifact@v4
+- uses: myparcelnl/actions/find-artifact@v6
   id: artifact
   with:
     artifact-name: my-artifact
@@ -890,12 +777,12 @@ Meant for use within other actions, because obviously you could just use the `to
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/get-github-token@v4
+- uses: myparcelnl/actions/get-github-token@v6
   id: passed-token
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
 
-- uses: myparcelnl/actions/get-github-token@v4
+- uses: myparcelnl/actions/get-github-token@v6
   id: generated-token
   with:
     app-id: ${{ secrets.GITHUB_APP_ID }}
@@ -925,13 +812,13 @@ Assign the author of a pull request to the pull request. For use with the `pull_
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/pr-assign-author@v4
+- uses: myparcelnl/actions/pr-assign-author@v6
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
 
 # Or, if you want to use a GitHub app:
 
-- uses: myparcelnl/actions/pr-assign-author@v4
+- uses: myparcelnl/actions/pr-assign-author@v6
   with:
     app-id: ${{ secrets.GITHUB_APP_ID }}
     private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
@@ -972,7 +859,7 @@ jobs:
       pull-requests: write
       contents: read
     steps:
-      - uses: myparcelnl/actions/pr-dependabot-description@v5
+      - uses: myparcelnl/actions/pr-dependabot-description@v6
 ```
 
 The job checks out no code of the pull request, so `pull_request_target` is safe here. The `concurrency` group makes one run wait for the other when Dependabot edits the description and pushes within seconds, so the notes comment is not posted twice.
@@ -1013,7 +900,7 @@ Label a pull request based on the review state. For use with the `pull_request_r
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/pr-label-by-review@v4
+- uses: myparcelnl/actions/pr-label-by-review@v6
   with:
     # Either a GitHub token or a GitHub app is required.
     token: ${{ secrets.GITHUB_TOKEN }}
@@ -1064,7 +951,7 @@ jobs:
   comment-success:
     runs-on: ubuntu-22.04
     steps:
-      - uses: myparcelnl/actions/pr-post-artifacts@v4
+      - uses: myparcelnl/actions/pr-post-artifacts@v6
         with:
           app-id: ${{ secrets.GITHUB_APP_ID }}
           private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
@@ -1086,13 +973,13 @@ Validate the title of a pull request based on the conventional commit format. Fo
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/pr-validate-title-conventional@v4
+- uses: myparcelnl/actions/pr-validate-title-conventional@v6
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
 
 # Or, if you want to use a GitHub app:
 
-- uses: myparcelnl/actions/pr-validate-title-conventional@v4
+- uses: myparcelnl/actions/pr-validate-title-conventional@v6
   with:
     app-id: ${{ secrets.GITHUB_APP_ID }}
     private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
@@ -1147,7 +1034,7 @@ Mark issues and pull requests as stale after a period of inactivity. For use wit
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/stale@v4
+- uses: myparcelnl/actions/stale@v6
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
     days-before-stale: 30
@@ -1183,7 +1070,7 @@ with the `pull_request` event.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/toggle-label@v4
+- uses: myparcelnl/actions/toggle-label@v6
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
     label: 'failing tests'
@@ -1208,7 +1095,7 @@ Create or update a comment on an issue or pull request.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/create-or-update-comment@v4
+- uses: myparcelnl/actions/create-or-update-comment@v6
   with:
     app-id: ${{ secrets.GITHUB_APP_ID }}
     private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
@@ -1267,10 +1154,10 @@ Run `nx run` with the provided arguments.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/nx-run@v4
+- uses: myparcelnl/actions/nx-run@v6
   with:
     target: 'my-project:build'
-    prefix: 'yarn'
+    prefix: 'pnpm'
     cloud: true
     runner: 'cloud'
     args: '--exclude=some-project'
@@ -1281,7 +1168,7 @@ Run `nx run` with the provided arguments.
 | Required | Name              | Description                          | Example              | Default     |
 | -------- | ----------------- | ------------------------------------ | -------------------- | ----------- |
 | Yes      | `target`          | The target to run.                   | `my-project:build`   | -           |
-| No       | `prefix`          | The prefix to use with `nx`.         | `yarn`               | `npx`       |
+| No       | `prefix`          | The prefix to use with `nx`.         | `pnpm`               | `pnpm exec` |
 | No       | `args`            | Arguments to pass to the command.    | `--runner=cloud`     | -           |
 | No       | `cache-directory` | The nx cache directory               | `./path/to/nx/cache` | `.nx/cache` |
 | No       | `max-cache-size`  | Maximum size of the nx cache in KB   | `4096`               | `8192`      |
@@ -1301,10 +1188,10 @@ Run `nx run-many` with the provided arguments.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/nx-run-many@v4
+- uses: myparcelnl/actions/nx-run-many@v6
   with:
     target: 'build'
-    prefix: 'yarn'
+    prefix: 'pnpm'
     cloud: true
     runner: 'cloud'
     args: '--exclude=some-project'
@@ -1315,7 +1202,7 @@ Run `nx run-many` with the provided arguments.
 | Required | Name              | Description                           | Example                | Default     |
 | -------- | ----------------- | ------------------------------------- | ---------------------- | ----------- |
 | Yes      | `target`          | The target to run.                    | `build`                | -           |
-| No       | `prefix`          | The prefix to use with `nx`.          | `yarn`                 | `npx`       |
+| No       | `prefix`          | The prefix to use with `nx`.          | `pnpm`                 | `pnpm exec` |
 | No       | `args`            | Arguments to pass to the command.     | `--all --runner=cloud` | -           |
 | No       | `cache-directory` | The nx cache directory                | `./path/to/nx/cache`   | `.nx/cache` |
 | No       | `max-cache-size`  | Maximum size of the nx cache in KB    | `4096`                 | `8192`      |
@@ -1337,7 +1224,7 @@ Setup [Bun](https://bun.sh) and install dependencies.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/bun-install@v4
+- uses: myparcelnl/actions/bun-install@v6
   with:
     bun-version: 1.0.0
 ```
@@ -1355,11 +1242,12 @@ Setup [Bun](https://bun.sh) and install dependencies.
 
 Run [BundleWatch] to check the size of your bundles. You will need to provide a [BundleWatch token] and a configuration.
 If you don't pass the `config` input, it will look for the `bundlewatch` key in your `package.json`.
+Add `bundlewatch` to the `devDependencies` of your project. The action runs it with `pnpm exec`.
 
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/bundlewatch@v4
+- uses: myparcelnl/actions/bundlewatch@v6
   with:
     config: .bundlewatch.json
     token: ${{ secrets.BUNDLEWATCH_TOKEN }}
@@ -1381,7 +1269,7 @@ Create cache keys for use with [actions/cache].
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/create-cache-keys@v4
+- uses: myparcelnl/actions/create-cache-keys@v6
   id: keys
   with:
     key: '${{ runner.os }}-composer'
@@ -1420,7 +1308,7 @@ Mark something as deprecated. This will add a warning to the workflow run.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/deprecated@v4
+- uses: myparcelnl/actions/deprecated@v6
   with:
     name: 'my-name/my-action'
     replacement: 'my-name/my-new-action'
@@ -1444,7 +1332,7 @@ Format a string. Input should be a string separated by the `input-separator`. If
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/format-string@v4
+- uses: myparcelnl/actions/format-string@v6
   id: format
   with:
     string: |
@@ -1463,7 +1351,7 @@ Format a string. Input should be a string separated by the `input-separator`. If
 **Mode: args**
 
 ```yaml
-- uses: myparcelnl/actions/format-string@v4
+- uses: myparcelnl/actions/format-string@v6
   id: format
   with:
     mode: 'args'
@@ -1506,7 +1394,7 @@ Hash a string. Input should be a string separated by the `input-separator`. If i
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/hash-string@v4
+- uses: myparcelnl/actions/hash-string@v6
   id: hash
   with:
     method: 'sha256sum'
@@ -1556,15 +1444,10 @@ These inputs apply on top of the other inputs of the action that allows for GitH
 [Github app]: https://docs.github.com/en/developers/apps
 [`myparcelnl/php-xd`]: https://github.com/myparcelnl/docker-images/pkgs/container/php-xd
 [actions/checkout]: https://github.com/actions/checkout
-[actions/setup-node]: https://github.com/actions/setup-node
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
 [codecov/test-results-action]: https://github.com/codecov/test-results-action
 [composer-install]: #composer-install
 [composer-update]: #composer-update
 [docker/metadata-action]: https://github.com/docker/metadata-action
-[npm-install]: #npm-install
-[pnpm-install]: #pnpm-install
 [semantic-release]: #semantic-release
 [setup-git-credentials]: #setup-git-credentials
-[setup-node]: #setup-node
-[yarn-install]: #yarn-install
