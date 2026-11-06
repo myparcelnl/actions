@@ -1242,6 +1242,7 @@ Setup [Bun](https://bun.sh) and install dependencies.
 
 Run [BundleWatch] to check the size of your bundles. You will need to provide a [BundleWatch token] and a configuration.
 If you don't pass the `config` input, it will look for the `bundlewatch` key in your `package.json`.
+Add `bundlewatch` to the `devDependencies` of your project. The action runs it with `pnpm exec`.
 
 ##### Example
 
