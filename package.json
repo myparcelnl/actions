@@ -25,7 +25,7 @@
   },
   "lint-staged": {
     "!(node_modules/**/*)*.ts": "pnpm compile && pnpm build",
-    "!(node_modules/**/*)*.{json,md,yml}": "prettier --write",
+    "!(node_modules/**/*)*.{json,md,yml,yaml}": "prettier --write",
     "!(node_modules/**/*)*.{ts,js}": "eslint --fix",
     "./package.json": "sort-package-json"
   },

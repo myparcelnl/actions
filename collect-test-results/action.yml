@@ -1,5 +1,5 @@
 name: 'Collect test results'
-description: 'Collect test results in a monorepo. Currently only supports Yarn workspaces.'
+description: 'Collect test results in a monorepo. Currently only supports pnpm workspaces.'
 
 inputs:
   coverage-file:

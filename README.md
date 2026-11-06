@@ -102,7 +102,7 @@ Generate credentials for a [GitHub app].
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/setup-app-credentials@v4
+- uses: myparcelnl/actions/setup-app-credentials@v6
   with:
     app-id: ${{ secrets.APP_ID }}
     private-key: ${{ secrets.APP_PRIVATE_KEY }}
@@ -141,7 +141,7 @@ Generate credentials for a [GitHub app]. Uses [setup-app-credentials], then sets
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/setup-git-credentials@v4
+- uses: myparcelnl/actions/setup-git-credentials@v6
   id: credentials
   with:
     app-id: ${{ secrets.APP_ID }}
@@ -171,7 +171,7 @@ Setup AWS credentials for use with other AWS actions.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/aws-setup@v4
+- uses: myparcelnl/actions/aws-setup@v6
   with:
     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -195,13 +195,13 @@ Sync a directory to an S3 bucket. Must be run after [aws-setup].
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/aws-setup@v4
+- uses: myparcelnl/actions/aws-setup@v6
   with:
     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     aws-region: eu-west-1
 
-- uses: myparcelnl/actions/aws-s3-sync@v4
+- uses: myparcelnl/actions/aws-s3-sync@v6
   with:
     source: dist
     bucket: my-bucket
@@ -234,7 +234,7 @@ Sync a directory to an S3 bucket. Must be run after [aws-setup].
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/composer-install@v4
+- uses: myparcelnl/actions/composer-install@v6
   with:
     php-version: '8.0'
     composer-args: |
@@ -265,7 +265,7 @@ Sync a directory to an S3 bucket. Must be run after [aws-setup].
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/composer-update@v4
+- uses: myparcelnl/actions/composer-update@v6
   with:
     php-version: '8.0'
     composer-args: |
@@ -354,14 +354,14 @@ Replacement for [codecov/codecov-action] that supports glob input in `files`.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/codecov-coverage@v4
+- uses: myparcelnl/actions/codecov-coverage@v6
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
     flags: unit,frontend
     files: |
       frontend/**/coverage/*.xml
 
-- uses: myparcelnl/actions/codecov-coverage@v4
+- uses: myparcelnl/actions/codecov-coverage@v6
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
     flags: unit,backend
@@ -396,14 +396,14 @@ Replacement for [codecov/test-results-action] that supports glob input in `files
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/codecov-test-results@v4
+- uses: myparcelnl/actions/codecov-test-results@v6
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
     flags: unit,frontend
     files: |
       frontend/**/junit.xml
 
-- uses: myparcelnl/actions/codecov-test-results@v4
+- uses: myparcelnl/actions/codecov-test-results@v6
   with:
     token: ${{ secrets.CODECOV_TOKEN }}
     flags: unit,backend
@@ -456,7 +456,7 @@ Also outputs `version`, `tags`, `labels`, `annotations`, `json` from [docker/met
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/build-docker-image@v4
+- uses: myparcelnl/actions/build-docker-image@v6
   id: docker
   with:
     image: myparcelnl/php-sdk
@@ -490,7 +490,7 @@ was input to provide an easy way to not have to repeat the image name in the res
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/pull-docker-image@v4
+- uses: myparcelnl/actions/pull-docker-image@v6
   id: pull
   with:
     image: ghcr.io/myparcelnl/php-xd:7.4
@@ -512,7 +512,7 @@ passed via the environment.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/semantic-release@v4
+- uses: myparcelnl/actions/semantic-release@v6
   id: release
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
@@ -554,8 +554,11 @@ passed via the environment.
 
 ```yaml
 - uses: pnpm/setup@v3
+  with:
+    cache: true
+    require-lockfile: true
 
-- uses: myparcelnl/actions/semantic-release@v4
+- uses: myparcelnl/actions/semantic-release@v6
   id: release
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
@@ -584,7 +587,7 @@ This can be used to check if a new release needs to be done, for example.
   with:
     fetch-depth: 0
 
-- uses: myparcelnl/actions/has-refs-between@v4
+- uses: myparcelnl/actions/has-refs-between@v6
   with:
     ref-a: 'v2.0.0'
     ref-b: 'main'
@@ -612,7 +615,7 @@ Set up git credentials and authenticate as a [GitHub app].
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/setup-git-credentials@v4
+- uses: myparcelnl/actions/setup-git-credentials@v6
   with:
     app-id: ${{ secrets.GITHUB_APP_ID }}
     private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
@@ -655,7 +658,7 @@ This action uses the [App inputs](#app-inputs), as well as the following:
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/rebase@v4
+- uses: myparcelnl/actions/rebase@v6
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
     base: main
@@ -682,7 +685,7 @@ GitHub actions.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/update-tags@v4
+- uses: myparcelnl/actions/update-tags@v6
   with:
     minor: true
   env:
@@ -735,7 +738,7 @@ Find an artifact in a repository. Returns the ID of the artifact if it exists.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/find-artifact@v4
+- uses: myparcelnl/actions/find-artifact@v6
   id: artifact
   with:
     artifact-name: my-artifact
@@ -774,12 +777,12 @@ Meant for use within other actions, because obviously you could just use the `to
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/get-github-token@v4
+- uses: myparcelnl/actions/get-github-token@v6
   id: passed-token
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
 
-- uses: myparcelnl/actions/get-github-token@v4
+- uses: myparcelnl/actions/get-github-token@v6
   id: generated-token
   with:
     app-id: ${{ secrets.GITHUB_APP_ID }}
@@ -809,13 +812,13 @@ Assign the author of a pull request to the pull request. For use with the `pull_
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/pr-assign-author@v4
+- uses: myparcelnl/actions/pr-assign-author@v6
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
 
 # Or, if you want to use a GitHub app:
 
-- uses: myparcelnl/actions/pr-assign-author@v4
+- uses: myparcelnl/actions/pr-assign-author@v6
   with:
     app-id: ${{ secrets.GITHUB_APP_ID }}
     private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
@@ -856,7 +859,7 @@ jobs:
       pull-requests: write
       contents: read
     steps:
-      - uses: myparcelnl/actions/pr-dependabot-description@v5
+      - uses: myparcelnl/actions/pr-dependabot-description@v6
 ```
 
 The job checks out no code of the pull request, so `pull_request_target` is safe here. The `concurrency` group makes one run wait for the other when Dependabot edits the description and pushes within seconds, so the notes comment is not posted twice.
@@ -897,7 +900,7 @@ Label a pull request based on the review state. For use with the `pull_request_r
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/pr-label-by-review@v4
+- uses: myparcelnl/actions/pr-label-by-review@v6
   with:
     # Either a GitHub token or a GitHub app is required.
     token: ${{ secrets.GITHUB_TOKEN }}
@@ -948,7 +951,7 @@ jobs:
   comment-success:
     runs-on: ubuntu-22.04
     steps:
-      - uses: myparcelnl/actions/pr-post-artifacts@v4
+      - uses: myparcelnl/actions/pr-post-artifacts@v6
         with:
           app-id: ${{ secrets.GITHUB_APP_ID }}
           private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
@@ -970,13 +973,13 @@ Validate the title of a pull request based on the conventional commit format. Fo
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/pr-validate-title-conventional@v4
+- uses: myparcelnl/actions/pr-validate-title-conventional@v6
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
 
 # Or, if you want to use a GitHub app:
 
-- uses: myparcelnl/actions/pr-validate-title-conventional@v4
+- uses: myparcelnl/actions/pr-validate-title-conventional@v6
   with:
     app-id: ${{ secrets.GITHUB_APP_ID }}
     private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
@@ -1031,7 +1034,7 @@ Mark issues and pull requests as stale after a period of inactivity. For use wit
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/stale@v4
+- uses: myparcelnl/actions/stale@v6
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
     days-before-stale: 30
@@ -1067,7 +1070,7 @@ with the `pull_request` event.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/toggle-label@v4
+- uses: myparcelnl/actions/toggle-label@v6
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
     label: 'failing tests'
@@ -1092,7 +1095,7 @@ Create or update a comment on an issue or pull request.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/create-or-update-comment@v4
+- uses: myparcelnl/actions/create-or-update-comment@v6
   with:
     app-id: ${{ secrets.GITHUB_APP_ID }}
     private-key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
@@ -1151,7 +1154,7 @@ Run `nx run` with the provided arguments.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/nx-run@v4
+- uses: myparcelnl/actions/nx-run@v6
   with:
     target: 'my-project:build'
     prefix: 'pnpm'
@@ -1185,7 +1188,7 @@ Run `nx run-many` with the provided arguments.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/nx-run-many@v4
+- uses: myparcelnl/actions/nx-run-many@v6
   with:
     target: 'build'
     prefix: 'pnpm'
@@ -1221,7 +1224,7 @@ Setup [Bun](https://bun.sh) and install dependencies.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/bun-install@v4
+- uses: myparcelnl/actions/bun-install@v6
   with:
     bun-version: 1.0.0
 ```
@@ -1243,7 +1246,7 @@ If you don't pass the `config` input, it will look for the `bundlewatch` key in 
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/bundlewatch@v4
+- uses: myparcelnl/actions/bundlewatch@v6
   with:
     config: .bundlewatch.json
     token: ${{ secrets.BUNDLEWATCH_TOKEN }}
@@ -1265,7 +1268,7 @@ Create cache keys for use with [actions/cache].
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/create-cache-keys@v4
+- uses: myparcelnl/actions/create-cache-keys@v6
   id: keys
   with:
     key: '${{ runner.os }}-composer'
@@ -1304,7 +1307,7 @@ Mark something as deprecated. This will add a warning to the workflow run.
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/deprecated@v4
+- uses: myparcelnl/actions/deprecated@v6
   with:
     name: 'my-name/my-action'
     replacement: 'my-name/my-new-action'
@@ -1328,7 +1331,7 @@ Format a string. Input should be a string separated by the `input-separator`. If
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/format-string@v4
+- uses: myparcelnl/actions/format-string@v6
   id: format
   with:
     string: |
@@ -1347,7 +1350,7 @@ Format a string. Input should be a string separated by the `input-separator`. If
 **Mode: args**
 
 ```yaml
-- uses: myparcelnl/actions/format-string@v4
+- uses: myparcelnl/actions/format-string@v6
   id: format
   with:
     mode: 'args'
@@ -1390,7 +1393,7 @@ Hash a string. Input should be a string separated by the `input-separator`. If i
 ##### Example
 
 ```yaml
-- uses: myparcelnl/actions/hash-string@v4
+- uses: myparcelnl/actions/hash-string@v6
   id: hash
   with:
     method: 'sha256sum'
