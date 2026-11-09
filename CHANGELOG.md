@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0](https://github.com/myparcelnl/actions/compare/v5.5.3...v6.0.0) (2026-11-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* the actions use pnpm and devEngines, not Volta or Yarn.
+
+- `yarn-install` is removed. Use `pnpm/setup@v3`.
+- `pnpm-install` is removed. Use `pnpm/setup@v3`.
+- `setup-node` is removed. Use `pnpm/setup@v3`. It installs Node.js from
+`devEngines.runtime`.
+- `npm-install` is removed. Use `pnpm/setup@v3`.
+- `pdk-setup`, `pdk-setup-frontend` and `pdk-semantic-release` no longer
+have the `yarn-args` and `node-version` inputs. Set the Node.js version
+in `devEngines.runtime`.
+- `nx-run` and `nx-run-many` use `pnpm exec` as the default `prefix`,
+not `npx`.
+- `bundlewatch` and `pdk-builder` run with `pnpm exec`. Add
+`bundlewatch` or `@myparcel-dev/pdk-app-builder` as a direct dependency.
+- `collect-test-results` needs a pnpm workspace.
+- `pdk-custom-build` links js-pdk with pnpm `overrides`, not Yarn
+`resolutions`. Any js-pdk ref it builds must also have migrated from
+yarn to pnpm.
+
+### :sparkles: New Features
+
+* install dependencies with pnpm instead of Yarn and Volta ([#162](https://github.com/myparcelnl/actions/issues/162)) ([a078531](https://github.com/myparcelnl/actions/commit/a07853105d1834845910703bacf7b8e1e84e1c1c))
+
 ## [5.5.3](https://github.com/myparcelnl/actions/compare/v5.5.2...v5.5.3) (2026-10-29)
 
 ## [5.5.2](https://github.com/myparcelnl/actions/compare/v5.5.1...v5.5.2) (2026-10-29)
