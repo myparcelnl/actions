@@ -33,7 +33,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: myparcelnl/actions/format-string@v5
+    - uses: myparcelnl/actions/format-string@v6
       id: format
       with:
         string: ${{ inputs.string }}

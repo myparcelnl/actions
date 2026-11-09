@@ -37,27 +37,30 @@ jobs:
           token: ${{ steps.credentials.outputs.token }}
           fetch-depth: 0
 
-      - uses: ./.github/actions/yarn-install
+      - uses: pnpm/setup@v3
+        with:
+          cache: true
+          require-lockfile: true
 
       - uses: actions/cache@v6
         id: compile-cache
         with:
           path: ./dist
-          key: ${{ format('{0}{1}-compile-{2}', runner.os, runner.arch, hashFiles('package.json', 'yarn.lock', 'private/**/*.ts')) }}
+          key: ${{ format('{0}{1}-compile-{2}', runner.os, runner.arch, hashFiles('package.json', 'pnpm-lock.yaml', 'private/**/*.ts')) }}
 
       - name: 'Compile builder'
         if: steps.compile-cache.outputs.cache-hit != 'true'
-        run: yarn compile
+        run: pnpm compile
 
       - uses: actions/cache@v6
         id: build-cache
         with:
           path: ./*/dist
-          key: ${{ format('{0}{1}-build-{2}', runner.os, runner.arch, hashFiles('package.json', 'yarn.lock', '**/*.ts')) }}
+          key: ${{ format('{0}{1}-build-{2}', runner.os, runner.arch, hashFiles('package.json', 'pnpm-lock.yaml', '**/*.ts')) }}
 
       - name: 'Build actions'
         if: steps.build-cache.outputs.cache-hit != 'true'
-        run: yarn build
+        run: pnpm build
 
       - uses: ./.github/actions/semantic-release
         with:
