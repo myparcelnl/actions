@@ -842,6 +842,16 @@ When Dependabot rebases or recreates the pull request, after `@dependabot rebase
 
 The action skips an edit while Dependabot's "rebasing" banner is in the description, and rewrites the description after Dependabot's next edit removes it.
 
+With `commit-override: true`, the description starts with a `BEGIN_COMMIT_OVERRIDE` block for [release-please](https://github.com/googleapis/release-please#how-can-i-fix-release-notes). Edit the block to change what goes in the changelog, also after the merge.
+
+- The action checks out the base and the head of the pull request, and reads the locked versions with `composer show --locked` and `pnpm list --lockfile-only`. It does not trust the versions in the Dependabot description, and it also sees packages that changed as a dependency of another package.
+- For each version change of `myparcelnl/pdk` or a `@myparcel-dev/pdk-*` package, the block holds the lines from the upstream GitHub releases after the old version, up to and including the new version.
+- The type of each line comes from the `changelog-sections` in the upstream `release-please-config.json` at that release. Without that file, `New Features` gives `feat`, `Bug Fixes` gives `fix`, `Performance Improvements` gives `perf` and `Reverts` gives `revert`.
+- Without such a version change, the block holds the pull request title.
+- The block never marks a breaking change, so a major PDK release does not give a major release of the plugin.
+
+No code of the pull request runs, because the job has a write token: nothing installs, `--no-plugins --no-scripts` stops Composer plugins and scripts, `--ignore-pnpmfile` stops `.pnpmfile.cjs`, and the checkouts keep no credentials. pnpm comes from the `devEngines` or `packageManager` of the repository. Node 24 is for the Node step of this action.
+
 ##### Example
 
 ```yaml
@@ -862,13 +872,14 @@ jobs:
       - uses: myparcelnl/actions/pr-dependabot-description@v6
 ```
 
-The job checks out no code of the pull request, so `pull_request_target` is safe here. The `concurrency` group makes one run wait for the other when Dependabot edits the description and pushes within seconds, so the notes comment is not posted twice.
+Without `commit-override`, the job checks out no code of the pull request. With it, the action checks out the base and the head only for a pull request that Dependabot opened and an event that Dependabot sent, and runs no code from them (see above), so `pull_request_target` stays safe. The `concurrency` group makes one run wait for the other when Dependabot edits the description and pushes within seconds, so the notes comment is not posted twice.
 
 ##### Inputs
 
-| Required | Name    | Description                                                    | Example                       | Default               |
-| -------- | ------- | -------------------------------------------------------------- | ----------------------------- | --------------------- |
-| No       | `token` | GitHub token with `pull-requests: write` and `contents: read`. | `${{ secrets.GITHUB_TOKEN }}` | `${{ github.token }}` |
+| Required | Name              | Description                                                                                    | Example                       | Default               |
+| -------- | ----------------- | ---------------------------------------------------------------------------------------------- | ----------------------------- | --------------------- |
+| No       | `token`           | GitHub token with `pull-requests: write` and `contents: read`.                                 | `${{ secrets.GITHUB_TOKEN }}` | `${{ github.token }}` |
+| No       | `commit-override` | Put a `BEGIN_COMMIT_OVERRIDE` block with the upstream PDK and JS-PDK lines in the description. | `true`                        | `false`               |
 
 ##### Outputs
 
