@@ -1,0 +1,22 @@
+{
+  "locked": [
+    {
+      "name": "doctrine/instantiator",
+      "direct-dependency": false,
+      "version": "2.0.0",
+      "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors"
+    },
+    {
+      "name": "myparcelnl/pdk",
+      "direct-dependency": true,
+      "version": "5.1.0",
+      "description": "MyParcel Plugin Development Kit"
+    },
+    {
+      "name": "myparcelnl/sdk",
+      "direct-dependency": true,
+      "version": "11.0.0-beta.37",
+      "description": "This package is designed to send and receive data from MyParcel by means of an API."
+    }
+  ]
+}
