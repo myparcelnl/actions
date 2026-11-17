@@ -192,6 +192,14 @@ describe('override', () => {
       );
     });
 
+    it('keeps a line that two packages share once, at its first place', () => {
+      expect.assertions(1);
+
+      expect(buildOverrideBlock(['feat: a', 'fix: b', 'feat: a', 'fix(x)!: c', 'fix(x): c'], 't')).toBe(
+        'BEGIN_COMMIT_OVERRIDE\nfeat: a\n\nfix: b\n\nfix(x): c\nEND_COMMIT_OVERRIDE',
+      );
+    });
+
     it('holds the title when there are no lines', () => {
       expect.assertions(1);
 

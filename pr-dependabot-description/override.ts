@@ -134,8 +134,11 @@ export const parseReleaseBody = async (body: string, types: SectionTypes): Promi
  * Build the BEGIN_COMMIT_OVERRIDE block that release-please reads in place of the commit message.
  */
 export const buildOverrideBlock = (lines: string[], title: string): string => {
-  // A breaking change upstream is never a breaking change of the plugin.
-  const entries = lines.length ? lines.map((line) => line.replace(/^(\w+(?:\([^)]*\))?)!:/, '$1:')) : [title];
+  // A breaking change upstream is never a breaking change of the plugin. A change released in more than one JS-PDK
+  // package gives the same line in each release, so keep each line once.
+  const entries = lines.length
+    ? [...new Set(lines.map((line) => line.replace(/^(\w+(?:\([^)]*\))?)!:/, '$1:')))]
+    : [title];
 
   return `BEGIN_COMMIT_OVERRIDE\n${entries.join('\n\n')}\nEND_COMMIT_OVERRIDE`;
 };
