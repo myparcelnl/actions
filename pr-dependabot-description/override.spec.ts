@@ -5,6 +5,7 @@ import {
   buildOverrideBlock,
   findUpstream,
   parseReleaseBody,
+  releaseVersion,
   sectionTypesFromConfig,
   selectReleases,
 } from './override';
@@ -19,6 +20,36 @@ const release = (tag: string, body: string | null = ''): Release => ({tag_name: 
 const parse = (body: string): Promise<string[]> => parseReleaseBody(body, DEFAULT_SECTION_TYPES);
 
 describe('override', () => {
+  describe('releaseVersion', () => {
+    const preset = findUpstream('@myparcel-dev/pdk-admin-preset-bootstrap4') as Upstream;
+    const pdk = findUpstream('myparcelnl/pdk') as Upstream;
+
+    it.each([
+      ['admin-preset-bootstrap4@2.4.2', '2.4.2'],
+      ['@myparcel-dev/pdk-admin-preset-bootstrap4@2.4.2', '2.4.2'],
+      ['admin-preset-bootstrap4@3.0.0-beta.1', '3.0.0-beta.1'],
+    ])('reads %s of a package with a digit in its name', (tag, version) => {
+      expect.assertions(1);
+
+      expect(releaseVersion(preset, tag)).toBe(version);
+    });
+
+    it.each([
+      ['v5.3.0', '5.3.0'],
+      ['v5.0.0-beta.1', '5.0.0-beta.1'],
+    ])('reads PDK tag %s', (tag, version) => {
+      expect.assertions(1);
+
+      expect(releaseVersion(pdk, tag)).toBe(version);
+    });
+
+    it.each(['admin@2.4.1', 'admin-preset-bootstrap4', 'v5.3', 'latest'])('rejects %s', (tag) => {
+      expect.assertions(1);
+
+      expect(releaseVersion(tag.startsWith('v') ? pdk : preset, tag)).toBeUndefined();
+    });
+  });
+
   describe('findUpstream', () => {
     it('knows the PDK', () => {
       expect.assertions(2);

@@ -1,4 +1,4 @@
-import {coerce, compare, gt, lte, prerelease} from 'semver';
+import {compare, gt, lte, prerelease, valid} from 'semver';
 import {parseChangelog} from 'changelog-parser';
 import {type components} from '@octokit/openapi-types';
 
@@ -64,9 +64,11 @@ export const findUpstream = (name: string): Upstream | undefined => {
  * Get the version of a release tag, or undefined when the tag is not a release of the upstream package.
  */
 export const releaseVersion = (upstream: Upstream, tag: string): string | undefined => {
-  const version = coerce(tag, {includePrerelease: true})?.version;
+  // The version follows the last "@" (JS-PDK) or is the whole tag (PDK, valid() drops the "v"). A package name can
+  // hold a digit, like bootstrap4.
+  const version = valid(tag.slice(tag.lastIndexOf('@') + 1));
 
-  return version !== undefined && upstream.tags(version).includes(tag) ? version : undefined;
+  return version !== null && upstream.tags(version).includes(tag) ? version : undefined;
 };
 
 /**
