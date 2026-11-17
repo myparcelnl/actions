@@ -96,25 +96,15 @@ runs:
         pnpm install --dir js-pdk --frozen-lockfile
 
         # pnpm config set replaces the whole object, so merge the overrides the project already has.
+        # Link every public js-pdk package. The private ones (the workspace root and the demos) are not
+        # dependencies of a plugin, and the plugin keeps its own version of the app builder.
         overrides=$(jq -n \
           --argjson current "$(pnpm config get --location project overrides --json)" \
-          --arg dir "$GITHUB_WORKSPACE/js-pdk" \
-          '($current // {}) + ([
-            "apps/admin",
-            "apps/admin-component-tests",
-            "apps/admin-js",
-            "apps/admin-preset-bootstrap4",
-            "apps/admin-preset-dashicons",
-            "apps/admin-preset-default",
-            "apps/admin-preset-fontawesome",
-            "apps/checkout",
-            "apps/checkout-js",
-            "libs/checkout-common",
-            "libs/checkout-delivery-options",
-            "libs/checkout-separate-address-fields",
-            "libs/checkout-tax-fields",
-            "libs/common"
-          ] | map({key: "@myparcel-dev/pdk-\(split("/")[1])", value: "link:\($dir)/\(.)"}) | from_entries)')
+          --argjson packages "$(pnpm -r ls --depth -1 --json --dir js-pdk)" \
+          '($current // {}) + ($packages
+            | map(select((.private | not) and .name != "@myparcel-dev/pdk-app-builder"))
+            | map({key: .name, value: "link:\(.path)"})
+            | from_entries)')
 
         pnpm config set --location project overrides "$overrides" --json
 
