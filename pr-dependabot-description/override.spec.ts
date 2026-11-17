@@ -108,6 +108,14 @@ describe('override', () => {
       ]);
     });
 
+    it('reads list items written with a dash', async () => {
+      expect.assertions(1);
+
+      expect(
+        await parse('## 2.3.0\n\n### Bug Fixes\n\n- **admin:** fix the form ([#1](u))\n- plain fix\n'),
+      ).toStrictEqual(['fix(admin): fix the form', 'fix: plain fix']);
+    });
+
     it('returns nothing for a release with only a header', async () => {
       expect.assertions(1);
 

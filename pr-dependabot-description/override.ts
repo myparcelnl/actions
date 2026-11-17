@@ -119,7 +119,7 @@ export const parseReleaseBody = async (body: string, types: SectionTypes): Promi
     }
 
     for (const item of items) {
-      const [, scope, message] = /^\* (?:\*\*([^*]+):\*\* )?(.*)$/s.exec(item) ?? [undefined, undefined, item];
+      const [, scope, message] = /^[*-] (?:\*\*([^*]+):\*\* )?(.*)$/s.exec(item) ?? [undefined, undefined, item];
       // Cut the links to the PR and the commit that release-please adds after the message.
       const cut = message.indexOf(' ([');
 
