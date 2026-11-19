@@ -506,8 +506,8 @@ was input to provide an easy way to not have to repeat the image name in the res
 
 Run [semantic-release]. Requires npm dependencies to be installed, with a `semantic-release` binary in
 `node_modules/.bin` of the working directory or the repository root. With pnpm, add `semantic-release` as a direct
-dependency. Outputs information on the release that was just made (or not). Additional tokens like NPM_TOKEN can be
-passed via the environment.
+dependency. Outputs information on the release that was just made (or not). To publish to npm with npm trusted
+publishing (OIDC), give the job `id-token: write` in its `permissions`. Pass other tokens through the environment.
 
 ##### Example
 
@@ -517,8 +517,6 @@ passed via the environment.
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
     dry-run: true
-  env:
-    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 - name: 'Say "do something" if released'
   if: steps.release.outputs.released == 'true'
@@ -564,8 +562,6 @@ passed via the environment.
     token: ${{ secrets.GITHUB_TOKEN }}
     write-summary: false
     semantic-release-args: --branches=my-branch
-  env:
-    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 - run: echo ${{ steps.release.outputs.version }}
 ```
