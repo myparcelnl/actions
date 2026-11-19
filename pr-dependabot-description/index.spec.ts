@@ -488,7 +488,7 @@ describe('pr-dependabot-description', () => {
       const calls = await runOverride(versions);
 
       expect(descriptionOf(calls)).toMatch(
-        new RegExp(`^BEGIN_COMMIT_OVERRIDE\\n${TITLE.replace(/[()]/g, '\\$&')}\\nEND_COMMIT_OVERRIDE`),
+        new RegExp(`^BEGIN_COMMIT_OVERRIDE\\n${TITLE.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\nEND_COMMIT_OVERRIDE`),
       );
       expect(getOutput('rewritten')).toBe('true');
     });
