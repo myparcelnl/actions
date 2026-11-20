@@ -17,7 +17,8 @@ const fixture = (name: string): string => readFileSync(join(__dirname, 'fixtures
 
 const release = (tag: string, body: string | null = ''): Release => ({tag_name: tag, body});
 
-const parse = (body: string): Promise<string[]> => parseReleaseBody(body, DEFAULT_SECTION_TYPES);
+const parse = (body: string, name = '@myparcel-dev/pdk-admin'): Promise<string[]> =>
+  parseReleaseBody(body, DEFAULT_SECTION_TYPES, name);
 
 describe('override', () => {
   describe('releaseVersion', () => {
@@ -139,6 +140,17 @@ describe('override', () => {
       ]);
     });
 
+    it('reads only the section of the updated package in a JS-PDK group release', async () => {
+      expect.assertions(2);
+
+      const body = fixture('js-pdk-admin-2.2.8.md');
+
+      expect(await parse(body)).toStrictEqual([]);
+      expect(await parse(body, '@myparcel-dev/pdk-admin-preset-default')).toStrictEqual([
+        'fix(admin-component-tests): fix the drop-off input test and the disabled check',
+      ]);
+    });
+
     it('reads list items written with a dash', async () => {
       expect.assertions(1);
 
@@ -168,8 +180,8 @@ describe('override', () => {
 
       const body = '## 6.0.0\n\n### ✨ New Features\n\n* **x:** y ([#1](u))\n\n### Other\n\n* z';
 
-      expect(await parseReleaseBody(body, {'✨ New Features': 'feat'})).toStrictEqual(['feat(x): y']);
-      expect(await parseReleaseBody(body, {Unknown: 'feat'})).toStrictEqual([]);
+      expect(await parseReleaseBody(body, {'✨ New Features': 'feat'}, 'myparcelnl/pdk')).toStrictEqual(['feat(x): y']);
+      expect(await parseReleaseBody(body, {Unknown: 'feat'}, 'myparcelnl/pdk')).toStrictEqual([]);
     });
   });
 

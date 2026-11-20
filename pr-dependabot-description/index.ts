@@ -100,7 +100,7 @@ const buildOverride = async (octokit: Octokit, title: string): Promise<string> =
     for (const release of selectReleases(await fetchReleases(octokit, update), update)) {
       const types = await fetchSectionTypes(octokit, update, release.tag_name);
 
-      lines.push(...(await parseReleaseBody(release.body ?? '', types)));
+      lines.push(...(await parseReleaseBody(release.body ?? '', types, update.name)));
     }
   }
 

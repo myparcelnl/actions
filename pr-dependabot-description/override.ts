@@ -106,14 +106,24 @@ export const sectionTypesFromConfig = (config: unknown, name: string): SectionTy
   return sections && Object.fromEntries(sections.map(({section, type}) => [section, type]));
 };
 
+type ChangelogVersion = Awaited<ReturnType<typeof parseChangelog>>['versions'][number];
+
+// A JS-PDK release has one section per package, with the package name in quotes in the heading. A PDK release has one
+// section without a name.
+const findSection = (versions: ChangelogVersion[], name: string): ChangelogVersion | undefined => {
+  const named = versions.filter((version) => /"[^"]+"/.test(version.title ?? ''));
+
+  return named.length ? named.find((version) => version.title?.includes(`"${name}"`)) : versions[0];
+};
+
 /**
- * Get the conventional commit lines from the body of a GitHub release, one per changelog entry.
+ * Get the conventional commit lines of a package from the body of a GitHub release, one per changelog entry.
  */
-export const parseReleaseBody = async (body: string, types: SectionTypes): Promise<string[]> => {
+export const parseReleaseBody = async (body: string, types: SectionTypes, name: string): Promise<string[]> => {
   const {versions} = await parseChangelog({text: body, removeMarkdown: false});
   const lines: string[] = [];
 
-  for (const [heading, items] of Object.entries(versions[0]?.parsed ?? {})) {
+  for (const [heading, items] of Object.entries(findSection(versions, name)?.parsed ?? {})) {
     const type = types[heading] ?? types[stripEmoji(heading)];
 
     if (heading === '_' || !type) {
