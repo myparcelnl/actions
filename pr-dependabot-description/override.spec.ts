@@ -1,6 +1,7 @@
 import {
   DEFAULT_SECTION_TYPES,
   type Release,
+  type ReleaseLine,
   type Upstream,
   buildOverrideBlock,
   findUpstream,
@@ -17,8 +18,10 @@ const fixture = (name: string): string => readFileSync(join(__dirname, 'fixtures
 
 const release = (tag: string, body: string | null = ''): Release => ({tag_name: tag, body});
 
-const parse = (body: string, name = '@myparcel-dev/pdk-admin'): Promise<string[]> =>
-  parseReleaseBody(body, DEFAULT_SECTION_TYPES, name);
+const parse = async (body: string, name = '@myparcel-dev/pdk-admin'): Promise<string[]> =>
+  (await parseReleaseBody(body, DEFAULT_SECTION_TYPES, name)).map(({line}) => line);
+
+const entries = (...lines: string[]): ReleaseLine[] => lines.map((line) => ({commit: undefined, line}));
 
 describe('override', () => {
   describe('releaseVersion', () => {
@@ -132,6 +135,14 @@ describe('override', () => {
       ]);
     });
 
+    it('reads the commit hash of each line', async () => {
+      expect.assertions(1);
+
+      expect(await parseReleaseBody(fixture('pdk-v5.3.0.md'), DEFAULT_SECTION_TYPES, 'myparcelnl/pdk')).toStrictEqual([
+        {commit: 'a982e0d', line: 'feat(customs): send the external product reference per customs item'},
+      ]);
+    });
+
     it('reads JS-PDK headings without emoji', async () => {
       expect.assertions(1);
 
@@ -180,7 +191,9 @@ describe('override', () => {
 
       const body = '## 6.0.0\n\n### ✨ New Features\n\n* **x:** y ([#1](u))\n\n### Other\n\n* z';
 
-      expect(await parseReleaseBody(body, {'✨ New Features': 'feat'}, 'myparcelnl/pdk')).toStrictEqual(['feat(x): y']);
+      expect(await parseReleaseBody(body, {'✨ New Features': 'feat'}, 'myparcelnl/pdk')).toStrictEqual(
+        entries('feat(x): y'),
+      );
       expect(await parseReleaseBody(body, {Unknown: 'feat'}, 'myparcelnl/pdk')).toStrictEqual([]);
     });
   });
@@ -230,16 +243,42 @@ describe('override', () => {
     it('puts each line in the block', () => {
       expect.assertions(1);
 
-      expect(buildOverrideBlock(['feat: a', 'fix: b'], 'build(deps): bump x')).toBe(
+      expect(buildOverrideBlock(entries('feat: a', 'fix: b'), 'build(deps): bump x')).toBe(
         'BEGIN_COMMIT_OVERRIDE\nfeat: a\n\nfix: b\nEND_COMMIT_OVERRIDE',
       );
     });
 
-    it('keeps a line that two packages share once, at its first place', () => {
+    it('keeps a commit that two packages share once, at its first place', () => {
       expect.assertions(1);
 
-      expect(buildOverrideBlock(['feat: a', 'fix: b', 'feat: a', 'fix(x)!: c', 'fix(x): c'], 't')).toBe(
-        'BEGIN_COMMIT_OVERRIDE\nfeat: a\n\nfix: b\n\nfix(x): c\nEND_COMMIT_OVERRIDE',
+      const lines = [
+        {commit: '1111111', line: 'feat: a'},
+        {commit: '2222222', line: 'fix: b'},
+        {commit: '1111111', line: 'feat: a'},
+      ];
+
+      expect(buildOverrideBlock(lines, 't')).toBe('BEGIN_COMMIT_OVERRIDE\nfeat: a\n\nfix: b\nEND_COMMIT_OVERRIDE');
+    });
+
+    it('keeps a change that upstream reverted and released again', () => {
+      expect.assertions(1);
+
+      const lines = [
+        {commit: '9e45586', line: 'feat(customs): send the reference'},
+        {commit: 'aa50927', line: 'fix(customs): revert sending the reference'},
+        {commit: 'a982e0d', line: 'feat(customs): send the reference'},
+      ];
+
+      expect(buildOverrideBlock(lines, 't')).toBe(
+        'BEGIN_COMMIT_OVERRIDE\nfeat(customs): send the reference\n\nfix(customs): revert sending the reference\n\nfeat(customs): send the reference\nEND_COMMIT_OVERRIDE',
+      );
+    });
+
+    it('keeps a line without a commit once', () => {
+      expect.assertions(1);
+
+      expect(buildOverrideBlock(entries('fix(x)!: c', 'fix(x): c'), 't')).toBe(
+        'BEGIN_COMMIT_OVERRIDE\nfix(x): c\nEND_COMMIT_OVERRIDE',
       );
     });
 
@@ -254,7 +293,7 @@ describe('override', () => {
     it('never marks a breaking change', () => {
       expect.assertions(1);
 
-      expect(buildOverrideBlock(['feat(x)!: y', 'fix!: z'], 't')).not.toMatch(/!:/);
+      expect(buildOverrideBlock(entries('feat(x)!: y', 'fix!: z'), 't')).not.toMatch(/!:/);
     });
   });
 });

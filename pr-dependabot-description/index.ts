@@ -3,6 +3,7 @@ import {COMMENT_MARKER, buildDescription, buildNotesComment, isRebasing, isRewri
 import {
   DEFAULT_SECTION_TYPES,
   type Release,
+  type ReleaseLine,
   type SectionTypes,
   type Update,
   buildOverrideBlock,
@@ -94,7 +95,7 @@ const fetchSectionTypes = async (octokit: Octokit, update: Update, tag: string):
 const buildOverride = async (octokit: Octokit, title: string): Promise<string> => {
   const base = lockedVersions(readOutput('base', 'composer'), readOutput('base', 'pnpm'));
   const head = lockedVersions(readOutput('head', 'composer'), readOutput('head', 'pnpm'));
-  const lines: string[] = [];
+  const lines: ReleaseLine[] = [];
 
   for (const update of findUpdates(base, head)) {
     for (const release of selectReleases(await fetchReleases(octokit, update), update)) {

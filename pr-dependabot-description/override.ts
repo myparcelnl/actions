@@ -16,6 +16,12 @@ export interface Update {
 
 export type Release = Pick<components['schemas']['release'], 'body' | 'tag_name'>;
 
+export interface ReleaseLine {
+  // The short hash of the upstream commit, or undefined when the entry has no commit link.
+  commit: string | undefined;
+  line: string;
+}
+
 // Changelog heading → conventional commit type.
 export type SectionTypes = Record<string, string>;
 
@@ -119,9 +125,9 @@ const findSection = (versions: ChangelogVersion[], name: string): ChangelogVersi
 /**
  * Get the conventional commit lines of a package from the body of a GitHub release, one per changelog entry.
  */
-export const parseReleaseBody = async (body: string, types: SectionTypes, name: string): Promise<string[]> => {
+export const parseReleaseBody = async (body: string, types: SectionTypes, name: string): Promise<ReleaseLine[]> => {
   const {versions} = await parseChangelog({text: body, removeMarkdown: false});
-  const lines: string[] = [];
+  const lines: ReleaseLine[] = [];
 
   for (const [heading, items] of Object.entries(findSection(versions, name)?.parsed ?? {})) {
     const type = types[heading] ?? types[stripEmoji(heading)];
@@ -134,8 +140,11 @@ export const parseReleaseBody = async (body: string, types: SectionTypes, name: 
       const [, scope, message] = /^[*-] (?:\*\*([^*]+):\*\* )?(.*)$/s.exec(item) ?? [undefined, undefined, item];
       // Cut the links to the PR and the commit that release-please adds after the message.
       const cut = message.indexOf(' ([');
+      const commit = /\(\[([0-9a-f]{7,40})\]\([^)]*\/commit\/[0-9a-f]+\)\)/.exec(message)?.[1];
 
-      lines.push(`${type}${scope ? `(${scope})` : ''}: ${cut === -1 ? message : message.slice(0, cut)}`);
+      const text = cut === -1 ? message : message.slice(0, cut);
+
+      lines.push({commit, line: `${type}${scope ? `(${scope})` : ''}: ${text}`});
     }
   }
 
@@ -145,12 +154,13 @@ export const parseReleaseBody = async (body: string, types: SectionTypes, name: 
 /**
  * Build the BEGIN_COMMIT_OVERRIDE block that release-please reads in place of the commit message.
  */
-export const buildOverrideBlock = (lines: string[], title: string): string => {
-  // A breaking change upstream is never a breaking change of the plugin. A change released in more than one JS-PDK
-  // package gives the same line in each release, so keep each line once.
-  const entries = lines.length
-    ? [...new Set(lines.map((line) => line.replace(/^(\w+(?:\([^)]*\))?)!:/, '$1:')))]
-    : [title];
+export const buildOverrideBlock = (lines: ReleaseLine[], title: string): string => {
+  // A breaking change upstream is never a breaking change of the plugin.
+  const unmarked = lines.map(({commit, line}) => ({commit, line: line.replace(/^(\w+(?:\([^)]*\))?)!:/, '$1:')}));
+  // A commit released in more than one JS-PDK package gives the same line in each release, so keep each commit once. A
+  // change that upstream reverted and released again has a new commit, so it stays.
+  const unique = new Map(unmarked.map(({commit, line}) => [commit ?? line, line]));
+  const entries = lines.length ? [...unique.values()] : [title];
 
   return `BEGIN_COMMIT_OVERRIDE\n${entries.join('\n\n')}\nEND_COMMIT_OVERRIDE`;
 };
