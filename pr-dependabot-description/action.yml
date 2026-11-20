@@ -6,11 +6,92 @@ inputs:
     description: 'GitHub token with pull-requests: write and contents: read. Defaults to the token of the job.'
     required: false
     default: '${{ github.token }}'
+  commit-override:
+    description: 'Put a BEGIN_COMMIT_OVERRIDE block in the description, with the upstream lines for the PDK and JS-PDK versions the pull request changes and the PR title for other updates.'
+    required: false
+    default: 'false'
 
 outputs:
   rewritten:
     description: "'true' when the description was replaced, 'false' otherwise"
+    value: ${{ steps.describe.outputs.rewritten }}
 
 runs:
-  using: 'node24'
-  main: 'dist/index.mjs'
+  using: composite
+  steps:
+    # Check out pull request code only for Dependabot, also when a workflow calls this action without its own guard.
+    - name: 'Check if the pull request needs the locked versions'
+      id: gate
+      shell: bash
+      env:
+        RUN: ${{ inputs.commit-override == 'true' && github.event.pull_request.user.login == 'dependabot[bot]' && github.event.sender.login == 'dependabot[bot]' }}
+      # language=bash
+      run: echo "run=$RUN" >> "$GITHUB_OUTPUT"
+
+    # No credentials, so a step that reads the head cannot push with the token of the job.
+    - name: 'Check out the base of the pull request'
+      if: steps.gate.outputs.run == 'true'
+      uses: actions/checkout@v7
+      with:
+        ref: ${{ github.event.pull_request.base.sha }}
+        path: .pr-dependabot-description/base
+        persist-credentials: false
+
+    - name: 'Check out the head of the pull request'
+      if: steps.gate.outputs.run == 'true'
+      uses: actions/checkout@v7
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+        path: .pr-dependabot-description/head
+        persist-credentials: false
+
+    # pnpm comes from the devEngines or packageManager of the repository. Node 24 is for the Node step of this action,
+    # because dist/index.mjs is built for node24, whatever Node the project itself uses.
+    - name: 'Set up pnpm and Node.js'
+      if: steps.gate.outputs.run == 'true'
+      uses: pnpm/setup@v3
+      with:
+        working-directory: .pr-dependabot-description/base
+        runtime: 'node@24'
+        install: false
+
+    # Without the checkouts there is no manifest for pnpm/setup, and this action only needs Node 24.
+    - name: 'Set up Node.js'
+      if: steps.gate.outputs.run != 'true'
+      uses: actions/setup-node@v7
+      with:
+        node-version: 24
+
+    - name: 'Read the locked versions'
+      if: steps.gate.outputs.run == 'true'
+      shell: bash
+      env:
+        VERSIONS_DIR: ${{ runner.temp }}/pr-dependabot-description
+      # language=bash
+      run: |
+        mkdir -p "$VERSIONS_DIR"
+
+        # The job has a write token, so no code from the pull request may run here: read the lockfiles, never install.
+        # Without --no-plugins --no-scripts, Composer may run plugins and scripts from composer.json.
+        # Without --ignore-pnpmfile, pnpm list runs the top-level code of .pnpmfile.cjs (tested with pnpm 12.9.1).
+        for side in base head; do
+          dir=".pr-dependabot-description/$side"
+
+          if [ -f "$dir/composer.lock" ]; then
+            composer show --locked --format=json --no-plugins --no-scripts --working-dir="$dir" > "$VERSIONS_DIR/$side-composer.json"
+          fi
+
+          if [ -f "$dir/pnpm-lock.yaml" ]; then
+            pnpm list --lockfile-only --json --depth Infinity --ignore-pnpmfile --dir "$dir" > "$VERSIONS_DIR/$side-pnpm.json"
+          fi
+        done
+
+    - name: 'Rewrite the description'
+      id: describe
+      shell: bash
+      env:
+        INPUT_TOKEN: ${{ inputs.token }}
+        INPUT_COMMIT-OVERRIDE: ${{ inputs.commit-override }}
+        VERSIONS_DIR: ${{ runner.temp }}/pr-dependabot-description
+      # language=bash
+      run: node "$GITHUB_ACTION_PATH/dist/index.mjs"

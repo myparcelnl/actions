@@ -22,11 +22,12 @@ export const isRebasing = (description: string): boolean => description.includes
 
 /**
  * Build the short description from a Dependabot commit message: the body without the subject line, plus the marker.
+ * An override block goes before the body.
  */
-export const buildDescription = (commitMessage: string): string => {
+export const buildDescription = (commitMessage: string, override?: string): string => {
   const body = commitMessage.split('\n').slice(1).join('\n').trim();
 
-  return `${body}\n\n${DESCRIPTION_MARKER}`;
+  return `${override ? `${override}\n\n` : ''}${body}\n\n${DESCRIPTION_MARKER}`;
 };
 
 /**
