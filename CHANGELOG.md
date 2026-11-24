@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.0](https://github.com/myparcelnl/actions/compare/v6.0.2...v6.1.0) (2026-11-24)
+
+
+### :sparkles: New Features
+
+* **pr-dependabot-description:** add the commit-override input ([#175](https://github.com/myparcelnl/actions/issues/175)) ([5945ba8](https://github.com/myparcelnl/actions/commit/5945ba8d982c84c55c93139d3b926fb7105a34bb)), closes [myparcelnl/semantic-release-wordpress-readme-generator#10](https://github.com/myparcelnl/semantic-release-wordpress-readme-generator/issues/10)
+
 ## [6.0.2](https://github.com/myparcelnl/actions/compare/v6.0.1...v6.0.2) (2026-11-13)
 
 ## [6.0.1](https://github.com/myparcelnl/actions/compare/v6.0.0...v6.0.1) (2026-11-12)
