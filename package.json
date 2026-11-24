@@ -61,8 +61,10 @@
   },
   "dependencies": {
     "@actions/core": "^3.0.1",
+    "@actions/github": "^9.1.1",
     "@actions/glob": "^0.7.0",
     "@fastify/busboy": "^3.2.2",
+    "changelog-parser": "^4.1.0",
     "semver": "^7.7.2"
   },
   "devDependencies": {
@@ -71,6 +73,8 @@
     "@myparcel-dev/eslint-config-prettier-typescript": "^1.4.0",
     "@myparcel-dev/prettier-config": "^2.0.1",
     "@myparcel/semantic-release-config": "^5.1.0",
+    "@octokit/openapi-types": "^29.0.1",
+    "@octokit/openapi-webhooks-types": "^12.2.0",
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/node": "^24.12.4",

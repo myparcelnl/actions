@@ -1,3 +1,5 @@
 **/dist/**
 node_modules/**
 pnpm-lock.yaml
+# Copies of real release bodies and CLI output: keep them byte for byte.
+**/fixtures/**

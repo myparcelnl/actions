@@ -67,6 +67,16 @@ describe('pr-dependabot-description', () => {
       expect(result).not.toContain('build(deps)');
       expect(isRewritten(result)).toBe(true);
     });
+
+    it('puts the override block first', () => {
+      expect.assertions(2);
+
+      const block = 'BEGIN_COMMIT_OVERRIDE\nfeat: x\nEND_COMMIT_OVERRIDE';
+      const result = buildDescription('build(deps): bump vite\n\nBumps vite.', block);
+
+      expect(result).toBe(`${block}\n\nBumps vite.\n\n${DESCRIPTION_MARKER}`);
+      expect(buildDescription('build(deps): bump vite\n\nBumps vite.')).toBe(`Bumps vite.\n\n${DESCRIPTION_MARKER}`);
+    });
   });
 
   describe('buildNotesComment', () => {

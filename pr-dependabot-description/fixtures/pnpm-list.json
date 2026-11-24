@@ -1,0 +1,126 @@
+[
+  {
+    "name": "@myparcel/shopware",
+    "version": null,
+    "path": "/tmp/project",
+    "private": true,
+    "devDependencies": {
+      "@myparcel-dev/pdk-admin": {
+        "from": "@myparcel-dev/pdk-admin",
+        "version": "2.4.0",
+        "dependencies": {
+          "@myparcel-dev/constants": {
+            "from": "@myparcel-dev/constants",
+            "version": "2.10.4",
+            "dependencies": {
+              "@myparcel-dev/ts-utils": {
+                "from": "@myparcel-dev/ts-utils",
+                "version": "1.15.3"
+              }
+            }
+          },
+          "@myparcel-dev/pdk-common": {
+            "from": "@myparcel-dev/pdk-common",
+            "version": "2.3.1",
+            "dependencies": {
+              "@myparcel-dev/constants": {
+                "from": "@myparcel-dev/constants",
+                "version": "2.10.4"
+              },
+              "@myparcel-dev/delivery-options": {
+                "from": "@myparcel-dev/delivery-options",
+                "version": "7.5.5",
+                "dependencies": {
+                  "@myparcel-dev/constants": {
+                    "from": "@myparcel-dev/constants",
+                    "version": "2.10.4"
+                  },
+                  "@myparcel-dev/do-shared": {
+                    "from": "@myparcel-dev/do-shared",
+                    "version": "7.5.5",
+                    "dependencies": {
+                      "@myparcel-dev/constants": {
+                        "from": "@myparcel-dev/constants",
+                        "version": "2.10.4"
+                      },
+                      "@myparcel-dev/sdk": {
+                        "from": "@myparcel-dev/sdk",
+                        "version": "5.1.5",
+                        "dependencies": {
+                          "@myparcel-dev/constants": {
+                            "from": "@myparcel-dev/constants",
+                            "version": "2.10.4"
+                          },
+                          "@myparcel-dev/ts-utils": {
+                            "from": "@myparcel-dev/ts-utils",
+                            "version": "1.15.3"
+                          }
+                        }
+                      },
+                      "@myparcel-dev/ts-utils": {
+                        "from": "@myparcel-dev/ts-utils",
+                        "version": "1.15.3"
+                      },
+                      "vue": {
+                        "from": "vue",
+                        "version": "3.5.43"
+                      }
+                    }
+                  },
+                  "@myparcel-dev/sdk": {
+                    "from": "@myparcel-dev/sdk",
+                    "version": "5.1.5"
+                  },
+                  "@myparcel-dev/ts-utils": {
+                    "from": "@myparcel-dev/ts-utils",
+                    "version": "1.15.3"
+                  },
+                  "vue": {
+                    "from": "vue",
+                    "version": "3.5.43"
+                  }
+                }
+              }
+            }
+          },
+          "@myparcel-dev/sdk": {
+            "from": "@myparcel-dev/sdk",
+            "version": "5.1.5"
+          },
+          "@myparcel-dev/vue-form-builder": {
+            "from": "@myparcel-dev/vue-form-builder",
+            "version": "1.0.0-beta.42.6",
+            "dependencies": {
+              "vue": {
+                "from": "vue",
+                "version": "3.4.31"
+              }
+            }
+          },
+          "vue": {
+            "from": "vue",
+            "version": "3.4.31"
+          }
+        }
+      },
+      "@myparcel-dev/pdk-app-builder": {
+        "from": "@myparcel-dev/pdk-app-builder",
+        "version": "4.1.4",
+        "dependencies": {
+          "@myparcel-dev/google-docs-importer": {
+            "from": "@myparcel-dev/google-docs-importer",
+            "version": "1.0.2"
+          },
+          "@myparcel-dev/ts-utils": {
+            "from": "@myparcel-dev/ts-utils",
+            "version": "1.15.3"
+          }
+        }
+      },
+      "vite": {
+        "from": "vite",
+        "version": "8.3.3"
+      }
+    }
+  }
+]
