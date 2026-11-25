@@ -28,7 +28,7 @@ jobs:
       - uses: ./compare-branches
         id: compare
 
-      - uses: slackapi/slack-github-action@v4.0.0
+      - uses: slackapi/slack-github-action@v4.1.0
         if: steps.compare.outputs.diff == 'true'
         with:
           webhook-type: webhook-trigger
