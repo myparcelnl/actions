@@ -36,6 +36,7 @@ This is a collection of reusable composite actions for GitHub Actions workflows.
     - [get-github-token](#get-github-token)
     - [pr-assign-author](#pr-assign-author)
     - [pr-dependabot-description](#pr-dependabot-description)
+    - [pr-dismiss-review](#pr-dismiss-review)
     - [pr-label-by-review](#pr-label-by-review)
     - [pr-post-artifacts](#pr-post-artifacts)
     - [pr-validate-title-conventional](#pr-validate-title-conventional)
@@ -882,6 +883,54 @@ Without `commit-override`, the job checks out no code of the pull request. With 
 | Name        | Description                                                      | Example |
 | ----------- | ---------------------------------------------------------------- | ------- |
 | `rewritten` | `'true'` when the description was replaced, `'false'` otherwise. | `true`  |
+
+#### pr-dismiss-review
+
+[Source](pr-dismiss-review/action.yml)
+
+Dismiss the "changes requested" review of a reviewer when a new review is requested from that reviewer. For use with the `pull_request` event, type `review_requested`.
+
+GitHub keeps a pull request on "Changes requested" until the reviewer submits a new review. A push or a new review request does not change that. With this action, the pull request goes back to "Review required" when the author requests the review again.
+
+- The action only dismisses the review of the reviewer who gets the new request. A request for changes from another reviewer stays.
+- The action does nothing when the last review of that reviewer is an approval, or when the request is for a team.
+- After the dismissal, the earlier request for changes no longer blocks the merge. The required approvals of the branch still apply.
+
+##### Example
+
+```yaml
+on:
+  pull_request:
+    types: [review_requested]
+
+jobs:
+  dismiss-review:
+    # A pull request from a fork gets a read-only token.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: myparcelnl/actions/pr-dismiss-review@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+When the branch protection restricts who can dismiss a review, `GITHUB_TOKEN` is refused. Pass `app-id` and `private-key` of an app that is on that list instead.
+
+##### Inputs
+
+This action uses the [App inputs](#app-inputs), as well as the following:
+
+| Required | Name      | Description                              | Example                   | Default                                                                             |
+| -------- | --------- | ---------------------------------------- | ------------------------- | ----------------------------------------------------------------------------------- |
+| No       | `message` | Message to show on the dismissed review. | `Review requested again.` | `A new review was requested, so the earlier request for changes no longer applies.` |
+
+##### Outputs
+
+| Name        | Description                                                | Example |
+| ----------- | ---------------------------------------------------------- | ------- |
+| `dismissed` | `'true'` when a review was dismissed, `'false'` otherwise. | `true`  |
 
 #### pr-label-by-review
 

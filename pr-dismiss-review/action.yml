@@ -1,0 +1,79 @@
+name: 'Dismiss changes requested on re-request'
+description: 'Dismiss the "changes requested" review of a reviewer when a new review is requested from that reviewer.'
+
+inputs:
+  token:
+    description: 'GitHub token to use. If passed, takes precedence over the `app-id` and `app-private-key` inputs.'
+
+  app-id:
+    description: 'The app ID of the app.'
+
+  private-key:
+    description: 'The private key of the app.'
+
+  message:
+    description: 'Message to show on the dismissed review.'
+    default: 'A new review was requested, so the earlier request for changes no longer applies.'
+
+outputs:
+  dismissed:
+    description: 'Whether a review was dismissed.'
+    value: ${{ steps.dismiss.outputs.dismissed }}
+
+runs:
+  using: composite
+  steps:
+    - uses: myparcelnl/actions/get-github-token@v6
+      id: token
+      with:
+        token: ${{ inputs.token }}
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+
+    - name: 'Dismiss changes requested'
+      id: dismiss
+      uses: actions/github-script@v9
+      env:
+        # Passed through the environment, so the text cannot change the script.
+        MESSAGE: ${{ inputs.message }}
+      with:
+        github-token: ${{ steps.token.outputs.token }}
+        #language=javascript
+        script: |
+          core.setOutput('dismissed', 'false');
+
+          // A review request for a team has no `requested_reviewer`.
+          const reviewer = context.payload.requested_reviewer?.login;
+
+          if (!reviewer) {
+            console.log('The review was not requested from a user, nothing to dismiss.');
+            return;
+          }
+
+          const reviews = await github.paginate(github.rest.pulls.listReviews, {
+            ...context.repo,
+            pull_number: context.payload.pull_request.number,
+            per_page: 100
+          });
+
+          // A review with only comments does not replace a request for changes, so it does not count here.
+          const decisiveStates = ['APPROVED', 'CHANGES_REQUESTED', 'DISMISSED'];
+
+          const lastReview = reviews
+            .filter(review => review.user?.login === reviewer && decisiveStates.includes(review.state))
+            .pop();
+
+          if (lastReview?.state !== 'CHANGES_REQUESTED') {
+            console.log(`"${reviewer}" has no open request for changes.`);
+            return;
+          }
+
+          await github.rest.pulls.dismissReview({
+            ...context.repo,
+            pull_number: context.payload.pull_request.number,
+            review_id: lastReview.id,
+            message: process.env.MESSAGE
+          });
+
+          core.setOutput('dismissed', 'true');
+          console.log(`Dismissed the request for changes of "${reviewer}".`);
